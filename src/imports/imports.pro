@@ -6,7 +6,7 @@ IMPORT_VERSION = 1.$$QT_MINOR_VERSION
 QT += qml quick gui-private bodymovin-private
 CONFIG += plugin c++11
 
-QMAKE_DOCS = $$PWD/doc/lottieanimation.qdocconf
+QMAKE_DOCS = $$PWD/doc/qtlottieanimation.qdocconf
 
 # Input
 SOURCES += \

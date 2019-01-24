@@ -57,7 +57,6 @@ Q_LOGGING_CATEGORY(lcLottieQtBodymovinParser, "qt.lottieqt.bodymovin.parser");
 
 /*!
     \qmltype LottieAnimation
-    \instantiates LottieAnimation
     \inqmlmodule Qt.labs.lottieqt
     \since 5.13
     \inherits Item
@@ -84,7 +83,7 @@ Q_LOGGING_CATEGORY(lcLottieQtBodymovinParser, "qt.lottieqt.bodymovin.parser");
 
     The following example shows a simple usage of the LottieAnimation type
 
-    \code
+    \qml
     LottieAnimation {
         loops: 2
         quality: LottieAnimation.MediumQuality
@@ -101,14 +100,14 @@ Q_LOGGING_CATEGORY(lcLottieQtBodymovinParser, "qt.lottieqt.bodymovin.parser");
             console.log("Finished playing")
         }
     }
-    \endcode
+    \endqml
 
-    Note: Changing width or height of the element does not change the size
+    \note Changing width or height of the element does not change the size
     of the animation within. Also, it is not possible to align the the content
     inside of a \c LottieAnimation element. To achieve this, position the
     animation inside e.g. an \c Item.
 
-    \section1 Rendering performance
+    \section1 Rendering Performance
 
     Internally, the rendered frame data is cached to improve performance. You
     can control the memory usage by setting the QLOTTIE_RENDER_CACHE_SIZE
@@ -135,17 +134,24 @@ Q_LOGGING_CATEGORY(lcLottieQtBodymovinParser, "qt.lottieqt.bodymovin.parser");
 
     This property holds the current status of the LottieAnimation element.
 
-    \list
-    \li Null – An initial value that is used when the status is not defined (Default)
-    \li Loading – the player is loading a Bodymovin file
-    \li Ready – loading has finished successfully and the player is ready to play animtion
-    \li Error – an error occurred while the loading
-    \endlist
+    \value LottieAnimation.Null
+           An initial value that is used when the status is not defined
+           (Default)
 
-    For example you could implement \c onStatusChanged signal
+    \value LottieAnimation.Loading
+           The player is loading a Bodymovin file
+
+    \value LottieAnimation.Ready
+           Loading has finished successfully and the player is ready to play
+           the animation
+
+    \value LottieAnimation.Error
+           An error occurred while loading the animation
+
+    For example, you could implement \c onStatusChanged signal
     handler to monitor progress of loading an animation as follows:
 
-    \code
+    \qml
     LottieAnimation {
         source: ":/animation.json"
         autoPlay: false
@@ -153,7 +159,7 @@ Q_LOGGING_CATEGORY(lcLottieQtBodymovinParser, "qt.lottieqt.bodymovin.parser");
             if (status === LottieAnimation.Ready)
                 start();
         }
-    \endcode
+    \endqml
 */
 
 /*!
@@ -168,8 +174,8 @@ Q_LOGGING_CATEGORY(lcLottieQtBodymovinParser, "qt.lottieqt.bodymovin.parser");
 /*!
     \qmlproperty int LottieAnimation::loops
 
-    This property holds how many loops the player will repeat.
-    The value \c LottieAnimation.Inifite means, that the the player repeats
+    This property holds the number of loops the player will repeat.
+    The value \c LottieAnimation.Infinite means that the the player repeats
     the animation continuously.
 
     The default value is \c 1.
@@ -178,8 +184,8 @@ Q_LOGGING_CATEGORY(lcLottieQtBodymovinParser, "qt.lottieqt.bodymovin.parser");
 /*!
     \qmlsignal LottieAnimation::finished()
 
-    Signal is emitted when the player has finished playing. In case of looping,
-    the signal is emitted when the last loop has been finished.
+    This signal is emitted when the player has finished playing. In case of
+    looping, the signal is emitted when the last loop has been finished.
 */
 
 LottieAnimation::LottieAnimation(QQuickItem *parent)
@@ -260,7 +266,7 @@ void LottieAnimation::paint(QPainter *painter)
     The path of the Bodymovin asset that LottieAnimation plays.
 
     Setting the source property starts loading the animation asynchronously.
-    To monitor progress of loading you can connect to the \c status signal.
+    To monitor progress of loading, connect to the \l status change signal.
 */
 QString LottieAnimation::source() const
 {
@@ -279,10 +285,12 @@ void LottieAnimation::setSource(const QString &source)
 }
 
 /*!
-    \qmlproperty int LottieAnimation::startFrame *
+    \qmlproperty int LottieAnimation::startFrame
+    \readonly
 
     Frame number of the start of the animation. The value
-    is available after the animation has been loaded.
+    is available after the animation has been loaded and
+    ready to play.
 */
 int LottieAnimation::startFrame() const
 {
@@ -291,9 +299,11 @@ int LottieAnimation::startFrame() const
 
 /*!
     \qmlproperty int LottieAnimation::endFrame
+    \readonly
 
     Frame number of the end of the animation. The value
-    is available after the animation has been loaded.
+    is available after the animation has been loaded and
+    ready to play.
 */
 int LottieAnimation::endFrame() const
 {
@@ -314,14 +324,14 @@ int LottieAnimation::currentFrame() const
     frame rate does not have effect before that, as the value defined in the
     asset overrides the value. To change the frame rate, you can write:
 
-    \code
+    \qml
     LottieAnimation {
         source: ":/animation.json"
         onStatusChanged: {
             if (status === LottieAnimation.Ready)
                 frameRate = 60;
         }
-    \endcode
+    \endqml
 */
 int LottieAnimation::frameRate() const
 {
@@ -342,11 +352,17 @@ void LottieAnimation::setFrameRate(int frameRate)
     buffer object, whereas with other options, the rendering will be done
     onto \c QImage (which in turn will be rendered on the screen).
 
-    \list
-    \li LowQuality – Antialiasing or a smooth pixmap transformation algorithm are not used.
-    \li MediumQuality – Antialiasing is used but no smooth pixmap transformation algorithm (Default)
-    \li HighQuality – Antialiasing and a smooth pixmap tranformation algorithm used
-    \endlist
+    \value LottieAnimation.LowQuality
+           Antialiasing or a smooth pixmap transformation algorithm are not
+           used
+
+    \value LottieAnimation.MediumQuality
+           Antialiasing is used but no smooth pixmap transformation algorithm
+           (Default)
+
+    \value LottieAnimation.HighQuality
+           Antialiasing and a smooth pixmap tranformation algorithm are both
+           used
 */
 LottieAnimation::Quality LottieAnimation::quality() const
 {
@@ -401,7 +417,7 @@ void LottieAnimation::play()
 /*!
     \qmlmethod void LottieAnimation::pause()
 
-    Pauses playing.
+    Pauses the playback.
 */
 void LottieAnimation::pause()
 {
@@ -414,7 +430,7 @@ void LottieAnimation::pause()
 /*!
     \qmlmethod void LottieAnimation::togglePause()
 
-    Togglrd the status of player between playing and paused states.
+    Toggles the status of player between playing and paused states.
 */
 void LottieAnimation::togglePause()
 {
@@ -428,7 +444,7 @@ void LottieAnimation::togglePause()
 /*!
     \qmlmethod void LottieAnimation::stop()
 
-    Stops playing and return to \c startFrame.
+    Stops the playback and returns to startFrame.
 */
 void LottieAnimation::stop()
 {
@@ -440,7 +456,7 @@ void LottieAnimation::stop()
 /*!
     \qmlmethod void LottieAnimation::gotoAndPlay(int frame)
 
-    Plays the asset from the given \a frame
+    Plays the asset from the given \a frame.
 */
 void LottieAnimation::gotoAndPlay(int frame)
 {
@@ -453,7 +469,7 @@ void LottieAnimation::gotoAndPlay(int frame)
     \qmlmethod bool LottieAnimation::gotoAndPlay(string frameMarker)
 
     Plays the asset from the frame that has a marker with the given \a frameMarker.
-    Returns true if the frameMarker found in the asset.
+    Returns \c true if the frameMarker was found, \c false otherwise.
 */
 bool LottieAnimation::gotoAndPlay(const QString &frameMarker)
 {
@@ -467,7 +483,7 @@ bool LottieAnimation::gotoAndPlay(const QString &frameMarker)
 /*!
     \qmlmethod void LottieAnimation::gotoAndStop(int frame)
 
-    Moves the playhead to the given frame and stops.
+    Moves the playhead to the given \a frame and stops.
 */
 void LottieAnimation::gotoAndStop(int frame)
 {
@@ -479,7 +495,7 @@ void LottieAnimation::gotoAndStop(int frame)
     \qmlmethod bool LottieAnimation::gotoAndStop(string frameMarker)
 
     Moves the playhead to the given marker and stops.
-    Returns true if the frameMarker found in the asset.
+    Returns \c true if \a frameMarker was found, \c false otherwise.
 */
 bool LottieAnimation::gotoAndStop(const QString &frameMarker)
 {
@@ -501,9 +517,10 @@ void LottieAnimation::gotoFrame(int frame)
 /*!
     \qmlmethod double LottieAnimation::getDuration(bool inFrames)
 
-    Returns the duration of a currently playing asset.
-    If a given \a inFrames is true, returns value in a number of frames.
-    Otherwise, returns the value in seconds.
+    Returns the duration of the currently playing asset.
+
+    If a given \a inFrames is \c true, the return value is the duration in
+    number of frames. Otherwise, returns the duration in seconds.
 */
 double LottieAnimation::getDuration(bool inFrames)
 {
@@ -515,12 +532,12 @@ double LottieAnimation::getDuration(bool inFrames)
     \qmlproperty enumeration LottieAnimation::direction
 
     This property holds the direction of rendering.
-    \list
-    \li Forward
-    \li Reverse
-    \endlist
 
-    The default value is \c Forward.
+    \value LottieAnimation.Forward
+           Forward direction (Default)
+
+    \value LottieAnimation.Reverse
+           Reverse direction
 */
 LottieAnimation::Direction LottieAnimation::direction() const
 {
