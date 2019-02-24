@@ -1,7 +1,7 @@
 CXX_MODULE = qtlottie
 TARGET  = lottieqt
 TARGETPATH = Qt/labs/lottieqt
-IMPORT_VERSION = 1.$$QT_MINOR_VERSION
+IMPORT_VERSION = 1.0
 
 QT += qml quick gui-private bodymovin-private
 CONFIG += plugin c++11
