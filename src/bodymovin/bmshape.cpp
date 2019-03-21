@@ -84,7 +84,7 @@ QMap<QLatin1String, int> BMShape::setShapeMap()
     return shapeMap;
 }
 
-BMShape *BMShape::construct(QJsonObject definition, BMBase *parent, int constructAs)
+BMShape *BMShape::construct(QJsonObject definition, BMBase *parent)
 {
     qCDebug(lcLottieQtBodymovinParser) << "BMShape::construct()";
 
@@ -92,9 +92,6 @@ BMShape *BMShape::construct(QJsonObject definition, BMBase *parent, int construc
     QByteArray type = definition.value(QLatin1String("ty")).toVariant().toByteArray();
 
     int typeToBuild = m_shapeMap.value(QLatin1String(type.data()), -1);
-
-    if (constructAs != BM_SHAPE_ANY_TYPE_IX)
-        typeToBuild = constructAs;
 
     switch (typeToBuild) {
     case BM_SHAPE_GROUP_IX:

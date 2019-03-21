@@ -76,7 +76,7 @@ public:
 
     BMBase *clone() const override;
 
-    static BMShape *construct(QJsonObject definition, BMBase *parent = nullptr, int constructAs = BM_SHAPE_ANY_TYPE_IX);
+    static BMShape *construct(QJsonObject definition, BMBase *parent = nullptr);
 
     virtual const QPainterPath &path() const;
     virtual bool acceptsTrim() const;
