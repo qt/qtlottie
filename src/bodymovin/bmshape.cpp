@@ -150,7 +150,7 @@ BMShape *BMShape::construct(QJsonObject definition, BMBase *parent, int construc
     {
         qCDebug(lcLottieQtBodymovinParser) << "Parse round";
         shape = new BMRound(definition, parent);
-        shape->setType(BM_SHAPE_ELLIPSE_IX);
+        shape->setType(BM_SHAPE_ROUND_IX);
         break;
     }
     case BM_SHAPE_SHAPE_IX:
