@@ -76,7 +76,9 @@ public:
 
     BMBase *parent() const;
     void setParent(BMBase *parent);
-    void addChild(BMBase *child, bool priority = false);
+
+    void prependChild(BMBase *child);
+    void appendChild(BMBase *child);
     QList<BMBase *>& children();
     virtual BMBase *findChild(const QString &childName);
 

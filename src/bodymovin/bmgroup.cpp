@@ -68,9 +68,9 @@ void BMGroup::construct(const QJsonObject &definition)
             // Transform affects how group contents are drawn.
             // It must be traversed first when drawing
             if (shape->type() == BM_SHAPE_TRANS_IX)
-                addChild(shape, true);
+                prependChild(shape);
             else
-               addChild(shape);
+                appendChild(shape);
         }
     }
 }

@@ -78,7 +78,7 @@ BMShapeLayer::BMShapeLayer(const QJsonObject &definition)
         itemIt--;
         BMShape *shape = BMShape::construct((*itemIt).toObject(), this);
         if (shape)
-            addChild(shape);
+            appendChild(shape);
     }
 
     if (m_maskProperties.length())

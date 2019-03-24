@@ -269,24 +269,13 @@ int BatchRenderer::parse(BMBase* rootElement, QByteArray jsonSource)
         BMLayer *layer = BMLayer::construct(jsonLayer);
         if (layer) {
             layer->setParent(rootElement);
-            rootElement->addChild(layer);
-        }
-    }
-
-    // Mask layers must be rendered before the layers they affect to
-    // although they appear before in layer hierarchy. For this reason
-    // move a mask after the affected layers, so it will be rendered first
-    QList<BMBase *> &layers = rootElement->children();
-    int moveTo = -1;
-    for (int i = 0; i < layers.count(); i++) {
-        BMLayer *layer = static_cast<BMLayer*>(layers.at(i));
-        if (layer->isClippedLayer())
-            moveTo = i;
-        if (layer->isMaskLayer()) {
-            qCDebug(lcLottieQtBodymovinParser()) << "Move mask layer"
-                                                 <<  layers.at(i)->name()
-                                                 << "before" << layers.at(moveTo)->name();
-            layers.move(i, moveTo);
+            // Mask layers must be rendered before the layers they affect to
+            // although they appear before in layer hierarchy. For this reason
+            // move a mask after the affected layers, so it will be rendered first
+            if (layer->isMaskLayer())
+                rootElement->prependChild(layer);
+            else
+                rootElement->appendChild(layer);
         }
     }
 

@@ -49,7 +49,7 @@ BMBase::BMBase(const BMBase &other)
     for (BMBase *child : other.m_children) {
         BMBase *clone = child->clone();
         clone->setParent(this);
-        addChild(clone);
+        appendChild(clone);
     }
 }
 
@@ -93,12 +93,14 @@ void BMBase::setType(int type)
     m_type = type;
 }
 
-void BMBase::addChild(BMBase *child, bool priority)
+void BMBase::prependChild(BMBase *child)
 {
-    if (priority)
-        m_children.push_front(child);
-    else
-        m_children.push_back(child);
+    m_children.push_front(child);
+}
+
+void BMBase::appendChild(BMBase *child)
+{
+    m_children.push_back(child);
 }
 
 QList<BMBase *> &BMBase::children()
