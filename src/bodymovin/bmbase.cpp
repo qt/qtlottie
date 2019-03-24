@@ -234,6 +234,8 @@ const QJsonObject BMBase::resolveExpression(const QJsonObject &definition)
                                                 "to a group that has"
                                                 "many children. The"
                                                 "first is be picked";
+    } else {
+        qCWarning(lcLottieQtBodymovinParser) << "Failed to find specified effect" << effect;
     }
 
     // Let users of the json know that it is originated from expression,
