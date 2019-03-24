@@ -104,7 +104,7 @@ void BMShapeLayer::updateProperties(int frame)
 
     m_layerTransform->updateProperties(frame);
 
-    for (BMBase *child : qAsConst(m_children)) {
+    for (BMBase *child : children()) {
         if (child->hidden())
             continue;
 
@@ -141,7 +141,7 @@ void BMShapeLayer::render(LottieRenderer &renderer) const
 
     m_layerTransform->render(renderer);
 
-    for (BMBase *child :qAsConst(m_children)) {
+    for (BMBase *child : children()) {
         if (child->hidden())
             continue;
         child->render(renderer);

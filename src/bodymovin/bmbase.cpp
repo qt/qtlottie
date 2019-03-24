@@ -103,11 +103,6 @@ void BMBase::appendChild(BMBase *child)
     m_children.push_back(child);
 }
 
-QList<BMBase *> &BMBase::children()
-{
-    return m_children;
-}
-
 BMBase *BMBase::findChild(const QString &childName)
 {
     if (name() == childName)
@@ -192,11 +187,6 @@ bool BMBase::active(int frame) const
 bool BMBase::hidden() const
 {
     return m_hidden;
-}
-
-BMBase *BMBase::parent() const
-{
-    return m_parent;
 }
 
 void BMBase::setParent(BMBase *parent)
