@@ -46,7 +46,7 @@ BMBase::BMBase(const BMBase &other)
     m_hidden = other.m_hidden;
     m_name = other.m_name;
     m_autoOrient = other.m_autoOrient;
-    for (BMBase *child : qAsConst(other.m_children)) {
+    for (BMBase *child : other.m_children) {
         BMBase *clone = child->clone();
         clone->setParent(this);
         addChild(clone);
