@@ -124,7 +124,7 @@ BMShape *BMShape::construct(QJsonObject definition, BMBase *parent)
     case BM_SHAPE_TAG('e', 'l'):
     {
         qCDebug(lcLottieQtBodymovinParser) << "Parse ellipse";
-        shape = new BMEllipse(definition);
+        shape = new BMEllipse(definition, parent);
         shape->setType(BM_SHAPE_ELLIPSE_IX);
         break;
     }
