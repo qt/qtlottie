@@ -222,7 +222,7 @@ void BatchRenderer::run()
     }
 }
 
-int BatchRenderer::parse(BMBase* rootElement, QByteArray jsonSource)
+int BatchRenderer::parse(BMBase *rootElement, const QByteArray &jsonSource) const
 {
     QJsonDocument doc = QJsonDocument::fromJson(jsonSource);
     QJsonObject rootObj = doc.object();
