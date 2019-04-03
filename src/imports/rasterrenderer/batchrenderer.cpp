@@ -78,7 +78,9 @@ void BatchRenderer::registerAnimator(LottieAnimation *animator)
     qCDebug(lcLottieQtBodymovinRenderThread) << "Register Animator:"
                                        << static_cast<void*>(animator);
 
-    Entry *entry = new Entry;
+    Entry *&entry = m_animData[animator];
+    Q_ASSERT(entry == nullptr);
+    entry = new Entry;
     entry->animator = animator;
     entry->startFrame = animator->startFrame();
     entry->endFrame = animator->endFrame();
@@ -86,7 +88,6 @@ void BatchRenderer::registerAnimator(LottieAnimation *animator)
     entry->animDir = animator->direction();
     entry->bmTreeBlueprint = new BMBase;
     parse(entry->bmTreeBlueprint, animator->jsonSource());
-    m_animData.insert(animator, entry);
     m_waitCondition.wakeAll();
 }
 
