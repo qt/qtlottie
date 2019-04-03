@@ -111,12 +111,11 @@ void BatchRenderer::deregisterAnimator(LottieAnimation *animator)
     qCDebug(lcLottieQtBodymovinRenderThread) << "Deregister Animator:"
                                        << static_cast<void*>(animator);
 
-    Entry *entry = m_animData.value(animator, nullptr);
+    Entry *entry = m_animData.take(animator);
     if (entry) {
         qDeleteAll(entry->frameCache);
         delete entry->bmTreeBlueprint;
         delete entry;
-        m_animData.remove(animator);
     }
 }
 
@@ -166,15 +165,14 @@ BMBase *BatchRenderer::getFrame(LottieAnimation *animator, int frameNumber)
 void BatchRenderer::prerender(Entry *animEntry)
 {
     while (animEntry->frameCache.count() < m_cacheSize) {
-        if (!animEntry->frameCache.contains(animEntry->currentFrame)) {
-            BMBase *bmTree = new BMBase(*animEntry->bmTreeBlueprint);
+        BMBase *&bmTree = animEntry->frameCache[animEntry->currentFrame];
+        if (bmTree == nullptr) {
+            bmTree = new BMBase(*animEntry->bmTreeBlueprint);
 
             for (BMBase *elem : bmTree->children()) {
                 if (elem->active(animEntry->currentFrame))
                     elem->updateProperties( animEntry->currentFrame);
             }
-
-            animEntry->frameCache.insert( animEntry->currentFrame, bmTree);
         }
 
         qCDebug(lcLottieQtBodymovinRenderThread) << "Animator:"
@@ -202,10 +200,11 @@ void BatchRenderer::frameRendered(LottieAnimation *animator, int frameNumber)
         qCDebug(lcLottieQtBodymovinRenderThread) << "Animator:" << static_cast<void*>(animator)
                                            << "Remove frame from cache" << frameNumber;
 
-        BMBase *root = entry->frameCache.value(frameNumber, nullptr);
-        delete root;
-        entry->frameCache.remove(frameNumber);
-        m_waitCondition.wakeAll();
+        BMBase *root = entry->frameCache.take(frameNumber);
+        if (root != nullptr) {
+            delete root;
+            m_waitCondition.wakeAll();
+        }
     }
 }
 
