@@ -55,7 +55,6 @@ BatchRenderer *BatchRenderer::m_rendererInstance = nullptr;
 BatchRenderer::~BatchRenderer()
 {
     qDeleteAll(m_animData);
-    qDeleteAll(m_frameCache);
 }
 
 BatchRenderer *BatchRenderer::instance()

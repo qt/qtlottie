@@ -93,7 +93,6 @@ protected:
     int m_currentFrame = 0;
 
     LottieAnimation *m_animation = nullptr;
-    QHash<int, QImage*> m_frameCache;
 
 private:
     BatchRenderer() = default;
