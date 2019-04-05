@@ -77,7 +77,6 @@ public slots:
     bool gotoFrame(LottieAnimation *animator, int frame);
 
     void frameRendered(LottieAnimation *animator, int frameNumber);
-    void setCacheSize(int size);
 
 protected:
     void run() override;
@@ -87,7 +86,7 @@ protected:
     void prerender(Entry *animEntry);
 
 private:
-    BatchRenderer() = default;
+    BatchRenderer();
 
     void pruneFrameCache(Entry* e);
 

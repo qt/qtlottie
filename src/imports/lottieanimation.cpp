@@ -198,12 +198,6 @@ LottieAnimation::LottieAnimation(QQuickItem *parent)
 
     m_frameRenderThread = BatchRenderer::instance();
 
-    QByteArray cacheStr = qgetenv("QLOTTIE_RENDER_CACHE_SIZE");
-    bool ok = false;
-    int cacheSize = cacheStr.toInt(&ok);
-    if (ok)
-       m_frameRenderThread->setCacheSize(cacheSize);
-
     qRegisterMetaType<LottieAnimation*>();
 }
 

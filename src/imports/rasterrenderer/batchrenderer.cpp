@@ -52,6 +52,17 @@ Q_LOGGING_CATEGORY(lcLottieQtBodymovinRenderThread, "qt.lottieqt.bodymovin.rende
 
 BatchRenderer *BatchRenderer::m_rendererInstance = nullptr;
 
+BatchRenderer::BatchRenderer()
+    : QThread()
+{
+    const QByteArray cacheStr = qgetenv("QLOTTIE_RENDER_CACHE_SIZE");
+    int cacheSize = cacheStr.toInt();
+    if (cacheSize > 0) {
+        qCDebug(lcLottieQtBodymovinRenderThread) << "Setting frame cache size to" << cacheSize;
+        m_cacheSize = cacheSize;
+    }
+}
+
 BatchRenderer::~BatchRenderer()
 {
     qDeleteAll(m_animData);
@@ -147,15 +158,6 @@ BMBase *BatchRenderer::getFrame(LottieAnimation *animator, int frameNumber)
         return entry->frameCache.value(frameNumber, nullptr);
     else
         return nullptr;
-}
-
-void BatchRenderer::setCacheSize(int size)
-{
-    if (size < 1 || isRunning())
-        return;
-
-    qCDebug(lcLottieQtBodymovinRenderThread) << "Setting frame cache size to" << size;
-    m_cacheSize = size;
 }
 
 void BatchRenderer::prerender(Entry *animEntry)
