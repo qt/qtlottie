@@ -549,6 +549,8 @@ void LottieAnimation::setDirection(LottieAnimation::Direction direction)
 
     m_direction = direction;
     emit directionChanged();
+
+    m_frameRenderThread->gotoFrame(this, m_currentFrame);
 }
 
 bool LottieAnimation::loadSource(QString filename)

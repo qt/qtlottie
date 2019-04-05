@@ -116,6 +116,7 @@ bool BatchRenderer::gotoFrame(LottieAnimation *animator, int frame)
                                            << static_cast<void*>(animator)
                                            << "Goto frame:" << frame;
         entry->currentFrame = frame;
+        entry->animDir = animator->direction();
         pruneFrameCache(entry);
         m_waitCondition.wakeAll();
         return true;
