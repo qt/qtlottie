@@ -69,7 +69,11 @@ BatchRenderer::~BatchRenderer()
 {
     QMutexLocker mlocker(&m_mutex);
 
-    qDeleteAll(m_animData);
+    for (Entry *entry : qAsConst(m_animData)) {
+        qDeleteAll(entry->frameCache);
+        delete entry->bmTreeBlueprint;
+        delete entry;
+    }
 }
 
 BatchRenderer *BatchRenderer::instance()
