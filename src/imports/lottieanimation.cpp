@@ -488,6 +488,7 @@ bool LottieAnimation::gotoAndPlay(const QString &frameMarker)
 void LottieAnimation::gotoAndStop(int frame)
 {
     gotoFrame(frame);
+    m_frameAdvance->stop();
     renderNextFrame();
 }
 
