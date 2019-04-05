@@ -84,9 +84,7 @@ void BatchRenderer::registerAnimator(LottieAnimation *animator)
     entry->startFrame = animator->startFrame();
     entry->endFrame = animator->endFrame();
     entry->currentFrame = animator->startFrame();
-    if (animator->direction() == LottieAnimation::Reverse)
-        entry->animDir = -1;
-    // animDir == 1 by default
+    entry->animDir = animator->direction();
     entry->bmTreeBlueprint = new BMBase;
     parse(entry->bmTreeBlueprint, animator->jsonSource());
     m_animData.insert(animator, entry);

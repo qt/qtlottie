@@ -539,25 +539,16 @@ double LottieAnimation::getDuration(bool inFrames)
 */
 LottieAnimation::Direction LottieAnimation::direction() const
 {
-    if (m_direction < 0)
-        return Reverse;
-    else if (m_direction > 0)
-        return Forward;
-    else {
-        Q_UNREACHABLE();
-        return Forward;
-    }
+    return static_cast<Direction>(m_direction);
 }
 
-void LottieAnimation::setDirection(Direction direction)
+void LottieAnimation::setDirection(LottieAnimation::Direction direction)
 {
-    if (direction == Forward) {
-        m_direction = 1;
-        emit directionChanged();
-    } else if (direction == Reverse) {
-        m_direction = -1;
-        emit directionChanged();
-    }
+    if (Q_UNLIKELY(static_cast<Direction>(m_direction) == direction))
+        return;
+
+    m_direction = direction;
+    emit directionChanged();
 }
 
 bool LottieAnimation::loadSource(QString filename)

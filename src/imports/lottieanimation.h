@@ -65,7 +65,7 @@ public:
     enum Quality{LowQuality, MediumQuality, HighQuality};
     Q_ENUM(Quality)
 
-    enum Direction{Forward = 1, Reverse};
+    enum Direction{Forward = 1, Reverse = -1};
     Q_ENUM(Direction)
 
     enum LoopCount{Infinite = -1};
@@ -152,7 +152,7 @@ private:
     bool m_autoPlay = true;
     int m_loops = 1;
     int m_currentLoop = 0;
-    int m_direction = 1;
+    int m_direction = Forward;
     QByteArray m_jsonSource;
 };
 
