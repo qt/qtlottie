@@ -222,13 +222,6 @@ void LottieAnimation::componentComplete()
 
 void LottieAnimation::paint(QPainter *painter)
 {
-    // TODO: Check does this have effect on output quality (or performance)
-    if (m_quality != LowQuality)
-        painter->setRenderHints(QPainter::Antialiasing);
-    if (m_quality == HighQuality)
-        painter->setRenderHints(QPainter::SmoothPixmapTransform);
-
-    LottieRasterRenderer renderer(painter);
     BMBase* bmTree = m_frameRenderThread->getFrame(this, m_currentFrame);
 
     if (!bmTree) {
@@ -236,6 +229,8 @@ void LottieAnimation::paint(QPainter *painter)
                                               "Cannot draw (Animator:" << static_cast<void*>(this) << ")";
         return;
     }
+
+    LottieRasterRenderer renderer(painter);
 
     qCDebug(lcLottieQtBodymovinRender) << static_cast<void*>(this) << "Start to paint frame"  << m_currentFrame;
 
@@ -357,7 +352,7 @@ void LottieAnimation::setFrameRate(int frameRate)
            used
 
     \value LottieAnimation.MediumQuality
-           Antialiasing is used but no smooth pixmap transformation algorithm
+           Smooth pixmap transformation algorithm is used but no antialiasing
            (Default)
 
     \value LottieAnimation.HighQuality
@@ -377,6 +372,8 @@ void LottieAnimation::setQuality(LottieAnimation::Quality quality)
             setRenderTarget(QQuickPaintedItem::FramebufferObject);
         else
             setRenderTarget(QQuickPaintedItem::Image);
+        setSmooth(quality != LowQuality);
+        setAntialiasing(quality == HighQuality);
         emit qualityChanged();
     }
 }
