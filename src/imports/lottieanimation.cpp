@@ -566,7 +566,11 @@ bool LottieAnimation::loadSource(QString filename)
     }
 
     QByteArray json = sourceFile.readAll();
-    parse(json);
+    if (Q_UNLIKELY(parse(json) == -1)) {
+        m_status = Error;
+        emit statusChanged();
+        return false;
+    }
 
     setWidth(m_animWidth);
     emit widthChanged();
@@ -624,13 +628,17 @@ int LottieAnimation::parse(QByteArray jsonSource)
 {
     m_jsonSource = jsonSource;
 
-    QJsonDocument doc = QJsonDocument::fromJson(jsonSource);
-    QJsonObject rootObj = doc.object();
-
-    if (rootObj.empty()) {
-        m_status = Error;
+    QJsonParseError error;
+    QJsonDocument doc = QJsonDocument::fromJson(m_jsonSource, &error);
+    if (Q_UNLIKELY(error.error != QJsonParseError::NoError)) {
+        qCWarning(lcLottieQtBodymovinParser)
+            << "JSON parse error:" << error.errorString();
         return -1;
     }
+
+    QJsonObject rootObj = doc.object();
+    if (Q_UNLIKELY(rootObj.empty()))
+        return -1;
 
     m_startFrame = rootObj.value(QLatin1String("ip")).toVariant().toInt();
     m_endFrame = rootObj.value(QLatin1String("op")).toVariant().toInt();
