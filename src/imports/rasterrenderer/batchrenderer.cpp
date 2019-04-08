@@ -159,14 +159,6 @@ void BatchRenderer::setCacheSize(int size)
 
 void BatchRenderer::prerender(Entry *animEntry)
 {
-    LottieAnimation *animator = animEntry->animator;
-
-    if (animEntry->frameCache.count() == m_cacheSize) {
-        qCDebug(lcLottieQtBodymovinRenderThread) << "Animator:" << static_cast<void*>(animEntry->animator)
-                                                        << "Cache full, cannot render more";
-        return;
-    }
-
     while (animEntry->frameCache.count() < m_cacheSize) {
         // It may be that the animator has deregistered itself while
         // te mutex was locked. In that case we cannot render here anymore
@@ -188,7 +180,7 @@ void BatchRenderer::prerender(Entry *animEntry)
                                            << static_cast<void*>(animEntry->animator)
                                            << "Frame drawn to cache. FN:"
                                            << animEntry->currentFrame;
-        emit frameReady(animator,  animEntry->currentFrame);
+        emit frameReady(animEntry->animator,  animEntry->currentFrame);
 
         animEntry->currentFrame += animEntry->animDir;
 
@@ -197,30 +189,6 @@ void BatchRenderer::prerender(Entry *animEntry)
         } else if (animEntry->currentFrame < animEntry->startFrame) {
             animEntry->currentFrame = animEntry->endFrame;
         }
-    }
-}
-
-void BatchRenderer::prerender()
-{
-    QMutexLocker mlocker(&m_mutex);
-    bool wait = true;
-
-    foreach (Entry *e, m_animData) {
-        if (e->frameCache.size() < m_cacheSize) {
-            wait = false;
-            break;
-        }
-    }
-
-    if (wait)
-        m_waitCondition.wait(&m_mutex);
-
-    QHash<LottieAnimation*, Entry*>::iterator it = m_animData.begin();
-    while (it != m_animData.end()) {
-        Entry *e = *it;
-        if (e && e->frameCache.size() < m_cacheSize)
-            prerender(e);
-        ++it;
     }
 }
 
@@ -243,11 +211,13 @@ void BatchRenderer::run()
 {
     qCDebug(lcLottieQtBodymovinRenderThread) << "rendering thread" << QThread::currentThread();
 
-    while (-1) {
-        if (QThread::currentThread()->isInterruptionRequested())
-            return;
+    while (!isInterruptionRequested()) {
+        QMutexLocker mlocker(&m_mutex);
 
-        prerender();
+        for (Entry *e : qAsConst(m_animData))
+            prerender(e);
+
+        m_waitCondition.wait(&m_mutex);
     }
 }
 
