@@ -4,7 +4,6 @@ TARGETPATH = Qt/labs/lottieqt
 IMPORT_VERSION = 1.$$QT_MINOR_VERSION
 
 QT += qml quick gui-private bodymovin-private
-CONFIG += plugin c++11
 
 QMAKE_DOCS = $$PWD/doc/qtlottieanimation.qdocconf
 
@@ -20,5 +19,8 @@ HEADERS += \
     lottie_plugin.h \
     rasterrenderer/lottierasterrenderer.h \
     rasterrenderer/batchrenderer.h
+
+OTHER_FILES += \
+    qmldir
 
 load(qml_plugin)
