@@ -605,11 +605,6 @@ bool LottieAnimation::loadSource(QString filename)
         return false;
     }
 
-    setWidth(m_animWidth);
-    emit widthChanged();
-    setHeight(m_animHeight);
-    emit heightChanged();
-
     sourceFile.close();
 
     QMetaObject::invokeMethod(m_frameRenderThread, "registerAnimator", Q_ARG(LottieAnimation*, this));
@@ -676,9 +671,6 @@ int LottieAnimation::parse(QByteArray jsonSource)
     m_animWidth = rootObj.value(QLatin1String("w")).toVariant().toReal();
     m_animHeight = rootObj.value(QLatin1String("h")).toVariant().toReal();
 
-    setWidth(m_animWidth);
-    setHeight(m_animHeight);
-
     QJsonArray markerArr = rootObj.value(QLatin1String("markers")).toArray();
     QJsonArray::const_iterator markerIt = markerArr.constBegin();
     while (markerIt != markerArr.constEnd()) {
@@ -698,6 +690,8 @@ int LottieAnimation::parse(QByteArray jsonSource)
     if (rootObj.value(QLatin1String("chars")).toArray().count())
         qCWarning(lcLottieQtBodymovinParser) << "chars not supported";
 
+    setWidth(m_animWidth);
+    setHeight(m_animHeight);
     setStartFrame(startFrame);
     setEndFrame(endFrame);
     setFrameRate(m_animFrameRate);
