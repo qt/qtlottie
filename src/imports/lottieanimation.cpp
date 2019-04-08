@@ -130,39 +130,6 @@ Q_LOGGING_CATEGORY(lcLottieQtBodymovinParser, "qt.lottieqt.bodymovin.parser");
 */
 
 /*!
-    \qmlproperty enumeration LottieAnimation::status
-
-    This property holds the current status of the LottieAnimation element.
-
-    \value LottieAnimation.Null
-           An initial value that is used when the status is not defined
-           (Default)
-
-    \value LottieAnimation.Loading
-           The player is loading a Bodymovin file
-
-    \value LottieAnimation.Ready
-           Loading has finished successfully and the player is ready to play
-           the animation
-
-    \value LottieAnimation.Error
-           An error occurred while loading the animation
-
-    For example, you could implement \c onStatusChanged signal
-    handler to monitor progress of loading an animation as follows:
-
-    \qml
-    LottieAnimation {
-        source: ":/animation.json"
-        autoPlay: false
-        onStatusChanged: {
-            if (status === LottieAnimation.Ready)
-                start();
-        }
-    \endqml
-*/
-
-/*!
     \qmlproperty bool LottieAnimation::autoPlay
 
     Defines whether the player will start playing animation automatically after
@@ -248,6 +215,52 @@ void LottieAnimation::paint(QPainter *painter)
         m_currentFrame = m_currentFrame < m_startFrame ? m_endFrame :
                          m_currentFrame > m_endFrame ? m_startFrame : m_currentFrame;
     }
+}
+
+/*!
+    \qmlproperty enumeration LottieAnimation::status
+
+    This property holds the current status of the LottieAnimation element.
+
+    \value LottieAnimation.Null
+           An initial value that is used when the source is not defined
+           (Default)
+
+    \value LottieAnimation.Loading
+           The player is loading a Bodymovin file
+
+    \value LottieAnimation.Ready
+           Loading has finished successfully and the player is ready to play
+           the animation
+
+    \value LottieAnimation.Error
+           An error occurred while loading the animation
+
+    For example, you could implement \c onStatusChanged signal
+    handler to monitor progress of loading an animation as follows:
+
+    \qml
+    LottieAnimation {
+        source: ":/animation.json"
+        autoPlay: false
+        onStatusChanged: {
+            if (status === LottieAnimation.Ready)
+                start();
+        }
+    \endqml
+*/
+LottieAnimation::Status LottieAnimation::status() const
+{
+    return m_status;
+}
+
+void LottieAnimation::setStatus(LottieAnimation::Status status)
+{
+    if (Q_UNLIKELY(m_status == status))
+        return;
+
+    m_status = status;
+    emit statusChanged();
 }
 
 /*!
@@ -560,20 +573,17 @@ void LottieAnimation::setDirection(LottieAnimation::Direction direction)
 
 bool LottieAnimation::loadSource(QString filename)
 {
-    m_status = Loading;
-    emit statusChanged();
+    setStatus(Loading);
 
     QFile sourceFile(filename);
     if (!sourceFile.open(QIODevice::ReadOnly)) {
-        m_status = Error;
-        emit statusChanged();
+        setStatus(Error);
         return false;
     }
 
     QByteArray json = sourceFile.readAll();
     if (Q_UNLIKELY(parse(json) == -1)) {
-        m_status = Error;
-        emit statusChanged();
+        setStatus(Error);
         return false;
     }
 
@@ -591,8 +601,7 @@ bool LottieAnimation::loadSource(QString filename)
 
     m_frameRenderThread->start();
 
-    m_status = Ready;
-    emit statusChanged();
+    setStatus(Ready);
 
     return true;
 }

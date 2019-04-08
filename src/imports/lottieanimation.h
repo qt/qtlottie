@@ -52,7 +52,7 @@ class LottieAnimation : public QQuickPaintedItem
     Q_PROPERTY(int frameRate READ frameRate WRITE setFrameRate RESET resetFrameRate NOTIFY frameRateChanged)
     Q_PROPERTY(int startFrame READ startFrame NOTIFY startFrameChanged)
     Q_PROPERTY(int endFrame READ endFrame NOTIFY endFrameChanged)
-    Q_PROPERTY(Status status MEMBER m_status NOTIFY statusChanged)
+    Q_PROPERTY(Status status READ status WRITE setStatus NOTIFY statusChanged)
     Q_PROPERTY(Quality quality READ quality WRITE setQuality NOTIFY qualityChanged)
     Q_PROPERTY(bool autoPlay MEMBER m_autoPlay NOTIFY autoPlayChanged)
     Q_PROPERTY(int loops MEMBER m_loops NOTIFY loopsChanged)
@@ -77,6 +77,8 @@ public:
     void componentComplete() override;
 
     void paint(QPainter *painter) override;
+
+    Status status() const;
 
     QString source() const;
     void setSource(const QString &source);
@@ -125,6 +127,8 @@ protected slots:
     void renderNextFrame();
 
 protected:
+    void setStatus(Status status);
+
     bool loadSource(QString filename);
 
     virtual int parse(QByteArray jsonSource);
