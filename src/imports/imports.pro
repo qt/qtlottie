@@ -1,5 +1,5 @@
 CXX_MODULE = qtlottie
-TARGET  = lottieqt
+TARGET  = lottieqtplugin
 TARGETPATH = Qt/labs/lottieqt
 IMPORT_VERSION = 1.$$QT_MINOR_VERSION
 
