@@ -65,6 +65,8 @@ BatchRenderer::BatchRenderer()
 
 BatchRenderer::~BatchRenderer()
 {
+    QMutexLocker mlocker(&m_mutex);
+
     qDeleteAll(m_animData);
 }
 
@@ -120,9 +122,10 @@ void BatchRenderer::deregisterAnimator(LottieAnimation *animator)
 
 bool BatchRenderer::gotoFrame(LottieAnimation *animator, int frame)
 {
+    QMutexLocker mlocker(&m_mutex);
+
     Entry *entry = m_animData.value(animator, nullptr);
     if (entry) {
-        QMutexLocker mlocker(&m_mutex);
         qCDebug(lcLottieQtBodymovinRenderThread) << "Animator:"
                                            << static_cast<void*>(animator)
                                            << "Goto frame:" << frame;
@@ -163,11 +166,6 @@ BMBase *BatchRenderer::getFrame(LottieAnimation *animator, int frameNumber)
 void BatchRenderer::prerender(Entry *animEntry)
 {
     while (animEntry->frameCache.count() < m_cacheSize) {
-        // It may be that the animator has deregistered itself while
-        // te mutex was locked. In that case we cannot render here anymore
-        if (!animEntry->bmTreeBlueprint)
-            break;
-
         if (!animEntry->frameCache.contains(animEntry->currentFrame)) {
             BMBase *bmTree = new BMBase(*animEntry->bmTreeBlueprint);
 
@@ -197,12 +195,13 @@ void BatchRenderer::prerender(Entry *animEntry)
 
 void BatchRenderer::frameRendered(LottieAnimation *animator, int frameNumber)
 {
+    QMutexLocker mlocker(&m_mutex);
+
     Entry *entry = m_animData.value(animator, nullptr);
     if (entry) {
         qCDebug(lcLottieQtBodymovinRenderThread) << "Animator:" << static_cast<void*>(animator)
                                            << "Remove frame from cache" << frameNumber;
 
-        QMutexLocker mlocker(&m_mutex);
         BMBase *root = entry->frameCache.value(frameNumber, nullptr);
         delete root;
         entry->frameCache.remove(frameNumber);
