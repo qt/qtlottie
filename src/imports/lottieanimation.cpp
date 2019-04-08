@@ -192,6 +192,7 @@ LottieAnimation::LottieAnimation(QQuickItem *parent)
     : QQuickPaintedItem(parent)
 {
     m_frameAdvance = new QTimer(this);
+    m_frameAdvance->setInterval(1000 / m_frameRate);
     m_frameAdvance->setSingleShot(false);
     connect (m_frameAdvance, &QTimer::timeout, this, &LottieAnimation::renderNextFrame);
 
@@ -335,8 +336,18 @@ int LottieAnimation::frameRate() const
 
 void LottieAnimation::setFrameRate(int frameRate)
 {
+    if (Q_UNLIKELY(m_frameRate == frameRate || frameRate <= 0))
+        return;
+
     m_frameRate = frameRate;
+    emit frameRateChanged();
+
     m_frameAdvance->setInterval(1000 / m_frameRate);
+}
+
+void LottieAnimation::resetFrameRate()
+{
+    setFrameRate(m_animFrameRate);
 }
 
 /*!
@@ -581,8 +592,6 @@ bool LottieAnimation::loadSource(QString filename)
 
     QMetaObject::invokeMethod(m_frameRenderThread, "registerAnimator", Q_ARG(LottieAnimation*, this));
 
-    m_frameAdvance->setInterval(1000 / m_frameRate);
-
     if (m_autoPlay)
         start();
 
@@ -642,7 +651,7 @@ int LottieAnimation::parse(QByteArray jsonSource)
 
     m_startFrame = rootObj.value(QLatin1String("ip")).toVariant().toInt();
     m_endFrame = rootObj.value(QLatin1String("op")).toVariant().toInt();
-    m_frameRate = rootObj.value(QLatin1String("fr")).toVariant().toInt();
+    m_animFrameRate = rootObj.value(QLatin1String("fr")).toVariant().toInt();
     m_animWidth = rootObj.value(QLatin1String("w")).toVariant().toReal();
     m_animHeight = rootObj.value(QLatin1String("h")).toVariant().toReal();
 
@@ -668,9 +677,9 @@ int LottieAnimation::parse(QByteArray jsonSource)
     if (rootObj.value(QLatin1String("chars")).toArray().count())
         qCWarning(lcLottieQtBodymovinParser) << "chars not supported";
 
-    emit frameRateChanged();
     emit startFrameChanged();
     emit endFrameChanged();
+    setFrameRate(m_animFrameRate);
 
     return 0;
 }

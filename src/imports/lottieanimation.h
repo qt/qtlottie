@@ -49,7 +49,7 @@ class LottieAnimation : public QQuickPaintedItem
 {
     Q_OBJECT
     Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged)
-    Q_PROPERTY(int frameRate READ frameRate WRITE setFrameRate NOTIFY frameRateChanged)
+    Q_PROPERTY(int frameRate READ frameRate WRITE setFrameRate RESET resetFrameRate NOTIFY frameRateChanged)
     Q_PROPERTY(int startFrame READ startFrame NOTIFY startFrameChanged)
     Q_PROPERTY(int endFrame READ endFrame NOTIFY endFrameChanged)
     Q_PROPERTY(Status status MEMBER m_status NOTIFY statusChanged)
@@ -83,6 +83,7 @@ public:
 
     int frameRate() const;
     void setFrameRate(int frameRate);
+    void resetFrameRate();
 
     Quality quality() const;
     void setQuality(Quality quality);
@@ -135,8 +136,9 @@ protected:
     Status m_status = Null;
     int m_startFrame = 0;
     int m_endFrame = 0;
-    int m_frameRate = 30;
     int m_currentFrame = 0;
+    int m_frameRate = 30;
+    int m_animFrameRate = 30;
     qreal m_animWidth = 0;
     qreal m_animHeight = 0;
     QHash<QString, int> m_markers;
