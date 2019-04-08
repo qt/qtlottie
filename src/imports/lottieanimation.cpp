@@ -555,15 +555,15 @@ void LottieAnimation::setDirection(LottieAnimation::Direction direction)
 
 bool LottieAnimation::loadSource(QString filename)
 {
+    m_status = Loading;
+    emit statusChanged();
+
     QFile sourceFile(filename);
     if (!sourceFile.open(QIODevice::ReadOnly)) {
         m_status = Error;
         emit statusChanged();
         return false;
     }
-
-    m_status = Loading;
-    emit statusChanged();
 
     QByteArray json = sourceFile.readAll();
     parse(json);
