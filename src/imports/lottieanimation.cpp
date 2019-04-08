@@ -300,6 +300,15 @@ int LottieAnimation::startFrame() const
     return m_startFrame;
 }
 
+void LottieAnimation::setStartFrame(int startFrame)
+{
+    if (Q_UNLIKELY(m_startFrame == startFrame))
+        return;
+
+    m_startFrame = startFrame;
+    emit startFrameChanged();
+}
+
 /*!
     \qmlproperty int LottieAnimation::endFrame
     \readonly
@@ -311,6 +320,15 @@ int LottieAnimation::startFrame() const
 int LottieAnimation::endFrame() const
 {
     return m_endFrame;
+}
+
+void LottieAnimation::setEndFrame(int endFrame)
+{
+    if (Q_UNLIKELY(m_endFrame == endFrame))
+        return;
+
+    m_endFrame = endFrame;
+    emit endFrameChanged();
 }
 
 int LottieAnimation::currentFrame() const
@@ -652,8 +670,8 @@ int LottieAnimation::parse(QByteArray jsonSource)
     if (Q_UNLIKELY(rootObj.empty()))
         return -1;
 
-    m_startFrame = rootObj.value(QLatin1String("ip")).toVariant().toInt();
-    m_endFrame = rootObj.value(QLatin1String("op")).toVariant().toInt();
+    int startFrame = rootObj.value(QLatin1String("ip")).toVariant().toInt();
+    int endFrame = rootObj.value(QLatin1String("op")).toVariant().toInt();
     m_animFrameRate = rootObj.value(QLatin1String("fr")).toVariant().toInt();
     m_animWidth = rootObj.value(QLatin1String("w")).toVariant().toReal();
     m_animHeight = rootObj.value(QLatin1String("h")).toVariant().toReal();
@@ -680,8 +698,8 @@ int LottieAnimation::parse(QByteArray jsonSource)
     if (rootObj.value(QLatin1String("chars")).toArray().count())
         qCWarning(lcLottieQtBodymovinParser) << "chars not supported";
 
-    emit startFrameChanged();
-    emit endFrameChanged();
+    setStartFrame(startFrame);
+    setEndFrame(endFrame);
     setFrameRate(m_animFrameRate);
 
     return 0;

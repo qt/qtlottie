@@ -129,6 +129,9 @@ protected slots:
 protected:
     void setStatus(Status status);
 
+    void setStartFrame(int startFrame);
+    void setEndFrame(int endFrame);
+
     bool loadSource(QString filename);
 
     virtual int parse(QByteArray jsonSource);
