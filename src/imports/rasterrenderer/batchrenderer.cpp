@@ -140,11 +140,13 @@ bool BatchRenderer::gotoFrame(LottieAnimation *animator, int frame)
 void BatchRenderer::pruneFrameCache(Entry* e)
 {
     QHash<int, BMBase*>::iterator it = e->frameCache.begin();
-
     while (it != e->frameCache.end()) {
-        if (it.key() == e->currentFrame) {
+        int frame = it.key();
+        if ((frame - e->currentFrame) * e->animDir >= 0) { // same frame or same direction
             ++it;
         } else {
+            qCDebug(lcLottieQtBodymovinRenderThread) << "Animator:" << static_cast<void*>(e->animator)
+                                                     << "Remove frame from cache" << frame;
             delete it.value();
             it = e->frameCache.erase(it);
         }
