@@ -74,8 +74,6 @@ public:
     explicit LottieAnimation(QQuickItem *parent = nullptr);
     ~LottieAnimation() override;
 
-    void componentComplete() override;
-
     void paint(QPainter *painter) override;
 
     Status status() const;
@@ -127,6 +125,8 @@ protected slots:
     void renderNextFrame();
 
 protected:
+    void componentComplete() override;
+
     void setStatus(Status status);
 
     void setStartFrame(int startFrame);
@@ -156,7 +156,6 @@ protected:
     void reset();
 
 private:
-    bool m_initialized = false;
     Quality m_quality = MediumQuality;
     bool m_autoPlay = true;
     int m_loops = 1;

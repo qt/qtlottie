@@ -175,9 +175,8 @@ LottieAnimation::~LottieAnimation()
 
 void LottieAnimation::componentComplete()
 {
-    QQuickItem::componentComplete();
+    QQuickPaintedItem::componentComplete();
 
-    m_initialized = true;
     if (m_source.length())
         loadSource(m_source);
 }
@@ -282,7 +281,7 @@ void LottieAnimation::setSource(const QString &source)
         m_source = source;
         emit sourceChanged();
 
-        if (m_initialized)
+        if (isComponentComplete())
             loadSource(source);
     }
 }
