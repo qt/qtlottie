@@ -56,7 +56,7 @@ Window {
                 y: 10 * index
                 loops: LottieAnimation.Infinite
                 quality: LottieAnimation.MediumQuality
-                source: ":/rect_rotate.json"
+                source: "rect_rotate.json"
             }
         }
     }

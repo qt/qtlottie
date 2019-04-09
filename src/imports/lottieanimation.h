@@ -41,6 +41,8 @@
 
 QT_BEGIN_NAMESPACE
 
+class QQmlFile;
+
 class BMBase;
 class BMLayer;
 class BatchRenderer;
@@ -48,7 +50,7 @@ class BatchRenderer;
 class LottieAnimation : public QQuickPaintedItem
 {
     Q_OBJECT
-    Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged)
+    Q_PROPERTY(QUrl source READ source WRITE setSource NOTIFY sourceChanged)
     Q_PROPERTY(int frameRate READ frameRate WRITE setFrameRate RESET resetFrameRate NOTIFY frameRateChanged)
     Q_PROPERTY(int startFrame READ startFrame NOTIFY startFrameChanged)
     Q_PROPERTY(int endFrame READ endFrame NOTIFY endFrameChanged)
@@ -78,8 +80,8 @@ public:
 
     Status status() const;
 
-    QString source() const;
-    void setSource(const QString &source);
+    QUrl source() const;
+    void setSource(const QUrl &source);
 
     int frameRate() const;
     void setFrameRate(int frameRate);
@@ -122,6 +124,8 @@ signals:
     void endFrameChanged();
 
 protected slots:
+    void loadFinished();
+
     void renderNextFrame();
 
 protected:
@@ -132,7 +136,7 @@ protected:
     void setStartFrame(int startFrame);
     void setEndFrame(int endFrame);
 
-    bool loadSource(QString filename);
+    void load();
 
     virtual int parse(QByteArray jsonSource);
 
@@ -149,7 +153,8 @@ protected:
     qreal m_animWidth = 0;
     qreal m_animHeight = 0;
     QHash<QString, int> m_markers;
-    QString m_source;
+    QUrl m_source;
+    QScopedPointer<QQmlFile> m_file;
     QTimer *m_frameAdvance = nullptr;
 
     void gotoFrame(int frame);

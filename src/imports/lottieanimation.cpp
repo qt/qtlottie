@@ -42,6 +42,7 @@
 #include <QMetaObject>
 #include <QLoggingCategory>
 #include <QThread>
+#include <QQmlFile>
 #include <math.h>
 
 #include <QtBodymovin/private/bmbase_p.h>
@@ -87,7 +88,7 @@ Q_LOGGING_CATEGORY(lcLottieQtBodymovinParser, "qt.lottieqt.bodymovin.parser");
     LottieAnimation {
         loops: 2
         quality: LottieAnimation.MediumQuality
-        source: ":/animation.json"
+        source: "animation.json"
         autoPlay: false
         onStatusChanged: {
             if (status === LottieAnimation.Ready) {
@@ -177,8 +178,8 @@ void LottieAnimation::componentComplete()
 {
     QQuickPaintedItem::componentComplete();
 
-    if (m_source.length())
-        loadSource(m_source);
+    if (m_source.isValid())
+        load();
 }
 
 void LottieAnimation::paint(QPainter *painter)
@@ -240,7 +241,7 @@ void LottieAnimation::paint(QPainter *painter)
 
     \qml
     LottieAnimation {
-        source: ":/animation.json"
+        source: "animation.json"
         autoPlay: false
         onStatusChanged: {
             if (status === LottieAnimation.Ready)
@@ -263,26 +264,29 @@ void LottieAnimation::setStatus(LottieAnimation::Status status)
 }
 
 /*!
-    \qmlproperty string LottieAnimation::source
+    \qmlproperty url LottieAnimation::source
 
-    The path of the Bodymovin asset that LottieAnimation plays.
+    The source of the Bodymovin asset that LottieAnimation plays.
+
+    LottieAnimation can handle any URL scheme supported by Qt.
+    The URL may be absolute, or relative to the URL of the component.
 
     Setting the source property starts loading the animation asynchronously.
     To monitor progress of loading, connect to the \l status change signal.
 */
-QString LottieAnimation::source() const
+QUrl LottieAnimation::source() const
 {
     return m_source;
 }
 
-void LottieAnimation::setSource(const QString &source)
+void LottieAnimation::setSource(const QUrl &source)
 {
     if (m_source != source) {
         m_source = source;
         emit sourceChanged();
 
         if (isComponentComplete())
-            loadSource(source);
+            load();
     }
 }
 
@@ -346,7 +350,7 @@ int LottieAnimation::currentFrame() const
 
     \qml
     LottieAnimation {
-        source: ":/animation.json"
+        source: "animation.json"
         onStatusChanged: {
             if (status === LottieAnimation.Ready)
                 frameRate = 60;
@@ -588,23 +592,33 @@ void LottieAnimation::setDirection(LottieAnimation::Direction direction)
     m_frameRenderThread->gotoFrame(this, m_currentFrame);
 }
 
-bool LottieAnimation::loadSource(QString filename)
+void LottieAnimation::load()
 {
     setStatus(Loading);
 
-    QFile sourceFile(filename);
-    if (!sourceFile.open(QIODevice::ReadOnly)) {
+    m_file.reset(new QQmlFile(qmlEngine(this), m_source));
+    if (m_file->isLoading())
+        m_file->connectFinished(this, SLOT(loadFinished()));
+    else
+        loadFinished();
+}
+
+void LottieAnimation::loadFinished()
+{
+    if (Q_UNLIKELY(m_file->isError())) {
+        m_file.reset();
         setStatus(Error);
-        return false;
+        return;
     }
 
-    QByteArray json = sourceFile.readAll();
+    Q_ASSERT(m_file->isReady());
+    const QByteArray json = m_file->dataByteArray();
+    m_file.reset();
+
     if (Q_UNLIKELY(parse(json) == -1)) {
         setStatus(Error);
-        return false;
+        return;
     }
-
-    sourceFile.close();
 
     QMetaObject::invokeMethod(m_frameRenderThread, "registerAnimator", Q_ARG(LottieAnimation*, this));
 
@@ -614,8 +628,6 @@ bool LottieAnimation::loadSource(QString filename)
     m_frameRenderThread->start();
 
     setStatus(Ready);
-
-    return true;
 }
 
 QByteArray LottieAnimation::jsonSource() const
