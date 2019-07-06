@@ -613,7 +613,7 @@ void LottieAnimation::renderNextFrame()
             qCDebug(lcLottieQtBodymovinRender) << static_cast<void*>(this)
                                                << "Frame cache was empty for frame" << m_currentFrame;
             m_waitForFrameConn = connect(m_frameRenderThread, &BatchRenderer::frameReady,
-                                         this, [=](LottieAnimation *target, int frameNumber) {
+                                         this, [this](LottieAnimation *target, int frameNumber) {
                 if (target != this)
                     return;
                 qCDebug(lcLottieQtBodymovinRender) << static_cast<void*>(this)
