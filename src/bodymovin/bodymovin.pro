@@ -8,6 +8,8 @@ TARGET = QtBodymovin
 MODULE = bodymovin
 
 CONFIG += internal_module
+# As long as this is an internal module, we do not need to have cmake linkage tests.
+CMAKE_MODULE_TESTS = -
 
 QT += gui-private
 
