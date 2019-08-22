@@ -4,6 +4,7 @@ include($QT_INSTALL_DOCS/config/exampleurl-qtlottie.qdocconf)
 version                 = $QT_VERSION
 project                 = QtLottieAnimation
 description             = Bodymovin Player for Qt
+buildversion            = Qt Lottie Animation | Commercial or GPLv3
 
 headerdirs             += ../..
 
