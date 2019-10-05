@@ -51,6 +51,12 @@
     See the \l {Bodymovin Source}{GitHub page for Bodymovin} for instructions
     on how to download and install the plugin for Adobe After Effects.
 
+    \section1 Licenses
+
+    Qt Lottie Animation is available under commercial licenses from \l{The Qt Company}.
+    In addition, it is available under the \l{GNU General Public License, version 3}.
+    See \l{Qt Licensing} for further details.
+
     \section1 Reference
     \list
         \li \l {Qt Lottie Animation QML Types}{QML Types}
