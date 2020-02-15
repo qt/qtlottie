@@ -56,6 +56,7 @@ public:
     void render(const BMRound &round) override;
     void render(const BMFill &fill) override;
     void render(const BMGFill &shape) override;
+    void render(const BMImage &image) override;
     void render(const BMStroke &stroke) override;
     void render(const BMBasicTransform &transform) override;
     void render(const BMShapeTransform &transform) override;

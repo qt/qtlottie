@@ -34,6 +34,7 @@
 #include <QJsonValue>
 #include <QLoggingCategory>
 
+#include "bmimagelayer_p.h"
 #include "bmshapelayer_p.h"
 #include "bmfilleffect_p.h"
 #include "bmbasictransform_p.h"
@@ -79,6 +80,10 @@ BMLayer *BMLayer::construct(QJsonObject definition)
     BMLayer *layer = nullptr;
     int type = definition.value(QLatin1String("ty")).toInt();
     switch (type) {
+    case 2:
+        qCDebug(lcLottieQtBodymovinParser) << "Parse image layer";
+        layer = new BMImageLayer(definition);
+        break;
     case 4:
         qCDebug(lcLottieQtBodymovinParser) << "Parse shape layer";
         layer = new BMShapeLayer(definition);

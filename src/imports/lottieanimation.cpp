@@ -695,9 +695,6 @@ int LottieAnimation::parse(QByteArray jsonSource)
         ++markerIt;
     }
 
-    if (rootObj.value(QLatin1String("assets")).toArray().count())
-        qCWarning(lcLottieQtBodymovinParser) << "assets not supported";
-
     if (rootObj.value(QLatin1String("chars")).toArray().count())
         qCWarning(lcLottieQtBodymovinParser) << "chars not supported";
 

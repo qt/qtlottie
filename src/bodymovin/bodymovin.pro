@@ -31,10 +31,12 @@ SOURCES += \
     bmlayer.cpp \
     bmshape.cpp \
     bmshapelayer.cpp \
+    bmimagelayer.cpp \
     bmrect.cpp \
     bmfill.cpp \
     bmgfill.cpp \
     bmgroup.cpp \
+    bmimage.cpp \
     bmstroke.cpp \
     bmbasictransform.cpp \
     bmshapetransform.cpp \
@@ -61,6 +63,7 @@ HEADERS += \
     bmfreeformshape_p.h \
     bmgfill_p.h \
     bmgroup_p.h \
+    bmimage_p.h \
     bmlayer_p.h \
     bmproperty_p.h \
     bmrect_p.h \
@@ -69,6 +72,7 @@ HEADERS += \
     bmround_p.h \
     bmshape_p.h \
     bmshapelayer_p.h \
+    bmimagelayer_p.h \
     bmshapetransform_p.h \
     bmspatialproperty_p.h \
     bmstroke_p.h \

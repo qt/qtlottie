@@ -52,6 +52,7 @@ class BMLayer;
 class BMRect;
 class BMFill;
 class BMGFill;
+class BMImage;
 class BMStroke;
 class BMBasicTransform;
 class BMLayerTransform;
@@ -84,6 +85,7 @@ public:
     virtual void render(const BMRound &round) = 0;
     virtual void render(const BMFill &fill) = 0;
     virtual void render(const BMGFill &fill) = 0;
+    virtual void render(const BMImage &image) = 0;
     virtual void render(const BMStroke &stroke) = 0;
     virtual void render(const BMBasicTransform &trans) = 0;
     virtual void render(const BMShapeTransform &trans) = 0;

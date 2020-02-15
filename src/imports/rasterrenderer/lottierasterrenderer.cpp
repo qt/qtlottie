@@ -39,6 +39,7 @@
 #include <QtBodymovin/private/bmshape_p.h>
 #include <QtBodymovin/private/bmfill_p.h>
 #include <QtBodymovin/private/bmgfill_p.h>
+#include <QtBodymovin/private/bmimage_p.h>
 #include <QtBodymovin/private/bmbasictransform_p.h>
 #include <QtBodymovin/private/bmshapetransform_p.h>
 #include <QtBodymovin/private/bmrect_p.h>
@@ -153,6 +154,22 @@ void LottieRasterRenderer::render(const BMEllipse &ellipse)
 
     m_painter->restore();
 }
+
+void LottieRasterRenderer::render(const BMImage &image)
+{
+    m_painter->save();
+
+    for (int i = 0; i < m_repeatCount; i++) {
+        qCDebug(lcLottieQtBodymovinRender) << "Image" << image.name();
+
+        applyRepeaterTransform(i);
+        QPointF center = image.getCenter();
+        m_painter->drawImage(center.x(), center.y(), image.getImage());
+    }
+
+    m_painter->restore();
+}
+
 
 void LottieRasterRenderer::render(const BMRound &round)
 {
