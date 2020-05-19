@@ -29,14 +29,6 @@
 
 #include "bmrepeater_p.h"
 
-BMRepeater::BMRepeater(const BMRepeater &other)
-    : BMShape(other),
-      m_copies(other.m_copies),
-      m_offset(other.m_offset),
-      m_transform(other.m_transform)
-{
-}
-
 BMRepeater::BMRepeater(const QJsonObject &definition, BMBase *parent)
 {
     setParent(parent);
