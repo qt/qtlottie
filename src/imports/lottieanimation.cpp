@@ -167,6 +167,8 @@ LottieAnimation::LottieAnimation(QQuickItem *parent)
     m_frameRenderThread = BatchRenderer::instance();
 
     qRegisterMetaType<LottieAnimation*>();
+
+    setAntialiasing(m_quality == HighQuality);
 }
 
 LottieAnimation::~LottieAnimation()

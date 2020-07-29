@@ -161,7 +161,7 @@ protected:
     void reset();
 
 private:
-    Quality m_quality = MediumQuality;
+    Quality m_quality = HighQuality;
     bool m_autoPlay = true;
     int m_loops = 1;
     int m_currentLoop = 0;
