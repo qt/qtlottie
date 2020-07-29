@@ -587,6 +587,7 @@ void LottieAnimation::setDirection(LottieAnimation::Direction direction)
         return;
 
     m_direction = direction;
+    m_currentLoop = 0;
     emit directionChanged();
 
     m_frameRenderThread->gotoFrame(this, m_currentFrame);
