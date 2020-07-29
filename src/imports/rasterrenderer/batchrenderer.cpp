@@ -95,7 +95,9 @@ void BatchRenderer::registerAnimator(LottieAnimation *animator)
 
     Entry *&entry = m_animData[animator];
     if (entry) {
-        delete (entry);
+        qDeleteAll(entry->frameCache);
+        delete entry->bmTreeBlueprint;
+        delete entry;
         entry = nullptr;
     }
     Q_ASSERT(entry == nullptr);
