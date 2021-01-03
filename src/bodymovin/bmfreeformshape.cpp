@@ -170,62 +170,64 @@ void BMFreeFormShape::buildShape(const QJsonObject &shape)
 
 void BMFreeFormShape::buildShape(int frame)
 {
-    auto it = m_closedShape.constBegin();
-    bool found = false;
+    if (m_closedShape.size()) {
+        auto it = m_closedShape.constBegin();
+        bool found = false;
 
-    if (frame <= it.key())
-        found = true;
-    else {
-        while (it != m_closedShape.constEnd()) {
-            if (it.key() <= frame) {
-                found = true;
-                break;
+        if (frame <= it.key())
+            found = true;
+        else {
+            while (it != m_closedShape.constEnd()) {
+                if (it.key() <= frame) {
+                    found = true;
+                    break;
+                }
+                ++it;
             }
-            ++it;
         }
+
+        bool needToClose = false;
+        if (found)
+            needToClose = (*it);
+
+        // If there are less than two vertices, cannot make a bezier curve
+        if (m_vertexList.count() < 2)
+            return;
+
+        QPointF s(m_vertexList.at(0).pos.value());
+        QPointF s0(s);
+
+        m_path.moveTo(s);
+        int i = 0;
+
+        while (i < m_vertexList.count() - 1) {
+            QPointF v = m_vertexList.at(i + 1).pos.value();
+            QPointF c1 = m_vertexList.at(i).co.value();
+            QPointF c2 = m_vertexList.at(i + 1).ci.value();
+            c1 += s;
+            c2 += v;
+
+            m_path.cubicTo(c1, c2, v);
+
+            s = v;
+            i++;
+        }
+
+        if (needToClose) {
+            QPointF v = s0;
+            QPointF c1 = m_vertexList.at(i).co.value();
+            QPointF c2 = m_vertexList.at(0).ci.value();
+            c1 += s;
+            c2 += v;
+
+            m_path.cubicTo(c1, c2, v);
+        }
+
+        m_path.setFillRule(Qt::WindingFill);
+
+        if (m_direction)
+            m_path = m_path.toReversed();
     }
-
-    bool needToClose = false;
-    if (found)
-        needToClose = (*it);
-
-    // If there are less than two vertices, cannot make a bezier curve
-    if (m_vertexList.count() < 2)
-        return;
-
-    QPointF s(m_vertexList.at(0).pos.value());
-    QPointF s0(s);
-
-    m_path.moveTo(s);
-    int i=0;
-
-    while (i < m_vertexList.count() - 1) {
-        QPointF v = m_vertexList.at(i + 1).pos.value();
-        QPointF c1 = m_vertexList.at(i).co.value();
-        QPointF c2 = m_vertexList.at(i + 1).ci.value();
-        c1 += s;
-        c2 += v;
-
-        m_path.cubicTo(c1, c2, v);
-
-        s = v;
-        i++;
-    }
-
-    if (needToClose) {
-        QPointF v = s0;
-        QPointF c1 = m_vertexList.at(i).co.value();
-        QPointF c2 = m_vertexList.at(0).ci.value();
-        c1 += s;
-        c2 += v;
-
-        m_path.cubicTo(c1, c2, v);
-    }
-
-    m_path.setFillRule(Qt::WindingFill);
-
-    if (m_direction)
-        m_path = m_path.toReversed();
 }
 
 void BMFreeFormShape::parseEasedVertices(const QJsonObject &keyframe, int startFrame)
