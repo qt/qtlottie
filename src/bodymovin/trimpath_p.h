@@ -41,6 +41,7 @@
 // We mean it.
 //
 
+#include <QMetaType>
 #include <QPainterPath>
 
 QT_BEGIN_NAMESPACE
@@ -88,6 +89,6 @@ private:
 
 QT_END_NAMESPACE
 
-Q_DECLARE_METATYPE(TrimPath);
+Q_DECLARE_METATYPE(TrimPath)
 
 #endif // TRIMPATH_P_H
