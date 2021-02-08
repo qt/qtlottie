@@ -64,6 +64,9 @@ struct EasingSegment {
     T startValue;
     T endValue;
     BezierEasing easing;
+    qreal valueForProgress(qreal progress) const {
+        return complete ? easing.valueForProgress(progress) : 1;
+    }
 };
 
 template<typename T>
@@ -117,7 +120,7 @@ public:
             else
                 progress = ((adjustedFrame - easing->startFrame) * 1.0) /
                         (easing->endFrame - easing->startFrame);
-            qreal easedValue = easing->easing.valueForProgress(progress);
+            qreal easedValue = easing->valueForProgress(progress);
             m_value = easing->startValue + easedValue *
                     ((easing->endValue - easing->startValue));
             return true;
@@ -363,7 +366,7 @@ public:
         if (const EasingSegment<T> *easing = BMProperty<T>::getEasingSegment(adjustedFrame)) {
             qreal progress = ((adjustedFrame - this->m_startFrame) * 1.0) /
                     (this->m_endFrame - this->m_startFrame);
-            qreal easedValue = easing->easing.valueForProgress(progress);
+            qreal easedValue = easing->valueForProgress(progress);
             // For the time being, 4D vectors are used only for colors, and
             // the value must be restricted to between [0, 1]
             easedValue = qBound(qreal(0.0), easedValue, qreal(1.0));
