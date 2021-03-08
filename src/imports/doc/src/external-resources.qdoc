@@ -34,3 +34,8 @@
     \externalpage https://github.com/airbnb/lottie-web
     \title Bodymovin Source
 */
+
+/*!
+    \externalpage https://github.com/airbnb/lottie-web/tree/master/docs/json
+    \title Bodymovin Specification
+*/
