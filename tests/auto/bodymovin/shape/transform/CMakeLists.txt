@@ -1,4 +1,4 @@
-qt_internal_add_test(tst_transform
+qt_internal_add_test(tst_bodymovin_transform
     SOURCES
         tst_bmbasictransform.cpp
     PUBLIC_LIBRARIES
