@@ -1,6 +1,6 @@
 qt_internal_add_qml_module(lottieqtplugin
     URI "Qt.labs.lottieqt"
-    VERSION "${CMAKE_PROJECT_VERSION}"
+    VERSION "${PROJECT_VERSION}"
     CLASSNAME BodymovinPlugin
     SKIP_TYPE_REGISTRATION
     SOURCES
