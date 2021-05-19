@@ -1,4 +1,4 @@
-qt_internal_add_module(Bodymovin
+qt_internal_add_module(BodymovinPrivate
     INTERNAL_MODULE
     SOURCES
         beziereasing.cpp beziereasing_p.h
