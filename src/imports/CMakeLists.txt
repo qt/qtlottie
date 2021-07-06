@@ -12,7 +12,7 @@ qt_internal_add_qml_module(lottieqtplugin
         lottieanimation.cpp lottieanimation.h
         rasterrenderer/batchrenderer.cpp rasterrenderer/batchrenderer.h
         rasterrenderer/lottierasterrenderer.cpp rasterrenderer/lottierasterrenderer.h
-    PUBLIC_LIBRARIES
+    LIBRARIES
         Qt::Core
         Qt::Gui
         Qt::GuiPrivate
