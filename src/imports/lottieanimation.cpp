@@ -76,9 +76,8 @@ Q_LOGGING_CATEGORY(lcLottieQtBodymovinParser, "qt.lottieqt.bodymovin.parser");
     \li Expressions are not supported
     \endlist
 
-    For the full list of devations, please refer to the file
-    \c unsupported_features.txt in the source code.
-
+    For the full list of devations, please see see the \l{Limitations}
+    section.
 
     \section1 Example Usage
 
