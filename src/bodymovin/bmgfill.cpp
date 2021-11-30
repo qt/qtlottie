@@ -39,6 +39,9 @@ QT_BEGIN_NAMESPACE
 BMGFill::BMGFill(const BMGFill &other)
     : BMShape(other)
 {
+    if (m_hidden)
+        return;
+
     m_opacity = other.m_opacity;
     m_startPoint = other.m_startPoint;
     m_endPoint = other.m_endPoint;
