@@ -41,7 +41,7 @@
     Import the types using the the following statement:
 
     \qml
-    import Qt.labs.lottieqt 1.0
+    import Qt.labs.lottieqt
     \endqml
 //! [usage]
 
