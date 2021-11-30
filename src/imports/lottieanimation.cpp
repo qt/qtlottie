@@ -42,6 +42,7 @@
 #include <QMetaObject>
 #include <QLoggingCategory>
 #include <QThread>
+#include <QQmlContext>
 #include <QQmlFile>
 #include <math.h>
 
@@ -598,7 +599,9 @@ void LottieAnimation::load()
 {
     setStatus(Loading);
 
-    m_file.reset(new QQmlFile(qmlEngine(this), m_source));
+    const QQmlContext *context = qmlContext(this);
+    const QUrl loadUrl = context ? context->resolvedUrl(m_source) : m_source;
+    m_file.reset(new QQmlFile(qmlEngine(this), loadUrl));
     if (m_file->isLoading())
         m_file->connectFinished(this, SLOT(loadFinished()));
     else
