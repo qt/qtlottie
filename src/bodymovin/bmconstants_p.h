@@ -45,6 +45,7 @@
 #include <QLoggingCategory>
 
 #include <QtBodymovin/bmglobal.h>
+#include <QtCore/private/qglobal_p.h>
 
 #define BM_LAYER_PRECOMP_IX     0x10000
 #define BM_LAYER_SOLID_IX       0x10001
