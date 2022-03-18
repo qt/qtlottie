@@ -43,6 +43,9 @@
 
 #include <QPainterPath>
 #include <QJsonArray>
+#include <QMap>
+#include <QHash>
+#include <QList>
 
 #include <QtBodymovin/bmglobal.h>
 #include <QtBodymovin/private/bmshape_p.h>
