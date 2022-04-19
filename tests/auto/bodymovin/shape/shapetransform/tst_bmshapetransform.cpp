@@ -463,7 +463,7 @@ void tst_BMShapeTransform::loadTestData(const QByteArray &filename)
         m_transform = nullptr;
     }
 
-    QFile sourceFile(QFINDTESTDATA(filename.constData()));
+    QFile sourceFile(QFINDTESTDATA(QLatin1String("data/") + filename));
     if (!sourceFile.exists())
         QFAIL("File does not exist");
     if (!sourceFile.open(QIODevice::ReadOnly))
