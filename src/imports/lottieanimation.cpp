@@ -341,6 +341,11 @@ int LottieAnimation::currentFrame() const
     return m_currentFrame;
 }
 
+QVersionNumber LottieAnimation::version() const
+{
+    return m_version;
+}
+
 /*!
     \qmlproperty int LottieAnimation::frameRate
 
@@ -680,6 +685,12 @@ int LottieAnimation::parse(QByteArray jsonSource)
     QJsonObject rootObj = doc.object();
     if (Q_UNLIKELY(rootObj.empty()))
         return -1;
+
+    QStringList versionString = rootObj.value(QLatin1String("v")).toString().split(u'.');
+    QList<int> version;
+    foreach (QString v, versionString)
+        version.append(v.toInt());
+    m_version = QVersionNumber(version);
 
     int startFrame = rootObj.value(QLatin1String("ip")).toVariant().toInt();
     int endFrame = rootObj.value(QLatin1String("op")).toVariant().toInt();

@@ -43,10 +43,10 @@ BMEllipse::BMEllipse(const BMEllipse &other)
     m_size = other.m_size;
 }
 
-BMEllipse::BMEllipse(const QJsonObject &definition, BMBase *parent)
+BMEllipse::BMEllipse(const QJsonObject &definition, const QVersionNumber &version, BMBase *parent)
 {
     setParent(parent);
-    construct(definition);
+    construct(definition, version);
 }
 
 BMBase *BMEllipse::clone() const
@@ -54,8 +54,7 @@ BMBase *BMEllipse::clone() const
     return new BMEllipse(*this);
 }
 
-
-void BMEllipse::construct(const QJsonObject &definition)
+void BMEllipse::construct(const QJsonObject &definition, const QVersionNumber &version)
 {
     BMBase::parse(definition);
     if (m_hidden)
@@ -65,11 +64,11 @@ void BMEllipse::construct(const QJsonObject &definition)
 
     QJsonObject position = definition.value(QLatin1String("p")).toObject();
     position = resolveExpression(position);
-    m_position.construct(position);
+    m_position.construct(position, version);
 
     QJsonObject size = definition.value(QLatin1String("s")).toObject();
     size = resolveExpression(size);
-    m_size.construct(size);
+    m_size.construct(size, version);
 
     m_direction = definition.value(QLatin1String("d")).toInt();
 }
