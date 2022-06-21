@@ -28,7 +28,8 @@ class BODYMOVIN_EXPORT BMStroke : public BMShape
 public:
     BMStroke() = default;
     explicit BMStroke(const BMStroke &other);
-    BMStroke(const QJsonObject &definition, BMBase *parent = nullptr);
+    BMStroke(const QJsonObject &definition, const QVersionNumber &version,
+             BMBase *parent = nullptr);
 
     BMBase *clone() const override;
 

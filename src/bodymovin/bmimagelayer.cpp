@@ -24,13 +24,14 @@ BMImageLayer::BMImageLayer(const BMImageLayer &other)
     m_appliedTrim = other.m_appliedTrim;
 }
 
-BMImageLayer::BMImageLayer(const QJsonObject &definition)
+BMImageLayer::BMImageLayer(const QJsonObject &definition, const QVersionNumber &version)
 {
     m_type = BM_LAYER_IMAGE_IX;
+    m_version = version;
 
     BMLayer::parse(definition);
 
-    BMImage *image = new BMImage(definition, this);
+    BMImage *image = new BMImage(definition, version, this);
     appendChild(image);
 
     if (m_hidden)
@@ -47,13 +48,13 @@ BMImageLayer::BMImageLayer(const QJsonObject &definition)
     }
 
     QJsonObject trans = definition.value(QLatin1String("ks")).toObject();
-    m_layerTransform = new BMBasicTransform(trans, this);
+    m_layerTransform = new BMBasicTransform(trans, version, this);
 
     QJsonArray items = definition.value(QLatin1String("shapes")).toArray();
     QJsonArray::const_iterator itemIt = items.constEnd();
     while (itemIt != items.constBegin()) {
         itemIt--;
-        BMShape *shape = BMShape::construct((*itemIt).toObject(), this);
+        BMShape *shape = BMShape::construct((*itemIt).toObject(), version, this);
         if (shape)
             appendChild(shape);
     }

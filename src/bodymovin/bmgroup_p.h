@@ -32,11 +32,11 @@ class BODYMOVIN_EXPORT BMGroup : public BMShape
 {
 public:
     BMGroup() = default;
-    BMGroup(const QJsonObject &definition, BMBase *parent = nullptr);
+    BMGroup(const QJsonObject &definition, const QVersionNumber &version, BMBase *parent = nullptr);
 
     BMBase *clone() const override;
 
-    void construct(const QJsonObject& definition);
+    void construct(const QJsonObject &definition, const QVersionNumber &version);
 
     void updateProperties(int frame) override;
     void render(LottieRenderer &renderer) const override;

@@ -20,7 +20,7 @@ BMStroke::BMStroke(const BMStroke &other)
     m_miterLimit = other.m_miterLimit;
 }
 
-BMStroke::BMStroke(const QJsonObject &definition, BMBase *parent)
+BMStroke::BMStroke(const QJsonObject &definition, const QVersionNumber &version, BMBase *parent)
 {
     setParent(parent);
 
@@ -63,15 +63,15 @@ BMStroke::BMStroke(const QJsonObject &definition, BMBase *parent)
 
     QJsonObject opacity = definition.value(QLatin1String("o")).toObject();
     opacity = resolveExpression(opacity);
-    m_opacity.construct(opacity);
+    m_opacity.construct(opacity, version);
 
     QJsonObject width = definition.value(QLatin1String("w")).toObject();
     width = resolveExpression(width);
-    m_width.construct(width);
+    m_width.construct(width, version);
 
     QJsonObject color = definition.value(QLatin1String("c")).toObject();
     color = resolveExpression(color);
-    m_color.construct(color);
+    m_color.construct(color, version);
 }
 
 BMBase *BMStroke::clone() const

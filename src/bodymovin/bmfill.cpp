@@ -12,7 +12,7 @@ BMFill::BMFill(const BMFill &other)
     m_opacity = other.m_opacity;
 }
 
-BMFill::BMFill(const QJsonObject &definition, BMBase *parent)
+BMFill::BMFill(const QJsonObject &definition, const QVersionNumber &version, BMBase *parent)
 {
     setParent(parent);
     BMBase::parse(definition);
@@ -22,11 +22,11 @@ BMFill::BMFill(const QJsonObject &definition, BMBase *parent)
     qCDebug(lcLottieQtBodymovinParser) << "BMFill::construct():" << m_name;
 
     QJsonObject color = definition.value(QLatin1String("c")).toObject();
-    m_color.construct(color);
+    m_color.construct(color, version);
 
     QJsonObject opacity = definition.value(QLatin1String("o")).toObject();
     opacity = resolveExpression(opacity);
-    m_opacity.construct(opacity);
+    m_opacity.construct(opacity, version);
 }
 
 BMBase *BMFill::clone() const

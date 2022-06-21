@@ -146,6 +146,12 @@ void tst_BMShapeLayer::loadTestData(const QByteArray &filename)
     if (rootObj.empty())
         QFAIL("Cannot parse test file");
 
+    QStringList vs = rootObj.value(QLatin1String("v")).toString().split(u'.');
+    QList<int> vi;
+    foreach (QString v, vs)
+        vi.append(v.toInt());
+    QVersionNumber version = QVersionNumber(vi);
+
     m_width = rootObj.value(QLatin1String("w")).toVariant().toReal();
     m_height = rootObj.value(QLatin1String("h")).toVariant().toReal();
 
@@ -154,7 +160,7 @@ void tst_BMShapeLayer::loadTestData(const QByteArray &filename)
     int type = layerObj.value(QLatin1String("ty")).toInt();
     if (type != 4)
         QFAIL("It's not shape layer");
-    m_layer = new BMShapeLayer(layerObj);
+    m_layer = new BMShapeLayer(layerObj, version);
     QVERIFY(m_layer != nullptr);
 
     if (layers.size() > 1) {
@@ -162,7 +168,7 @@ void tst_BMShapeLayer::loadTestData(const QByteArray &filename)
         type = layerObj.value(QLatin1String("ty")).toInt();
         if (type != 4)
             QFAIL("it's not shape layer");
-        m_clippedlayer = new BMShapeLayer(layerObj);
+        m_clippedlayer = new BMShapeLayer(layerObj, version);
         QVERIFY(m_clippedlayer != nullptr);
     }
 }

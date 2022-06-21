@@ -74,6 +74,8 @@ public:
     int endFrame() const;
     int currentFrame() const;
 
+    QVersionNumber version() const;
+
     Q_INVOKABLE void start();
 
     Q_INVOKABLE void play();
@@ -122,6 +124,7 @@ protected:
     QMetaObject::Connection m_waitForFrameConn;
 
     Status m_status = Null;
+    QVersionNumber m_version = QVersionNumber();
     int m_startFrame = 0;
     int m_endFrame = 0;
     int m_currentFrame = 0;

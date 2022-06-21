@@ -42,7 +42,7 @@ BMBase *BMGFill::clone() const
     return new BMGFill(*this);
 }
 
-BMGFill::BMGFill(const QJsonObject &definition, BMBase *parent)
+BMGFill::BMGFill(const QJsonObject &definition, const QVersionNumber &version, BMBase *parent)
 {
     setParent(parent);
 
@@ -82,22 +82,22 @@ BMGFill::BMGFill(const QJsonObject &definition, BMBase *parent)
 
     QJsonObject opacity = definition.value(QLatin1String("o")).toObject();
     opacity = resolveExpression(opacity);
-    m_opacity.construct(opacity);
+    m_opacity.construct(opacity, version);
 
     QJsonObject startPoint = definition.value(QLatin1String("s")).toObject();
     startPoint = resolveExpression(startPoint);
-    m_startPoint.construct(startPoint);
+    m_startPoint.construct(startPoint, version);
 
     QJsonObject endPoint = definition.value(QLatin1String("e")).toObject();
     endPoint = resolveExpression(endPoint);
-    m_endPoint.construct(endPoint);
+    m_endPoint.construct(endPoint, version);
 
     QJsonObject highlight = definition.value(QLatin1String("h")).toObject();
-    m_highlightLength.construct(highlight);
+    m_highlightLength.construct(highlight, version);
 
     QJsonObject angle = definition.value(QLatin1String("a")).toObject();
     angle = resolveExpression(angle);
-    m_highlightAngle.construct(angle);
+    m_highlightAngle.construct(angle, version);
 
     m_highlightAngle.setValue(0.0);
 }

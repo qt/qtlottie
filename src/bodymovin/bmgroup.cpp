@@ -13,10 +13,10 @@
 
 QT_BEGIN_NAMESPACE
 
-BMGroup::BMGroup(const QJsonObject &definition, BMBase *parent)
+BMGroup::BMGroup(const QJsonObject &definition, const QVersionNumber &version, BMBase *parent)
 {
     setParent(parent);
-    construct(definition);
+    construct(definition, version);
 }
 
 BMBase *BMGroup::clone() const
@@ -24,7 +24,7 @@ BMBase *BMGroup::clone() const
     return new BMGroup(*this);
 }
 
-void BMGroup::construct(const QJsonObject &definition)
+void BMGroup::construct(const QJsonObject &definition, const QVersionNumber &version)
 {
     BMBase::parse(definition);
     if (m_hidden)
@@ -37,7 +37,7 @@ void BMGroup::construct(const QJsonObject &definition)
     QJsonArray::const_iterator itemIt = groupItems.constEnd();
     while (itemIt != groupItems.constBegin()) {
         itemIt--;
-        BMShape *shape = BMShape::construct((*itemIt).toObject(), this);
+        BMShape *shape = BMShape::construct((*itemIt).toObject(), version, this);
         if (shape) {
             // Transform affects how group contents are drawn.
             // It must be traversed first when drawing

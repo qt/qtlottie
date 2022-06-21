@@ -17,6 +17,7 @@
 
 #include <QJsonObject>
 #include <QList>
+#include <QVersionNumber>
 
 #include <QtBodymovin/bmglobal.h>
 #include <QtBodymovin/private/bmconstants_p.h>
@@ -24,7 +25,6 @@
 #include <QtBodymovin/private/lottierenderer_p.h>
 
 QT_BEGIN_NAMESPACE
-
 class BODYMOVIN_EXPORT BMBase
 {
 public:
@@ -69,6 +69,7 @@ protected:
     QJsonObject m_definition;
     int m_type;
     bool m_hidden = false;
+    QVersionNumber m_version;
     QString m_name;
     QString m_matchName;
     bool m_autoOrient = false;

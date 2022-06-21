@@ -13,10 +13,11 @@ BMRepeaterTransform::BMRepeaterTransform(const BMRepeaterTransform &other)
     m_opacities = other.m_opacities;
 }
 
-BMRepeaterTransform::BMRepeaterTransform(const QJsonObject &definition, BMBase *parent)
+BMRepeaterTransform::BMRepeaterTransform(const QJsonObject &definition,
+                                         const QVersionNumber &version, BMBase *parent)
 {
     setParent(parent);
-    construct(definition);
+    construct(definition, version);
 }
 
 BMBase *BMRepeaterTransform::clone() const
@@ -24,21 +25,21 @@ BMBase *BMRepeaterTransform::clone() const
     return new BMRepeaterTransform(*this);
 }
 
-void BMRepeaterTransform::construct(const QJsonObject &definition)
+void BMRepeaterTransform::construct(const QJsonObject &definition, const QVersionNumber &version)
 {
     qCDebug(lcLottieQtBodymovinParser) << "BMRepeaterTransform::construct():" << name();
 
-    BMBasicTransform::construct(definition);
+    BMBasicTransform::construct(definition, version);
     if (m_hidden)
         return;
 
     QJsonObject startOpacity = definition.value(QLatin1String("so")).toObject();
     startOpacity = resolveExpression(startOpacity);
-    m_startOpacity.construct(startOpacity);
+    m_startOpacity.construct(startOpacity, version);
 
     QJsonObject endOpacity = definition.value(QLatin1String("eo")).toObject();
     endOpacity = resolveExpression(endOpacity);
-    m_endOpacity.construct(endOpacity);
+    m_endOpacity.construct(endOpacity, version);
 }
 
 void BMRepeaterTransform::updateProperties(int frame)

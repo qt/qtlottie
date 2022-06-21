@@ -21,7 +21,7 @@ BMRect::BMRect(const BMRect &other)
     m_roundness = other.m_roundness;
 }
 
-BMRect::BMRect(const QJsonObject &definition, BMBase *parent)
+BMRect::BMRect(const QJsonObject &definition, const QVersionNumber &version, BMBase *parent)
 {
     setParent(parent);
     BMBase::parse(definition);
@@ -32,15 +32,15 @@ BMRect::BMRect(const QJsonObject &definition, BMBase *parent)
 
     QJsonObject position = definition.value(QLatin1String("p")).toObject();
     position = resolveExpression(position);
-    m_position.construct(position);
+    m_position.construct(position, version);
 
     QJsonObject size = definition.value(QLatin1String("s")).toObject();
     size = resolveExpression(size);
-    m_size.construct(size);
+    m_size.construct(size, version);
 
     QJsonObject roundness = definition.value(QLatin1String("r")).toObject();
     roundness = resolveExpression(roundness);
-    m_roundness.construct(roundness);
+    m_roundness.construct(roundness, version);
 
     m_direction = definition.value(QLatin1String("d")).toInt();
 }
