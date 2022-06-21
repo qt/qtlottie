@@ -19,10 +19,11 @@ BMShapeTransform::BMShapeTransform(const BMShapeTransform &other)
     m_shearAngle = other.m_shearAngle;
 }
 
-BMShapeTransform::BMShapeTransform(const QJsonObject &definition, BMBase *parent)
+BMShapeTransform::BMShapeTransform(const QJsonObject &definition, const QVersionNumber &version,
+                                   BMBase *parent)
 {
     setParent(parent);
-    construct(definition);
+    construct(definition, version);
 }
 
 BMBase *BMShapeTransform::clone() const
@@ -30,19 +31,19 @@ BMBase *BMShapeTransform::clone() const
     return new BMShapeTransform(*this);
 }
 
-void BMShapeTransform::construct(const QJsonObject &definition)
+void BMShapeTransform::construct(const QJsonObject &definition, const QVersionNumber &version)
 {
-    BMBasicTransform::construct(definition);
+    BMBasicTransform::construct(definition, version);
 
     qCDebug(lcLottieQtBodymovinParser) << "BMShapeTransform::construct():" << BMShape::name();
 
     QJsonObject skew = definition.value(QLatin1String("sk")).toObject();
     skew = resolveExpression(skew);
-    m_skew.construct(skew);
+    m_skew.construct(skew, version);
 
     QJsonObject skewAxis = definition.value(QLatin1String("sa")).toObject();
     skewAxis = resolveExpression(skewAxis);
-    m_skewAxis.construct(skewAxis);
+    m_skewAxis.construct(skewAxis, version);
 }
 
 void BMShapeTransform::updateProperties(int frame)

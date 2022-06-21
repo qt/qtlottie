@@ -30,7 +30,7 @@ class BODYMOVIN_EXPORT BMGFill : public BMShape
 public:
     BMGFill() = default;
     explicit BMGFill(const BMGFill &other);
-    BMGFill(const QJsonObject &definition, BMBase *parent = nullptr);
+    BMGFill(const QJsonObject &definition, const QVersionNumber &version, BMBase *parent = nullptr);
     ~BMGFill() override;
 
     BMBase *clone() const override;

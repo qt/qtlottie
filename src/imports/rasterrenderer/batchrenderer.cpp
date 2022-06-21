@@ -86,7 +86,7 @@ void BatchRenderer::registerAnimator(LottieAnimation *animator)
     entry->currentFrame = animator->startFrame();
     entry->animDir = animator->direction();
     entry->bmTreeBlueprint = new BMBase;
-    parse(entry->bmTreeBlueprint, animator->jsonSource());
+    parse(entry->bmTreeBlueprint, animator->jsonSource(), animator->version());
     m_waitCondition.wakeAll();
 }
 
@@ -210,7 +210,8 @@ void BatchRenderer::run()
     }
 }
 
-int BatchRenderer::parse(BMBase *rootElement, const QByteArray &jsonSource) const
+int BatchRenderer::parse(BMBase *rootElement, const QByteArray &jsonSource,
+                         const QVersionNumber &version) const
 {
     QJsonDocument doc = QJsonDocument::fromJson(jsonSource);
     QJsonObject rootObj = doc.object();
@@ -239,7 +240,7 @@ int BatchRenderer::parse(BMBase *rootElement, const QByteArray &jsonSource) cons
             QString refId = jsonLayer.value("refId").toString();
             jsonLayer.insert("asset", assets.value(refId));
         }
-        BMLayer *layer = BMLayer::construct(jsonLayer);
+        BMLayer *layer = BMLayer::construct(jsonLayer, version);
         if (layer) {
             layer->setParent(rootElement);
             // Mask layers must be rendered before the layers they affect to

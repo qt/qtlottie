@@ -31,7 +31,7 @@ class BODYMOVIN_EXPORT BMShapeLayer : public BMLayer
 public:
     BMShapeLayer() = default;
     explicit BMShapeLayer(const BMShapeLayer &other);
-    BMShapeLayer(const QJsonObject &definition);
+    BMShapeLayer(const QJsonObject &definition, const QVersionNumber &version);
     ~BMShapeLayer() override;
 
     BMBase *clone() const override;

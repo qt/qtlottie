@@ -33,7 +33,7 @@ public:
 
     BMBase *clone() const override;
 
-    void construct(const QJsonObject &definition);
+    void construct(const QJsonObject &definition, const QVersionNumber &version);
 
     void updateProperties(int frame) override;
     void render(LottieRenderer &renderer) const override;

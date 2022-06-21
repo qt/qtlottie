@@ -458,12 +458,18 @@ void tst_BMShapeTransform::loadTestData(const QByteArray &filename)
     if (type != 4)
         QFAIL("It's not shape layer");
 
+    QStringList vs = rootObj.value(QLatin1String("v")).toString().split(u'.');
+    QList<int> vi;
+    foreach (QString v, vs)
+        vi.append(v.toInt());
+    QVersionNumber version = QVersionNumber(vi);
+
     QJsonArray shapes = layerObj.value(QLatin1String("shapes")).toArray();
     QJsonArray::const_iterator shapesIt = shapes.constBegin();
     BMGroup* group = nullptr;
     while (shapesIt != shapes.end()) {
         QJsonObject childObj = (*shapesIt).toObject();
-        BMShape *shape = BMShape::construct(childObj);
+        BMShape *shape = BMShape::construct(childObj, version);
         QVERIFY(shape != nullptr);
         if (shape->type() == BM_SHAPE_GROUP_IX) {
             group = static_cast<BMGroup *>(shape);

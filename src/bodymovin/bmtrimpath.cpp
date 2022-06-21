@@ -15,12 +15,12 @@ BMTrimPath::BMTrimPath()
     m_appliedTrim = this;
 }
 
-BMTrimPath::BMTrimPath(const QJsonObject &definition, BMBase *parent)
+BMTrimPath::BMTrimPath(const QJsonObject &definition, const QVersionNumber &version, BMBase *parent)
 {
     m_appliedTrim = this;
 
     setParent(parent);
-    construct(definition);
+    construct(definition, version);
 }
 
 BMTrimPath::BMTrimPath(const BMTrimPath &other)
@@ -37,7 +37,7 @@ BMBase *BMTrimPath::clone() const
     return new BMTrimPath(*this);
 }
 
-void BMTrimPath::construct(const QJsonObject &definition)
+void BMTrimPath::construct(const QJsonObject &definition, const QVersionNumber &version)
 {
     BMBase::parse(definition);
     if (m_hidden)
@@ -47,15 +47,15 @@ void BMTrimPath::construct(const QJsonObject &definition)
 
     QJsonObject start = definition.value(QLatin1String("s")).toObject();
     start = resolveExpression(start);
-    m_start.construct(start);
+    m_start.construct(start, version);
 
     QJsonObject end = definition.value(QLatin1String("e")).toObject();
     end = resolveExpression(end);
-    m_end.construct(end);
+    m_end.construct(end, version);
 
     QJsonObject offset = definition.value(QLatin1String("o")).toObject();
     offset = resolveExpression(offset);
-    m_offset.construct(offset);
+    m_offset.construct(offset, version);
 
     int simultaneous = true;
     if (definition.contains(QLatin1String("m"))) {

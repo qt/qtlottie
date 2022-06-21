@@ -32,11 +32,11 @@ public:
 
     BMBase *clone() const override;
 
-    static BMLayer *construct(QJsonObject definition);
+    static BMLayer *construct(QJsonObject definition, const QVersionNumber &version);
 
     bool active(int frame) const override;
 
-    void  parse(const QJsonObject &definition) override;
+    void parse(const QJsonObject &definition) override;
 
     void updateProperties(int frame) override;
     void render(LottieRenderer &renderer) const override;

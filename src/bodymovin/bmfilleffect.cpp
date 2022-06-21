@@ -22,7 +22,7 @@ BMBase *BMFillEffect::clone() const
     return new BMFillEffect(*this);
 }
 
-void BMFillEffect::construct(const QJsonObject &definition)
+void BMFillEffect::construct(const QJsonObject &definition, const QVersionNumber &version)
 {
     m_type = BM_EFFECT_FILL;
 
@@ -33,8 +33,8 @@ void BMFillEffect::construct(const QJsonObject &definition)
 
     // TODO: Check are property positions really fixed in the effect?
 
-    m_color.construct(properties.at(2).toObject().value(QLatin1String("v")).toObject());
-    m_opacity.construct(properties.at(6).toObject().value(QLatin1String("v")).toObject());
+    m_color.construct(properties.at(2).toObject().value(QLatin1String("v")).toObject(), version);
+    m_opacity.construct(properties.at(6).toObject().value(QLatin1String("v")).toObject(), version);
 
     if (!qFuzzyCompare(properties.at(0).toObject().value(QLatin1String("v")).toObject().value(QLatin1String("k")).toDouble(), 0.0))
         qCWarning(lcLottieQtBodymovinParser)<< "BMFillEffect: Property 'Fill mask' not supported";
@@ -49,8 +49,8 @@ void BMFillEffect::construct(const QJsonObject &definition)
         qCWarning(lcLottieQtBodymovinParser) << "BMFillEffect: Property 'Horizontal feather' not supported";
 
     if (!qFuzzyCompare(properties.at(5).toObject().value(QLatin1String("v")).toObject().value(QLatin1String("k")).toDouble(), 0.0))
-        qCWarning(lcLottieQtBodymovinParser) << "BMFillEffect: Property 'Vertical feather' not supported";
-
+        qCWarning(lcLottieQtBodymovinParser)
+                << "BMFillEffect: Property 'Vertical feather' not supported";
 }
 
 void BMFillEffect::updateProperties(int frame)

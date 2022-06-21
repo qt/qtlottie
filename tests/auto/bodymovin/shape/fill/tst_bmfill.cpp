@@ -178,6 +178,12 @@ void tst_BMFill::loadTestData(const QByteArray &filename)
     if (rootObj.empty())
         QFAIL("Cannot parse test file");
 
+    QStringList vs = rootObj.value(QLatin1String("v")).toString().split(u'.');
+    QList<int> vi;
+    foreach (QString v, vs)
+        vi.append(v.toInt());
+    QVersionNumber version = QVersionNumber(vi);
+
     QJsonArray layers = rootObj.value(QLatin1String("layers")).toArray();
     QJsonObject layerObj = layers[0].toObject();
     int type = layerObj.value(QLatin1String("ty")).toInt();
@@ -189,7 +195,7 @@ void tst_BMFill::loadTestData(const QByteArray &filename)
     BMShape* shape = nullptr;
     while (shapesIt != shapes.end()) {
         QJsonObject childObj = (*shapesIt).toObject();
-        shape = BMShape::construct(childObj);
+        shape = BMShape::construct(childObj, version);
         QVERIFY(shape != nullptr);
         if (shape->type() == BM_SHAPE_FILL_IX)
             break;

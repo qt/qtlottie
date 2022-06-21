@@ -3,11 +3,11 @@
 
 #include "bmrepeater_p.h"
 
-BMRepeater::BMRepeater(const QJsonObject &definition, BMBase *parent)
+BMRepeater::BMRepeater(const QJsonObject &definition, const QVersionNumber &version, BMBase *parent)
 {
     setParent(parent);
     m_transform.setParent(this);
-    construct(definition);
+    construct(definition, version);
 }
 
 BMBase *BMRepeater::clone() const
@@ -15,7 +15,7 @@ BMBase *BMRepeater::clone() const
     return new BMRepeater(*this);
 }
 
-void BMRepeater::construct(const QJsonObject &definition)
+void BMRepeater::construct(const QJsonObject &definition, const QVersionNumber &version)
 {
     qCDebug(lcLottieQtBodymovinParser) << "BMRepeater::construct():" << m_name;
 
@@ -25,13 +25,13 @@ void BMRepeater::construct(const QJsonObject &definition)
 
     QJsonObject copies = definition.value(QLatin1String("c")).toObject();
     copies = resolveExpression(copies);
-    m_copies.construct(copies);
+    m_copies.construct(copies, version);
 
     QJsonObject offset = definition.value(QLatin1String("o")).toObject();
     offset = resolveExpression(offset);
-    m_offset.construct(offset);
+    m_offset.construct(offset, version);
 
-    m_transform.construct(definition.value(QLatin1String("tr")).toObject());
+    m_transform.construct(definition.value(QLatin1String("tr")).toObject(), version);
 }
 
 void BMRepeater::updateProperties(int frame)

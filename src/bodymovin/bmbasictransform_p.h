@@ -30,11 +30,12 @@ class BODYMOVIN_EXPORT BMBasicTransform : public BMShape
 public:
     BMBasicTransform() = default;
     explicit BMBasicTransform(const BMBasicTransform &other);
-    BMBasicTransform(const QJsonObject &definition, BMBase *parent = nullptr);
+    BMBasicTransform(const QJsonObject &definition, const QVersionNumber &version,
+                     BMBase *parent = nullptr);
 
     BMBase *clone() const override;
 
-    void construct(const QJsonObject &definition);
+    void construct(const QJsonObject &definition, const QVersionNumber &version);
 
     void updateProperties(int frame) override;
     void render(LottieRenderer &renderer) const override;

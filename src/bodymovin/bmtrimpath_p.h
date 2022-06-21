@@ -27,14 +27,15 @@ class BODYMOVIN_EXPORT BMTrimPath : public BMShape
 {
 public:
     BMTrimPath();
-    BMTrimPath(const QJsonObject &definition, BMBase *parent = nullptr);
+    BMTrimPath(const QJsonObject &definition, const QVersionNumber &version,
+               BMBase *parent = nullptr);
     explicit BMTrimPath(const BMTrimPath &other);
 
     void inherit(const BMTrimPath &other);
 
     BMBase *clone() const override;
 
-    void construct(const QJsonObject &definition);
+    void construct(const QJsonObject &definition, const QVersionNumber &version);
 
     void updateProperties(int frame) override;
     void render(LottieRenderer &renderer) const override;

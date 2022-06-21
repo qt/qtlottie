@@ -36,11 +36,12 @@ class BODYMOVIN_EXPORT BMEllipse : public BMShape
 public:
     BMEllipse() = default;
     explicit BMEllipse(const BMEllipse &other);
-    BMEllipse(const QJsonObject &definition, BMBase *parent = nullptr);
+    BMEllipse(const QJsonObject &definition, const QVersionNumber &version,
+              BMBase *parent = nullptr);
 
     BMBase *clone() const override;
 
-    void construct(const QJsonObject &definition);
+    void construct(const QJsonObject &definition, const QVersionNumber &version);
 
     void updateProperties(int frame) override;
     void render(LottieRenderer &renderer) const override;

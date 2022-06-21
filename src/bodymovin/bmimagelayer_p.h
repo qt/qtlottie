@@ -31,7 +31,7 @@ class BODYMOVIN_EXPORT BMImageLayer : public BMLayer
 public:
     BMImageLayer() = default;
     explicit BMImageLayer(const BMImageLayer &other);
-    BMImageLayer(const QJsonObject &definition);
+    BMImageLayer(const QJsonObject &definition, const QVersionNumber &version);
     ~BMImageLayer() override;
 
     BMBase *clone() const override;

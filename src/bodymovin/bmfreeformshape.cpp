@@ -19,10 +19,11 @@ BMFreeFormShape::BMFreeFormShape(const BMFreeFormShape &other)
     m_vertexMap = other.m_vertexMap;
 }
 
-BMFreeFormShape::BMFreeFormShape(const QJsonObject &definition, BMBase *parent)
+BMFreeFormShape::BMFreeFormShape(const QJsonObject &definition, const QVersionNumber &version,
+                                 BMBase *parent)
 {
     setParent(parent);
-    construct(definition);
+    construct(definition, version);
 }
 
 BMBase *BMFreeFormShape::clone() const
@@ -30,9 +31,10 @@ BMBase *BMFreeFormShape::clone() const
     return new BMFreeFormShape(*this);
 }
 
-void BMFreeFormShape::construct(const QJsonObject &definition)
+void BMFreeFormShape::construct(const QJsonObject &definition, const QVersionNumber &version)
 {
     BMBase::parse(definition);
+    m_version = version;
     if (m_hidden)
         return;
 
@@ -289,9 +291,9 @@ void BMFreeFormShape::finalizeVertices()
         coObj.insert(QLatin1String("k"), m_vertexInfos.value(i)->coKeyframes);
 
         VertexInfo vertexInfo;
-        vertexInfo.pos.construct(posObj);
-        vertexInfo.ci.construct(ciObj);
-        vertexInfo.co.construct(coObj);
+        vertexInfo.pos.construct(posObj, m_version);
+        vertexInfo.ci.construct(ciObj, m_version);
+        vertexInfo.co.construct(coObj, m_version);
         m_vertexList.push_back(vertexInfo);
     }
     qDeleteAll(m_vertexInfos);

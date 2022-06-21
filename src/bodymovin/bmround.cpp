@@ -16,10 +16,10 @@ BMRound::BMRound(const BMRound &other)
     m_radius = other.m_radius;
 }
 
-BMRound::BMRound(const QJsonObject &definition, BMBase *parent)
+BMRound::BMRound(const QJsonObject &definition, const QVersionNumber &version, BMBase *parent)
 {
     setParent(parent);
-    construct(definition);
+    construct(definition, version);
 }
 
 BMBase *BMRound::clone() const
@@ -27,7 +27,7 @@ BMBase *BMRound::clone() const
     return new BMRound(*this);
 }
 
-void BMRound::construct(const QJsonObject &definition)
+void BMRound::construct(const QJsonObject &definition, const QVersionNumber &version)
 {
     BMBase::parse(definition);
     if (m_hidden)
@@ -37,11 +37,11 @@ void BMRound::construct(const QJsonObject &definition)
 
     QJsonObject position = definition.value(QLatin1String("p")).toObject();
     position = resolveExpression(position);
-    m_position.construct(position);
+    m_position.construct(position, version);
 
     QJsonObject radius = definition.value(QLatin1String("r")).toObject();
     radius = resolveExpression(radius);
-    m_radius.construct(radius);
+    m_radius.construct(radius, version);
 }
 
 void BMRound::updateProperties(int frame)

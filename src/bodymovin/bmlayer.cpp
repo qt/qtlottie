@@ -47,7 +47,7 @@ BMBase *BMLayer::clone() const
     return new BMLayer(*this);
 }
 
-BMLayer *BMLayer::construct(QJsonObject definition)
+BMLayer *BMLayer::construct(QJsonObject definition, const QVersionNumber &version)
 {
     qCDebug(lcLottieQtBodymovinParser) << "BMLayer::construct()";
 
@@ -56,11 +56,11 @@ BMLayer *BMLayer::construct(QJsonObject definition)
     switch (type) {
     case 2:
         qCDebug(lcLottieQtBodymovinParser) << "Parse image layer";
-        layer = new BMImageLayer(definition);
+        layer = new BMImageLayer(definition, version);
         break;
     case 4:
         qCDebug(lcLottieQtBodymovinParser) << "Parse shape layer";
-        layer = new BMShapeLayer(definition);
+        layer = new BMShapeLayer(definition, version);
         break;
     default:
         qCWarning(lcLottieQtBodymovinParser) << "Unsupported layer type:" << type;
@@ -244,7 +244,7 @@ void BMLayer::parseEffects(const QJsonArray &definition, BMBase *effectRoot)
         case 21:
         {
             BMFillEffect *fill = new BMFillEffect;
-            fill->construct(effect);
+            fill->construct(effect, m_version);
             effectRoot->appendChild(fill);
             break;
         }
