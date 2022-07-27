@@ -6,7 +6,7 @@ qt_internal_add_test(tst_imports
     QMLTEST
     SOURCES
         tst_imports.cpp
-    PUBLIC_LIBRARIES
+    LIBRARIES
         Qt::Quick
     TESTDATA
         data/tst_main.qml

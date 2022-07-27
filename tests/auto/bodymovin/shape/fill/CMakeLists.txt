@@ -10,7 +10,7 @@ list(APPEND test_data ${test_data_glob})
 qt_internal_add_test(tst_fill
     SOURCES
         tst_bmfill.cpp
-    PUBLIC_LIBRARIES
+    LIBRARIES
         Qt::Gui
         Qt::GuiPrivate
         Qt::Test
