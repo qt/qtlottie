@@ -4,7 +4,7 @@
 #ifndef BMGLOBAL_H
 #define BMGLOBAL_H
 
-#include <QtGlobal>
+#include <QtCore/qglobal.h>
 
 #if defined(BODYMOVIN_LIBRARY)
 #  define BODYMOVIN_EXPORT Q_DECL_EXPORT
