@@ -58,7 +58,7 @@ BMImageLayer::BMImageLayer(const QJsonObject &definition)
             appendChild(shape);
     }
 
-    if (m_maskProperties.length())
+    if (m_maskProperties.size())
         qCWarning(lcLottieQtBodymovinParser)
             << "BM Image Layer: mask properties found, but not supported"
             << m_maskProperties;

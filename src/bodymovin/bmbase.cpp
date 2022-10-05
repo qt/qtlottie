@@ -191,11 +191,11 @@ const QJsonObject BMBase::resolveExpression(const QJsonObject &definition)
     QJsonObject retVal = definition;
 
     if (BMBase *source = m_topRoot->findChild(effect)) {
-        if (source->children().length())
+        if (source->children().size())
             retVal = source->children().at(0)->definition().value(QLatin1String("v")).toObject();
         else
             retVal = source->definition().value(QLatin1String("v")).toObject();
-        if (source->children().length() > 1)
+        if (source->children().size() > 1)
             qCWarning(lcLottieQtBodymovinParser) << "Effect source points"
                                                 "to a group that has"
                                                 "many children. The"

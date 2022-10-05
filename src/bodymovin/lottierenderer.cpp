@@ -22,7 +22,7 @@ void LottieRenderer::saveTrimmingState()
 
 void LottieRenderer::restoreTrimmingState()
 {
-    if (m_trimStateStack.count())
+    if (m_trimStateStack.size())
         m_trimmingState = m_trimStateStack.pop();
 }
 
