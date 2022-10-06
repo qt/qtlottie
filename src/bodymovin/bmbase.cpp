@@ -49,7 +49,7 @@ void BMBase::setName(const QString &name)
 
 bool BMBase::setProperty(BMLiteral::PropertyType propertyName, QVariant value)
 {
-    for (BMBase *child : qAsConst(m_children)) {
+    for (BMBase *child : std::as_const(m_children)) {
         bool changed = child->setProperty(propertyName, value);
         if (changed)
             return true;
@@ -83,7 +83,7 @@ BMBase *BMBase::findChild(const QString &childName)
         return this;
 
     BMBase *found = nullptr;
-    for (BMBase *child : qAsConst(m_children)) {
+    for (BMBase *child : std::as_const(m_children)) {
         found = child->findChild(childName);
         if (found)
             break;
@@ -96,7 +96,7 @@ void BMBase::updateProperties(int frame)
     if (m_hidden)
         return;
 
-    for (BMBase *child : qAsConst(m_children))
+    for (BMBase *child : std::as_const(m_children))
         child->updateProperties(frame);
 }
 
@@ -106,7 +106,7 @@ void BMBase::render(LottieRenderer &renderer) const
         return;
 
     renderer.saveState();
-    for (BMBase *child : qAsConst(m_children)) {
+    for (BMBase *child : std::as_const(m_children)) {
         if (child->m_hidden)
             continue;
         child->render(renderer);
