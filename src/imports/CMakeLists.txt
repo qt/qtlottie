@@ -3,12 +3,9 @@ qt_internal_add_qml_module(lottieqtplugin
     VERSION "${PROJECT_VERSION}"
     CLASS_NAME BodymovinPlugin
     PLUGIN_TARGET lottieqtplugin
-    NO_GENERATE_PLUGIN_SOURCE
-    NO_PLUGIN_OPTIONAL
-    NO_GENERATE_QMLTYPES
-    INSTALL_SOURCE_QMLTYPES "plugins.qmltypes"
+    DEPENDENCIES
+        QtQuick
     SOURCES
-        lottie_plugin.cpp lottie_plugin.h
         lottieanimation.cpp lottieanimation.h
         rasterrenderer/batchrenderer.cpp rasterrenderer/batchrenderer.h
         rasterrenderer/lottierasterrenderer.cpp rasterrenderer/lottierasterrenderer.h

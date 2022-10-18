@@ -34,6 +34,9 @@ class LottieAnimation : public QQuickPaintedItem
     Q_PROPERTY(int loops MEMBER m_loops NOTIFY loopsChanged)
     Q_PROPERTY(Direction direction READ direction WRITE setDirection NOTIFY directionChanged)
 
+    QML_ELEMENT
+    QML_ADDED_IN_VERSION(1, 0)
+
 public:
     enum Status{Null, Loading, Ready, Error};
     Q_ENUM(Status)
