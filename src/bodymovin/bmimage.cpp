@@ -43,7 +43,7 @@ void BMImage::construct(const QJsonObject &definition)
 
     if (assetString.startsWith(QLatin1String("data:image"))) {
         QStringList assetsDataStringList = assetString.split(QLatin1String(","));
-        if (assetsDataStringList.length() > 1) {
+        if (assetsDataStringList.size() > 1) {
             QByteArray assetData = QByteArray::fromBase64(assetsDataStringList[1].toLatin1());
             m_image.loadFromData(assetData);
         }

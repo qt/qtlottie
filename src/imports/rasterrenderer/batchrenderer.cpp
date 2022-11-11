@@ -152,7 +152,7 @@ BMBase *BatchRenderer::getFrame(LottieAnimation *animator, int frameNumber)
 
 void BatchRenderer::prerender(Entry *animEntry)
 {
-    while (animEntry->frameCache.count() < m_cacheSize) {
+    while (animEntry->frameCache.size() < m_cacheSize) {
         BMBase *&bmTree = animEntry->frameCache[animEntry->currentFrame];
         if (bmTree == nullptr) {
             bmTree = new BMBase(*animEntry->bmTreeBlueprint);
