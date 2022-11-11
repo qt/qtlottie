@@ -43,7 +43,7 @@ BatchRenderer::~BatchRenderer()
 {
     QMutexLocker mlocker(&m_mutex);
 
-    for (Entry *entry : qAsConst(m_animData)) {
+    for (Entry *entry : std::as_const(m_animData)) {
         qDeleteAll(entry->frameCache);
         delete entry->bmTreeBlueprint;
         delete entry;
@@ -203,7 +203,7 @@ void BatchRenderer::run()
     while (!isInterruptionRequested()) {
         QMutexLocker mlocker(&m_mutex);
 
-        for (Entry *e : qAsConst(m_animData))
+        for (Entry *e : std::as_const(m_animData))
             prerender(e);
 
         m_waitCondition.wait(&m_mutex);
