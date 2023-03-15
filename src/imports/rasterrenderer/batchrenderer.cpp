@@ -125,18 +125,36 @@ bool BatchRenderer::gotoFrame(LottieAnimation *animator, int frame)
 
 void BatchRenderer::pruneFrameCache(Entry* e)
 {
+    QHash<int, BMBase*>::iterator removeCandidate = e->frameCache.end();
+    if (e->frameCache.size() == m_cacheSize &&
+            !e->frameCache.contains(e->currentFrame))
+        removeCandidate = e->frameCache.begin();
+
     QHash<int, BMBase*>::iterator it = e->frameCache.begin();
     while (it != e->frameCache.end()) {
         int frame = it.key();
         if ((frame - e->currentFrame) * e->animDir >= 0) { // same frame or same direction
+            if (removeCandidate != e->frameCache.end() &&
+                    (removeCandidate.key() - frame) * e->animDir < 0)
+                removeCandidate = it;
             ++it;
         } else {
             qCDebug(lcLottieQtBodymovinRenderThread) << "Animator:" << static_cast<void*>(e->animator)
                                                      << "Remove frame from cache" << frame;
             delete it.value();
             it = e->frameCache.erase(it);
+            removeCandidate = e->frameCache.end();
         }
     }
+    if (removeCandidate != e->frameCache.end()) {
+        qCDebug(lcLottieQtBodymovinRenderThread) << "Animator:"
+                                                 << static_cast<void*>(e->animator)
+                                                 << "Remove frame from cache"
+                                                 << removeCandidate.key()
+                                                 << "(Reason - cache is full)";
+        e->frameCache.erase(removeCandidate);
+    }
+    m_lastRenderedFrame = -1;
 }
 
 BMBase *BatchRenderer::getFrame(LottieAnimation *animator, int frameNumber)
@@ -153,6 +171,9 @@ BMBase *BatchRenderer::getFrame(LottieAnimation *animator, int frameNumber)
 void BatchRenderer::prerender(Entry *animEntry)
 {
     while (animEntry->frameCache.size() < m_cacheSize) {
+        if (m_lastRenderedFrame == animEntry->currentFrame)
+            animEntry->currentFrame += animEntry->animDir;
+
         BMBase *&bmTree = animEntry->frameCache[animEntry->currentFrame];
         if (bmTree == nullptr) {
             bmTree = new BMBase(*animEntry->bmTreeBlueprint);
@@ -193,6 +214,7 @@ void BatchRenderer::frameRendered(LottieAnimation *animator, int frameNumber)
             delete root;
             m_waitCondition.wakeAll();
         }
+        m_lastRenderedFrame = frameNumber;
     }
 }
 
