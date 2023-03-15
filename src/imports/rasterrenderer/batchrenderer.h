@@ -72,6 +72,7 @@ private:
 
     int m_cacheSize = 2;
     QHash<LottieAnimation *, Entry *> m_animData;
+    int m_lastRenderedFrame = -1;
 };
 
 QT_END_NAMESPACE
