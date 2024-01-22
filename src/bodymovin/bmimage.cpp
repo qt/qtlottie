@@ -45,10 +45,10 @@ BMImage::BMImage(const BMImage &other)
     m_image = other.m_image;
 }
 
-BMImage::BMImage(const QJsonObject &definition, BMBase *parent)
+BMImage::BMImage(const QJsonObject &definition, const QVersionNumber &version, BMBase *parent)
 {
     setParent(parent);
-    construct(definition);
+    construct(definition, version);
 }
 
 BMBase *BMImage::clone() const
@@ -56,7 +56,7 @@ BMBase *BMImage::clone() const
     return new BMImage(*this);
 }
 
-void BMImage::construct(const QJsonObject &definition)
+void BMImage::construct(const QJsonObject &definition, const QVersionNumber &version)
 {
     BMBase::parse(definition);
     if (m_hidden)
@@ -86,11 +86,11 @@ void BMImage::construct(const QJsonObject &definition)
 
     QJsonObject position = definition.value(QLatin1String("p")).toObject();
     position = resolveExpression(position);
-    m_position.construct(position);
+    m_position.construct(position, version);
 
     QJsonObject radius = definition.value(QLatin1String("r")).toObject();
     radius = resolveExpression(radius);
-    m_radius.construct(radius);
+    m_radius.construct(radius, version);
 }
 
 void BMImage::updateProperties(int frame)

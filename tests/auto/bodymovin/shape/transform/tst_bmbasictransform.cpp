@@ -392,6 +392,12 @@ void tst_BMBasicTransform::loadTestData(const QByteArray &filename)
     if (rootObj.empty())
         QFAIL("Cannot parse test file");
 
+    QStringList vs = rootObj.value(QLatin1String("v")).toString().split(u'.');
+    QList<int> vi;
+    foreach (QString v, vs)
+        vi.append(v.toInt());
+    QVersionNumber version = QVersionNumber(vi);
+
     QJsonArray layers = rootObj.value(QLatin1String("layers")).toArray();
     QJsonObject layerObj = layers[0].toObject();
     int type = layerObj.value(QLatin1String("ty")).toInt();
@@ -399,7 +405,7 @@ void tst_BMBasicTransform::loadTestData(const QByteArray &filename)
         QFAIL("It's not shape layer");
 
     QJsonObject transformObj = layerObj.value(QLatin1String("ks")).toObject();
-    m_transform = new BMBasicTransform(transformObj);
+    m_transform = new BMBasicTransform(transformObj, version);
 
     QVERIFY(m_transform != nullptr);
 }
