@@ -3,14 +3,15 @@ version = 1
 [[annotations]]
 path = ["tests/auto/imports/tst_imports.cpp",
         "tests/manual/html/index.html",
-        "tests/**.png"]
+        "tests/**.png",
+        "tests/**.json"]
 precedence = "closest"
 comment = "test"
 SPDX-FileCopyrightText = "Copyright (C) 2024 The Qt Company Ltd."
 SPDX-License-Identifier = "LicenseRef-Qt-Commercial OR GPL-3.0-only"
 
 [[annotations]]
-path = ["**CMakeLists.txt", ".cmake.conf", "**.yaml", "**.json",
+path = ["**CMakeLists.txt", ".cmake.conf", "**.yaml", "**ci_config_linux.json",
         "**.pri", "src/configure.cmake", "**.pro", "**.qrc"]
 precedence = "closest"
 comment = "build system"
