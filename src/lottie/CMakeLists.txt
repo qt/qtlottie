@@ -22,6 +22,7 @@ qt_internal_extend_target(Lottie
         qlottierect.cpp qlottierect_p.h
         qlottierepeater.cpp qlottierepeater_p.h
         qlottierepeatertransform.cpp qlottierepeatertransform_p.h
+        qlottieroot.cpp qlottieroot_p.h
         qlottieround.cpp qlottieround_p.h
         qlottieshape.cpp qlottieshape_p.h
         qlottieshapelayer.cpp qlottieshapelayer_p.h

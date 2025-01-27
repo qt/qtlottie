@@ -17,6 +17,7 @@
 #include <QtLottie/private/qlottieconstants_p.h>
 #include <QtLottie/private/qlottiebase_p.h>
 #include <QtLottie/private/qlottieimagelayer_p.h>
+#include <QtLottie/private/qlottieroot_p.h>
 #include <QtLottie/private/qlottielayer_p.h>
 
 #include "qlottieanimation.h"
@@ -85,8 +86,11 @@ void QBatchRenderer::registerAnimator(QLottieAnimation *animator)
     entry->endFrame = animator->endFrame();
     entry->currentFrame = animator->startFrame();
     entry->animDir = animator->direction();
-    entry->lottieTreeBlueprint = new QLottieBase;
-    parse(entry->lottieTreeBlueprint, animator->jsonSource(), animator->version());
+    QLottieRoot *root = new QLottieRoot;
+    root->parseSource(animator->jsonSource(),
+                      m_animData.keys().last()->source(),
+                      animator->version());
+    entry->lottieTreeBlueprint = root;
     m_waitCondition.wakeAll();
 }
 
@@ -230,52 +234,6 @@ void QBatchRenderer::run()
 
         m_waitCondition.wait(&m_mutex);
     }
-}
-
-int QBatchRenderer::parse(QLottieBase *rootElement, const QByteArray &jsonSource,
-                         const QVersionNumber &version) const
-{
-    QJsonDocument doc = QJsonDocument::fromJson(jsonSource);
-    QJsonObject rootObj = doc.object();
-
-    if (rootObj.empty())
-        return -1;
-
-    QMap<QString, QJsonObject> assets;
-    QJsonArray jsonLayers = rootObj.value(QLatin1String("layers")).toArray();
-    QJsonArray jsonAssets = rootObj.value(QLatin1String("assets")).toArray();
-    QJsonArray::const_iterator jsonAssetsIt = jsonAssets.constBegin();
-    while (jsonAssetsIt != jsonAssets.constEnd()) {
-        QJsonObject jsonAsset = (*jsonAssetsIt).toObject();
-
-        jsonAsset.insert(QLatin1String("fileSource"), QJsonValue::fromVariant(m_animData.keys().last()->source()));
-        QString id = jsonAsset.value(QLatin1String("id")).toString();
-        assets.insert(id, jsonAsset);
-        jsonAssetsIt++;
-    }
-
-    QJsonArray::const_iterator jsonLayerIt = jsonLayers.constEnd();
-    while (jsonLayerIt != jsonLayers.constBegin()) {
-        jsonLayerIt--;
-        QJsonObject jsonLayer = (*jsonLayerIt).toObject();
-        if (jsonLayer.value(QStringLiteral("ty")).toInt() == 2) {
-            QString refId = jsonLayer.value(QStringLiteral("refId")).toString();
-            jsonLayer.insert(QStringLiteral("ty"), assets.value(refId));
-        }
-        QLottieLayer *layer = QLottieLayer::construct(jsonLayer, version);
-        if (layer) {
-            layer->setParent(rootElement);
-            // Mask layers must be rendered before the layers they affect to
-            // although they appear after in layer hierarchy. For this reason
-            // move a mask in front of the affected layer, so it will be rendered first
-            if (layer->isMaskLayer())
-                rootElement->insertChildBeforeLast(layer);
-            else
-                rootElement->appendChild(layer);
-        }
-    }
-
-    return 0;
 }
 
 QT_END_NAMESPACE

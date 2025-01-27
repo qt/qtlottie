@@ -67,9 +67,6 @@ public Q_SLOTS:
 protected:
     void run() override;
 
-    int parse(QLottieBase *rootElement, const QByteArray &jsonSource,
-              const QVersionNumber &version) const;
-
     void prerender(Entry *animEntry);
 
 private:
