@@ -12,8 +12,7 @@ void BezierEasing::addCubicBezierSegment(const QPointF &c1, const QPointF &c2, c
 
 qreal BezierEasing::valueForProgress(qreal progress) const
 {
-    qreal res = mBezier.pointAt(tForX(progress)).y();
-    return qBound(qreal(0.0), res, qreal(1.0));
+    return mBezier.pointAt(tForX(progress)).y();
 }
 
 qreal BezierEasing::tForX(qreal x) const
