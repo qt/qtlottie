@@ -17,7 +17,6 @@ qt_internal_extend_target(Lottie
         qlottieimage.cpp qlottieimage_p.h
         qlottieimagelayer.cpp qlottieimagelayer_p.h
         qlottielayer.cpp qlottielayer_p.h
-        qlottiepathtrimmer.cpp qlottiepathtrimmer_p.h
         qlottiepolystar.cpp qlottiepolystar_p.h
         qlottieproperty_p.h
         qlottierect.cpp qlottierect_p.h
@@ -30,7 +29,6 @@ qt_internal_extend_target(Lottie
         qlottiespatialproperty_p.h
         qlottiestroke.cpp qlottiestroke_p.h
         qlottietrimpath.cpp qlottietrimpath_p.h
-        qtrimpath.cpp qtrimpath_p.h
         renderer/qbatchrenderer.cpp renderer/qbatchrenderer_p.h
         renderer/qlottierenderer.cpp renderer/qlottierenderer_p.h
         renderer/qlottierasterrenderer.cpp renderer/qlottierasterrenderer_p.h

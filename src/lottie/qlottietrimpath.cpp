@@ -8,7 +8,6 @@
 #include <private/qbezier_p.h>
 
 #include "qlottieconstants_p.h"
-#include "qtrimpath_p.h"
 
 QLottieTrimPath::QLottieTrimPath()
 {
@@ -140,13 +139,8 @@ bool QLottieTrimPath::isParallel() const
 
 QPainterPath QLottieTrimPath::trim(const QPainterPath &path) const
 {
-    QTrimPath trimmer;
-    trimmer.setPath(path);
     qreal offset = m_offset.value() / 360.0;
     qreal start = m_start.value() / 100.0;
     qreal end = m_end.value() / 100.0;
-    QPainterPath trimmedPath;
-    if (!qFuzzyIsNull(start - end))
-        trimmedPath = trimmer.trimmed(start, end, offset);
-    return trimmedPath;
+    return path.trimmed(start, end, offset);
 }

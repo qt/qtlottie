@@ -20,13 +20,11 @@
 
 #include <QtLottie/private/qlottieshape_p.h>
 #include <QtLottie/private/qlottieproperty_p.h>
-#include <QtLottie/private/qlottiepathtrimmer_p.h>
 
 QT_BEGIN_NAMESPACE
 
 class QLottieFill;
 class QLottieTrimPath;
-class QLottiePathTrimmer;
 
 class LOTTIE_EXPORT QLottieGroup : public QLottieShape
 {
