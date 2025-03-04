@@ -89,7 +89,7 @@ void QLottieShapeLayer::updateProperties(int frame)
             continue;
 
         if (shape->type() == LOTTIE_SHAPE_TRIM_IX) {
-            QLottieQTrimPath *trim = static_cast<QLottieQTrimPath*>(shape);
+            QLottieTrimPath *trim = static_cast<QLottieTrimPath*>(shape);
             if (m_appliedTrim)
                 m_appliedTrim->applyTrim(*trim);
             else

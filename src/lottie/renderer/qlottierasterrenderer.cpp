@@ -86,7 +86,7 @@ void QLottieRasterRenderer::render(const QLottieRect &rect)
         qCDebug(lcLottieQtLottieRender) << rect.name()
                                            << rect.position() << rect.size();
         applyRepeaterTransform(i);
-        if (trimmingState() == QLottieRenderer::Individual) {
+        if (trimmingState() == QLottieRenderer::Sequential) {
             QTransform t = m_painter->transform();
             QPainterPath tp = t.map(rect.path());
             tp.addPath(m_unitedPath);
@@ -113,7 +113,7 @@ void QLottieRasterRenderer::render(const QLottieEllipse &ellipse)
                                            << ellipse.size();
 
         applyRepeaterTransform(i);
-        if (trimmingState() == QLottieRenderer::Individual) {
+        if (trimmingState() == QLottieRenderer::Sequential) {
             QTransform t = m_painter->transform();
             QPainterPath tp = t.map(ellipse.path());
             tp.addPath(m_unitedPath);
@@ -140,7 +140,7 @@ void QLottieRasterRenderer::render(const QLottiePolyStar &star)
         << star.pointCount() << star.outerRadius() << star.innerRadius();
 
         applyRepeaterTransform(i);
-        if (trimmingState() == QLottieRenderer::Individual) {
+        if (trimmingState() == QLottieRenderer::Sequential) {
             QTransform t = m_painter->transform();
             QPainterPath tp = t.map(star.path());
             tp.addPath(m_unitedPath);
@@ -181,7 +181,7 @@ void QLottieRasterRenderer::render(const QLottieRound &round)
         qCDebug(lcLottieQtLottieRender) << "Round:" << round.name()
                                            << round.position() << round.radius();
 
-        if (trimmingState() == QLottieRenderer::Individual) {
+        if (trimmingState() == QLottieRenderer::Sequential) {
             QTransform t = m_painter->transform();
             QPainterPath tp = t.map(round.path());
             tp.addPath(m_unitedPath);
@@ -301,7 +301,7 @@ void QLottieRasterRenderer::render(const QLottieFreeFormShape &shape)
                                            << shape.name() << "of"
                                            << shape.parent()->name();
         applyRepeaterTransform(i);
-        if (trimmingState() == QLottieRenderer::Individual) {
+        if (trimmingState() == QLottieRenderer::Sequential) {
             QTransform t = m_painter->transform();
             QPainterPath tp = t.map(shape.path());
             tp.addPath(m_unitedPath);
@@ -318,9 +318,9 @@ void QLottieRasterRenderer::render(const QLottieFreeFormShape &shape)
     m_painter->restore();
 }
 
-void QLottieRasterRenderer::render(const QLottieQTrimPath &trimPath)
+void QLottieRasterRenderer::render(const QLottieTrimPath &trimPath)
 {
-    // TODO: Remove "Individual" trimming to the prerendering thread
+    // TODO: Move "Sequential" trimming to the prerendering thread
     // Now it is done in the GUI thread
 
     m_painter->save();
@@ -330,7 +330,7 @@ void QLottieRasterRenderer::render(const QLottieQTrimPath &trimPath)
                                            << trimPath.name() << "of"
                                            << trimPath.parent()->name();
         applyRepeaterTransform(i);
-        if (!trimPath.simultaneous() && !qFuzzyCompare(qreal(0.0), m_unitedPath.length())) {
+        if (!trimPath.isParallel() && !qFuzzyCompare(qreal(0.0), m_unitedPath.length())) {
             qCDebug(lcLottieQtLottieRender) << "Render trim path in the GUI thread";
             QPainterPath tr = trimPath.trim(m_unitedPath);
             // Do not use the applied transform, as the transform

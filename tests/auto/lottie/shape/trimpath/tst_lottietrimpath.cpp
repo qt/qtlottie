@@ -13,13 +13,13 @@
 
 using namespace Qt::StringLiterals;
 
-class tst_QLottieQTrimPath: public QObject
+class tst_QLottieTrimPath: public QObject
 {
     Q_OBJECT
 
 public:
-    tst_QLottieQTrimPath();
-    ~tst_QLottieQTrimPath();
+    tst_QLottieTrimPath();
+    ~tst_QLottieTrimPath();
 
 private:
 
@@ -32,20 +32,20 @@ private slots:
     void testStaticInitialStart();
     void testStaticInitialEnd();
     void testStaticInitialOffset();
-    void testStaticInitialSimultaneous();
+    void testStaticInitialParallel();
     void testStaticUpdatedStart();
     void testStaticUpdatedEnd();
     void testStaticUpdatedOffset();
-    void testStaticUpdatedSimultaneous();
+    void testStaticUpdatedParallel();
 
     void testAnimatedInitialStart();
     void testAnimatedInitialEnd();
     void testAnimatedInitialOffset();
-    void testAnimatedInitialSimultaneous();
+    void testAnimatedInitialSequential();
     void testAnimatedUpdatedStart();
     void testAnimatedUpdatedEnd();
     void testAnimatedUpdatedOffset();
-    void testAnimatedUpdatedSimultaneous();
+    void testAnimatedUpdatedSequential();
 
     void testName();
     void testType();
@@ -56,58 +56,58 @@ private:
     void loadTestData(const QString &filename);
     void updateProperty(int frame);
 
-    QLottieQTrimPath *m_trimpath = nullptr;
+    QLottieTrimPath *m_trimpath = nullptr;
 };
 
-tst_QLottieQTrimPath::tst_QLottieQTrimPath()
+tst_QLottieTrimPath::tst_QLottieTrimPath()
 {
 
 }
 
-tst_QLottieQTrimPath::~tst_QLottieQTrimPath()
+tst_QLottieTrimPath::~tst_QLottieTrimPath()
 {
 
 }
 
-void tst_QLottieQTrimPath::initTestCase()
+void tst_QLottieTrimPath::initTestCase()
 {
 }
 
-void tst_QLottieQTrimPath::cleanupTestCase()
+void tst_QLottieTrimPath::cleanupTestCase()
 {
     if (m_trimpath)
         delete m_trimpath;
 }
 
-void tst_QLottieQTrimPath::testStaticInitialStart()
+void tst_QLottieTrimPath::testStaticInitialStart()
 {
     loadTestData("trimpath_static_20to80.json");
 
     QVERIFY(qFuzzyCompare(m_trimpath->start(), 20.0));
 }
 
-void tst_QLottieQTrimPath::testStaticInitialEnd()
+void tst_QLottieTrimPath::testStaticInitialEnd()
 {
     loadTestData("trimpath_static_20to80.json");
 
     QVERIFY(qFuzzyCompare(m_trimpath->end(), 80.0));
 }
 
-void tst_QLottieQTrimPath::testStaticInitialOffset()
+void tst_QLottieTrimPath::testStaticInitialOffset()
 {
     loadTestData("trimpath_static_20to80.json");
 
     QVERIFY(qFuzzyCompare(m_trimpath->offset(), 0.0));
 }
 
-void tst_QLottieQTrimPath::testStaticInitialSimultaneous()
+void tst_QLottieTrimPath::testStaticInitialParallel()
 {
     loadTestData("trimpath_static_20to80.json");
 
-    QVERIFY(m_trimpath->simultaneous() == true);
+    QVERIFY(m_trimpath->isParallel() == true);
 }
 
-void tst_QLottieQTrimPath::testStaticUpdatedStart()
+void tst_QLottieTrimPath::testStaticUpdatedStart()
 {
     loadTestData("trimpath_static_20to80.json");
     updateProperty(180);
@@ -115,7 +115,7 @@ void tst_QLottieQTrimPath::testStaticUpdatedStart()
     QVERIFY(qFuzzyCompare(m_trimpath->start(), 20.0));
 }
 
-void tst_QLottieQTrimPath::testStaticUpdatedEnd()
+void tst_QLottieTrimPath::testStaticUpdatedEnd()
 {
     loadTestData("trimpath_static_20to80.json");
     updateProperty(180);
@@ -123,7 +123,7 @@ void tst_QLottieQTrimPath::testStaticUpdatedEnd()
     QVERIFY(qFuzzyCompare(m_trimpath->end(), 80.0));
 }
 
-void tst_QLottieQTrimPath::testStaticUpdatedOffset()
+void tst_QLottieTrimPath::testStaticUpdatedOffset()
 {
     loadTestData("trimpath_static_20to80.json");
     updateProperty(180);
@@ -131,15 +131,15 @@ void tst_QLottieQTrimPath::testStaticUpdatedOffset()
     QVERIFY(qFuzzyCompare(m_trimpath->offset(), 0.0));
 }
 
-void tst_QLottieQTrimPath::testStaticUpdatedSimultaneous()
+void tst_QLottieTrimPath::testStaticUpdatedParallel()
 {
     loadTestData("trimpath_static_20to80.json");
     updateProperty(180);
 
-    QVERIFY(m_trimpath->simultaneous() == true);
+    QVERIFY(m_trimpath->isParallel() == true);
 }
 
-void tst_QLottieQTrimPath::testAnimatedInitialStart()
+void tst_QLottieTrimPath::testAnimatedInitialStart()
 {
     loadTestData("trimpath_animated_2080_0_to_0060_3x30.json");
     updateProperty(0);
@@ -147,7 +147,7 @@ void tst_QLottieQTrimPath::testAnimatedInitialStart()
     QVERIFY(qFuzzyCompare(m_trimpath->start(), 20.0));
 }
 
-void tst_QLottieQTrimPath::testAnimatedInitialEnd()
+void tst_QLottieTrimPath::testAnimatedInitialEnd()
 {
     loadTestData("trimpath_animated_2080_0_to_0060_3x30.json");
     updateProperty(0);
@@ -155,7 +155,7 @@ void tst_QLottieQTrimPath::testAnimatedInitialEnd()
     QVERIFY(qFuzzyCompare(m_trimpath->end(), 80.0));
 }
 
-void tst_QLottieQTrimPath::testAnimatedInitialOffset()
+void tst_QLottieTrimPath::testAnimatedInitialOffset()
 {
     loadTestData("trimpath_animated_2080_0_to_0060_3x30.json");
     updateProperty(0);
@@ -163,15 +163,15 @@ void tst_QLottieQTrimPath::testAnimatedInitialOffset()
     QVERIFY(qFuzzyCompare(m_trimpath->offset(), 0.0));
 }
 
-void tst_QLottieQTrimPath::testAnimatedInitialSimultaneous()
+void tst_QLottieTrimPath::testAnimatedInitialSequential()
 {
     loadTestData("trimpath_animated_2080_0_to_0060_3x30.json");
     updateProperty(0);
 
-    QVERIFY(m_trimpath->simultaneous() == false);
+    QVERIFY(m_trimpath->isParallel() == false);
 }
 
-void tst_QLottieQTrimPath::testAnimatedUpdatedStart()
+void tst_QLottieTrimPath::testAnimatedUpdatedStart()
 {
     loadTestData("trimpath_animated_2080_0_to_0060_3x30.json");
     updateProperty(180);
@@ -179,7 +179,7 @@ void tst_QLottieQTrimPath::testAnimatedUpdatedStart()
     QVERIFY(qFuzzyCompare(m_trimpath->start(), 0.0));
 }
 
-void tst_QLottieQTrimPath::testAnimatedUpdatedEnd()
+void tst_QLottieTrimPath::testAnimatedUpdatedEnd()
 {
     loadTestData("trimpath_animated_2080_0_to_0060_3x30.json");
     updateProperty(180);
@@ -187,7 +187,7 @@ void tst_QLottieQTrimPath::testAnimatedUpdatedEnd()
     QVERIFY(qFuzzyCompare(m_trimpath->end(), 60.0));
 }
 
-void tst_QLottieQTrimPath::testAnimatedUpdatedOffset()
+void tst_QLottieTrimPath::testAnimatedUpdatedOffset()
 {
     loadTestData("trimpath_animated_2080_0_to_0060_3x30.json");
     updateProperty(180);
@@ -195,36 +195,36 @@ void tst_QLottieQTrimPath::testAnimatedUpdatedOffset()
     QVERIFY(qFuzzyCompare(m_trimpath->offset(), (360 * 3 + 30.0)));
 }
 
-void tst_QLottieQTrimPath::testAnimatedUpdatedSimultaneous()
+void tst_QLottieTrimPath::testAnimatedUpdatedSequential()
 {
     loadTestData("trimpath_animated_2080_0_to_0060_3x30.json");
     updateProperty(180);
 
-    QVERIFY(m_trimpath->simultaneous() == false);
+    QVERIFY(m_trimpath->isParallel() == false);
 }
 
-void tst_QLottieQTrimPath::testName()
+void tst_QLottieTrimPath::testName()
 {
     loadTestData("trimpath_hidden.json");
 
     QVERIFY(m_trimpath->name() == QString("Trim Paths 1"));
 }
 
-void tst_QLottieQTrimPath::testType()
+void tst_QLottieTrimPath::testType()
 {
     loadTestData("trimpath_hidden.json");
 
     QVERIFY(m_trimpath->type() == LOTTIE_SHAPE_TRIM_IX);
 }
 
-void tst_QLottieQTrimPath::testHidden()
+void tst_QLottieTrimPath::testHidden()
 {
     loadTestData("trimpath_hidden.json");
 
     QVERIFY(m_trimpath->hidden() == true);
 }
 
-void tst_QLottieQTrimPath::testActive()
+void tst_QLottieTrimPath::testActive()
 {
     loadTestData("trimpath_animated_2080_0_to_0060_3x30.json");
     QVERIFY(m_trimpath->active(100) == true);
@@ -233,7 +233,7 @@ void tst_QLottieQTrimPath::testActive()
     QVERIFY(m_trimpath->active(100) == false);
 }
 
-void tst_QLottieQTrimPath::loadTestData(const QString &filename)
+void tst_QLottieTrimPath::loadTestData(const QString &filename)
 {
     if (m_trimpath) {
         delete m_trimpath;
@@ -275,15 +275,15 @@ void tst_QLottieQTrimPath::loadTestData(const QString &filename)
         shapesIt++;
     }
 
-    m_trimpath = static_cast<QLottieQTrimPath*>(shape);
+    m_trimpath = static_cast<QLottieTrimPath*>(shape);
 
     QVERIFY(m_trimpath != nullptr);
 }
 
-void tst_QLottieQTrimPath::updateProperty(int frame)
+void tst_QLottieTrimPath::updateProperty(int frame)
 {
     m_trimpath->updateProperties(frame);
 }
 
-QTEST_MAIN(tst_QLottieQTrimPath)
+QTEST_MAIN(tst_QLottieTrimPath)
 #include "tst_lottietrimpath.moc"

@@ -16,7 +16,7 @@ QLottiePathTrimmer::QLottiePathTrimmer(QLottieBase *root)
     Q_ASSERT(m_root);
 }
 
-void QLottiePathTrimmer::addTrim(QLottieQTrimPath* trim)
+void QLottiePathTrimmer::addTrim(QLottieTrimPath* trim)
 {
     if (!trim)
         return;

@@ -59,7 +59,7 @@ void QLottieGroup::updateProperties(int frame)
 
         QLottieShape *shape = static_cast<QLottieShape*>(child);
         if (shape->type() == LOTTIE_SHAPE_TRIM_IX) {
-            QLottieQTrimPath *trim = static_cast<QLottieQTrimPath*>(shape);
+            QLottieTrimPath *trim = static_cast<QLottieTrimPath*>(shape);
             if (m_appliedTrim)
                 m_appliedTrim->applyTrim(*trim);
             else
@@ -76,10 +76,10 @@ void QLottieGroup::render(QLottieRenderer &renderer) const
     renderer.saveState();
 
     if (m_appliedTrim && !m_appliedTrim->hidden()) {
-        if (m_appliedTrim->simultaneous())
-            renderer.setTrimmingState(QLottieRenderer::Simultaneous);
+        if (m_appliedTrim->isParallel())
+            renderer.setTrimmingState(QLottieRenderer::Parallel);
         else
-            renderer.setTrimmingState(QLottieRenderer::Individual);
+            renderer.setTrimmingState(QLottieRenderer::Sequential);
     } else
         renderer.setTrimmingState(QLottieRenderer::Off);
 
@@ -89,8 +89,7 @@ void QLottieGroup::render(QLottieRenderer &renderer) const
         child->render(renderer);
    }
 
-   if (m_appliedTrim && !m_appliedTrim->hidden()
-           && !m_appliedTrim->simultaneous())
+   if (m_appliedTrim && !m_appliedTrim->hidden() && !m_appliedTrim->isParallel())
        m_appliedTrim->render(renderer);
 
     renderer.restoreState();
@@ -101,11 +100,11 @@ bool QLottieGroup::acceptsTrim() const
     return true;
 }
 
-void QLottieGroup::applyTrim(const QLottieQTrimPath &trimmer)
+void QLottieGroup::applyTrim(const QLottieTrimPath &trimmer)
 {
     Q_ASSERT_X(!m_appliedTrim, "QLottieGroup", "A trim already assigned");
 
-    m_appliedTrim = static_cast<QLottieQTrimPath*>(trimmer.clone());
+    m_appliedTrim = static_cast<QLottieTrimPath*>(trimmer.clone());
     // Setting a friendly name helps in testing
     m_appliedTrim->setName(QStringLiteral("Inherited from") + trimmer.name());
 

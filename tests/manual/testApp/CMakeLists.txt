@@ -47,13 +47,13 @@ set(qml_resource_files
     "shape_static.json"
     "trim_path1.json"
     "trim_path2.json"
-    "trim_path2_individual.json"
+    "trim_path2_parallel.json"
     "trim_path2_offset.json"
     "trim_path_multiple1.json"
     "trim_path_multiple2.json"
     "trim_path_multiple3.json"
     "trim_path_multiple4.json"
-    "trim_path_simultaneous2.json"
+    "trim_path_sequential2.json"
 )
 
 qt_add_resources(testApp "qml"

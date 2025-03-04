@@ -38,14 +38,14 @@ class QLottieEllipse;
 class QLottiePolyStar;
 class QLottieRound;
 class QLottieFreeFormShape;
-class QLottieQTrimPath;
+class QLottieTrimPath;
 class QLottieFillEffect;
 class QLottieRepeater;
 
 class LOTTIE_EXPORT QLottieRenderer
 {
 public:
-    enum TrimmingState{Off = 0, Simultaneous, Individual};
+    enum TrimmingState { Off = 0, Parallel, Sequential };
 
     virtual ~QLottieRenderer() = default;
 
@@ -67,7 +67,7 @@ public:
     virtual void render(const QLottieBasicTransform &trans) = 0;
     virtual void render(const QLottieShapeTransform &trans) = 0;
     virtual void render(const QLottieFreeFormShape &shape) = 0;
-    virtual void render(const QLottieQTrimPath &trans) = 0;
+    virtual void render(const QLottieTrimPath &trans) = 0;
     virtual void render(const QLottieFillEffect &effect) = 0;
     virtual void render(const QLottieRepeater &repeater) = 0;
 

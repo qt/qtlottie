@@ -23,7 +23,7 @@ class QJsonObject;
 
 class QLottieRenderer;
 class QLottieShape;
-class QLottieQTrimPath;
+class QLottieTrimPath;
 class QLottieBasicTransform;
 
 class LOTTIE_EXPORT QLottieShapeLayer : public QLottieLayer
@@ -43,7 +43,7 @@ protected:
     QList<int> m_maskProperties;
 
 private:
-    QLottieQTrimPath *m_appliedTrim = nullptr;
+    QLottieTrimPath *m_appliedTrim = nullptr;
 };
 
 QT_END_NAMESPACE

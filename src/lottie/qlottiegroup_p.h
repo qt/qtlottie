@@ -25,7 +25,7 @@
 QT_BEGIN_NAMESPACE
 
 class QLottieFill;
-class QLottieQTrimPath;
+class QLottieTrimPath;
 class QLottiePathTrimmer;
 
 class LOTTIE_EXPORT QLottieGroup : public QLottieShape
@@ -42,7 +42,7 @@ public:
     void render(QLottieRenderer &renderer) const override;
 
     bool acceptsTrim() const override;
-    void applyTrim(const QLottieQTrimPath  &trimmer) override;
+    void applyTrim(const QLottieTrimPath  &trimmer) override;
 };
 
 QT_END_NAMESPACE

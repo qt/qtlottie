@@ -22,7 +22,7 @@
 QT_BEGIN_NAMESPACE
 
 class QJsonObject;
-class QLottieQTrimPath;
+class QLottieTrimPath;
 class QLottieRenderer;
 class QLottieBase;
 class QLottieShape;
@@ -32,7 +32,7 @@ class LOTTIE_EXPORT QLottiePathTrimmer
 public:
     QLottiePathTrimmer(QLottieBase *root);
 
-    void addTrim(QLottieQTrimPath* trim);
+    void addTrim(QLottieTrimPath* trim);
     bool inUse() const;
 
     void applyTrim(QLottieShape *shape);
@@ -43,8 +43,8 @@ public:
 private:
     QLottieBase *m_root = nullptr;
 
-    QList<QLottieQTrimPath*> m_trimPaths;
-    QLottieQTrimPath *m_appliedTrim = nullptr;
+    QList<QLottieTrimPath*> m_trimPaths;
+    QLottieTrimPath *m_appliedTrim = nullptr;
 };
 
 QT_END_NAMESPACE

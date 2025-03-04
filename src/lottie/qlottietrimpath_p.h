@@ -23,15 +23,15 @@
 
 QT_BEGIN_NAMESPACE
 
-class LOTTIE_EXPORT QLottieQTrimPath : public QLottieShape
+class LOTTIE_EXPORT QLottieTrimPath : public QLottieShape
 {
 public:
-    QLottieQTrimPath();
-    QLottieQTrimPath(const QJsonObject &definition, const QVersionNumber &version,
+    QLottieTrimPath();
+    QLottieTrimPath(const QJsonObject &definition, const QVersionNumber &version,
                QLottieBase *parent = nullptr);
-    explicit QLottieQTrimPath(const QLottieQTrimPath &other);
+    explicit QLottieTrimPath(const QLottieTrimPath &other);
 
-    void inherit(const QLottieQTrimPath &other);
+    void inherit(const QLottieTrimPath &other);
 
     QLottieBase *clone() const override;
 
@@ -41,12 +41,12 @@ public:
     void render(QLottieRenderer &renderer) const override;
 
     bool acceptsTrim() const override;
-    void applyTrim(const QLottieQTrimPath  &trimmer) override;
+    void applyTrim(const QLottieTrimPath  &trimmer) override;
 
     qreal start() const;
     qreal end() const;
     qreal offset() const;
-    bool simultaneous() const;
+    bool isParallel() const;
 
     QPainterPath trim(const QPainterPath &path) const;
 
@@ -54,7 +54,7 @@ protected:
     QLottieProperty<qreal> m_start;
     QLottieProperty<qreal> m_end;
     QLottieProperty<qreal> m_offset;
-    bool m_simultaneous = false;
+    bool m_isParallel = false;
 };
 
 QT_END_NAMESPACE

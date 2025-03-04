@@ -127,7 +127,7 @@ QLottieShape *QLottieShape::construct(QJsonObject definition, const QVersionNumb
     case LOTTIE_SHAPE_TAG('t', 'm'):
     {
         qCDebug(lcLottieQtLottieParser) << "Parse trim path";
-        shape = new QLottieQTrimPath(definition, version, parent);
+        shape = new QLottieTrimPath(definition, version, parent);
         shape->setType(LOTTIE_SHAPE_TRIM_IX);
         break;
     }
@@ -155,9 +155,9 @@ bool QLottieShape::acceptsTrim() const
     return false;
 }
 
-void QLottieShape::applyTrim(const QLottieQTrimPath &trimmer)
+void QLottieShape::applyTrim(const QLottieTrimPath &trimmer)
 {
-    if (trimmer.simultaneous())
+    if (trimmer.isParallel())
         m_path = trimmer.trim(m_path);
 }
 

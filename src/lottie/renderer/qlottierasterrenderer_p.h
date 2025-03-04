@@ -47,7 +47,7 @@ public:
     void render(const QLottieBasicTransform &transform) override;
     void render(const QLottieShapeTransform &transform) override;
     void render(const QLottieFreeFormShape &shape) override;
-    void render(const QLottieQTrimPath &trans) override;
+    void render(const QLottieTrimPath &trans) override;
     void render(const QLottieFillEffect &effect) override;
     void render(const QLottieRepeater &repeater) override;
 

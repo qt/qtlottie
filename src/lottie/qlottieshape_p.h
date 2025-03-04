@@ -24,7 +24,7 @@ QT_BEGIN_NAMESPACE
 
 class QLottieFill;
 class QLottieStroke;
-class QLottieQTrimPath;
+class QLottieTrimPath;
 
 #define LOTTIE_SHAPE_ANY_TYPE_IX    -1
 #define LOTTIE_SHAPE_ELLIPSE_IX     0
@@ -54,14 +54,14 @@ public:
 
     virtual const QPainterPath &path() const;
     virtual bool acceptsTrim() const;
-    virtual void applyTrim(const QLottieQTrimPath& trimmer);
+    virtual void applyTrim(const QLottieTrimPath& trimmer);
 
     int direction() const;
     bool hasReversedDirection() const { return m_direction == 3; }
 
 protected:
     QPainterPath m_path;
-    QLottieQTrimPath *m_appliedTrim = nullptr;
+    QLottieTrimPath *m_appliedTrim = nullptr;
     int m_direction = 0;
 };
 
