@@ -7,8 +7,8 @@
 #include <QJsonArray>
 #include <QFile>
 
-#include "private/bmbase_p.h"
-#include "private/bmlayer_p.h"
+#include <QtLottie/private/qlottiebase_p.h>
+#include <QtLottie/private/qlottielayer_p.h>
 
 using namespace Qt::StringLiterals;
 
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     QJsonArray::const_iterator jsonLayerIt = jsonLayers.constBegin();
     while (jsonLayerIt != jsonLayers.constEnd()) {
         QJsonObject jsonLayer = (*jsonLayerIt).toObject();
-        BMLayer *layer = BMLayer::construct(jsonLayer, version);
+        QLottieLayer *layer = QLottieLayer::construct(jsonLayer, version);
         if (layer)
             delete layer;
         jsonLayerIt++;
