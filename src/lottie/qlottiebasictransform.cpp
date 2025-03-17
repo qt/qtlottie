@@ -62,9 +62,13 @@ void QLottieBasicTransform::construct(const QJsonObject &definition, const QVers
         m_position.construct(position, version);
     }
 
-    QJsonObject scale = definition.value(QLatin1String("s")).toObject();
-    scale = resolveExpression(scale);
-    m_scale.construct(scale, version);
+    if (definition.contains(QLatin1String("s"))) {
+        QJsonObject scale = definition.value(QLatin1String("s")).toObject();
+        scale = resolveExpression(scale);
+        m_scale.construct(scale, version);
+    } else {
+        m_scale.setValue(QPointF(100, 100));
+    }
 
     QJsonObject rotation = definition.value(QLatin1String("r")).toObject();
     rotation = resolveExpression(rotation);
@@ -76,6 +80,8 @@ void QLottieBasicTransform::construct(const QJsonObject &definition, const QVers
         QJsonObject opacity = definition.value(QLatin1String("o")).toObject();
         opacity = resolveExpression(opacity);
         m_opacity.construct(opacity, version);
+    } else {
+        m_opacity.setValue(100);
     }
 }
 

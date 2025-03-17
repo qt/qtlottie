@@ -56,17 +56,17 @@ void QLottieRasterRenderer::render(const QLottieLayer &layer)
 {
     qCDebug(lcLottieQtLottieRender) << "Layer:" << layer.name()
                                        << "clip layer" << layer.isClippedLayer();
-
     if (layer.isMaskLayer())
         m_buildingClipRegion = true;
     else if (!m_clipPath.isEmpty()) {
+        QTransform inv = m_painter->transform().inverted();
         if (layer.clipMode() == QLottieLayer::Alpha)
-            m_painter->setClipPath(m_clipPath);
+            m_painter->setClipPath(inv.map(m_clipPath));
         else if (layer.clipMode() == QLottieLayer::InvertedAlpha) {
             QPainterPath screen;
             screen.addRect(0, 0, m_painter->device()->width(),
                            m_painter->device()->height());
-            m_painter->setClipPath(screen - m_clipPath);
+            m_painter->setClipPath(inv.map(screen - m_clipPath));
         }
         else {
             // Clipping is not applied to paths that have

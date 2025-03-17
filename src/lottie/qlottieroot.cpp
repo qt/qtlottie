@@ -43,26 +43,7 @@ int QLottieRoot::parseSource(const QByteArray &jsonSource, const QUrl &fileSourc
         jsonAssetsIt++;
     }
 
-    QJsonArray::const_iterator jsonLayerIt = jsonLayers.constEnd();
-    while (jsonLayerIt != jsonLayers.constBegin()) {
-        jsonLayerIt--;
-        QJsonObject jsonLayer = (*jsonLayerIt).toObject();
-        if (jsonLayer.value(QLatin1String("ty")).toInt() == 2) {
-            QString refId = jsonLayer.value(QLatin1String("refId")).toString();
-            jsonLayer.insert(QLatin1String("asset"), assets.value(refId));
-        }
-        QLottieLayer *layer = QLottieLayer::construct(jsonLayer, version);
-        if (layer) {
-            layer->setParent(this);
-            // Mask layers must be rendered before the layers they affect to
-            // although they appear after in layer hierarchy. For this reason
-            // move a mask in front of the affected layer, so it will be rendered first
-            if (layer->isMaskLayer())
-                insertChildBeforeLast(layer);
-            else
-                appendChild(layer);
-        }
-    }
+    QLottieLayer::constructLayers(jsonLayers, this, assets, version);
 
     return 0;
 }

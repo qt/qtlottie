@@ -49,6 +49,9 @@ void QLottieImageLayer::updateProperties(int frame)
 
 void QLottieImageLayer::render(QLottieRenderer &renderer) const
 {
+    if (!m_isActive)
+        return;
+
     renderer.saveState();
 
     QLottieLayer::render(renderer);

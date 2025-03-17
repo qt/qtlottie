@@ -7,11 +7,14 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QLoggingCategory>
+#include <QtCore/QScopedValueRollback>
 
 #include "qlottieimagelayer_p.h"
 #include "qlottieshapelayer_p.h"
+#include "qlottieprecomplayer_p.h"
 #include "qlottiefilleffect_p.h"
 #include "qlottiebasictransform_p.h"
+#include "qlottierenderer_p.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -51,13 +54,18 @@ QLottieBase *QLottieLayer::clone() const
     return new QLottieLayer(*this);
 }
 
-QLottieLayer *QLottieLayer::construct(QJsonObject definition, const QVersionNumber &version)
+QLottieLayer *QLottieLayer::construct(QJsonObject definition, const QMap<QString, QJsonObject> &assets,
+                            const QVersionNumber &version)
 {
     qCDebug(lcLottieQtLottieParser) << "QLottieLayer::construct()";
 
     QLottieLayer *layer = nullptr;
     int type = definition.value(QLatin1String("ty")).toInt();
     switch (type) {
+    case 0:
+        qCDebug(lcLottieQtLottieParser) << "Parse precomp layer";
+        layer = new QLottiePrecompLayer(definition, assets, version);
+        break;
     case 2:
         qCDebug(lcLottieQtLottieParser) << "Parse image layer";
         layer = new QLottieImageLayer(definition, version);
@@ -70,6 +78,37 @@ QLottieLayer *QLottieLayer::construct(QJsonObject definition, const QVersionNumb
         qCWarning(lcLottieQtLottieParser) << "Unsupported layer type:" << type;
     }
     return layer;
+}
+
+// Take the content of a lottie layers tag and construct the corresponding layer objects
+// Also adds them as children to given parent
+int QLottieLayer::constructLayers(QJsonArray jsonLayers, QLottieBase *parent,
+                                  const QMap<QString, QJsonObject> &assets,
+                                  const QVersionNumber &version)
+{
+    int layersAdded = 0;
+    QJsonArray::const_iterator jsonLayerIt = jsonLayers.constEnd();
+    while (jsonLayerIt != jsonLayers.constBegin()) {
+        jsonLayerIt--;
+        QJsonObject jsonLayer = (*jsonLayerIt).toObject();
+        if (jsonLayer.value(QLatin1String("ty")).toInt() == 2) {
+            QString refId = jsonLayer.value(QLatin1String("refId")).toString();
+            jsonLayer.insert(QLatin1String("asset"), assets.value(refId));
+        }
+        QLottieLayer *layer = QLottieLayer::construct(jsonLayer, assets, version);
+        if (layer) {
+            layer->setParent(parent);
+            // Mask layers must be rendered before the layers they affect to
+            // although they appear after in layer hierarchy. For this reason
+            // move a mask in front of the affected layer, so it will be rendered first
+            if (layer->isMaskLayer())
+                parent->insertChildBeforeLast(layer);
+            else
+                parent->appendChild(layer);
+            layersAdded++;
+        }
+    }
+    return layersAdded;
 }
 
 bool QLottieLayer::active(int frame) const
@@ -127,30 +166,35 @@ void QLottieLayer::updateProperties(int frame)
     if (m_parentLayer)
         resolveLinkedLayer();
 
+    int adjFrame = frame - m_startTime;
+    m_isActive = active(adjFrame);
+    if (!m_isActive)
+        return;
+
     // Update first effects, as they are not children of the layer
     if (m_effects) {
         for (QLottieBase* effect : m_effects->children())
-            effect->updateProperties(frame);
+            effect->updateProperties(adjFrame);
     }
 
-    QLottieBase::updateProperties(frame);
+    m_layerTransform->updateProperties(adjFrame);
 
-    m_layerTransform->updateProperties(frame);
+    QLottieBase::updateProperties(adjFrame);
 }
 
 void QLottieLayer::render(QLottieRenderer &renderer) const
 {
+    if (!m_isActive)
+        return;
+
     // Render first effects, as they affect the children
     renderEffects(renderer);
 
     // In case there is a linked layer, apply its transform first
     // as it affects tranforms of this layer too
-    if (QLottieLayer *ll = linkedLayer())
-        renderer.render(*ll->transform());
+    applyLinkedTransforms(renderer);
 
     renderer.render(*this);
-
-    m_layerTransform->render(renderer);
 
     for (QLottieBase *child : children()) {
         if (child->hidden())
@@ -177,11 +221,9 @@ QLottieLayer *QLottieLayer::resolveLinkedLayer()
     if (m_linkedLayer)
         return m_linkedLayer;
 
-    resolveTopRoot();
+    Q_ASSERT(parent());
 
-    Q_ASSERT(topRoot());
-
-    for (QLottieBase *child : topRoot()->children()) {
+    for (QLottieBase *child : parent()->children()) {
         QLottieLayer *layer = static_cast<QLottieLayer*>(child);
         if (layer->layerId() == m_parentLayer) {
             m_linkedLayer = layer;
@@ -231,6 +273,18 @@ void QLottieLayer::renderEffects(QLottieRenderer &renderer) const
             continue;
         effect->render(renderer);
     }
+}
+
+void QLottieLayer::applyLinkedTransforms(QLottieRenderer &renderer) const
+{
+    if (m_applyingLinkedTransforms)
+        return;
+    QScopedValueRollback<bool> recursionGuard(m_applyingLinkedTransforms, true);
+
+    if (QLottieLayer *ll = linkedLayer())
+        ll->applyLinkedTransforms(renderer);
+    // TBD: except opacity
+    m_layerTransform->render(renderer);
 }
 
 void QLottieLayer::parseEffects(const QJsonArray &definition, QLottieBase *effectRoot)

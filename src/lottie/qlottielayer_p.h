@@ -32,7 +32,11 @@ public:
 
     QLottieBase *clone() const override;
 
-    static QLottieLayer *construct(QJsonObject definition, const QVersionNumber &version);
+    static QLottieLayer *construct(QJsonObject definition, const QMap<QString, QJsonObject> &assets,
+                                   const QVersionNumber &version);
+    static int constructLayers(QJsonArray jsonLayers, QLottieBase *parent,
+                               const QMap<QString, QJsonObject> &assets,
+                               const QVersionNumber &version);
 
     bool active(int frame) const override;
 
@@ -49,6 +53,7 @@ public:
 
     int layerId() const;
     QLottieBasicTransform *transform() const;
+    void applyLinkedTransforms(QLottieRenderer &renderer) const;
 
 protected:
     void renderEffects(QLottieRenderer &renderer) const;
@@ -70,9 +75,12 @@ protected:
     int m_td = 0;
     MatteClipMode m_clipMode = NoClip;
 
+    bool m_isActive = true;
+
 private:
     void parseEffects(const QJsonArray &definition, QLottieBase *effectRoot = nullptr);
 
+    mutable bool m_applyingLinkedTransforms = false;
     QLottieLayer *m_linkedLayer = nullptr;
 };
 
