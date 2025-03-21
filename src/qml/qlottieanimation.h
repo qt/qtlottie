@@ -4,12 +4,12 @@
 #ifndef LOTTIEANIMATION_H
 #define LOTTIEANIMATION_H
 
-#include <QQuickPaintedItem>
-#include <QByteArray>
-#include <QList>
-#include <QImage>
-#include <QThread>
-#include <QMetaObject>
+#include <QtCore/qbytearray.h>
+#include <QtCore/qlist.h>
+#include <QtCore/qmetaobject.h>
+#include <QtCore/qthread.h>
+#include <QtGui/qimage.h>
+#include <QtQuick/qquickpainteditem.h>
 
 QT_BEGIN_NAMESPACE
 
