@@ -97,7 +97,7 @@
             "tests/baseline/data/docsamples/": {
                 "comment": "",
                 "file type": "3rd party",
-                "spdx": ["MIT"]
+                "spdx": ["CC-BY-4.0"]
             }
         }
     }
