@@ -19,9 +19,6 @@ QT_BEGIN_NAMESPACE
 QLottieShapeLayer::QLottieShapeLayer(const QLottieShapeLayer &other)
     : QLottieLayer(other)
 {
-    m_maskProperties = other.m_maskProperties;
-    m_layerTransform = new QLottieBasicTransform(*other.m_layerTransform);
-    m_layerTransform->setParent(this);
     m_appliedTrim = other.m_appliedTrim;
 }
 
@@ -34,18 +31,7 @@ QLottieShapeLayer::QLottieShapeLayer(const QJsonObject &definition, const QVersi
     if (m_hidden)
         return;
 
-    qCDebug(lcLottieQtLottieParser) << "QLottieShapeLayer::QLottieShapeLayer()"
-                                       << m_name;
-
-    QJsonArray maskProps = definition.value(QLatin1String("maskProperties")).toArray();
-    QJsonArray::const_iterator propIt = maskProps.constBegin();
-    while (propIt != maskProps.constEnd()) {
-        m_maskProperties.append((*propIt).toVariant().toInt());
-        ++propIt;
-    }
-
-    QJsonObject trans = definition.value(QLatin1String("ks")).toObject();
-    m_layerTransform = new QLottieBasicTransform(trans, version, this);
+    qCDebug(lcLottieQtLottieParser) << "QLottieShapeLayer::QLottieShapeLayer()" << m_name;
 
     QJsonArray items = definition.value(QLatin1String("shapes")).toArray();
     QJsonArray::const_iterator itemIt = items.constEnd();
@@ -55,17 +41,6 @@ QLottieShapeLayer::QLottieShapeLayer(const QJsonObject &definition, const QVersi
         if (shape)
             appendChild(shape);
     }
-
-    if (m_maskProperties.size())
-        qCWarning(lcLottieQtLottieParser)
-            << "Lottie Shape Layer: mask properties found, but not supported"
-            << m_maskProperties;
-}
-
-QLottieShapeLayer::~QLottieShapeLayer()
-{
-    if (m_layerTransform)
-        delete m_layerTransform;
 }
 
 QLottieBase *QLottieShapeLayer::clone() const
@@ -76,8 +51,6 @@ QLottieBase *QLottieShapeLayer::clone() const
 void QLottieShapeLayer::updateProperties(int frame)
 {
     QLottieLayer::updateProperties(frame);
-
-    m_layerTransform->updateProperties(frame);
 
     for (QLottieBase *child : children()) {
         if (child->hidden())
@@ -105,22 +78,7 @@ void QLottieShapeLayer::render(QLottieRenderer &renderer) const
 {
     renderer.saveState();
 
-    renderEffects(renderer);
-
-    // In case there is a linked layer, apply its transform first
-    // as it affects tranforms of this layer too
-    if (QLottieLayer *ll = linkedLayer())
-        renderer.render(*ll->transform());
-
-    renderer.render(*this);
-
-    m_layerTransform->render(renderer);
-
-    for (QLottieBase *child : children()) {
-        if (child->hidden())
-            continue;
-        child->render(renderer);
-    }
+    QLottieLayer::render(renderer);
 
     if (m_appliedTrim && !m_appliedTrim->hidden())
         m_appliedTrim->render(renderer);

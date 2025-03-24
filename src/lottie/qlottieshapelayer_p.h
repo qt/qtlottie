@@ -24,7 +24,6 @@ class QJsonObject;
 class QLottieRenderer;
 class QLottieShape;
 class QLottieTrimPath;
-class QLottieBasicTransform;
 
 class LOTTIE_EXPORT QLottieShapeLayer : public QLottieLayer
 {
@@ -32,15 +31,11 @@ public:
     QLottieShapeLayer() = default;
     explicit QLottieShapeLayer(const QLottieShapeLayer &other);
     QLottieShapeLayer(const QJsonObject &definition, const QVersionNumber &version);
-    ~QLottieShapeLayer() override;
 
     QLottieBase *clone() const override;
 
     void updateProperties(int frame) override;
     void render(QLottieRenderer &render) const override;
-
-protected:
-    QList<int> m_maskProperties;
 
 private:
     QLottieTrimPath *m_appliedTrim = nullptr;

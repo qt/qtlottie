@@ -28,6 +28,8 @@ QLottieLayer::QLottieLayer(const QLottieLayer &other)
     m_parentLayer = other.m_parentLayer;
     m_td = other.m_td;
     m_clipMode = other.m_clipMode;
+    m_layerTransform = new QLottieBasicTransform(*other.m_layerTransform);
+    m_layerTransform->setParent(this);
     if (other.m_effects) {
         m_effects = new QLottieBase;
         for (QLottieBase *effect : other.m_effects->children())
@@ -38,6 +40,8 @@ QLottieLayer::QLottieLayer(const QLottieLayer &other)
 
 QLottieLayer::~QLottieLayer()
 {
+    if (m_layerTransform)
+        delete m_layerTransform;
     if (m_effects)
         delete m_effects;
 }
@@ -95,6 +99,9 @@ void QLottieLayer::parse(const QJsonObject &definition)
     if (clipMode > -1 && clipMode < 5)
         m_clipMode = static_cast<MatteClipMode>(clipMode);
 
+    QJsonObject trans = definition.value(QLatin1String("ks")).toObject();
+    m_layerTransform = new QLottieBasicTransform(trans, m_version, this);
+
     QJsonArray effects = definition.value(QLatin1String("ef")).toArray();
     parseEffects(effects);
 
@@ -127,6 +134,8 @@ void QLottieLayer::updateProperties(int frame)
     }
 
     QLottieBase::updateProperties(frame);
+
+    m_layerTransform->updateProperties(frame);
 }
 
 void QLottieLayer::render(QLottieRenderer &renderer) const
@@ -134,7 +143,20 @@ void QLottieLayer::render(QLottieRenderer &renderer) const
     // Render first effects, as they affect the children
     renderEffects(renderer);
 
-    QLottieBase::render(renderer);
+    // In case there is a linked layer, apply its transform first
+    // as it affects tranforms of this layer too
+    if (QLottieLayer *ll = linkedLayer())
+        renderer.render(*ll->transform());
+
+    renderer.render(*this);
+
+    m_layerTransform->render(renderer);
+
+    for (QLottieBase *child : children()) {
+        if (child->hidden())
+            continue;
+        child->render(renderer);
+    }
 }
 
 QLottieBase *QLottieLayer::findChild(const QString &childName)

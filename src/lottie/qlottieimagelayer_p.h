@@ -32,18 +32,11 @@ public:
     QLottieImageLayer() = default;
     explicit QLottieImageLayer(const QLottieImageLayer &other);
     QLottieImageLayer(const QJsonObject &definition, const QVersionNumber &version);
-    ~QLottieImageLayer() override;
 
     QLottieBase *clone() const override;
 
     void updateProperties(int frame) override;
     void render(QLottieRenderer &render) const override;
-
-protected:
-    QList<int> m_maskProperties;
-
-private:
-    QLottieTrimPath *m_appliedTrim = nullptr;
 };
 
 QT_END_NAMESPACE
