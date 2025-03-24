@@ -1,2 +1,2 @@
 add_subdirectory(featcheck)
-add_subdirectory(testapp)
+add_subdirectory(testApp)
