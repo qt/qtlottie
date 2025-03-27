@@ -16,6 +16,7 @@
 //
 
 #include <QtLottie/private/qlottiebase_p.h>
+#include <QtCore/QSize>
 
 QT_BEGIN_NAMESPACE
 
@@ -54,6 +55,7 @@ public:
     int layerId() const;
     QLottieBasicTransform *transform() const;
     void applyLinkedTransforms(QLottieRenderer &renderer) const;
+    QSize size() const;
 
 protected:
     void renderEffects(QLottieRenderer &renderer) const;
@@ -76,6 +78,7 @@ protected:
     MatteClipMode m_clipMode = NoClip;
 
     bool m_isActive = true;
+    QSize m_size;
 
 private:
     void parseEffects(const QJsonArray &definition, QLottieBase *effectRoot = nullptr);

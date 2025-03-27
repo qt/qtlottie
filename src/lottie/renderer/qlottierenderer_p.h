@@ -24,6 +24,7 @@ QT_BEGIN_NAMESPACE
 
 class QLottieBase;
 class QLottieLayer;
+class QLottieSolidLayer;
 class QLottieRect;
 class QLottieFill;
 class QLottieGFill;
@@ -56,6 +57,7 @@ public:
     virtual TrimmingState trimmingState() const;
 
     virtual void render(const QLottieLayer &layer) = 0;
+    virtual void render(const QLottieSolidLayer &layer) = 0;
     virtual void render(const QLottieRect &rect) = 0;
     virtual void render(const QLottieEllipse &ellipse) = 0;
     virtual void render(const QLottiePolyStar &star) = 0;

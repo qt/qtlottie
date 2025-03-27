@@ -16,7 +16,7 @@
 
 #include <QtLottie/private/qlottieconstants_p.h>
 #include <QtLottie/private/qlottiebase_p.h>
-#include <QtLottie/private/qlottieimagelayer_p.h>
+#include <QtLottie/private/qlottieflatlayers_p.h>
 #include <QtLottie/private/qlottieroot_p.h>
 #include <QtLottie/private/qlottielayer_p.h>
 

@@ -34,6 +34,8 @@ QLottiePrecompLayer::QLottiePrecompLayer(const QJsonObject &definition, const QM
     QJsonArray jsonLayers = asset.value(QLatin1String("layers")).toArray();
     int numLayers = QLottieLayer::constructLayers(jsonLayers, this, assets, version);
 
+    m_size = QSize(definition.value(QLatin1String("w")).toInt(-1), definition.value(QLatin1String("h")).toInt(-1));
+
     qCDebug(lcLottieQtLottieParser) << "QLottiePrecompLayer created" << numLayers << "layers";
 }
 

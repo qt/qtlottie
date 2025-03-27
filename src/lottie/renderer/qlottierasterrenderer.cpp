@@ -24,6 +24,7 @@
 #include <QtLottie/private/qlottietrimpath_p.h>
 #include <QtLottie/private/qlottiefilleffect_p.h>
 #include <QtLottie/private/qlottierepeater_p.h>
+#include <QtLottie/private/qlottieflatlayers_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -76,6 +77,12 @@ void QLottieRasterRenderer::render(const QLottieLayer &layer)
         m_buildingClipRegion = false;
         m_clipPath = QPainterPath();
     }
+}
+
+void QLottieRasterRenderer::render(const QLottieSolidLayer &layer)
+{
+    render(static_cast<const QLottieLayer &>(layer));
+    m_painter->fillRect(QRect(QPoint(), layer.size()), layer.color());
 }
 
 void QLottieRasterRenderer::render(const QLottieRect &rect)

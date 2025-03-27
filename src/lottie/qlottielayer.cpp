@@ -9,7 +9,7 @@
 #include <QLoggingCategory>
 #include <QtCore/QScopedValueRollback>
 
-#include "qlottieimagelayer_p.h"
+#include "qlottieflatlayers_p.h"
 #include "qlottieshapelayer_p.h"
 #include "qlottieprecomplayer_p.h"
 #include "qlottiefilleffect_p.h"
@@ -33,6 +33,7 @@ QLottieLayer::QLottieLayer(const QLottieLayer &other)
     m_clipMode = other.m_clipMode;
     m_layerTransform = new QLottieBasicTransform(*other.m_layerTransform);
     m_layerTransform->setParent(this);
+    m_size = other.m_size;
     if (other.m_effects) {
         m_effects = new QLottieBase;
         for (QLottieBase *effect : other.m_effects->children())
@@ -66,9 +67,17 @@ QLottieLayer *QLottieLayer::construct(QJsonObject definition, const QMap<QString
         qCDebug(lcLottieQtLottieParser) << "Parse precomp layer";
         layer = new QLottiePrecompLayer(definition, assets, version);
         break;
+    case 1:
+        qCDebug(lcLottieQtLottieParser) << "Parse solid layer";
+        layer = new QLottieSolidLayer(definition, version);
+        break;
     case 2:
         qCDebug(lcLottieQtLottieParser) << "Parse image layer";
         layer = new QLottieImageLayer(definition, version);
+        break;
+    case 3:
+        qCDebug(lcLottieQtLottieParser) << "Parse null layer";
+        layer = new QLottieNullLayer(definition, version);
         break;
     case 4:
         qCDebug(lcLottieQtLottieParser) << "Parse shape layer";
@@ -285,6 +294,11 @@ void QLottieLayer::applyLinkedTransforms(QLottieRenderer &renderer) const
         ll->applyLinkedTransforms(renderer);
     // TBD: except opacity
     m_layerTransform->render(renderer);
+}
+
+QSize QLottieLayer::size() const
+{
+    return m_size;
 }
 
 void QLottieLayer::parseEffects(const QJsonArray &definition, QLottieBase *effectRoot)

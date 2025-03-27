@@ -36,6 +36,7 @@ public:
     void restoreState() override;
 
     void render(const QLottieLayer &layer) override;
+    void render(const QLottieSolidLayer &layer) override;
     void render(const QLottieRect &rect) override;
     void render(const QLottieEllipse &ellipse) override;
     void render(const QLottiePolyStar &star) override;
