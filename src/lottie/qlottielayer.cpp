@@ -28,7 +28,8 @@ QLottieLayer::QLottieLayer(const QLottieLayer &other)
     m_blendMode = other.m_blendMode;
     m_3dLayer = other.m_3dLayer;
     m_stretch = other.m_stretch;
-    m_parentLayer = other.m_parentLayer;
+    m_hasLinkedLayer = other.m_hasLinkedLayer;
+    m_linkedLayerId = other.m_linkedLayerId;
     m_td = other.m_td;
     m_clipMode = other.m_clipMode;
     m_layerTransform = new QLottieBasicTransform(*other.m_layerTransform);
@@ -141,7 +142,7 @@ void QLottieLayer::parse(const QJsonObject &definition)
     m_autoOrient = definition.value(QLatin1String("ao")).toBool();
     m_3dLayer = definition.value(QLatin1String("ddd")).toBool();
     m_stretch = definition.value(QLatin1String("sr")).toVariant().toReal();
-    m_parentLayer = definition.value(QLatin1String("parent")).toVariant().toInt();
+    m_linkedLayerId = definition.value(QLatin1String("parent")).toVariant().toInt(&m_hasLinkedLayer);
     m_td = definition.value(QLatin1String("td")).toInt();
     int clipMode = definition.value(QLatin1String("tt")).toInt(-1);
     if (clipMode > -1 && clipMode < 5)
@@ -172,7 +173,7 @@ void QLottieLayer::parse(const QJsonObject &definition)
 
 void QLottieLayer::updateProperties(int frame)
 {
-    if (m_parentLayer)
+    if (m_hasLinkedLayer)
         resolveLinkedLayer();
 
     int adjFrame = frame - m_startTime;
@@ -234,7 +235,7 @@ QLottieLayer *QLottieLayer::resolveLinkedLayer()
 
     for (QLottieBase *child : parent()->children()) {
         QLottieLayer *layer = static_cast<QLottieLayer*>(child);
-        if (layer->layerId() == m_parentLayer) {
+        if (layer->layerId() == m_linkedLayerId) {
             m_linkedLayer = layer;
             break;
         }

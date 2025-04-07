@@ -54,6 +54,8 @@ public:
 
     int layerId() const;
     QLottieBasicTransform *transform() const;
+    bool hasLinkedLayer() const { return m_hasLinkedLayer; }
+    int linkedLayerId() const { return m_linkedLayerId; }
     void applyLinkedTransforms(QLottieRenderer &renderer) const;
     QSize size() const;
 
@@ -73,7 +75,8 @@ protected:
     qreal m_stretch = 0;
     QLottieBasicTransform *m_layerTransform = nullptr;
 
-    int m_parentLayer = 0;
+    bool m_hasLinkedLayer = false;
+    int m_linkedLayerId = 0;
     int m_td = 0;
     MatteClipMode m_clipMode = NoClip;
 
