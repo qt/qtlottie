@@ -49,11 +49,22 @@ int main(int argc, char *argv[])
 
     const auto version = QVersionNumber::fromString(rootObj.value("v"_L1).toString());
 
+    QMap<QString, QJsonObject> assets;
     QJsonArray jsonLayers = rootObj.value(QLatin1String("layers")).toArray();
+    QJsonArray jsonAssets = rootObj.value(QLatin1String("assets")).toArray();
+    QJsonArray::const_iterator jsonAssetsIt = jsonAssets.constBegin();
+    while (jsonAssetsIt != jsonAssets.constEnd()) {
+        QJsonObject jsonAsset = (*jsonAssetsIt).toObject();
+
+        jsonAsset.insert(QLatin1String("fileSource"), QJsonValue::fromVariant(sourceFile.fileName()));
+        QString id = jsonAsset.value(QLatin1String("id")).toString();
+        assets.insert(id, jsonAsset);
+        jsonAssetsIt++;
+    }
     QJsonArray::const_iterator jsonLayerIt = jsonLayers.constBegin();
     while (jsonLayerIt != jsonLayers.constEnd()) {
         QJsonObject jsonLayer = (*jsonLayerIt).toObject();
-        QLottieLayer *layer = QLottieLayer::construct(jsonLayer, version);
+        QLottieLayer *layer = QLottieLayer::construct(jsonLayer, assets, version);
         if (layer)
             delete layer;
         jsonLayerIt++;
