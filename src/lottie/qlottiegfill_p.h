@@ -55,9 +55,8 @@ protected:
     QLottieSpatialProperty m_endPoint;
     QLottieProperty<qreal> m_highlightLength;
     QLottieProperty<qreal> m_highlightAngle;
-    QList<QLottieProperty4D<QVector4D>> m_colors;
+    QHash<int, QLottieProperty4D<QVector4D>> m_colors;
     QGradient *m_gradient = nullptr;
-
 };
 
 QT_END_NAMESPACE
