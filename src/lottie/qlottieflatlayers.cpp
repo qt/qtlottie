@@ -41,7 +41,17 @@ QLottieBase *QLottieNullLayer::clone() const
 
 void QLottieNullLayer::render(QLottieRenderer &renderer) const
 {
-    Q_UNUSED(renderer);
+    if (!m_isActive)
+        return;
+
+    renderer.saveState();
+
+    applyLayerTransform(renderer);
+
+    renderer.render(*this);
+
+    renderer.finish(*this);
+    renderer.restoreState();
 }
 
 QLottieSolidLayer::QLottieSolidLayer(const QLottieSolidLayer &other)
@@ -78,10 +88,11 @@ void QLottieSolidLayer::render(QLottieRenderer &renderer) const
 
     renderer.saveState();
 
-    QLottieLayer::render(renderer);
+    applyLayerTransform(renderer);
 
     renderer.render(*this);
 
+    renderer.finish(*this);
     renderer.restoreState();
 }
 
@@ -125,6 +136,7 @@ void QLottieImageLayer::render(QLottieRenderer &renderer) const
 
     QLottieLayer::render(renderer);
 
+    renderer.finish(*this);
     renderer.restoreState();
 }
 

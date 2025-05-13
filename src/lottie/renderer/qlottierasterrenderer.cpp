@@ -246,36 +246,10 @@ void QLottieRasterRenderer::render(const QLottieStroke &stroke)
     m_painter->setPen(stroke.pen());
 }
 
-void applyLottieTransform(QTransform *xf, const QLottieBasicTransform &lottiexf, bool isQLottieShapeTransform = false)
-{
-    QPointF pos = lottiexf.position();
-    qreal rot = lottiexf.rotation();
-    QPointF sca = lottiexf.scale();
-    QPointF anc = lottiexf.anchorPoint();
-
-    xf->translate(pos.x(), pos.y());
-
-    if (!qFuzzyIsNull(rot))
-        xf->rotate(rot);
-
-    if (isQLottieShapeTransform) {
-        const QLottieShapeTransform &shxf = static_cast<const QLottieShapeTransform &>(lottiexf);
-        if (!qFuzzyIsNull(shxf.skew())) {
-            QTransform t(shxf.shearX(), shxf.shearY(), 0, -shxf.shearY(), shxf.shearX(), 0, 0, 0, 1);
-            t *= QTransform(1, 0, 0, shxf.shearAngle(), 1, 0, 0, 0, 1);
-            t *= QTransform(shxf.shearX(), -shxf.shearY(), 0, shxf.shearY(), shxf.shearX(), 0, 0, 0, 1);
-            *xf = t * (*xf);
-        }
-    }
-
-    xf->scale(sca.x(), sca.y());
-    xf->translate(-anc.x(), -anc.y());
-}
-
 void QLottieRasterRenderer::render(const QLottieBasicTransform &transform)
 {
     QTransform t = m_painter->transform();
-    applyLottieTransform(&t, transform);
+    applyTransform(&t, transform);
     m_painter->setTransform(t);
     m_painter->setOpacity(m_painter->opacity() * transform.opacity());
 
@@ -290,7 +264,7 @@ void QLottieRasterRenderer::render(const QLottieShapeTransform &transform)
                                        << "of" << transform.parent()->name();
 
     QTransform t = m_painter->transform();
-    applyLottieTransform(&t, transform, true);
+    applyTransform(&t, transform, true);
     m_painter->setTransform(t);
     m_painter->setOpacity(m_painter->opacity() * transform.opacity());
 

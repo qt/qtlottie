@@ -30,6 +30,8 @@ public:
     int parseSource(const QByteArray &jsonSource,
                     const QUrl &fileSource,
                     QVersionNumber version = QVersionNumber());
+
+    void setStructureDumping(bool enabled);
 };
 
 QT_END_NAMESPACE

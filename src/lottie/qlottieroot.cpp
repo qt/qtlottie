@@ -23,6 +23,7 @@ int QLottieRoot::parseSource(const QByteArray &jsonSource, const QUrl &fileSourc
 {
     QJsonDocument doc = QJsonDocument::fromJson(jsonSource);
     QJsonObject rootObj = doc.object();
+    m_definition = rootObj;
 
     if (rootObj.empty())
         return -1;
@@ -46,6 +47,11 @@ int QLottieRoot::parseSource(const QByteArray &jsonSource, const QUrl &fileSourc
     QLottieLayer::constructLayers(jsonLayers, this, assets, version);
 
     return 0;
+}
+
+void QLottieRoot::setStructureDumping(bool enabled)
+{
+    m_structureDumping = enabled ? 1 : 0;
 }
 
 QT_END_NAMESPACE

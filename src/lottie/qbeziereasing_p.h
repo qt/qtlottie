@@ -15,15 +15,19 @@
 // We mean it.
 //
 
+#include <qlottieglobal.h>
+
 #include <private/qbezier_p.h>
 
 QT_BEGIN_NAMESPACE
 
-class QBezierEasing
+class LOTTIE_EXPORT QBezierEasing
 {
 public:
     void addCubicBezierSegment(const QPointF &c1, const QPointF &c2, const QPointF &endPoint);
     qreal valueForProgress(qreal progress) const;
+
+    QBezier bezier() const { return mBezier; }
 
 private:
     qreal tForX(qreal x) const;

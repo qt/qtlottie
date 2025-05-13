@@ -73,9 +73,12 @@ public:
     virtual void render(const QLottieFillEffect &effect) = 0;
     virtual void render(const QLottieRepeater &repeater) = 0;
 
+    virtual void finish(const QLottieLayer &) {}
+
 protected:
     void saveTrimmingState();
     void restoreTrimmingState();
+    static void applyTransform(QTransform *xf, const QLottieBasicTransform &lottieXf, bool isShapeTransform = false);
 
     TrimmingState m_trimmingState = Off;
 

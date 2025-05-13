@@ -119,6 +119,15 @@ void QLottieBase::render(QLottieRenderer &renderer) const
     renderer.restoreState();
 }
 
+bool QLottieBase::isStructureDumping() const
+{
+    if (m_structureDumping < 0) {
+        QLottieBase *p = parent();
+        m_structureDumping = p ? p->isStructureDumping() : 0;
+    }
+    return bool(m_structureDumping);
+}
+
 void QLottieBase::resolveTopRoot()
 {
     if (!m_topRoot) {

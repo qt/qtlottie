@@ -123,7 +123,7 @@ int QLottieLayer::constructLayers(QJsonArray jsonLayers, QLottieBase *parent,
 
 bool QLottieLayer::active(int frame) const
 {
-    return (!m_hidden && (frame >= m_startFrame && frame <= m_endFrame));
+    return (!m_hidden && ((frame >= m_startFrame && frame <= m_endFrame) || isStructureDumping()));
 }
 
 void QLottieLayer::parse(const QJsonObject &definition)
@@ -137,7 +137,6 @@ void QLottieLayer::parse(const QJsonObject &definition)
     m_layerIndex = definition.value(QLatin1String("ind")).toVariant().toInt();
     m_startFrame = definition.value(QLatin1String("ip")).toVariant().toInt();
     m_endFrame = definition.value(QLatin1String("op")).toVariant().toInt();
-    m_startTime = definition.value(QLatin1String("st")).toVariant().toReal();
     m_blendMode = definition.value(QLatin1String("lottie")).toVariant().toInt();
     m_autoOrient = definition.value(QLatin1String("ao")).toBool();
     m_3dLayer = definition.value(QLatin1String("ddd")).toBool();
@@ -202,7 +201,7 @@ void QLottieLayer::render(QLottieRenderer &renderer) const
 
     // In case there is a linked layer, apply its transform first
     // as it affects tranforms of this layer too
-    applyLinkedTransforms(renderer);
+    applyLayerTransform(renderer);
 
     renderer.render(*this);
 
@@ -285,14 +284,16 @@ void QLottieLayer::renderEffects(QLottieRenderer &renderer) const
     }
 }
 
-void QLottieLayer::applyLinkedTransforms(QLottieRenderer &renderer) const
+void QLottieLayer::applyLayerTransform(QLottieRenderer &renderer) const
 {
-    if (m_applyingLinkedTransforms)
+    if (m_applyingLayerTransform)
         return;
-    QScopedValueRollback<bool> recursionGuard(m_applyingLinkedTransforms, true);
+    QScopedValueRollback<bool> recursionGuard(m_applyingLayerTransform, true);
 
-    if (QLottieLayer *ll = linkedLayer())
-        ll->applyLinkedTransforms(renderer);
+    if (!isStructureDumping()) {
+        if (QLottieLayer *ll = linkedLayer())
+            ll->applyLayerTransform(renderer);
+    }
     // TBD: except opacity
     m_layerTransform->render(renderer);
 }
@@ -300,6 +301,14 @@ void QLottieLayer::applyLinkedTransforms(QLottieRenderer &renderer) const
 QSize QLottieLayer::size() const
 {
     return m_size;
+}
+
+const QLottieLayer *QLottieLayer::checkedCast(const QLottieBase *node)
+{
+    const QLottieLayer *res = nullptr;
+    if (node && node->type() >= LOTTIE_LAYER_PRECOMP_IX && node->type() <= LOTTIE_LAYER_TEXT_IX)
+        res = static_cast<const QLottieLayer *>(node);
+    return res;
 }
 
 void QLottieLayer::parseEffects(const QJsonArray &definition, QLottieBase *effectRoot)

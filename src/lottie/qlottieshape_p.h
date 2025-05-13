@@ -55,6 +55,7 @@ public:
     virtual const QPainterPath &path() const;
     virtual bool acceptsTrim() const;
     virtual void applyTrim(const QLottieTrimPath& trimmer);
+    const QLottieTrimPath *currentTrim() const { return m_appliedTrim; };
 
     int direction() const;
     bool hasReversedDirection() const { return m_direction == 3; }

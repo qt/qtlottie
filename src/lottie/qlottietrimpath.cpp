@@ -139,6 +139,8 @@ bool QLottieTrimPath::isParallel() const
 
 QPainterPath QLottieTrimPath::trim(const QPainterPath &path) const
 {
+    if (isStructureDumping())
+        return path;
     qreal offset = m_offset.value() / 360.0;
     qreal start = m_start.value() / 100.0;
     qreal end = m_end.value() / 100.0;

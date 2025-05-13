@@ -85,6 +85,7 @@ void QLottieShapeLayer::render(QLottieRenderer &renderer) const
     if (m_appliedTrim && !m_appliedTrim->hidden())
         m_appliedTrim->render(renderer);
 
+    renderer.finish(*this);
     renderer.restoreState();
 }
 

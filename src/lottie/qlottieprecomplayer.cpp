@@ -29,6 +29,7 @@ QLottiePrecompLayer::QLottiePrecompLayer(const QJsonObject &definition, const QM
 
     qCDebug(lcLottieQtLottieParser) << "QLottiePrecompLayer::QLottiePrecompLayer()" << m_name;
 
+    m_startTime = definition.value(QLatin1String("st")).toDouble(); // only relevant for precomps
     QString refId = definition.value(QLatin1String("refId")).toString();
     QJsonObject asset = assets.value(refId);
     QJsonArray jsonLayers = asset.value(QLatin1String("layers")).toArray();
@@ -53,6 +54,7 @@ void QLottiePrecompLayer::render(QLottieRenderer &renderer) const
 
     QLottieLayer::render(renderer);
 
+    renderer.finish(*this);
     renderer.restoreState();
 }
 

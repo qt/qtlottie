@@ -44,7 +44,7 @@ struct EasingSegment {
 };
 
 template<typename T>
-class LOTTIE_EXPORT QLottieProperty
+class QLottieProperty
 {
 public:
     virtual ~QLottieProperty() = default;
@@ -93,6 +93,21 @@ public:
     const T& value() const
     {
         return m_value;
+    }
+
+    inline int startFrame() const
+    {
+        return m_startFrame;
+    }
+
+    inline int endFrame() const
+    {
+        return m_endFrame;
+    }
+
+    QList<EasingSegment<T> > easingCurves() const
+    {
+        return m_easingCurves;
     }
 
     virtual bool update(int frame)
@@ -273,7 +288,7 @@ protected:
 
 
 template <typename T>
-class LOTTIE_EXPORT QLottieProperty2D : public QLottieProperty<T>
+class QLottieProperty2D : public QLottieProperty<T>
 {
 protected:
     T getValue(const QJsonArray &value) override
@@ -448,7 +463,7 @@ protected:
 };
 
 template <typename T>
-class LOTTIE_EXPORT QLottieProperty4D : public QLottieProperty<T>
+class QLottieProperty4D : public QLottieProperty<T>
 {
 public:
     bool update(int frame) override

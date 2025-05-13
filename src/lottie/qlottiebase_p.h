@@ -61,6 +61,8 @@ public:
     virtual void updateProperties(int frame);
     virtual void render(QLottieRenderer &renderer) const;
 
+    bool isStructureDumping() const;
+
 protected:
     void resolveTopRoot();
     QLottieBase *topRoot() const;
@@ -68,8 +70,9 @@ protected:
 
 protected:
     QJsonObject m_definition;
-    int m_type = 0;
+    int m_type = -1;
     bool m_hidden = false;
+    mutable qint8 m_structureDumping = -1;
     QVersionNumber m_version;
     QString m_name;
     QString m_matchName;

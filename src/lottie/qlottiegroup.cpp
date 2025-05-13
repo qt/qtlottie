@@ -105,6 +105,7 @@ void QLottieGroup::applyTrim(const QLottieTrimPath &trimmer)
     Q_ASSERT_X(!m_appliedTrim, "QLottieGroup", "A trim already assigned");
 
     m_appliedTrim = static_cast<QLottieTrimPath*>(trimmer.clone());
+    m_appliedTrim->setParent(parent());
     // Setting a friendly name helps in testing
     m_appliedTrim->setName(QStringLiteral("Inherited from") + trimmer.name());
 

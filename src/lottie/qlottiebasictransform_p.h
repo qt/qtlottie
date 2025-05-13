@@ -46,6 +46,15 @@ public:
     qreal rotation() const;
     qreal opacity() const;
 
+    bool splitPosition() const { return m_splitPosition; }
+    QLottieProperty<qreal> xPosProperty() const { return m_xPos; }
+    QLottieProperty<qreal> yPosProperty() const { return m_yPos; }
+    QLottieSpatialProperty anchorPointProperty() const { return m_anchorPoint; }
+    QLottieSpatialProperty positionProperty() const { return m_position; }
+    QLottieProperty2D<QPointF> scaleProperty() const { return m_scale; }
+    QLottieProperty<qreal> rotationProperty() const { return m_rotation; }
+    QLottieProperty<qreal> opacityProperty() const { return m_opacity; }
+
 protected:
     QLottieSpatialProperty m_anchorPoint;
     bool m_splitPosition = false;

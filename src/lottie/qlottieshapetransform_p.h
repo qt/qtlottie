@@ -44,6 +44,9 @@ public:
     qreal shearY() const;
     qreal shearAngle() const;
 
+    QLottieProperty<qreal> skewProperty() const { return m_skew; }
+    QLottieProperty<qreal> skewAxisProperty() const { return m_skewAxis; }
+
 protected:
     QLottieProperty<qreal> m_skew;
     QLottieProperty<qreal> m_skewAxis;

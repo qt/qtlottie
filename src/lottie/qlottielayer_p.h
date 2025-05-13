@@ -56,8 +56,26 @@ public:
     QLottieBasicTransform *transform() const;
     bool hasLinkedLayer() const { return m_hasLinkedLayer; }
     int linkedLayerId() const { return m_linkedLayerId; }
-    void applyLinkedTransforms(QLottieRenderer &renderer) const;
+    void applyLayerTransform(QLottieRenderer &renderer) const;
     QSize size() const;
+
+    int startFrame() const
+    {
+        return m_startFrame;
+    }
+
+    int endFrame() const
+    {
+        return m_endFrame;
+    }
+
+    qreal frameOffset() const
+    {
+        return m_startTime;
+    }
+
+    static const QLottieLayer *checkedCast(const QLottieBase *node);
+
 
 protected:
     void renderEffects(QLottieRenderer &renderer) const;
@@ -86,7 +104,7 @@ protected:
 private:
     void parseEffects(const QJsonArray &definition, QLottieBase *effectRoot = nullptr);
 
-    mutable bool m_applyingLinkedTransforms = false;
+    mutable bool m_applyingLayerTransform = false;
     QLottieLayer *m_linkedLayer = nullptr;
 };
 

@@ -50,6 +50,10 @@ public:
 
     QPainterPath trim(const QPainterPath &path) const;
 
+    QLottieProperty<qreal> startProperty() const { return m_start; }
+    QLottieProperty<qreal> endProperty() const { return m_end; }
+    QLottieProperty<qreal> offsetProperty() const { return m_offset; }
+
 protected:
     QLottieProperty<qreal> m_start;
     QLottieProperty<qreal> m_end;
