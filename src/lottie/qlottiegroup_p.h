@@ -30,11 +30,11 @@ class LOTTIE_EXPORT QLottieGroup : public QLottieShape
 {
 public:
     QLottieGroup() = default;
-    QLottieGroup(const QJsonObject &definition, const QVersionNumber &version, QLottieBase *parent = nullptr);
+    QLottieGroup(const QJsonObject &definition, QLottieBase *parent = nullptr);
 
     QLottieBase *clone() const override;
 
-    void construct(const QJsonObject &definition, const QVersionNumber &version);
+    void construct(const QJsonObject &definition);
 
     void updateProperties(int frame) override;
     void render(QLottieRenderer &renderer) const override;

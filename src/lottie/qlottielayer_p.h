@@ -33,11 +33,9 @@ public:
 
     QLottieBase *clone() const override;
 
-    static QLottieLayer *construct(QJsonObject definition, const QMap<QString, QJsonObject> &assets,
-                                   const QVersionNumber &version);
+    static QLottieLayer *construct(QJsonObject definition, const QMap<QString, QJsonObject> &assets);
     static int constructLayers(QJsonArray jsonLayers, QLottieBase *parent,
-                               const QMap<QString, QJsonObject> &assets,
-                               const QVersionNumber &version);
+                               const QMap<QString, QJsonObject> &assets);
 
     bool active(int frame) const override;
 

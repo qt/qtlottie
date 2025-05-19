@@ -36,12 +36,11 @@ class LOTTIE_EXPORT QLottiePolyStar : public QLottieShape
 public:
     QLottiePolyStar() = default;
     explicit QLottiePolyStar(const QLottiePolyStar &other);
-    QLottiePolyStar(const QJsonObject &definition, const QVersionNumber &version,
-               QLottieBase *parent = nullptr);
+    QLottiePolyStar(const QJsonObject &definition, QLottieBase *parent = nullptr);
 
     QLottieBase *clone() const override;
 
-    void construct(const QJsonObject &definition, const QVersionNumber &version);
+    void construct(const QJsonObject &definition);
 
     void updateProperties(int frame) override;
     void render(QLottieRenderer &renderer) const override;

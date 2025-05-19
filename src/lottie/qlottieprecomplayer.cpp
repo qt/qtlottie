@@ -18,10 +18,9 @@ QLottiePrecompLayer::QLottiePrecompLayer(const QLottiePrecompLayer &other)
 {
 }
 
-QLottiePrecompLayer::QLottiePrecompLayer(const QJsonObject &definition, const QMap<QString, QJsonObject> &assets, const QVersionNumber &version)
+QLottiePrecompLayer::QLottiePrecompLayer(const QJsonObject &definition, const QMap<QString, QJsonObject> &assets)
 {
     m_type = LOTTIE_LAYER_PRECOMP_IX;
-    m_version = version;
 
     QLottieLayer::parse(definition);
     if (m_hidden)
@@ -33,7 +32,7 @@ QLottiePrecompLayer::QLottiePrecompLayer(const QJsonObject &definition, const QM
     QString refId = definition.value(QLatin1String("refId")).toString();
     QJsonObject asset = assets.value(refId);
     QJsonArray jsonLayers = asset.value(QLatin1String("layers")).toArray();
-    int numLayers = QLottieLayer::constructLayers(jsonLayers, this, assets, version);
+    int numLayers = QLottieLayer::constructLayers(jsonLayers, this, assets);
 
     m_size = QSize(definition.value(QLatin1String("w")).toInt(-1), definition.value(QLatin1String("h")).toInt(-1));
 

@@ -26,8 +26,7 @@ class LOTTIE_EXPORT QLottiePrecompLayer : public QLottieLayer
 public:
     QLottiePrecompLayer() = default;
     explicit QLottiePrecompLayer(const QLottiePrecompLayer &other);
-    QLottiePrecompLayer(const QJsonObject &definition, const QMap<QString, QJsonObject> &assets,
-                        const QVersionNumber &version);
+    QLottiePrecompLayer(const QJsonObject &definition, const QMap<QString, QJsonObject> &assets);
 
     QLottieBase *clone() const override;
 

@@ -27,15 +27,14 @@ class LOTTIE_EXPORT QLottieTrimPath : public QLottieShape
 {
 public:
     QLottieTrimPath();
-    QLottieTrimPath(const QJsonObject &definition, const QVersionNumber &version,
-               QLottieBase *parent = nullptr);
+    QLottieTrimPath(const QJsonObject &definition, QLottieBase *parent = nullptr);
     explicit QLottieTrimPath(const QLottieTrimPath &other);
 
     void inherit(const QLottieTrimPath &other);
 
     QLottieBase *clone() const override;
 
-    void construct(const QJsonObject &definition, const QVersionNumber &version);
+    void construct(const QJsonObject &definition);
 
     void updateProperties(int frame) override;
     void render(QLottieRenderer &renderer) const override;

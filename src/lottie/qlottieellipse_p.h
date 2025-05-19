@@ -36,12 +36,11 @@ class LOTTIE_EXPORT QLottieEllipse : public QLottieShape
 public:
     QLottieEllipse() = default;
     explicit QLottieEllipse(const QLottieEllipse &other);
-    QLottieEllipse(const QJsonObject &definition, const QVersionNumber &version,
-              QLottieBase *parent = nullptr);
+    QLottieEllipse(const QJsonObject &definition, QLottieBase *parent = nullptr);
 
     QLottieBase *clone() const override;
 
-    void construct(const QJsonObject &definition, const QVersionNumber &version);
+    void construct(const QJsonObject &definition);
 
     void updateProperties(int frame) override;
     void render(QLottieRenderer &renderer) const override;

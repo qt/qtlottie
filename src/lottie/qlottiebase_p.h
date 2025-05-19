@@ -17,7 +17,6 @@
 
 #include <QJsonObject>
 #include <QList>
-#include <QVersionNumber>
 
 #include <QtLottie/qlottieglobal.h>
 #include <QtLottie/private/qlottieconstants_p.h>
@@ -73,7 +72,6 @@ protected:
     int m_type = -1;
     bool m_hidden = false;
     mutable qint8 m_structureDumping = -1;
-    QVersionNumber m_version;
     QString m_name;
     QString m_matchName;
     bool m_autoOrient = false;

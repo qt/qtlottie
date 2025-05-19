@@ -25,10 +25,10 @@ QT_BEGIN_NAMESPACE
 class QLottieSpatialProperty : public QLottieProperty2D<QPointF>
 {
 public:
-    virtual void construct(const QJsonObject &definition, const QVersionNumber &version) override
+    virtual void construct(const QJsonObject &definition) override
     {
         qCDebug(lcLottieQtLottieParser) << "QLottieSpatialProperty::construct()";
-        QLottieProperty2D<QPointF>::construct(definition, version);
+        QLottieProperty2D<QPointF>::construct(definition);
     }
 
     virtual EasingSegment<QPointF> parseKeyframe(const QJsonObject keyframe,

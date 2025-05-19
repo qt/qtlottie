@@ -460,14 +460,12 @@ void tst_QLottieShapeTransform::loadTestData(const QString &filename)
     if (type != 4)
         QFAIL("It's not shape layer");
 
-    const auto version = QVersionNumber::fromString(rootObj.value("v"_L1).toString());
-
     QJsonArray shapes = layerObj.value(QLatin1String("shapes")).toArray();
     QJsonArray::const_iterator shapesIt = shapes.constBegin();
     QLottieGroup* group = nullptr;
     while (shapesIt != shapes.end()) {
         QJsonObject childObj = (*shapesIt).toObject();
-        QLottieShape *shape = QLottieShape::construct(childObj, version);
+        QLottieShape *shape = QLottieShape::construct(childObj);
         QVERIFY(shape != nullptr);
         if (shape->type() == LOTTIE_SHAPE_GROUP_IX) {
             group = static_cast<QLottieGroup *>(shape);

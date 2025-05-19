@@ -56,8 +56,7 @@ QLottieBase *QLottieLayer::clone() const
     return new QLottieLayer(*this);
 }
 
-QLottieLayer *QLottieLayer::construct(QJsonObject definition, const QMap<QString, QJsonObject> &assets,
-                            const QVersionNumber &version)
+QLottieLayer *QLottieLayer::construct(QJsonObject definition, const QMap<QString, QJsonObject> &assets)
 {
     qCDebug(lcLottieQtLottieParser) << "QLottieLayer::construct()";
 
@@ -66,23 +65,23 @@ QLottieLayer *QLottieLayer::construct(QJsonObject definition, const QMap<QString
     switch (type) {
     case 0:
         qCDebug(lcLottieQtLottieParser) << "Parse precomp layer";
-        layer = new QLottiePrecompLayer(definition, assets, version);
+        layer = new QLottiePrecompLayer(definition, assets);
         break;
     case 1:
         qCDebug(lcLottieQtLottieParser) << "Parse solid layer";
-        layer = new QLottieSolidLayer(definition, version);
+        layer = new QLottieSolidLayer(definition);
         break;
     case 2:
         qCDebug(lcLottieQtLottieParser) << "Parse image layer";
-        layer = new QLottieImageLayer(definition, version);
+        layer = new QLottieImageLayer(definition);
         break;
     case 3:
         qCDebug(lcLottieQtLottieParser) << "Parse null layer";
-        layer = new QLottieNullLayer(definition, version);
+        layer = new QLottieNullLayer(definition);
         break;
     case 4:
         qCDebug(lcLottieQtLottieParser) << "Parse shape layer";
-        layer = new QLottieShapeLayer(definition, version);
+        layer = new QLottieShapeLayer(definition);
         break;
     default:
         qCWarning(lcLottieQtLottieParser) << "Unsupported layer type:" << type;
@@ -93,8 +92,7 @@ QLottieLayer *QLottieLayer::construct(QJsonObject definition, const QMap<QString
 // Take the content of a lottie layers tag and construct the corresponding layer objects
 // Also adds them as children to given parent
 int QLottieLayer::constructLayers(QJsonArray jsonLayers, QLottieBase *parent,
-                                  const QMap<QString, QJsonObject> &assets,
-                                  const QVersionNumber &version)
+                                  const QMap<QString, QJsonObject> &assets)
 {
     int layersAdded = 0;
     QJsonArray::const_iterator jsonLayerIt = jsonLayers.constEnd();
@@ -105,7 +103,7 @@ int QLottieLayer::constructLayers(QJsonArray jsonLayers, QLottieBase *parent,
             QString refId = jsonLayer.value(QLatin1String("refId")).toString();
             jsonLayer.insert(QLatin1String("asset"), assets.value(refId));
         }
-        QLottieLayer *layer = QLottieLayer::construct(jsonLayer, assets, version);
+        QLottieLayer *layer = QLottieLayer::construct(jsonLayer, assets);
         if (layer) {
             layer->setParent(parent);
             // Mask layers must be rendered before the layers they affect to
@@ -148,7 +146,7 @@ void QLottieLayer::parse(const QJsonObject &definition)
         m_clipMode = static_cast<MatteClipMode>(clipMode);
 
     QJsonObject trans = definition.value(QLatin1String("ks")).toObject();
-    m_layerTransform = new QLottieBasicTransform(trans, m_version, this);
+    m_layerTransform = new QLottieBasicTransform(trans, this);
 
     QJsonArray effects = definition.value(QLatin1String("ef")).toArray();
     parseEffects(effects);
@@ -344,7 +342,7 @@ void QLottieLayer::parseEffects(const QJsonArray &definition, QLottieBase *effec
         case 21:
         {
             QLottieFillEffect *fill = new QLottieFillEffect;
-            fill->construct(effect, m_version);
+            fill->construct(effect);
             effectRoot->appendChild(fill);
             break;
         }

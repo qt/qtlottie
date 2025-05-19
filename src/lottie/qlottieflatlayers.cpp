@@ -21,10 +21,9 @@ QLottieNullLayer::QLottieNullLayer(const QLottieNullLayer &other)
 {
 }
 
-QLottieNullLayer::QLottieNullLayer(const QJsonObject &definition, const QVersionNumber &version)
+QLottieNullLayer::QLottieNullLayer(const QJsonObject &definition)
 {
     m_type = LOTTIE_LAYER_NULL_IX;
-    m_version = version;
 
     QLottieLayer::parse(definition);
 
@@ -60,10 +59,9 @@ QLottieSolidLayer::QLottieSolidLayer(const QLottieSolidLayer &other)
     m_color = other.m_color;
 }
 
-QLottieSolidLayer::QLottieSolidLayer(const QJsonObject &definition, const QVersionNumber &version)
+QLottieSolidLayer::QLottieSolidLayer(const QJsonObject &definition)
 {
     m_type = LOTTIE_LAYER_SOLID_IX;
-    m_version = version;
 
     QLottieLayer::parse(definition);
 
@@ -106,14 +104,13 @@ QLottieImageLayer::QLottieImageLayer(const QLottieImageLayer &other)
 {
 }
 
-QLottieImageLayer::QLottieImageLayer(const QJsonObject &definition, const QVersionNumber &version)
+QLottieImageLayer::QLottieImageLayer(const QJsonObject &definition)
 {
     m_type = LOTTIE_LAYER_IMAGE_IX;
-    m_version = version;
 
     QLottieLayer::parse(definition);
 
-    QLottieImage *image = new QLottieImage(definition, version, this);
+    QLottieImage *image = new QLottieImage(definition, this);
     appendChild(image);
 
     if (m_hidden)

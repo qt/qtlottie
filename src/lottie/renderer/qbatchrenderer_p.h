@@ -24,7 +24,6 @@ QT_BEGIN_NAMESPACE
 
 class QLottieBase;
 class QImage;
-class QVersionNumber;
 class QLottieAnimation;
 
 class QBatchRenderer : public QThread

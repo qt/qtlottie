@@ -180,8 +180,6 @@ void tst_QLottieFill::loadTestData(const QString &filename)
     if (rootObj.empty())
         QFAIL("Cannot parse test file");
 
-    const auto version = QVersionNumber::fromString(rootObj.value("v"_L1).toString());
-
     QJsonArray layers = rootObj.value(QLatin1String("layers")).toArray();
     QJsonObject layerObj = layers[0].toObject();
     int type = layerObj.value(QLatin1String("ty")).toInt();
@@ -193,7 +191,7 @@ void tst_QLottieFill::loadTestData(const QString &filename)
     QLottieShape* shape = nullptr;
     while (shapesIt != shapes.end()) {
         QJsonObject childObj = (*shapesIt).toObject();
-        shape = QLottieShape::construct(childObj, version);
+        shape = QLottieShape::construct(childObj);
         QVERIFY(shape != nullptr);
         if (shape->type() == LOTTIE_SHAPE_FILL_IX)
             break;

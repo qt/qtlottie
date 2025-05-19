@@ -22,7 +22,7 @@ QLottieBase *QLottieFillEffect::clone() const
     return new QLottieFillEffect(*this);
 }
 
-void QLottieFillEffect::construct(const QJsonObject &definition, const QVersionNumber &version)
+void QLottieFillEffect::construct(const QJsonObject &definition)
 {
     m_type = LOTTIE_EFFECT_FILL;
 
@@ -33,8 +33,8 @@ void QLottieFillEffect::construct(const QJsonObject &definition, const QVersionN
 
     // TODO: Check are property positions really fixed in the effect?
 
-    m_color.construct(properties.at(2).toObject().value(QLatin1String("v")).toObject(), version);
-    m_opacity.construct(properties.at(6).toObject().value(QLatin1String("v")).toObject(), version);
+    m_color.construct(properties.at(2).toObject().value(QLatin1String("v")).toObject());
+    m_opacity.construct(properties.at(6).toObject().value(QLatin1String("v")).toObject());
 
     if (!qFuzzyCompare(properties.at(0).toObject().value(QLatin1String("v")).toObject().value(QLatin1String("k")).toDouble(), 0.0))
         qCWarning(lcLottieQtLottieParser)<< "QLottieFillEffect: Property 'Fill mask' not supported";

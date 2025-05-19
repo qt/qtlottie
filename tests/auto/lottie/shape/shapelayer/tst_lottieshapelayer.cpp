@@ -148,8 +148,6 @@ void tst_QLottieShapeLayer::loadTestData(const QString &filename)
     if (rootObj.empty())
         QFAIL("Cannot parse test file");
 
-    const auto version = QVersionNumber::fromString(rootObj.value("v"_L1).toString());
-
     m_width = rootObj.value(QLatin1String("w")).toVariant().toReal();
     m_height = rootObj.value(QLatin1String("h")).toVariant().toReal();
 
@@ -158,7 +156,7 @@ void tst_QLottieShapeLayer::loadTestData(const QString &filename)
     int type = layerObj.value(QLatin1String("ty")).toInt();
     if (type != 4)
         QFAIL("It's not shape layer");
-    m_layer = new QLottieShapeLayer(layerObj, version);
+    m_layer = new QLottieShapeLayer(layerObj);
     QVERIFY(m_layer != nullptr);
 
     if (layers.size() > 1) {
@@ -166,7 +164,7 @@ void tst_QLottieShapeLayer::loadTestData(const QString &filename)
         type = layerObj.value(QLatin1String("ty")).toInt();
         if (type != 4)
             QFAIL("it's not shape layer");
-        m_clippedlayer = new QLottieShapeLayer(layerObj, version);
+        m_clippedlayer = new QLottieShapeLayer(layerObj);
         QVERIFY(m_clippedlayer != nullptr);
     }
 }

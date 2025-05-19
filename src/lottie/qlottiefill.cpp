@@ -12,7 +12,7 @@ QLottieFill::QLottieFill(const QLottieFill &other)
     m_opacity = other.m_opacity;
 }
 
-QLottieFill::QLottieFill(const QJsonObject &definition, const QVersionNumber &version, QLottieBase *parent)
+QLottieFill::QLottieFill(const QJsonObject &definition, QLottieBase *parent)
 {
     setParent(parent);
     QLottieBase::parse(definition);
@@ -22,11 +22,11 @@ QLottieFill::QLottieFill(const QJsonObject &definition, const QVersionNumber &ve
     qCDebug(lcLottieQtLottieParser) << "QLottieFill::construct():" << m_name;
 
     QJsonObject color = definition.value(QLatin1String("c")).toObject();
-    m_color.construct(color, version);
+    m_color.construct(color);
 
     QJsonObject opacity = definition.value(QLatin1String("o")).toObject();
     opacity = resolveExpression(opacity);
-    m_opacity.construct(opacity, version);
+    m_opacity.construct(opacity);
 }
 
 QLottieBase *QLottieFill::clone() const

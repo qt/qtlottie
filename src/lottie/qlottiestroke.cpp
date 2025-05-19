@@ -24,7 +24,7 @@ QLottieStroke::QLottieStroke(const QLottieStroke &other)
     m_isDashed = other.m_isDashed;
 }
 
-QLottieStroke::QLottieStroke(const QJsonObject &definition, const QVersionNumber &version, QLottieBase *parent)
+QLottieStroke::QLottieStroke(const QJsonObject &definition, QLottieBase *parent)
 {
     setParent(parent);
 
@@ -67,15 +67,15 @@ QLottieStroke::QLottieStroke(const QJsonObject &definition, const QVersionNumber
 
     QJsonObject opacity = definition.value(QLatin1String("o")).toObject();
     opacity = resolveExpression(opacity);
-    m_opacity.construct(opacity, version);
+    m_opacity.construct(opacity);
 
     QJsonObject width = definition.value(QLatin1String("w")).toObject();
     width = resolveExpression(width);
-    m_width.construct(width, version);
+    m_width.construct(width);
 
     QJsonObject color = definition.value(QLatin1String("c")).toObject();
     color = resolveExpression(color);
-    m_color.construct(color, version);
+    m_color.construct(color);
 
     QJsonArray dashes = definition.value(QLatin1String("d")).toArray();
     if (dashes.size()) {
@@ -86,11 +86,11 @@ QLottieStroke::QLottieStroke(const QJsonObject &definition, const QVersionNumber
             QJsonObject val = resolveExpression(dashSpec.value(QLatin1String("v")).toObject());
             QString n = dashSpec.value(QLatin1String("n")).toString();
             if (n == QLatin1String("o"))
-                m_dashOffset.construct(val, version);
+                m_dashOffset.construct(val);
             else if (n == QLatin1String("g"))
-                m_dashGap.construct(val, version);
+                m_dashGap.construct(val);
             else if (n == QLatin1String("d"))
-                m_dashLength.construct(val, version);
+                m_dashLength.construct(val);
         }
         m_isDashed = true;
     }

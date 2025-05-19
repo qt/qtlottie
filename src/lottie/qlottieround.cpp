@@ -16,10 +16,10 @@ QLottieRound::QLottieRound(const QLottieRound &other)
     m_radius = other.m_radius;
 }
 
-QLottieRound::QLottieRound(const QJsonObject &definition, const QVersionNumber &version, QLottieBase *parent)
+QLottieRound::QLottieRound(const QJsonObject &definition, QLottieBase *parent)
 {
     setParent(parent);
-    construct(definition, version);
+    construct(definition);
 }
 
 QLottieBase *QLottieRound::clone() const
@@ -27,7 +27,7 @@ QLottieBase *QLottieRound::clone() const
     return new QLottieRound(*this);
 }
 
-void QLottieRound::construct(const QJsonObject &definition, const QVersionNumber &version)
+void QLottieRound::construct(const QJsonObject &definition)
 {
     QLottieBase::parse(definition);
     if (m_hidden)
@@ -37,11 +37,11 @@ void QLottieRound::construct(const QJsonObject &definition, const QVersionNumber
 
     QJsonObject position = definition.value(QLatin1String("p")).toObject();
     position = resolveExpression(position);
-    m_position.construct(position, version);
+    m_position.construct(position);
 
     QJsonObject radius = definition.value(QLatin1String("r")).toObject();
     radius = resolveExpression(radius);
-    m_radius.construct(radius, version);
+    m_radius.construct(radius);
 }
 
 void QLottieRound::updateProperties(int frame)

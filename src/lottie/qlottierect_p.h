@@ -33,11 +33,11 @@ class LOTTIE_EXPORT QLottieRect : public QLottieShape
 public:
     QLottieRect() = default;
     explicit QLottieRect(const QLottieRect &other);
-    QLottieRect(const QJsonObject &definition, const QVersionNumber &version, QLottieBase *parent = nullptr);
+    QLottieRect(const QJsonObject &definition, QLottieBase *parent = nullptr);
 
     QLottieBase *clone() const override;
 
-    void construct(const QJsonObject &definition, const QVersionNumber &version);
+    void construct(const QJsonObject &definition);
 
     bool setProperty(QLottieLiteral::PropertyType propertyType, QVariant value) override;
 

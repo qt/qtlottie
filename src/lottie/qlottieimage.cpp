@@ -19,10 +19,10 @@ QLottieImage::QLottieImage(const QLottieImage &other)
     m_image = other.m_image;
 }
 
-QLottieImage::QLottieImage(const QJsonObject &definition, const QVersionNumber &version, QLottieBase *parent)
+QLottieImage::QLottieImage(const QJsonObject &definition, QLottieBase *parent)
 {
     setParent(parent);
-    construct(definition, version);
+    construct(definition);
 }
 
 QLottieBase *QLottieImage::clone() const
@@ -30,7 +30,7 @@ QLottieBase *QLottieImage::clone() const
     return new QLottieImage(*this);
 }
 
-void QLottieImage::construct(const QJsonObject &definition, const QVersionNumber &version)
+void QLottieImage::construct(const QJsonObject &definition)
 {
     QLottieBase::parse(definition);
     if (m_hidden)
@@ -60,11 +60,11 @@ void QLottieImage::construct(const QJsonObject &definition, const QVersionNumber
 
     QJsonObject position = definition.value(QLatin1String("p")).toObject();
     position = resolveExpression(position);
-    m_position.construct(position, version);
+    m_position.construct(position);
 
     QJsonObject radius = definition.value(QLatin1String("r")).toObject();
     radius = resolveExpression(radius);
-    m_radius.construct(radius, version);
+    m_radius.construct(radius);
 }
 
 void QLottieImage::updateProperties(int frame)

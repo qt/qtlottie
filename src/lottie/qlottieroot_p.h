@@ -27,9 +27,7 @@ public:
 
     QLottieBase *clone() const override;
 
-    int parseSource(const QByteArray &jsonSource,
-                    const QUrl &fileSource,
-                    QVersionNumber version = QVersionNumber());
+    int parseSource(const QByteArray &jsonSource, const QUrl &fileSource);
 
     void setStructureDumping(bool enabled);
 };

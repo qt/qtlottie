@@ -14,12 +14,12 @@ QLottieTrimPath::QLottieTrimPath()
     m_appliedTrim = this;
 }
 
-QLottieTrimPath::QLottieTrimPath(const QJsonObject &definition, const QVersionNumber &version, QLottieBase *parent)
+QLottieTrimPath::QLottieTrimPath(const QJsonObject &definition, QLottieBase *parent)
 {
     m_appliedTrim = this;
 
     setParent(parent);
-    construct(definition, version);
+    construct(definition);
 }
 
 QLottieTrimPath::QLottieTrimPath(const QLottieTrimPath &other)
@@ -36,7 +36,7 @@ QLottieBase *QLottieTrimPath::clone() const
     return new QLottieTrimPath(*this);
 }
 
-void QLottieTrimPath::construct(const QJsonObject &definition, const QVersionNumber &version)
+void QLottieTrimPath::construct(const QJsonObject &definition)
 {
     QLottieBase::parse(definition);
     if (m_hidden)
@@ -46,15 +46,15 @@ void QLottieTrimPath::construct(const QJsonObject &definition, const QVersionNum
 
     QJsonObject start = definition.value(QLatin1String("s")).toObject();
     start = resolveExpression(start);
-    m_start.construct(start, version);
+    m_start.construct(start);
 
     QJsonObject end = definition.value(QLatin1String("e")).toObject();
     end = resolveExpression(end);
-    m_end.construct(end, version);
+    m_end.construct(end);
 
     QJsonObject offset = definition.value(QLatin1String("o")).toObject();
     offset = resolveExpression(offset);
-    m_offset.construct(offset, version);
+    m_offset.construct(offset);
 
     int multiMode = 1;
     if (definition.contains(QLatin1String("m"))) {

@@ -3,11 +3,11 @@
 
 #include "qlottierepeater_p.h"
 
-QLottieRepeater::QLottieRepeater(const QJsonObject &definition, const QVersionNumber &version, QLottieBase *parent)
+QLottieRepeater::QLottieRepeater(const QJsonObject &definition, QLottieBase *parent)
 {
     setParent(parent);
     m_transform.setParent(this);
-    construct(definition, version);
+    construct(definition);
 }
 
 QLottieBase *QLottieRepeater::clone() const
@@ -15,7 +15,7 @@ QLottieBase *QLottieRepeater::clone() const
     return new QLottieRepeater(*this);
 }
 
-void QLottieRepeater::construct(const QJsonObject &definition, const QVersionNumber &version)
+void QLottieRepeater::construct(const QJsonObject &definition)
 {
     qCDebug(lcLottieQtLottieParser) << "QLottieRepeater::construct():" << m_name;
 
@@ -25,13 +25,13 @@ void QLottieRepeater::construct(const QJsonObject &definition, const QVersionNum
 
     QJsonObject copies = definition.value(QLatin1String("c")).toObject();
     copies = resolveExpression(copies);
-    m_copies.construct(copies, version);
+    m_copies.construct(copies);
 
     QJsonObject offset = definition.value(QLatin1String("o")).toObject();
     offset = resolveExpression(offset);
-    m_offset.construct(offset, version);
+    m_offset.construct(offset);
 
-    m_transform.construct(definition.value(QLatin1String("tr")).toObject(), version);
+    m_transform.construct(definition.value(QLatin1String("tr")).toObject());
 }
 
 void QLottieRepeater::updateProperties(int frame)

@@ -35,11 +35,11 @@ class LOTTIE_EXPORT QLottieRound : public QLottieShape
 public:
     QLottieRound() = default;
     explicit QLottieRound(const QLottieRound &other);
-    QLottieRound(const QJsonObject &definition, const QVersionNumber &version, QLottieBase *parent = nullptr);
+    QLottieRound(const QJsonObject &definition, QLottieBase *parent = nullptr);
 
     QLottieBase *clone() const override;
 
-    void construct(const QJsonObject &definition, const QVersionNumber &version);
+    void construct(const QJsonObject &definition);
 
     void updateProperties(int frame) override;
     void render(QLottieRenderer &renderer) const override;

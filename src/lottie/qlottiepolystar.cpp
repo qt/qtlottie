@@ -21,10 +21,10 @@ QLottiePolyStar::QLottiePolyStar(const QLottiePolyStar &other)
     m_polygonMode = other.m_polygonMode;
 }
 
-QLottiePolyStar::QLottiePolyStar(const QJsonObject &definition, const QVersionNumber &version, QLottieBase *parent)
+QLottiePolyStar::QLottiePolyStar(const QJsonObject &definition, QLottieBase *parent)
 {
     setParent(parent);
-    construct(definition, version);
+    construct(definition);
 }
 
 QLottieBase *QLottiePolyStar::clone() const
@@ -32,7 +32,7 @@ QLottieBase *QLottiePolyStar::clone() const
     return new QLottiePolyStar(*this);
 }
 
-void QLottiePolyStar::construct(const QJsonObject &definition, const QVersionNumber &version)
+void QLottiePolyStar::construct(const QJsonObject &definition)
 {
     QLottieBase::parse(definition);
     if (m_hidden)
@@ -42,23 +42,23 @@ void QLottiePolyStar::construct(const QJsonObject &definition, const QVersionNum
 
     QJsonObject position = definition.value(QLatin1String("p")).toObject();
     position = resolveExpression(position);
-    m_position.construct(position, version);
+    m_position.construct(position);
 
     QJsonObject outerRadius = definition.value(QLatin1String("or")).toObject();
     outerRadius = resolveExpression(outerRadius);
-    m_outerRadius.construct(outerRadius, version);
+    m_outerRadius.construct(outerRadius);
 
     QJsonObject innerRadius = definition.value(QLatin1String("ir")).toObject();
     innerRadius = resolveExpression(innerRadius);
-    m_innerRadius.construct(innerRadius, version);
+    m_innerRadius.construct(innerRadius);
 
     QJsonObject startAngle = definition.value(QLatin1String("r")).toObject();
     startAngle = resolveExpression(startAngle);
-    m_startAngle.construct(startAngle, version);
+    m_startAngle.construct(startAngle);
 
     QJsonObject pointCount = definition.value(QLatin1String("pt")).toObject();
     pointCount = resolveExpression(pointCount);
-    m_pointCount.construct(pointCount, version);
+    m_pointCount.construct(pointCount);
 
     m_polygonMode = (definition.value(QLatin1String("sy")).toInt() == 2);
 

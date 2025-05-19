@@ -28,7 +28,7 @@ class LOTTIE_EXPORT QLottieNullLayer : public QLottieLayer
 public:
     QLottieNullLayer() = default;
     explicit QLottieNullLayer(const QLottieNullLayer &other);
-    QLottieNullLayer(const QJsonObject &definition, const QVersionNumber &version);
+    QLottieNullLayer(const QJsonObject &definition);
 
     QLottieBase *clone() const override;
 
@@ -40,7 +40,7 @@ class LOTTIE_EXPORT QLottieSolidLayer : public QLottieLayer
 public:
     QLottieSolidLayer() = default;
     explicit QLottieSolidLayer(const QLottieSolidLayer &other);
-    QLottieSolidLayer(const QJsonObject &definition, const QVersionNumber &version);
+    QLottieSolidLayer(const QJsonObject &definition);
 
     QLottieBase *clone() const override;
 
@@ -57,7 +57,7 @@ class LOTTIE_EXPORT QLottieImageLayer : public QLottieLayer
 public:
     QLottieImageLayer() = default;
     explicit QLottieImageLayer(const QLottieImageLayer &other);
-    QLottieImageLayer(const QJsonObject &definition, const QVersionNumber &version);
+    QLottieImageLayer(const QJsonObject &definition);
 
     QLottieBase *clone() const override;
 

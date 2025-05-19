@@ -49,7 +49,7 @@ class QLottieProperty
 public:
     virtual ~QLottieProperty() = default;
 
-    virtual void construct(const QJsonObject &definition, const QVersionNumber &version)
+    virtual void construct(const QJsonObject &definition)
     {
         if (definition.value(QLatin1String("s")).toVariant().toInt())
             qCWarning(lcLottieQtLottieParser)
@@ -61,7 +61,7 @@ public:
             QJsonArray keyframes = definition.value(QLatin1String("k")).toArray();
             QJsonArray::const_iterator it = keyframes.constBegin();
 
-            bool schemaChanged = (version >= QVersionNumber(5, 4, 0));
+            const bool schemaChanged = keyframes.last().toObject().contains(QLatin1String("s"));
 
             if (!schemaChanged) {
                 while (it != keyframes.constEnd()) {

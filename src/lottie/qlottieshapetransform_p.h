@@ -29,11 +29,11 @@ class LOTTIE_EXPORT QLottieShapeTransform :  public QLottieBasicTransform
 {
 public:
     explicit QLottieShapeTransform(const QLottieShapeTransform &other);
-    QLottieShapeTransform(const QJsonObject &definition, const QVersionNumber &version, QLottieBase *parent);
+    QLottieShapeTransform(const QJsonObject &definition, QLottieBase *parent);
 
     QLottieBase *clone() const override;
 
-    void construct(const QJsonObject &definition, const QVersionNumber &version);
+    void construct(const QJsonObject &definition);
 
     void updateProperties(int frame) override;
     void render(QLottieRenderer &renderer) const override;

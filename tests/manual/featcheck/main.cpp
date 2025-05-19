@@ -47,8 +47,6 @@ int main(int argc, char *argv[])
     if (rootObj.value(QLatin1String("markers")).toArray().count())
         qWarning() << "markers not supported";
 
-    const auto version = QVersionNumber::fromString(rootObj.value("v"_L1).toString());
-
     QMap<QString, QJsonObject> assets;
     QJsonArray jsonLayers = rootObj.value(QLatin1String("layers")).toArray();
     QJsonArray jsonAssets = rootObj.value(QLatin1String("assets")).toArray();
@@ -64,7 +62,7 @@ int main(int argc, char *argv[])
     QJsonArray::const_iterator jsonLayerIt = jsonLayers.constBegin();
     while (jsonLayerIt != jsonLayers.constEnd()) {
         QJsonObject jsonLayer = (*jsonLayerIt).toObject();
-        QLottieLayer *layer = QLottieLayer::construct(jsonLayer, assets, version);
+        QLottieLayer *layer = QLottieLayer::construct(jsonLayer, assets);
         if (layer)
             delete layer;
         jsonLayerIt++;

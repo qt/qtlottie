@@ -19,7 +19,7 @@ QLottieBase *QLottieRoot::clone() const
     return new QLottieRoot(*this);
 }
 
-int QLottieRoot::parseSource(const QByteArray &jsonSource, const QUrl &fileSource, QVersionNumber version)
+int QLottieRoot::parseSource(const QByteArray &jsonSource, const QUrl &fileSource)
 {
     QJsonDocument doc = QJsonDocument::fromJson(jsonSource);
     QJsonObject rootObj = doc.object();
@@ -27,9 +27,6 @@ int QLottieRoot::parseSource(const QByteArray &jsonSource, const QUrl &fileSourc
 
     if (rootObj.empty())
         return -1;
-
-    if (version.isNull())
-        version = QVersionNumber::fromString(rootObj.value(QLatin1String("v")).toString());
 
     QMap<QString, QJsonObject> assets;
     QJsonArray jsonLayers = rootObj.value(QLatin1String("layers")).toArray();
@@ -44,7 +41,7 @@ int QLottieRoot::parseSource(const QByteArray &jsonSource, const QUrl &fileSourc
         jsonAssetsIt++;
     }
 
-    QLottieLayer::constructLayers(jsonLayers, this, assets, version);
+    QLottieLayer::constructLayers(jsonLayers, this, assets);
 
     return 0;
 }

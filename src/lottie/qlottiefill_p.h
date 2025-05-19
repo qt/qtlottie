@@ -28,7 +28,7 @@ class LOTTIE_EXPORT QLottieFill : public QLottieShape
 public:
     QLottieFill() = default;
     explicit QLottieFill(const QLottieFill &other);
-    QLottieFill(const QJsonObject &definition, const QVersionNumber &version, QLottieBase *parent = nullptr);
+    QLottieFill(const QJsonObject &definition, QLottieBase *parent = nullptr);
 
     QLottieBase *clone() const override;
 

@@ -22,10 +22,9 @@ QLottieShapeLayer::QLottieShapeLayer(const QLottieShapeLayer &other)
     m_appliedTrim = other.m_appliedTrim;
 }
 
-QLottieShapeLayer::QLottieShapeLayer(const QJsonObject &definition, const QVersionNumber &version)
+QLottieShapeLayer::QLottieShapeLayer(const QJsonObject &definition)
 {
     m_type = LOTTIE_LAYER_SHAPE_IX;
-    m_version = version;
 
     QLottieLayer::parse(definition);
     if (m_hidden)
@@ -37,7 +36,7 @@ QLottieShapeLayer::QLottieShapeLayer(const QJsonObject &definition, const QVersi
     QJsonArray::const_iterator itemIt = items.constEnd();
     while (itemIt != items.constBegin()) {
         itemIt--;
-        QLottieShape *shape = QLottieShape::construct((*itemIt).toObject(), version, this);
+        QLottieShape *shape = QLottieShape::construct((*itemIt).toObject(), this);
         if (shape)
             appendChild(shape);
     }

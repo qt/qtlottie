@@ -87,9 +87,7 @@ void QBatchRenderer::registerAnimator(QLottieAnimation *animator)
     entry->currentFrame = animator->startFrame();
     entry->animDir = animator->direction();
     QLottieRoot *root = new QLottieRoot;
-    root->parseSource(animator->jsonSource(),
-                      m_animData.keys().last()->source(),
-                      animator->version());
+    root->parseSource(animator->jsonSource(), m_animData.keys().last()->source());
     entry->lottieTreeBlueprint = root;
     m_waitCondition.wakeAll();
 }

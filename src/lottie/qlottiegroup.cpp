@@ -13,10 +13,10 @@
 
 QT_BEGIN_NAMESPACE
 
-QLottieGroup::QLottieGroup(const QJsonObject &definition, const QVersionNumber &version, QLottieBase *parent)
+QLottieGroup::QLottieGroup(const QJsonObject &definition, QLottieBase *parent)
 {
     setParent(parent);
-    construct(definition, version);
+    construct(definition);
 }
 
 QLottieBase *QLottieGroup::clone() const
@@ -24,7 +24,7 @@ QLottieBase *QLottieGroup::clone() const
     return new QLottieGroup(*this);
 }
 
-void QLottieGroup::construct(const QJsonObject &definition, const QVersionNumber &version)
+void QLottieGroup::construct(const QJsonObject &definition)
 {
     QLottieBase::parse(definition);
     if (m_hidden)
@@ -37,7 +37,7 @@ void QLottieGroup::construct(const QJsonObject &definition, const QVersionNumber
     QJsonArray::const_iterator itemIt = groupItems.constEnd();
     while (itemIt != groupItems.constBegin()) {
         itemIt--;
-        QLottieShape *shape = QLottieShape::construct((*itemIt).toObject(), version, this);
+        QLottieShape *shape = QLottieShape::construct((*itemIt).toObject(), this);
         if (shape) {
             // Transform affects how group contents are drawn.
             // It must be traversed first when drawing

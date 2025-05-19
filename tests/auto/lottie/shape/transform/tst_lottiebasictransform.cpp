@@ -368,8 +368,6 @@ void tst_QLottieBasicTransform::loadTestData(const QString &filename)
     if (rootObj.empty())
         QFAIL("Cannot parse test file");
 
-    const auto version = QVersionNumber::fromString(rootObj.value("v"_L1).toString());
-
     QJsonArray layers = rootObj.value(QLatin1String("layers")).toArray();
     QJsonObject layerObj = layers[0].toObject();
     int type = layerObj.value(QLatin1String("ty")).toInt();
@@ -377,7 +375,7 @@ void tst_QLottieBasicTransform::loadTestData(const QString &filename)
         QFAIL("It's not shape layer");
 
     QJsonObject transformObj = layerObj.value(QLatin1String("ks")).toObject();
-    m_transform = new QLottieBasicTransform(transformObj, version);
+    m_transform = new QLottieBasicTransform(transformObj);
 
     QVERIFY(m_transform != nullptr);
 }

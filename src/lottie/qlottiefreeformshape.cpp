@@ -19,11 +19,11 @@ QLottieFreeFormShape::QLottieFreeFormShape(const QLottieFreeFormShape &other)
     m_vertexMap = other.m_vertexMap;
 }
 
-QLottieFreeFormShape::QLottieFreeFormShape(const QJsonObject &definition, const QVersionNumber &version,
+QLottieFreeFormShape::QLottieFreeFormShape(const QJsonObject &definition,
                                  QLottieBase *parent)
 {
     setParent(parent);
-    construct(definition, version);
+    construct(definition);
 }
 
 QLottieBase *QLottieFreeFormShape::clone() const
@@ -31,10 +31,9 @@ QLottieBase *QLottieFreeFormShape::clone() const
     return new QLottieFreeFormShape(*this);
 }
 
-void QLottieFreeFormShape::construct(const QJsonObject &definition, const QVersionNumber &version)
+void QLottieFreeFormShape::construct(const QJsonObject &definition)
 {
     QLottieBase::parse(definition);
-    m_version = version;
     if (m_hidden)
         return;
 
@@ -291,9 +290,9 @@ void QLottieFreeFormShape::finalizeVertices()
         coObj.insert(QLatin1String("k"), m_vertexInfos.value(i)->coKeyframes);
 
         VertexInfo vertexInfo;
-        vertexInfo.pos.construct(posObj, m_version);
-        vertexInfo.ci.construct(ciObj, m_version);
-        vertexInfo.co.construct(coObj, m_version);
+        vertexInfo.pos.construct(posObj);
+        vertexInfo.ci.construct(ciObj);
+        vertexInfo.co.construct(coObj);
         m_vertexList.push_back(vertexInfo);
     }
     qDeleteAll(m_vertexInfos);

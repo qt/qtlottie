@@ -30,7 +30,7 @@ class LOTTIE_EXPORT QLottieGFill : public QLottieShape
 public:
     QLottieGFill() = default;
     explicit QLottieGFill(const QLottieGFill &other);
-    QLottieGFill(const QJsonObject &definition, const QVersionNumber &version, QLottieBase *parent = nullptr);
+    QLottieGFill(const QJsonObject &definition, QLottieBase *parent = nullptr);
     ~QLottieGFill() override;
 
     QLottieBase *clone() const override;

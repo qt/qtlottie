@@ -17,10 +17,10 @@ QLottieEllipse::QLottieEllipse(const QLottieEllipse &other)
     m_size = other.m_size;
 }
 
-QLottieEllipse::QLottieEllipse(const QJsonObject &definition, const QVersionNumber &version, QLottieBase *parent)
+QLottieEllipse::QLottieEllipse(const QJsonObject &definition, QLottieBase *parent)
 {
     setParent(parent);
-    construct(definition, version);
+    construct(definition);
 }
 
 QLottieBase *QLottieEllipse::clone() const
@@ -28,7 +28,7 @@ QLottieBase *QLottieEllipse::clone() const
     return new QLottieEllipse(*this);
 }
 
-void QLottieEllipse::construct(const QJsonObject &definition, const QVersionNumber &version)
+void QLottieEllipse::construct(const QJsonObject &definition)
 {
     QLottieBase::parse(definition);
     if (m_hidden)
@@ -38,11 +38,11 @@ void QLottieEllipse::construct(const QJsonObject &definition, const QVersionNumb
 
     QJsonObject position = definition.value(QLatin1String("p")).toObject();
     position = resolveExpression(position);
-    m_position.construct(position, version);
+    m_position.construct(position);
 
     QJsonObject size = definition.value(QLatin1String("s")).toObject();
     size = resolveExpression(size);
-    m_size.construct(size, version);
+    m_size.construct(size);
 
     m_direction = definition.value(QLatin1String("d")).toInt();
 }

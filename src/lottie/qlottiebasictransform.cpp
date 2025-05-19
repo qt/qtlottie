@@ -23,11 +23,11 @@ QLottieBasicTransform::QLottieBasicTransform(const QLottieBasicTransform &other)
     m_opacity = other.m_opacity;
 }
 
-QLottieBasicTransform::QLottieBasicTransform(const QJsonObject &definition, const QVersionNumber &version,
+QLottieBasicTransform::QLottieBasicTransform(const QJsonObject &definition,
                                    QLottieBase *parent)
 {
     setParent(parent);
-    construct(definition, version);
+    construct(definition);
 }
 
 QLottieBase *QLottieBasicTransform::clone() const
@@ -35,7 +35,7 @@ QLottieBase *QLottieBasicTransform::clone() const
     return new QLottieBasicTransform(*this);
 }
 
-void QLottieBasicTransform::construct(const QJsonObject &definition, const QVersionNumber &version)
+void QLottieBasicTransform::construct(const QJsonObject &definition)
 {
     QLottieBase::parse(definition);
 
@@ -44,42 +44,42 @@ void QLottieBasicTransform::construct(const QJsonObject &definition, const QVers
 
     QJsonObject anchors = definition.value(QLatin1String("a")).toObject();
     anchors = resolveExpression(anchors);
-    m_anchorPoint.construct(anchors, version);
+    m_anchorPoint.construct(anchors);
 
     if (definition.value(QLatin1String("p")).toObject().contains(QLatin1String("s"))) {
         QJsonObject posX = definition.value(QLatin1String("p")).toObject().value(QLatin1String("x")).toObject();
         posX = resolveExpression(posX);
-        m_xPos.construct(posX, version);
+        m_xPos.construct(posX);
 
         QJsonObject posY = definition.value(QLatin1String("p")).toObject().value(QLatin1String("y")).toObject();
         posY = resolveExpression(posY);
-        m_yPos.construct(posY, version);
+        m_yPos.construct(posY);
 
         m_splitPosition = true;
     } else {
         QJsonObject position = definition.value(QLatin1String("p")).toObject();
         position = resolveExpression(position);
-        m_position.construct(position, version);
+        m_position.construct(position);
     }
 
     if (definition.contains(QLatin1String("s"))) {
         QJsonObject scale = definition.value(QLatin1String("s")).toObject();
         scale = resolveExpression(scale);
-        m_scale.construct(scale, version);
+        m_scale.construct(scale);
     } else {
         m_scale.setValue(QPointF(100, 100));
     }
 
     QJsonObject rotation = definition.value(QLatin1String("r")).toObject();
     rotation = resolveExpression(rotation);
-    m_rotation.construct(rotation, version);
+    m_rotation.construct(rotation);
 
     // If this is the base class for QLottieRepeaterTransform,
     // opacity is not present
     if (definition.contains(QLatin1String("o"))) {
         QJsonObject opacity = definition.value(QLatin1String("o")).toObject();
         opacity = resolveExpression(opacity);
-        m_opacity.construct(opacity, version);
+        m_opacity.construct(opacity);
     } else {
         m_opacity.setValue(100);
     }

@@ -30,7 +30,7 @@ class LOTTIE_EXPORT QLottieShapeLayer : public QLottieLayer
 public:
     QLottieShapeLayer() = default;
     explicit QLottieShapeLayer(const QLottieShapeLayer &other);
-    QLottieShapeLayer(const QJsonObject &definition, const QVersionNumber &version);
+    QLottieShapeLayer(const QJsonObject &definition);
 
     QLottieBase *clone() const override;
 

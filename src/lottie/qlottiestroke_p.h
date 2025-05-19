@@ -28,8 +28,7 @@ class LOTTIE_EXPORT QLottieStroke : public QLottieShape
 public:
     QLottieStroke() = default;
     explicit QLottieStroke(const QLottieStroke &other);
-    QLottieStroke(const QJsonObject &definition, const QVersionNumber &version,
-             QLottieBase *parent = nullptr);
+    QLottieStroke(const QJsonObject &definition, QLottieBase *parent = nullptr);
 
     QLottieBase *clone() const override;
 

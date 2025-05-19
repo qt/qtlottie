@@ -26,12 +26,12 @@ class LOTTIE_EXPORT QLottieRepeaterTransform : public QLottieBasicTransform
 public:
     QLottieRepeaterTransform() = default;
     explicit QLottieRepeaterTransform(const QLottieRepeaterTransform &other);
-    QLottieRepeaterTransform(const QJsonObject &definition, const QVersionNumber &version,
+    QLottieRepeaterTransform(const QJsonObject &definition,
                         QLottieBase *parent);
 
     QLottieBase *clone() const override;
 
-    void construct(const QJsonObject &definition, const QVersionNumber &version);
+    void construct(const QJsonObject &definition);
 
     void updateProperties(int frame) override;
     void render(QLottieRenderer &renderer) const override;

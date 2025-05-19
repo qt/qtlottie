@@ -49,8 +49,7 @@ public:
 
     QLottieBase *clone() const override;
 
-    static QLottieShape *construct(QJsonObject definition, const QVersionNumber &version,
-                              QLottieBase *parent = nullptr);
+    static QLottieShape *construct(QJsonObject definition, QLottieBase *parent = nullptr);
 
     virtual const QPainterPath &path() const;
     virtual bool acceptsTrim() const;
