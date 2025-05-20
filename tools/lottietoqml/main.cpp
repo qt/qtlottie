@@ -1,0 +1,132 @@
+// Copyright (C) 2025 The Qt Company Ltd.
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
+
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+#include <QCommandLineParser>
+#include <QFile>
+#include <QQuickWindow>
+#include <QQuickItem>
+#include <QtQuickVectorImageGenerator/private/qquickitemgenerator_p.h>
+#include <QtQuickVectorImageGenerator/private/qquickqmlgenerator_p.h>
+#include <QtQuickVectorImageGenerator/private/qquickvectorimageglobal_p.h>
+#include <qlottievisitor_p.h>
+#include <QtLottie/private/qlottieroot_p.h>
+
+#define ENABLE_GUI
+
+int main(int argc, char *argv[])
+{
+#ifdef ENABLE_GUI
+    QGuiApplication app(argc, argv);
+#else
+    QCoreApplication app(argc, argv);
+#endif
+
+    QCommandLineParser parser;
+    parser.setApplicationDescription("Lottie to QML converter [tech preview]");
+    parser.addHelpOption();
+    parser.addPositionalArgument("input", QCoreApplication::translate("main", "Lottie file to read."));
+    parser.addPositionalArgument("output", QCoreApplication::translate("main", "QML file to write."), "[output]");
+
+    QCommandLineOption curveRendererOption({ "c", "curve-renderer" },
+                                           QCoreApplication::translate("main", "Use the curve renderer in generated QML."));
+    parser.addOption(curveRendererOption);
+
+    QCommandLineOption optimizeOption({ "p", "optimize-paths" },
+                                      QCoreApplication::translate("main", "Optimize paths for the curve renderer."));
+    parser.addOption(optimizeOption);
+
+    QCommandLineOption typeNameOption({ "t", "type-name" },
+                                      QCoreApplication::translate("main", "Use <typename> for Shape."),
+                                      QCoreApplication::translate("main", "typename"));
+    parser.addOption(typeNameOption);
+
+    QCommandLineOption copyrightOption("copyright-statement",
+                                       QCoreApplication::translate("main", "Add <string> as a comment at the start of the generated file."),
+                                       QCoreApplication::translate("main", "string"));
+    parser.addOption(copyrightOption);
+
+#ifdef ENABLE_GUI
+    QCommandLineOption guiOption({ "v", "view" },
+                                 QCoreApplication::translate("main", "Display the generated QML in a window. This is the default behavior if no "
+                                                                     "output file is specified."));
+    parser.addOption(guiOption);
+#endif
+    parser.process(app);
+    const QStringList args = parser.positionalArguments();
+    if (args.size() < 1) {
+        parser.showHelp(1);
+    }
+
+    const QString inFileName = args.at(0);
+
+    QString commentString = QLatin1String("Generated from Lottie file %1").arg(inFileName);
+    QString importString = QLatin1String("Qt.labs.lottieqt.VectorImageHelpers");
+
+    const auto outFileName = args.size() > 1 ? args.at(1) : QString{};
+    const auto typeName = parser.value(typeNameOption);
+    auto copyrightString = parser.value(copyrightOption);
+
+    if (!copyrightString.isEmpty()) {
+        copyrightString = copyrightString.replace("\\n", "\n");
+        commentString = copyrightString + u"\n" + commentString;
+    }
+
+    QQuickVectorImageGenerator::GeneratorFlags flags;
+    if (parser.isSet(curveRendererOption))
+        flags |= QQuickVectorImageGenerator::GeneratorFlag::CurveRenderer;
+    if (parser.isSet(optimizeOption))
+        flags |= QQuickVectorImageGenerator::GeneratorFlag::OptimizePaths;
+
+    QQuickQmlGenerator generator(inFileName, flags, outFileName);
+    generator.setShapeTypeName(typeName);
+    generator.setCommentString(commentString);
+    generator.addExtraImport(importString);
+
+    int frameNo = qEnvironmentVariableIntValue("QLT_FRAMENO");
+
+    QFile f(inFileName);
+    bool ok = false;
+    QLottieRoot root;
+    if (f.open(QIODevice::ReadOnly)) {
+        QByteArray jsonSource = f.readAll();
+
+        if (!root.parseSource(jsonSource, inFileName)) {
+            root.setStructureDumping(true);
+            for (QLottieBase *elem : root.children()) {
+                if (elem->active(frameNo))
+                    elem->updateProperties(frameNo);
+            }
+
+            QLottieVisitor visitor(inFileName, &generator);
+            visitor.render(root);
+            ok = generator.save();
+        }
+    }
+
+#if defined(ENABLE_GUI)
+    if (ok && (parser.isSet(guiOption) || outFileName.isEmpty())) {
+        app.setOrganizationName("QtProject");
+        const QUrl url(QStringLiteral("qrc:/main.qml"));
+        QQmlApplicationEngine engine;
+        QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+                         &app, [&](QObject *obj, const QUrl &objUrl){
+            if (!obj && url == objUrl)
+                QCoreApplication::exit(-1);
+            if (obj) {
+                auto *containerItem = obj->findChild<QQuickItem*>(QStringLiteral("svg_item"));
+                QQuickItemGenerator generator(inFileName, flags, containerItem, engine.rootContext());
+                generator.addExtraImport(importString);
+
+                QLottieVisitor visitor(inFileName, &generator);
+                visitor.render(root);
+            }
+        });
+        engine.load(url);
+        return app.exec();
+    }
+#endif
+
+    return ok ? 0 : 1;
+}

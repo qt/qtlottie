@@ -20,3 +20,5 @@ qt_internal_add_docs(Lottie
 
 add_subdirectory(lottie)
 add_subdirectory(qml)
+
+add_subdirectory(vectorimagehelpers)
