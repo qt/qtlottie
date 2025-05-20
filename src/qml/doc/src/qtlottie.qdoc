@@ -11,6 +11,14 @@
     animations that are exported in JSON format by the \l Lottie plugins
     for Adobe After Effects.
 
+    The \e {Qt Lottie Animation} APIs render animations into an intermediate buffer using the
+    \l{QPainter} software renderer. This may impose some restrictions on the sizes of illustrations,
+    as well as on the target hardware. As an alternative, an experimental tool called
+    \l{lottietoqml} is included. This tool converts Lottie animations to QML. As a result, they
+    can be rendered using the hardware-accelerated renderer in Qt Quick. The tool is currently
+    considered to be in \e {technical preview}. It does not support the full range of features
+    supported by \e {Qt Lottie Animation} yet, and incompatible changes should be expected.
+
     \section1 Getting Started
 
 //! [usage]

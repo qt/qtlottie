@@ -98,6 +98,11 @@
                 "comment": "",
                 "file type": "3rd party",
                 "spdx": ["CC-BY-4.0"]
+            },
+            "tools/": {
+                "comment": "Default",
+                "file type": "tools",
+                "spdx": ["LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0"]
             }
         }
     }
