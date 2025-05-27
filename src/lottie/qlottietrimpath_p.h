@@ -23,7 +23,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class LOTTIE_EXPORT QLottieTrimPath : public QLottieShape
+class Q_LOTTIE_EXPORT QLottieTrimPath : public QLottieShape
 {
 public:
     QLottieTrimPath();

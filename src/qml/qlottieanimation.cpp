@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 // Qt-Security score:critical reason:data-parser
 
-#include "qlottieanimation.h"
+#include "qlottieanimation_p.h"
 
 #include <QQuickPaintedItem>
 #include <QJsonDocument>

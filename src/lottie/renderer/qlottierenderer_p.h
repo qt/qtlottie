@@ -18,7 +18,7 @@
 #include <QStack>
 // #include <private/qglobal_p.h>
 
-#include <QtLottie/qlottieglobal.h>
+#include <QtLottie/qtlottieexports.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -43,7 +43,7 @@ class QLottieTrimPath;
 class QLottieFillEffect;
 class QLottieRepeater;
 
-class LOTTIE_EXPORT QLottieRenderer
+class Q_LOTTIE_EXPORT QLottieRenderer
 {
 public:
     enum TrimmingState { Off = 0, Parallel, Sequential };

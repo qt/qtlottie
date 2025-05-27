@@ -28,7 +28,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class LOTTIE_EXPORT QLottieRect : public QLottieShape
+class Q_LOTTIE_EXPORT QLottieRect : public QLottieShape
 {
 public:
     QLottieRect() = default;

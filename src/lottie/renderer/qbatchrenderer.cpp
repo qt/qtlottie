@@ -20,7 +20,7 @@
 #include <QtLottie/private/qlottieroot_p.h>
 #include <QtLottie/private/qlottielayer_p.h>
 
-#include "qlottieanimation.h"
+#include <QtLottie/private/qlottieanimation_p.h>
 #include <QtLottie/private/qlottierasterrenderer_p.h>
 
 QT_BEGIN_NAMESPACE

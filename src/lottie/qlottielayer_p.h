@@ -22,7 +22,7 @@ QT_BEGIN_NAMESPACE
 
 class QLottieRenderer;
 
-class LOTTIE_EXPORT QLottieLayer : public QLottieBase
+class Q_LOTTIE_EXPORT QLottieLayer : public QLottieBase
 {
 public:
     enum MatteClipMode {NoClip, Alpha, InvertedAlpha, Luminence, InvertedLuminence};

@@ -23,7 +23,7 @@ QT_BEGIN_NAMESPACE
 class QJsonObject;
 class QLottieRenderer;
 
-class LOTTIE_EXPORT QLottieNullLayer : public QLottieLayer
+class Q_LOTTIE_EXPORT QLottieNullLayer : public QLottieLayer
 {
 public:
     QLottieNullLayer() = default;
@@ -35,7 +35,7 @@ public:
     void render(QLottieRenderer &render) const override;
 };
 
-class LOTTIE_EXPORT QLottieSolidLayer : public QLottieLayer
+class Q_LOTTIE_EXPORT QLottieSolidLayer : public QLottieLayer
 {
 public:
     QLottieSolidLayer() = default;
@@ -52,7 +52,7 @@ private:
     QColor m_color;
 };
 
-class LOTTIE_EXPORT QLottieImageLayer : public QLottieLayer
+class Q_LOTTIE_EXPORT QLottieImageLayer : public QLottieLayer
 {
 public:
     QLottieImageLayer() = default;

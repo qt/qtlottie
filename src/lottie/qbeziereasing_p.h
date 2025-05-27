@@ -15,13 +15,13 @@
 // We mean it.
 //
 
-#include <qlottieglobal.h>
+#include <qtlottieexports.h>
 
 #include <private/qbezier_p.h>
 
 QT_BEGIN_NAMESPACE
 
-class LOTTIE_EXPORT QBezierEasing
+class Q_LOTTIE_EXPORT QBezierEasing
 {
 public:
     void addCubicBezierSegment(const QPointF &c1, const QPointF &c2, const QPointF &endPoint);

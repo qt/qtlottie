@@ -25,7 +25,7 @@ class QLottieRenderer;
 class QLottieShape;
 class QLottieTrimPath;
 
-class LOTTIE_EXPORT QLottieShapeLayer : public QLottieLayer
+class Q_LOTTIE_EXPORT QLottieShapeLayer : public QLottieLayer
 {
 public:
     QLottieShapeLayer() = default;

@@ -25,7 +25,7 @@ QT_BEGIN_NAMESPACE
 
 class QJsonObject;
 
-class LOTTIE_EXPORT QLottieFillEffect : public QLottieBase
+class Q_LOTTIE_EXPORT QLottieFillEffect : public QLottieBase
 {
 public:
     QLottieFillEffect() = default;

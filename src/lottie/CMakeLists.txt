@@ -12,7 +12,6 @@ qt_internal_extend_target(Lottie
         qlottiefilleffect.cpp qlottiefilleffect_p.h
         qlottiefreeformshape.cpp qlottiefreeformshape_p.h
         qlottiegfill.cpp qlottiegfill_p.h
-        qlottieglobal.h
         qlottiegroup.cpp qlottiegroup_p.h
         qlottieimage.cpp qlottieimage_p.h
         qlottieflatlayers.cpp qlottieflatlayers_p.h
@@ -34,8 +33,6 @@ qt_internal_extend_target(Lottie
         renderer/qbatchrenderer.cpp renderer/qbatchrenderer_p.h
         renderer/qlottierenderer.cpp renderer/qlottierenderer_p.h
         renderer/qlottierasterrenderer.cpp renderer/qlottierasterrenderer_p.h
-    DEFINES
-        LOTTIE_LIBRARY
     INCLUDE_DIRECTORIES
         renderer
 )

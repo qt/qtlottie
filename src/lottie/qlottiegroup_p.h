@@ -26,7 +26,7 @@ QT_BEGIN_NAMESPACE
 class QLottieFill;
 class QLottieTrimPath;
 
-class LOTTIE_EXPORT QLottieGroup : public QLottieShape
+class Q_LOTTIE_EXPORT QLottieGroup : public QLottieShape
 {
 public:
     QLottieGroup() = default;

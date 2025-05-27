@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
 
 class QLottieRenderer;
 
-class LOTTIE_EXPORT QLottiePrecompLayer : public QLottieLayer
+class Q_LOTTIE_EXPORT QLottiePrecompLayer : public QLottieLayer
 {
 public:
     QLottiePrecompLayer() = default;
