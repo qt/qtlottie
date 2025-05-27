@@ -31,7 +31,7 @@ QT_BEGIN_NAMESPACE
 
 class QJsonObject;
 
-class LOTTIE_EXPORT QLottiePolyStar : public QLottieShape
+class Q_LOTTIE_EXPORT QLottiePolyStar : public QLottieShape
 {
 public:
     QLottiePolyStar() = default;

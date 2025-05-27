@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
 
 class QJsonObject;
 
-class LOTTIE_EXPORT QLottieRepeaterTransform : public QLottieBasicTransform
+class Q_LOTTIE_EXPORT QLottieRepeaterTransform : public QLottieBasicTransform
 {
 public:
     QLottieRepeaterTransform() = default;

@@ -6,8 +6,6 @@
 #include <QJsonObject>
 #include <QJsonValue>
 
-#include "qlottieglobal.h"
-
 QT_BEGIN_NAMESPACE
 
 QLottieFillEffect::QLottieFillEffect(const QLottieFillEffect &other)

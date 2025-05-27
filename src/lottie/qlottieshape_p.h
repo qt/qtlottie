@@ -41,7 +41,7 @@ class QLottieTrimPath;
 #define LOTTIE_SHAPE_TRANS_IX       11
 #define LOTTIE_SHAPE_REPEATER_IX    12
 
-class LOTTIE_EXPORT QLottieShape : public QLottieBase
+class Q_LOTTIE_EXPORT QLottieShape : public QLottieBase
 {
 public:
     QLottieShape() = default;

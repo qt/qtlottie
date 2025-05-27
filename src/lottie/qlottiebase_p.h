@@ -18,13 +18,13 @@
 #include <QJsonObject>
 #include <QList>
 
-#include <QtLottie/qlottieglobal.h>
+#include <QtLottie/qtlottieexports.h>
 #include <QtLottie/private/qlottieconstants_p.h>
 
 #include <QtLottie/private/qlottierenderer_p.h>
 
 QT_BEGIN_NAMESPACE
-class LOTTIE_EXPORT QLottieBase
+class Q_LOTTIE_EXPORT QLottieBase
 {
 public:
     QLottieBase() = default;

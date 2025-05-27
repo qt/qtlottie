@@ -23,7 +23,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class LOTTIE_EXPORT QLottieStroke : public QLottieShape
+class Q_LOTTIE_EXPORT QLottieStroke : public QLottieShape
 {
 public:
     QLottieStroke() = default;

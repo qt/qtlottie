@@ -1,10 +1,21 @@
 // Copyright (C) 2018 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#ifndef LOTTIEANIMATION_H
-#define LOTTIEANIMATION_H
+#ifndef LOTTIEANIMATION_P_H
+#define LOTTIEANIMATION_P_H
 
-#include <QtLottie/qlottieglobal.h>
+//
+//  W A R N I N G
+//  -------------
+//
+// This file is not part of the Qt API.  It exists purely as an
+// implementation detail.  This header file may change from version to
+// version without notice, or even be removed.
+//
+// We mean it.
+//
+
+#include <QtLottie/qtlottieexports.h>
 
 #include <QtCore/qbytearray.h>
 #include <QtCore/qlist.h>
@@ -19,7 +30,7 @@ class QQmlFile;
 
 class QBatchRenderer;
 
-class LOTTIE_EXPORT QLottieAnimation : public QQuickPaintedItem
+class Q_LOTTIE_EXPORT QLottieAnimation : public QQuickPaintedItem
 {
     Q_OBJECT
     Q_PROPERTY(QUrl source READ source WRITE setSource NOTIFY sourceChanged)
@@ -151,4 +162,4 @@ QT_END_NAMESPACE
 
 Q_DECLARE_METATYPE(QLottieAnimation*)
 
-#endif // LOTTIEANIMATION_H
+#endif // LOTTIEANIMATION_P_H

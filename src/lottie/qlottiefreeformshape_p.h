@@ -21,7 +21,7 @@
 #include <QHash>
 #include <QList>
 
-#include <QtLottie/qlottieglobal.h>
+#include <QtLottie/qtlottieexports.h>
 #include <QtLottie/private/qlottieshape_p.h>
 #include <QtLottie/private/qlottietrimpath_p.h>
 #include <QtLottie/private/qlottierenderer_p.h>
@@ -30,7 +30,7 @@ QT_BEGIN_NAMESPACE
 
 class QJsonObject;
 
-class LOTTIE_EXPORT QLottieFreeFormShape : public QLottieShape
+class Q_LOTTIE_EXPORT QLottieFreeFormShape : public QLottieShape
 {
 public:
     QLottieFreeFormShape();

@@ -18,7 +18,7 @@
 #include <QObject>
 #include <QLoggingCategory>
 
-#include <QtLottie/qlottieglobal.h>
+#include <QtLottie/qtlottieexports.h>
 
 #define LOTTIE_LAYER_PRECOMP_IX     0x10000
 #define LOTTIE_LAYER_SOLID_IX       0x10001
@@ -31,12 +31,12 @@
 
 QT_BEGIN_NAMESPACE
 
-QT_DECLARE_EXPORTED_QT_LOGGING_CATEGORY(lcLottieQtLottieParser, LOTTIE_EXPORT);
+QT_DECLARE_EXPORTED_QT_LOGGING_CATEGORY(lcLottieQtLottieParser, Q_LOTTIE_EXPORT);
 Q_DECLARE_LOGGING_CATEGORY(lcLottieQtLottieUpdate);
 Q_DECLARE_LOGGING_CATEGORY(lcLottieQtLottieRender);
 Q_DECLARE_LOGGING_CATEGORY(lcLottieQtLottieRenderThread);
 
-class LOTTIE_EXPORT QLottieLiteral : public QObject
+class Q_LOTTIE_EXPORT QLottieLiteral : public QObject
 {
     Q_OBJECT
 public:

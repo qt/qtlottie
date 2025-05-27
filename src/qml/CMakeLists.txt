@@ -3,5 +3,5 @@
 
 qt_internal_extend_target(Lottie
     SOURCES
-        qlottieanimation.cpp qlottieanimation.h
+        qlottieanimation.cpp qlottieanimation_p.h
 )

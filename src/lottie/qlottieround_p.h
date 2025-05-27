@@ -30,7 +30,7 @@ QT_BEGIN_NAMESPACE
 
 class QJsonObject;
 
-class LOTTIE_EXPORT QLottieRound : public QLottieShape
+class Q_LOTTIE_EXPORT QLottieRound : public QLottieShape
 {
 public:
     QLottieRound() = default;

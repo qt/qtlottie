@@ -23,7 +23,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class LOTTIE_EXPORT QLottieFill : public QLottieShape
+class Q_LOTTIE_EXPORT QLottieFill : public QLottieShape
 {
 public:
     QLottieFill() = default;

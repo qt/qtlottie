@@ -19,7 +19,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class LOTTIE_EXPORT QLottieRoot : public QLottieBase
+class Q_LOTTIE_EXPORT QLottieRoot : public QLottieBase
 {
 public:
     QLottieRoot() = default;

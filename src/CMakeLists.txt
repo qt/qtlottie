@@ -11,7 +11,6 @@ qt_internal_add_qml_module(Lottie
         Qt::GuiPrivate
         Qt::Qml
         Qt::Quick
-    NO_GENERATE_CPP_EXPORTS
 )
 
 qt_internal_add_docs(Lottie
