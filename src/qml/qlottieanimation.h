@@ -4,6 +4,8 @@
 #ifndef LOTTIEANIMATION_H
 #define LOTTIEANIMATION_H
 
+#include <QtLottie/qlottieglobal.h>
+
 #include <QtCore/qbytearray.h>
 #include <QtCore/qlist.h>
 #include <QtCore/qmetaobject.h>
@@ -17,7 +19,7 @@ class QQmlFile;
 
 class QBatchRenderer;
 
-class QLottieAnimation : public QQuickPaintedItem
+class LOTTIE_EXPORT QLottieAnimation : public QQuickPaintedItem
 {
     Q_OBJECT
     Q_PROPERTY(QUrl source READ source WRITE setSource NOTIFY sourceChanged)
