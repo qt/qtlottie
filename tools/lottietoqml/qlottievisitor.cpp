@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
 
 #include <qlottievisitor_p.h>
-#include <lottieboundingrectcalculator_p.h>
 #include <private/qquickgenerator_p.h>
 #include <private/qquicknodeinfo_p.h>
 #include <QtLottie/private/qlottieshape_p.h>
@@ -42,30 +41,20 @@ bool QLottieVisitor::nodeIsShape(const QLottieBase &node)
     return (node.type() >= LOTTIE_SHAPE_ELLIPSE_IX && node.type() <= LOTTIE_SHAPE_REPEATER_IX);
 }
 
-QRectF QLottieVisitor::calculateBoundingRect(const QLottieBase &node)
-{
-    LottieBoundingRectCalculator calculator;
-    node.render(calculator);
-    return calculator.boundingRect();
-}
-
 void QLottieVisitor::render(const QLottieRoot &root)
 {
     enumerateLayerChildren(&root);
 
     StructureNodeInfo info;
     const QJsonObject rootObj = root.definition();
-    //info.size = QSize(rootObj.value("w"_L1).toInt(), rootObj.value("h"_L1).toInt()); //# func
+    info.size = QSize(rootObj.value("w"_L1).toInt(), rootObj.value("h"_L1).toInt());
 
     int frameRate = rootObj.value(QLatin1String("fr")).toVariant().toInt();
     if (frameRate > 0)
         m_frameRate = frameRate;
 
     m_duration = qRound(1000 * rootObj.value("op"_L1).toDouble(100.0) / m_frameRate);
-
-    QRectF boundingRect = calculateBoundingRect(root);
-    info.size = boundingRect.toAlignedRect().size();
-    info.viewBox = boundingRect;
+    info.viewBox = QRectF(QPointF(0, 0), info.size);
 
     QLOTTIEVISITOR_DEBUG << "[root viewbox=" << info.viewBox << ", frame rate=" << m_frameRate << ", duration=" << m_duration << "ms ]";
 

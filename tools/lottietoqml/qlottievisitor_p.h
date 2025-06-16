@@ -73,7 +73,6 @@ public:
     void fillLayerAnimationInfo(const QLottieLayer *node, NodeInfo *info);
 
 private:
-    static QRectF calculateBoundingRect(const QLottieBase &node);
     static bool nodeIsShape(const QLottieBase &node);
     static bool hasAnimations(const QLottieBasicTransform *transform, bool isShapeTransform = false);
     void processShape(const QLottieShape *shape);

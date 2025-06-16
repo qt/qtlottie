@@ -16,8 +16,6 @@ qt_internal_add_tool(${target_name}
         main.cpp
         qlottievisitor_p.h
         qlottievisitor.cpp
-        lottieboundingrectcalculator_p.h
-        lottieboundingrectcalculator.cpp
     LIBRARIES
         Qt::Core
         Qt::Gui
