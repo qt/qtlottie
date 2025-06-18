@@ -1,7 +1,7 @@
 // Copyright (C) 2025 The Qt Company Ltd.
-// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
-#include <qlottievisitor_p.h>
+#include "qlottievisitor_p.h"
 #include <private/qquickgenerator_p.h>
 #include <private/qquicknodeinfo_p.h>
 #include <QtLottie/private/qlottieshape_p.h>
@@ -223,7 +223,7 @@ void QLottieVisitor::render(const QLottieFill &fill)
     color.setAlphaF(color.alphaF() * (fill.opacity() / 100.0));
     m_currentPaintInfo.fill = color;
 
-    bool isEvenOdd = (fill.definition().value("r").toInt() == 2);
+    bool isEvenOdd = (fill.definition().value(QLatin1String("r")).toInt() == 2);
     m_currentPaintInfo.fillRule = isEvenOdd ? Qt::OddEvenFill : Qt::WindingFill;
 }
 
@@ -233,7 +233,7 @@ void QLottieVisitor::render(const QLottieGFill &gradient)
 
     if (gradient.value() != nullptr)
         m_currentPaintInfo.fill = *gradient.value();
-    bool isEvenOdd = (gradient.definition().value("r").toInt() == 2);
+    bool isEvenOdd = (gradient.definition().value(QLatin1String("r")).toInt() == 2);
     m_currentPaintInfo.fillRule = isEvenOdd ? Qt::OddEvenFill : Qt::WindingFill;
 }
 

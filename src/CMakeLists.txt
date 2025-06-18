@@ -21,3 +21,6 @@ add_subdirectory(lottie)
 add_subdirectory(qml)
 
 add_subdirectory(vectorimagehelpers)
+
+add_subdirectory(lottiegenerator)
+add_subdirectory(plugins)

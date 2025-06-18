@@ -1,5 +1,5 @@
 // Copyright (C) 2025 The Qt Company Ltd.
-// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 
 #ifndef QLOTTIEVISITOR_P_H
 #define QLOTTIEVISITOR_P_H
@@ -32,12 +32,13 @@
 #include <private/qfixed_p.h>
 
 #include <QtLottie/private/qlottierenderer_p.h>
+#include <QtLottieVectorImageGenerator/qtlottievectorimagegeneratorexports.h>
 
 QT_BEGIN_NAMESPACE
 
 class QLottieRoot;
 
-class QLottieVisitor : public QLottieRenderer
+class Q_LOTTIEVECTORIMAGEGENERATOR_EXPORT QLottieVisitor : public QLottieRenderer
 {
 public:
     QLottieVisitor(const QString lottieFileName, QQuickGenerator *generator);

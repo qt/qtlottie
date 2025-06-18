@@ -31,6 +31,8 @@ int QLottieRoot::parseSource(const QByteArray &jsonSource, const QUrl &fileSourc
     QMap<QString, QJsonObject> assets;
     QJsonArray jsonLayers = rootObj.value(QLatin1String("layers")).toArray();
     QJsonArray jsonAssets = rootObj.value(QLatin1String("assets")).toArray();
+    m_startFrame = rootObj.value(QLatin1String("ip")).toVariant().toInt();
+    m_endFrame = rootObj.value(QLatin1String("op")).toVariant().toInt();
     QJsonArray::const_iterator jsonAssetsIt = jsonAssets.constBegin();
     while (jsonAssetsIt != jsonAssets.constEnd()) {
         QJsonObject jsonAsset = (*jsonAssetsIt).toObject();

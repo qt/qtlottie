@@ -52,3 +52,9 @@ comment = "currently not needed, but ready if such file is added. documentation.
 precedence = "override"
 SPDX-FileCopyrightText = "Copyright (C) 2024 The Qt Company Ltd."
 SPDX-License-Identifier = "LicenseRef-Qt-Commercial OR GFDL-1.3-no-invariants-only"
+
+[[annotations]]
+path = ["src/plugins/**.json"]
+precedence = "closest"
+SPDX-FileCopyrightText = "Copyright (C) 2025 The Qt Company Ltd."
+SPDX-License-Identifier = "LicenseRef-Qt-Commercial OR GPL-3.0-only"
