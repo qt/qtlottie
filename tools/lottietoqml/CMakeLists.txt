@@ -14,8 +14,6 @@ qt_internal_add_tool(${target_name}
     TOOLS_TARGET Lottie
     SOURCES
         main.cpp
-        qlottievisitor_p.h
-        qlottievisitor.cpp
     LIBRARIES
         Qt::Core
         Qt::Gui
@@ -23,6 +21,7 @@ qt_internal_add_tool(${target_name}
         Qt::Quick
         Qt::QuickPrivate
         Qt::QuickVectorImageGeneratorPrivate
+        Qt::LottieVectorImageGeneratorPrivate
         Qt::LottiePrivate
 )
 

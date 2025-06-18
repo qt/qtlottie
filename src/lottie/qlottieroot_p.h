@@ -30,6 +30,18 @@ public:
     int parseSource(const QByteArray &jsonSource, const QUrl &fileSource);
 
     void setStructureDumping(bool enabled);
+
+    int startFrame() const {
+        return m_startFrame;
+    }
+
+    int endFrame() const {
+        return m_endFrame;
+    }
+
+private:
+    int m_startFrame = 0;
+    int m_endFrame = 0;
 };
 
 QT_END_NAMESPACE

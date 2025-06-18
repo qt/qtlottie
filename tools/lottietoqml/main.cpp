@@ -10,8 +10,8 @@
 #include <QtQuickVectorImageGenerator/private/qquickitemgenerator_p.h>
 #include <QtQuickVectorImageGenerator/private/qquickqmlgenerator_p.h>
 #include <QtQuickVectorImageGenerator/private/qquickvectorimageglobal_p.h>
-#include <qlottievisitor_p.h>
 #include <QtLottie/private/qlottieroot_p.h>
+#include <QtLottieVectorImageGenerator/private/qlottievisitor_p.h>
 
 #define ENABLE_GUI
 
