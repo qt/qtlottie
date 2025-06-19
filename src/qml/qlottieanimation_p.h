@@ -126,7 +126,7 @@ protected:
 
     void load();
 
-    virtual int parse(QByteArray jsonSource);
+    virtual int parse(const QByteArray &jsonSource);
 
 protected:
     QBatchRenderer *m_frameRenderThread = nullptr;
