@@ -646,7 +646,7 @@ void QLottieAnimation::renderNextFrame()
     }
 }
 
-int QLottieAnimation::parse(QByteArray jsonSource)
+int QLottieAnimation::parse(const QByteArray &jsonSource)
 {
     m_jsonSource = jsonSource;
 
