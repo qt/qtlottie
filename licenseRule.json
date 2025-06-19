@@ -89,6 +89,16 @@
                 "file type": "test",
                 "spdx": ["LicenseRef-Qt-Commercial OR GPL-3.0-only"]
             },
+            "examples/lottie/lottietoqml/generated": {
+                "comment": "",
+                "file type": "3rd party",
+                "spdx": ["LicenseRef-Lottie-Simple-License-9.13.21"]
+            },
+            "examples/lottie/lottietoqml/original": {
+                "comment": "",
+                "file type": "3rd party",
+                "spdx": ["LicenseRef-Lottie-Simple-License-9.13.21"]
+            },
             "(.*)(examples/|snippets/)": {
                 "comment": "Default",
                 "file type": "examples and snippets",

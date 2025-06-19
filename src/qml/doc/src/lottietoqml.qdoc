@@ -12,6 +12,9 @@ applications.
 
 \preliminary
 
+For a demonstration of how \c lottietoqml can be used in an application, see the
+\l{lottietoqml Example}.
+
 The tool is currently considered to be in \e {technical preview}. It does not support the full range
 of features supported by \l {Qt Lottie Animation} yet, and incompatible changes should be expected.
 
