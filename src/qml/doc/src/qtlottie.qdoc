@@ -88,6 +88,11 @@
 
     The only supported effects are \c Slide and \c {Layer Fill}.
 
+    \section2 Examples
+
+    The \l{lottietoqml Example} demonstrates how the \l{lottietoqml} tool can be used to convert
+    Lottie files into Qt Quick scenes and load these in an application.
+
     \section1 Licenses
 
     Qt Lottie Animation is available under commercial licenses from \l{The Qt Company}.

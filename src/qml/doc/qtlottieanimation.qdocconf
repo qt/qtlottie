@@ -28,12 +28,20 @@ qhp.QtLottieAnimation.subprojects.qmltypes.indexTitle = Qt Lottie Animation QML 
 qhp.QtLottieAnimation.subprojects.qmltypes.selectors = qmltype
 qhp.QtLottieAnimation.subprojects.qmltypes.sortPages = true
 
+qhp.QtLottieAnimation.subprojects.examples.title = Examples
+qhp.QtLottieAnimation.subprojects.examples.indexTitle = Qt Lottie Animation Examples and Tutorials
+qhp.QtLottieAnimation.subprojects.examples.selectors = example
+qhp.QtLottieAnimation.subprojects.examples.sortPages = true
+
 tagfile                 = qtlottieanimation.tags
 
 examplesinstallpath     = lottieanimation
 
 navigation.landingpage  = Qt Lottie Animation
 navigation.qmltypespage = Qt Lottie Animation QML Types
+
+exampledirs += \
+    ../../../examples/lottie
 
 # Allow zero warnings when testing documentation in CI
 warninglimit = 0
