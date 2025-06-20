@@ -13,7 +13,7 @@ Window {
     visible: true
     title: qsTr("Vector Image Demo")
     color: grid.selectedItem == null ? "black" : "darkslategray"
-    visibility: Window.FullScreen
+    visibility: Window.Maximized
 
     Behavior on color {
         ColorAnimation { duration: window.animationDuration; easing.type: window.animationEasing }
@@ -34,7 +34,7 @@ Window {
         anchors.right: centerItem.left
         anchors.left: parent.left
         anchors.margins: 50
-        text: "Lottie vector images converted to Qt Quick with lottietoqml"
+        text: "Lottie vector animations converted to Qt Quick with lottietoqml"
         color: "white"
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         font.pixelSize: 30
