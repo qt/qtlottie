@@ -1,5 +1,5 @@
 // Copyright (C) 2025 The Qt Company Ltd.
-// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 import QtQuick
 import QtQuick.Layouts
@@ -9,8 +9,8 @@ import Qt.labs.lottieqt
 
 ApplicationWindow {
     id: top
-    width: 1000
-    height: 1000
+    width: controlRow.width + 2 * leading
+    height: width
     property int leading: 10
     visible: true
     property string lottieFile: ""
@@ -35,6 +35,7 @@ ApplicationWindow {
             radius: 10
             Layout.fillWidth: true
             Layout.fillHeight: true
+            clip: true
 
             LottieAnimation {
                 id: qtlottie
@@ -59,6 +60,7 @@ ApplicationWindow {
         }
 
         RowLayout {
+            id: controlRow
             spacing: top.leading
 
             Button {
@@ -144,9 +146,11 @@ ApplicationWindow {
 
     FileDialog {
         id: fileDialog
-        title: "Please choose a file"
+        title: "Select a Lottie file"
+        fileMode: FileDialog.OpenFile
+        nameFilters: ["Lottie files (*.json)", "All files (*)"]
         onAccepted: {
-            qtlottie.source = fileDialog.selectedFile
+            top.lottieFile = fileDialog.selectedFile
             fileDialog.visible = false
         }
     }
