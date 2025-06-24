@@ -32,8 +32,10 @@ QLottieLayer::QLottieLayer(const QLottieLayer &other)
     m_linkedLayerId = other.m_linkedLayerId;
     m_td = other.m_td;
     m_clipMode = other.m_clipMode;
-    m_layerTransform = new QLottieBasicTransform(*other.m_layerTransform);
-    m_layerTransform->setParent(this);
+    if (other.m_layerTransform) {
+        m_layerTransform = new QLottieBasicTransform(*other.m_layerTransform);
+        m_layerTransform->setParent(this);
+    }
     m_size = other.m_size;
     if (other.m_effects) {
         m_effects = new QLottieBase;
@@ -292,8 +294,8 @@ void QLottieLayer::applyLayerTransform(QLottieRenderer &renderer) const
         if (QLottieLayer *ll = linkedLayer())
             ll->applyLayerTransform(renderer);
     }
-    // TBD: except opacity
-    m_layerTransform->render(renderer);
+    if (m_layerTransform)
+        m_layerTransform->render(renderer); // TBD: except opacity
 }
 
 QSize QLottieLayer::size() const
