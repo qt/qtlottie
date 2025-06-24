@@ -39,6 +39,17 @@ target_link_libraries(qtlottieviewerexample PRIVATE
     Qt6::QuickControls2
 )
 
+set(resource_files
+    "qtquickcontrols2.conf"
+)
+
+qt_add_resources(qtlottieviewerexample "res"
+    PREFIX
+        "/"
+    FILES
+        ${resource_files}
+)
+
 install(TARGETS qtlottieviewerexample
     BUNDLE DESTINATION .
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
