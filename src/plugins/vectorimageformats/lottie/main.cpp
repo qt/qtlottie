@@ -5,6 +5,7 @@
 #include <QtLottieVectorImageGenerator/private/qlottievisitor_p.h>
 #include <QtLottie/private/qlottieroot_p.h>
 #include <QtCore/qfile.h>
+#include <QtCore/qscopeguard.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -18,6 +19,9 @@ public:
     ~QLottieVectorImagePlugin();
 
     bool generate(const QString &fileName, QQuickItemGenerator *generator) override;
+
+private:
+    bool canRead(QIODevice &input) const;
 };
 
 QLottieVectorImagePlugin::QLottieVectorImagePlugin()
@@ -33,7 +37,7 @@ bool QLottieVectorImagePlugin::generate(const QString &fileName, QQuickItemGener
     QFile f(fileName);
     QLottieRoot root;
 
-    if (f.open(QIODevice::ReadOnly)) {
+    if (f.open(QIODevice::ReadOnly) && canRead(f)) {
         QByteArray jsonSource = f.readAll();
 
         static int frameNo = qEnvironmentVariableIntValue("QLT_FRAMENO");
@@ -56,6 +60,16 @@ bool QLottieVectorImagePlugin::generate(const QString &fileName, QQuickItemGener
     }
 
     return false;
+}
+
+bool QLottieVectorImagePlugin::canRead(QIODevice &input) const
+{
+    const qint64 pos = input.pos();
+    auto cleanup = qScopeGuard([&] { input.seek(pos); });
+    QTextStream s(&input);
+    const QString head = s.read(256);
+    bool res = QStringView(head).trimmed().startsWith(QChar::fromLatin1('{'));
+    return res;
 }
 
 QT_END_NAMESPACE
