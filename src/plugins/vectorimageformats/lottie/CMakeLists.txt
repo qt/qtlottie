@@ -10,6 +10,7 @@ qt_internal_add_plugin(QLottieVectorImagePlugin
         Qt::Gui
         Qt::GuiPrivate
         Qt::Quick
+        Qt::QuickPrivate
         Qt::QuickVectorImageGeneratorPrivate
         Qt::LottieVectorImageGeneratorPrivate
         Qt::LottiePrivate

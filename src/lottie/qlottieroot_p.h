@@ -39,7 +39,12 @@ public:
         return m_endFrame;
     }
 
+    int frameRate() const {
+        return m_frameRate;
+    }
+
 private:
+    int m_frameRate = 30;
     int m_startFrame = 0;
     int m_endFrame = 0;
 };
