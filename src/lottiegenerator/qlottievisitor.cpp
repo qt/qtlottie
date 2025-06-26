@@ -493,7 +493,6 @@ void QLottieVisitor::render(const QLottieTrimPath &trim)
         QQuickAnimatedProperty::PropertyAnimation animation;
         animation.flags |= QQuickAnimatedProperty::PropertyAnimation::FreezeAtEnd;
 
-        animation.frames[0] = outProperty->defaultValue();
         for (const auto &curve : easingCurves) {
             const qreal startValue = curve.startValue * scale;
             const qreal endValue = curve.endValue * scale;
@@ -505,6 +504,7 @@ void QLottieVisitor::render(const QLottieTrimPath &trim)
             animation.frames[endFrameTime] = endValue;
         }
         if (!animation.frames.isEmpty()) {
+            animation.frames[0] = outProperty->defaultValue();
             animation.frames[m_duration] = animation.frames.last();
             outProperty->addAnimation(animation);
         }
