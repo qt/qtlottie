@@ -7,6 +7,8 @@
 #include <QtCore/qfile.h>
 #include <QtCore/qscopeguard.h>
 
+#include <QtQuick/private/qquickanimation_p.h>
+
 QT_BEGIN_NAMESPACE
 
 class QLottieVectorImagePlugin : public QObject, public QQuickVectorImagePlugin
@@ -48,13 +50,25 @@ bool QLottieVectorImagePlugin::generate(const QString &fileName, QQuickItemGener
 
             root.setStructureDumping(true);
             for (QLottieBase *elem : root.children()) {
-                if (elem->active(frameNo))
-                    elem->updateProperties(frameNo);
+                if (elem->active(0))
+                    elem->updateProperties(0);
             }
 
             generator->addExtraImport(QLatin1String("Qt.labs.lottieqt.VectorImageHelpers"));
             QLottieVisitor visitor(fileName, generator);
             visitor.render(root);
+
+            if (frameNo > 0) {
+                QQuickItem *item = generator->parentItem();
+                const int seekTime = qRound(1000.0 * frameNo / root.frameRate());
+
+                QList<QQuickAbstractAnimation *> animations = item->findChildren<QQuickAbstractAnimation *>();
+                for (QQuickAbstractAnimation *animation : animations) {
+                    if (animation->group() == nullptr)
+                        animation->setCurrentTime(seekTime);
+                }
+            }
+
             return true;
         }
     }
