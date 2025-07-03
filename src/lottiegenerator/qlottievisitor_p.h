@@ -101,8 +101,7 @@ private:
             QTransform::TransformationType animationType;
 
             QMap<int, QVariant> frames;
-
-            QBezier easing;
+            QMap<int, QBezier> easingPerFrame;
         };
         QList<TransformAnimationInfo> transformAnimations;
     };
