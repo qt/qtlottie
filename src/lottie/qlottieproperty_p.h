@@ -358,18 +358,19 @@ protected:
             QJsonArray eoxArr = easingOut.value(QLatin1String("x")).toArray();
             QJsonArray eoyArr = easingOut.value(QLatin1String("y")).toArray();
 
-            while (!eixArr.isEmpty() && !eiyArr.isEmpty()) {
-                qreal eix = eixArr.takeAt(0).toDouble();
-                qreal eiy = eiyArr.takeAt(0).toDouble();
+            // Doc: "For multi-dimensional animated properties, [x and y] are arrays, with one
+            // element per dimension so you can have different easing curves per dimension."
+            // Not currently supported; the easing curve for the first vector element is used.
+            qreal eix = eixArr.at(0).toDouble();
+            qreal eiy = eiyArr.at(0).toDouble();
 
-                qreal eox = eoxArr.takeAt(0).toDouble();
-                qreal eoy = eoyArr.takeAt(0).toDouble();
+            qreal eox = eoxArr.at(0).toDouble();
+            qreal eoy = eoyArr.at(0).toDouble();
 
-                QPointF c1 = QPointF(eox, eoy);
-                QPointF c2 = QPointF(eix, eiy);
+            QPointF c1 = QPointF(eox, eoy);
+            QPointF c2 = QPointF(eix, eiy);
 
-                easingCurve.easing.addCubicBezierSegment(c1, c2, QPointF(1.0, 1.0));
-            }
+            easingCurve.easing.addCubicBezierSegment(c1, c2, QPointF(1.0, 1.0));
         } else {
             qreal eix = easingIn.value(QLatin1String("x")).toDouble();
             qreal eiy = easingIn.value(QLatin1String("y")).toDouble();
@@ -431,18 +432,19 @@ protected:
             QJsonArray eoxArr = easingOut.value(QLatin1String("x")).toArray();
             QJsonArray eoyArr = easingOut.value(QLatin1String("y")).toArray();
 
-            while (!eixArr.isEmpty() && !eiyArr.isEmpty()) {
-                qreal eix = eixArr.takeAt(0).toDouble();
-                qreal eiy = eiyArr.takeAt(0).toDouble();
+            // Doc: "For multi-dimensional animated properties, [x and y] are arrays, with one
+            // element per dimension so you can have different easing curves per dimension."
+            // Not currently supported; the easing curve for the first vector element is used.
+            qreal eix = eixArr.takeAt(0).toDouble();
+            qreal eiy = eiyArr.takeAt(0).toDouble();
 
-                qreal eox =eoxArr.takeAt(0).toDouble();
-                qreal eoy = eoyArr.takeAt(0).toDouble();
+            qreal eox =eoxArr.takeAt(0).toDouble();
+            qreal eoy = eoyArr.takeAt(0).toDouble();
 
-                QPointF c1 = QPointF(eox, eoy);
-                QPointF c2 = QPointF(eix, eiy);
+            QPointF c1 = QPointF(eox, eoy);
+            QPointF c2 = QPointF(eix, eiy);
 
-                easingCurve.easing.addCubicBezierSegment(c1, c2, QPointF(1.0, 1.0));
-            }
+            easingCurve.easing.addCubicBezierSegment(c1, c2, QPointF(1.0, 1.0));
         }
         else {
             qreal eix = easingIn.value(QLatin1String("x")).toDouble();
