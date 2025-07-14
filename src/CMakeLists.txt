@@ -22,5 +22,9 @@ add_subdirectory(qml)
 
 add_subdirectory(vectorimagehelpers)
 
-add_subdirectory(lottiegenerator)
+if(TARGET Qt::QuickPrivate
+    AND TARGET Qt::QuickShapesPrivate
+    AND TARGET Qt::QuickVectorImageGeneratorPrivate)
+    add_subdirectory(lottiegenerator)
+endif()
 add_subdirectory(plugins)
