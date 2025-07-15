@@ -28,6 +28,7 @@ public:
     virtual void construct(const QJsonObject &definition) override
     {
         qCDebug(lcLottieQtLottieParser) << "QLottieSpatialProperty::construct()";
+        m_bezierPath.setCachingEnabled(true);
         QLottieProperty2D<QPointF>::construct(definition);
     }
 
@@ -72,11 +73,14 @@ public:
         QPointF c1(tox, toy);
         QPointF c2(tix, tiy);
 
-        c1 += s;
-        c2 += e;
-
         m_bezierPath.moveTo(s);
-        m_bezierPath.cubicTo(c1, c2, e);
+        if (c1.isNull() && c2.isNull()) {
+            m_bezierPath.lineTo(e);
+        } else {
+            c1 += s;
+            c2 += e;
+            m_bezierPath.cubicTo(c1, c2, e);
+        }
 
         return easing;
     }
@@ -123,11 +127,14 @@ public:
         QPointF c1(tox, toy);
         QPointF c2(tix, tiy);
 
-        c1 += s;
-        c2 += e;
-
         m_bezierPath.moveTo(s);
-        m_bezierPath.cubicTo(c1, c2, e);
+        if (c1.isNull() && c2.isNull()) {
+            m_bezierPath.lineTo(e);
+        } else {
+            c1 += s;
+            c2 += e;
+            m_bezierPath.cubicTo(c1, c2, e);
+        }
 
         return easing;
     }
