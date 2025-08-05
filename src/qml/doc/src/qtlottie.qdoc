@@ -4,20 +4,21 @@
 /*!
     \page qtlottieanimation-index.html
     \title Qt Lottie Animation
-    \brief Display graphics and animations
-           exported by the plugins for Adobe After Effects.
+    \brief Display Lottie format vector graphics animations.
 
-    \e {Qt Lottie Animation} provides a QML API for rendering graphics and
-    animations that are exported in JSON format by the \l Lottie plugins
-    for Adobe After Effects.
+    \e {Qt Lottie Animation} provides QML APIs for rendering graphics and animations in Lottie
+    format files. These are typically exported from the \l Lottie plugins for Adobe After Effects.
 
-    The \e {Qt Lottie Animation} APIs render animations into an intermediate buffer using the
-    \l{QPainter} software renderer. This may impose some restrictions on the sizes of illustrations,
-    as well as on the target hardware. As an alternative, an experimental tool called
-    \l{lottietoqml} is included. This tool converts Lottie animations to QML. As a result, they
-    can be rendered using the hardware-accelerated renderer in Qt Quick. The tool is currently
+    The \l{LottieAnimation} item renders animations into an intermediate buffer using the
+    \l{QPainter} software renderer. This may impose some performance restrictions on the sizes of
+    illustrations, as well as on the target hardware. As an alternative, an experimental tool
+    called \l{lottietoqml} is included. This tool converts Lottie animations to QML. As a result,
+    they can be rendered using the hardware-accelerated renderer in Qt Quick. The tool is currently
     considered to be in \e {technical preview}. It does not support the full range of features
     supported by \e {Qt Lottie Animation} yet, and incompatible changes should be expected.
+
+    Finally, the \l{VectorImage} Qt Quick item can load Lottie format files directly. It converts
+    them to QML on the fly using the \e lottietoqml [tech preview] functionality in a plugin.
 
     \section1 Getting Started
 
@@ -29,9 +30,6 @@
     \endqml
 //! [usage]
 
-    See the \l {Lottie Source}{GitHub page for Lottie} for instructions
-    on how to download and install the plugin for Adobe After Effects.
-
     \section1 Limitations
 
     The implementation follows the \l {Lottie Specification}{master specification for lottie}.
@@ -41,7 +39,6 @@
     \section2 General limitations
 
     \list
-    \li \c precomps are not supported
     \li expressions are not supported
     \li the timeline only supports frame-mode, not time-mode
     \endlist
@@ -60,8 +57,6 @@
 
     \section2 Layers
 
-    Only the \c shape layer and the \c {alpha mask adjustment} layer are supported.
-
     The following properties are not supported:
 
     \list
@@ -73,11 +68,10 @@
 
     \section2 Shapes
 
-    The following elements and shapes are not supported:
+    Some more rarely used elements and shapes are not supported, including:
 
     \list
-    \li the \c gstroke (group stroke) element
-    \li the \c star element
+    \li the \c gstroke (gradient stroke) element
     \li Nested Repeater shapes
     \endlist
 
@@ -90,8 +84,15 @@
 
     \section2 Examples
 
-    The \l{lottietoqml Example} demonstrates how the \l{lottietoqml} tool can be used to convert
-    Lottie files into Qt Quick scenes and load these in an application.
+    \list
+
+    \li The \l{qtlottieviewer Example} demonstrates how to use the \l{LottieAnimation} item to
+    load, display and control a Lottie file in a Qt Quick application.
+
+    \li The \l{lottietoqml Example} demonstrates how the \l{lottietoqml} tool can be used to
+    convert Lottie files into Qt Quick scenes and load these in an application.
+
+    \endlist
 
     \section1 Licenses
 
