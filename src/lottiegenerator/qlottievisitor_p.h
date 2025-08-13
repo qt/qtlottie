@@ -41,6 +41,27 @@ class QLottieRoot;
 class Q_LOTTIEVECTORIMAGEGENERATOR_EXPORT QLottieVisitor : public QLottieRenderer
 {
 public:
+    struct PaintInfo
+    {
+        QBrush fill = Qt::transparent;
+        QPen stroke = QPen(Qt::transparent);
+        qreal opacity = 1.0;
+        Qt::FillRule fillRule = Qt::WindingFill;
+        QPainterPath unitedPath;
+        PathTrimInfo trim;
+
+        QTransform transform;
+
+        struct TransformAnimationInfo
+        {
+            QTransform::TransformationType animationType;
+
+            QMap<int, QVariant> frames;
+            QMap<int, QBezier> easingPerFrame;
+        };
+        QList<TransformAnimationInfo> transformAnimations;
+    };
+
     QLottieVisitor(const QString lottieFileName, QQuickGenerator *generator);
     virtual ~QLottieVisitor() {}
 
@@ -85,26 +106,6 @@ private:
     QString m_lottieFileName;
     QQuickGenerator *m_generator;
 
-    struct PaintInfo
-    {
-        QBrush fill = Qt::transparent;
-        QPen stroke = QPen(Qt::transparent);
-        qreal opacity = 1.0;
-        Qt::FillRule fillRule = Qt::WindingFill;
-        QPainterPath unitedPath;
-        PathTrimInfo trim;
-
-        QTransform transform;
-
-        struct TransformAnimationInfo
-        {
-            QTransform::TransformationType animationType;
-
-            QMap<int, QVariant> frames;
-            QMap<int, QBezier> easingPerFrame;
-        };
-        QList<TransformAnimationInfo> transformAnimations;
-    };
     PaintInfo m_currentPaintInfo;
 
     QList<PaintInfo> m_savedPaintInfos;

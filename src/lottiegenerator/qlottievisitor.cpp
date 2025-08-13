@@ -269,6 +269,44 @@ void QLottieVisitor::render(const QLottieBasicTransform &transform)
     m_currentPaintInfo.opacity *= transform.opacity();
 }
 
+namespace {
+    template<typename T>
+    QLottieVisitor::PaintInfo::TransformAnimationInfo
+        collectAnimations(const T &property,
+                          QTransform::TransformationType type,
+                          std::function<void(qreal,
+                                             const QVariant &,
+                                             QLottieVisitor::PaintInfo::TransformAnimationInfo *,
+                                             std::optional<QBezier>)> storeAnimationFrame,
+                          std::function<QVariantList(const QVariant &)> createParams)
+    {
+        const auto easingCurves = property.easingCurves();
+        QLottieVisitor::PaintInfo::TransformAnimationInfo info;
+        info.animationType = type;
+        bool firstFrame = true;
+        if (easingCurves.isEmpty()) {
+            const QVariantList params = createParams(QVariant::fromValue(property.value()));
+            storeAnimationFrame(0, params, &info, std::nullopt);
+        } else {
+            for (const auto &curve : easingCurves) {
+                if (firstFrame) {
+                    const auto startValue = curve.startValue;
+                    const QVariantList startParams = createParams(QVariant::fromValue(startValue));
+                    storeAnimationFrame(0, startParams, &info, std::nullopt);
+                    if (curve.startFrame > 0)
+                        storeAnimationFrame(curve.startFrame, startParams, &info, std::nullopt);
+                    firstFrame = false;
+                }
+                const auto endValue = curve.endValue;
+                const QVariantList endParams = createParams(endValue);
+                storeAnimationFrame(curve.endFrame, endParams, &info, curve.easing.bezier());
+            }
+        }
+
+        return info;
+    }
+}
+
 void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *transform,
                                                 bool isShapeTransform)
 {
@@ -290,121 +328,41 @@ void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *tra
             info->easingPerFrame[timePointMs] = *easingBezier;
     };
 
-    {
-        const QList<EasingSegment<QPointF> > easingCurves = positions.easingCurves();
-        PaintInfo::TransformAnimationInfo info;
-        info.animationType = QTransform::TxTranslate;
-        bool firstFrame = true;
-        if (easingCurves.isEmpty()) {
-            const QVariantList position = { QVariant::fromValue(positions.value()) };
-            storeAnimationFrame(0, position, &info);
-        } else {
-            for (const auto &curve : easingCurves) {
-                if (firstFrame) {
-                    const QPointF startValue = curve.startValue;
-                    const QVariantList startParams = { QVariant::fromValue(startValue) };
-                    storeAnimationFrame(0, startParams, &info);
-                    if (curve.startFrame > 0)
-                        storeAnimationFrame(curve.startFrame, startParams, &info);
-                    firstFrame = false;
-                }
+    QLottieVisitor::PaintInfo::TransformAnimationInfo info;
+    info = collectAnimations(positions,
+                             QTransform::TxTranslate,
+                             storeAnimationFrame,
+                             [](const QVariant &v)
+                             {
+                                 return QVariantList{ v };
+                             });
+    m_currentPaintInfo.transformAnimations.append(info);
 
-                const QPointF endValue = curve.endValue;
-                const QVariantList endParams = { QVariant::fromValue(endValue ) };
-                storeAnimationFrame(curve.endFrame, endParams, &info, curve.easing.bezier());
-            }
-        }
-        m_currentPaintInfo.transformAnimations.append(info);
-    }
+    info = collectAnimations(rotations,
+                             QTransform::TxRotate,
+                             storeAnimationFrame,
+                             [](const QVariant &v) {
+                                 return QVariantList{ QVariant::fromValue(QPointF(0, 0)), v };
+                             });
+    m_currentPaintInfo.transformAnimations.append(info);
 
-    {
-        const QList<EasingSegment<qreal> > easingCurves = rotations.easingCurves();
-        PaintInfo::TransformAnimationInfo info;
-        info.animationType = QTransform::TxRotate;
-        bool firstFrame = true;
-        if (easingCurves.isEmpty()) {
-            const QVariantList rotation = { QVariant::fromValue(QPointF(0, 0)),
-                                              QVariant::fromValue(rotations.value()) };
-            storeAnimationFrame(0, rotation, &info);
-        } else {
-            for (const auto &curve : easingCurves) {
-                if (firstFrame) {
-                    const qreal startValue = curve.startValue;
-                    const QVariantList startParams = { QVariant::fromValue(QPointF(0, 0)),
-                                                       QVariant::fromValue(startValue) };
-                    storeAnimationFrame(0, startParams, &info, std::nullopt);
-                    if (curve.startFrame > 0)
-                        storeAnimationFrame(curve.startFrame, startParams, &info);
-                    firstFrame = false;
-                }
-
-                const qreal endValue = curve.endValue;
-                const QVariantList endParams = { QVariant::fromValue(QPointF(0, 0)),
-                                                 QVariant::fromValue(endValue) };
-                storeAnimationFrame(curve.endFrame, endParams, &info, curve.easing.bezier());
-            }
-        }
-        m_currentPaintInfo.transformAnimations.append(info);
-    }
-
-    {
-        const QList<EasingSegment<QPointF> > easingCurves = scales.easingCurves();
-        PaintInfo::TransformAnimationInfo info;
-        info.animationType = QTransform::TxScale;
-        bool firstFrame = true;
-
-        if (easingCurves.isEmpty()) {
-            const QPointF scaleValue = scales.value() / 100.0;
-            const QVariantList scale = { QVariant::fromValue(scaleValue) };
-            storeAnimationFrame(0, scale, &info);
-        } else {
-            for (const auto &curve : easingCurves) {
-                if (firstFrame) {
-                    const QPointF startValue = curve.startValue / 100.0;
-                    const QVariantList startParams = { QVariant::fromValue(startValue) };
-                    storeAnimationFrame(0, startParams, &info, std::nullopt);
-                    if (curve.startFrame > 0)
-                        storeAnimationFrame(curve.startFrame, startParams, &info);
-                    firstFrame = false;
-                }
-
-                const QPointF endValue = curve.endValue / 100.0;
-
-                const QVariantList endParams = { QVariant::fromValue(endValue) };
-                storeAnimationFrame(curve.endFrame, endParams, &info, curve.easing.bezier());
-            }
-        }
-        m_currentPaintInfo.transformAnimations.append(info);
-    }
+    info = collectAnimations(scales,
+                             QTransform::TxScale,
+                             storeAnimationFrame,
+                             [](const QVariant &v) {
+                                 return QVariantList{ QVariant::fromValue(v.toPointF() / 100.0) };
+                             });
+    m_currentPaintInfo.transformAnimations.append(info);
 
     // ### Skew animations not implemented
 
-    {
-        const QList<EasingSegment<QPointF> > easingCurves = anchorPoints.easingCurves();
-        PaintInfo::TransformAnimationInfo info;
-        info.animationType = QTransform::TxTranslate;
-        bool firstFrame = true;
-        if (easingCurves.isEmpty()) {
-            const QVariantList anchorPoint = { QVariant::fromValue(-anchorPoints.value()) };
-            storeAnimationFrame(0, anchorPoint, &info);
-        } else {
-            for (const auto &curve : easingCurves) {
-                if (firstFrame) {
-                    const QPointF startValue = -curve.startValue;
-                    const QVariantList startParams = { QVariant::fromValue(startValue) };
-                    storeAnimationFrame(0, startParams, &info, std::nullopt);
-                    if (curve.startFrame > 0)
-                        storeAnimationFrame(curve.startFrame, startParams, &info);
-                    firstFrame = false;
-                }
-
-                const QPointF endValue = -curve.endValue;
-                const QVariantList endParams = { QVariant::fromValue(endValue) };
-                storeAnimationFrame(curve.endFrame, endParams, &info, curve.easing.bezier());
-            }
-        }
-        m_currentPaintInfo.transformAnimations.append(info);
-    }
+    info = collectAnimations(anchorPoints,
+                             QTransform::TxTranslate,
+                             storeAnimationFrame,
+                             [](const QVariant &v) {
+                                 return QVariantList{ QVariant::fromValue(v.toPointF() * -1.0) };
+                             });
+    m_currentPaintInfo.transformAnimations.append(info);
 
     {
         const QList<EasingSegment<qreal> > easingCurves = opacities.easingCurves();
