@@ -54,6 +54,7 @@ set(qml_resource_files
     "trim_path_multiple3.json"
     "trim_path_multiple4.json"
     "trim_path_sequential2.json"
+    "gradient_opacity_unpair.json"
 )
 
 qt_add_resources(testApp "qml"

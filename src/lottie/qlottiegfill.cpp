@@ -76,20 +76,59 @@ QLottieGFill::QLottieGFill(const QJsonObject &definition, QLottieBase *parent)
             colorVec[1] = colorArr.at(i + 2).toVariant().toFloat();
             colorVec[2] = colorArr.at(i + 3).toVariant().toFloat();
             // Set gradient stop position into w of the vector
-            colorVec[3] = 1.0;
+            colorVec[3] = 1.0f;
             QLottieProperty4D<QVector4D> colorPos;
             colorPos.setValue(colorVec);
             qreal pos = colorArr.at(i + 0).toVariant().toFloat();
-            m_colors[qRound(pos * 100)] = colorPos;
+            m_colors[pos] = colorPos;
         }
+        QList<qreal> keys = m_colors.keys();
+        std::sort(keys.begin(), keys.end());
+        int keyIndex = 0;
         for (int i = (elementCount * 4); i < colorArr.size(); i+= 2) {
             qreal pos = colorArr.at(i).toVariant().toFloat();
             qreal opacity = colorArr.at(i + 1).toVariant().toFloat();
-            QLottieProperty4D<QVector4D> colorVec = m_colors[qRound(pos * 100)];
-            QVector4D color = colorVec.value();
-            color[3] = opacity;
-            colorVec.setValue(color);
-            m_colors[qRound(pos * 100)] = colorVec;
+            if (m_colors.contains(pos)) {
+                QLottieProperty4D<QVector4D> colorVec = m_colors.value(pos);
+                QVector4D color = colorVec.value();
+                color[3] = opacity;
+                colorVec.setValue(color);
+                m_colors[pos] = colorVec;
+                keyIndex++;
+            } else {
+                qreal pos0;
+                qreal pos1;
+                if (keyIndex == 0) {
+                    pos0 = keys.value(0);
+                    pos1 = keys.value(1);
+                } else {
+                    pos0 = keys.value(keyIndex-1);
+                    pos1 = keys.value(keyIndex);
+                }
+
+                if (pos1 > pos) {
+                    QVector4D col0 = m_colors[pos0].value();
+                    QVector4D col1 = m_colors[pos1].value();
+                    qreal ratio = (pos - pos0) / (pos1 - pos0);
+                    qreal r = col0[0] + ratio * (col1[0] - col0[0]);
+                    qreal g = col0[1] + ratio * (col1[1] - col0[1]);
+                    qreal b = col0[2] + ratio * (col1[2] - col0[2]);
+                    QVector4D color = QVector4D(r, g, b, opacity);
+                    QLottieProperty4D<QVector4D> colorPos;
+                    colorPos.setValue(color);
+                    m_colors[pos] = colorPos;
+                } else {
+                    QLottieProperty4D<QVector4D> colorVec = m_colors.value(pos1);
+                    QVector4D color = colorVec.value();
+                    qreal opa0 = m_colors[pos1].value()[3];
+                    qreal ratio = (pos1 - pos0) / (pos - pos0);
+                    qreal opa = opa0 + ratio * (opacity - opa0);
+                    color[3] = opa;
+                    colorVec.setValue(color);
+                    m_colors[pos1] = colorVec;
+                    keyIndex++;
+                }
+            }
         }
     } else {
         qCWarning(lcLottieQtLottieParser) << "Animated gradient is not supported";
@@ -129,7 +168,7 @@ void QLottieGFill::updateProperties(int frame)
     m_highlightLength.update(frame);
     m_highlightAngle.update(frame);
     m_opacity.update(frame);
-    QHash<int, QLottieProperty4D<QVector4D>>::iterator colorIt = m_colors.begin();
+    QHash<qreal, QLottieProperty4D<QVector4D>>::iterator colorIt = m_colors.begin();
     while (colorIt != m_colors.end()) {
         (*colorIt).update(frame);
         ++colorIt;
@@ -183,10 +222,10 @@ qreal QLottieGFill::opacity() const
 
 void QLottieGFill::setGradient()
 {
-    QHash<int, QLottieProperty4D<QVector4D>>::iterator colorIt = m_colors.begin();
+    QHash<qreal, QLottieProperty4D<QVector4D>>::iterator colorIt = m_colors.begin();
     while (colorIt != m_colors.end()) {
         QVector4D colorPos = (*colorIt).value();
-        int pos = colorIt.key();
+        qreal pos = colorIt.key();
         qreal opacity = m_opacity.value() / 100.0;
         opacity *= static_cast<qreal>(colorPos[3]);
         QColor color;
@@ -194,7 +233,7 @@ void QLottieGFill::setGradient()
         color.setGreenF(static_cast<qreal>(colorPos[1]));
         color.setBlueF(static_cast<qreal>(colorPos[2]));
         color.setAlphaF(opacity);
-        m_gradient->setColorAt(pos / 100.0, color);
+        m_gradient->setColorAt(pos, color);
         ++colorIt;
     }
 
