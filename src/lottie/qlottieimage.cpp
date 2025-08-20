@@ -7,15 +7,15 @@
 #include <QFileInfo>
 #include <QJsonObject>
 
-#include "qlottietrimpath_p.h"
+#include <QtLottie/private/qlottieconstants_p.h>
 
 QT_BEGIN_NAMESPACE
 
 QLottieImage::QLottieImage(const QLottieImage &other)
     : QLottieBase(other)
 {
-    m_position = other.m_position;
-    m_radius = other.m_radius;
+    m_url = other.m_url;
+    m_size = other.m_size;
     m_image = other.m_image;
 }
 
@@ -47,48 +47,31 @@ void QLottieImage::construct(const QJsonObject &definition)
             QByteArray assetData = QByteArray::fromBase64(assetsDataStringList[1].toLatin1());
             m_image.loadFromData(assetData);
         }
+        if (m_image.isNull()) {
+            qCWarning(lcLottieQtLottieParser) << "Unable to load embedded image asset"
+                                              << asset.value(QLatin1String("id")).toString();
+        }
     }
     else {
         QFileInfo info(asset.value(QLatin1String("fileSource")).toString());
-        QString url = info.path() + QDir::separator() + asset.value(QLatin1String("u")).toString() + assetString;
-        QString path = QUrl(url).toLocalFile();
+        QString urlPath = info.path() + QLatin1Char('/')
+                + asset.value(QLatin1String("u")).toString() + QLatin1Char('/') + assetString;
+        m_url = QUrl(urlPath);
+        m_url.setScheme(QLatin1String("file"));
+        QString path = m_url.toLocalFile();
         m_image.load(path);
-        if (m_image.isNull()) {
-            qWarning() << "Unable to load file " << path;
-        }
+        if (m_image.isNull())
+            qCWarning(lcLottieQtLottieParser) << "Unable to load file" << path;
     }
 
-    QJsonObject position = definition.value(QLatin1String("p")).toObject();
-    position = resolveExpression(position);
-    m_position.construct(position);
-
-    QJsonObject radius = definition.value(QLatin1String("r")).toObject();
-    radius = resolveExpression(radius);
-    m_radius.construct(radius);
-}
-
-void QLottieImage::updateProperties(int frame)
-{
-    m_position.update(frame);
-    m_radius.update(frame);
-
-    m_center = QPointF(m_position.value().x() - m_radius.value() / 2,
-                             m_position.value().y() - m_radius.value() / 2);
+    const qreal width = asset.value(QLatin1String("w")).toDouble();
+    const qreal height = asset.value(QLatin1String("h")).toDouble();
+    m_size = QSizeF(width, height);
 }
 
 void QLottieImage::render(QLottieRenderer &renderer) const
 {
     renderer.render(*this);
-}
-
-QPointF QLottieImage::position() const
-{
-    return m_position.value();
-}
-
-qreal QLottieImage::radius() const
-{
-    return m_radius.value();
 }
 
 QT_END_NAMESPACE

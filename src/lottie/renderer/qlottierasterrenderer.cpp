@@ -166,14 +166,18 @@ void QLottieRasterRenderer::render(const QLottiePolyStar &star)
 
 void QLottieRasterRenderer::render(const QLottieImage &image)
 {
+    const QImage img = image.image();
+    if (img.isNull())
+        return;
+
     m_painter->save();
 
     for (int i = 0; i < m_repeatCount; i++) {
         qCDebug(lcLottieQtLottieRender) << "Image" << image.name();
 
         applyRepeaterTransform(i);
-        QPointF center = image.getCenter();
-        m_painter->drawImage(center.x(), center.y(), image.getImage());
+
+        m_painter->drawImage(QRectF(QPointF(), image.size()), img);
     }
 
     m_painter->restore();

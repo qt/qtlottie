@@ -15,6 +15,7 @@
 #include <QtLottie/private/qlottieround_p.h>
 #include <QtLottie/private/qlottieroot_p.h>
 #include <QtLottie/private/qlottieflatlayers_p.h>
+#include <QtLottie/private/qlottieimage_p.h>
 
 #include <QtGui/private/qfixed_p.h>
 
@@ -237,10 +238,15 @@ void QLottieVisitor::render(const QLottieGFill &gradient)
 
 void QLottieVisitor::render(const QLottieImage &image)
 {
-    QLOTTIEVISITOR_DEBUG << "[image]";
+    QLOTTIEVISITOR_DEBUG << "[image size=" << image.size() << "]";
 
-    // ### image
-    Q_UNUSED(image);
+    ImageNodeInfo info;
+    fillCommonNodeInfo(&image, &info);
+    info.image = image.image();
+    info.rect = QRectF(QPointF(), image.size());
+    info.externalFileReference = image.url().toLocalFile();
+
+    m_generator->generateImageNode(info);
 }
 
 void QLottieVisitor::render(const QLottieStroke &stroke)
