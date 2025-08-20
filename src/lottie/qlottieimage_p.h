@@ -17,6 +17,7 @@
 
 #include <QImage>
 #include <QPointF>
+#include <QUrl>
 
 #include <QtLottie/private/qlottieproperty_p.h>
 #include <QtLottie/private/qlottiespatialproperty_p.h>
@@ -36,21 +37,16 @@ public:
 
     void construct(const QJsonObject &definition);
 
-    void updateProperties(int frame) override;
     void render(QLottieRenderer &renderer) const override;
 
-    QPointF position() const;
-    qreal radius() const;
-
-    QPointF getCenter() const { return m_center; }
-    QImage getImage() const { return m_image; }
+    QUrl url() const { return m_url; }
+    QSizeF size() const { return m_size; }
+    QImage image() const { return m_image; }
 
 protected:
-    QLottieSpatialProperty m_position;
-    QLottieProperty<qreal> m_radius;
-
+    QUrl m_url;
+    QSizeF m_size;
     QImage m_image;
-    QPointF m_center;
 };
 
 QT_END_NAMESPACE

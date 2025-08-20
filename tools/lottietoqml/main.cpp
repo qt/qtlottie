@@ -47,6 +47,29 @@ int main(int argc, char *argv[])
                                        QCoreApplication::translate("main", "string"));
     parser.addOption(copyrightOption);
 
+    QCommandLineOption assetOutputDirectoryOption("asset-output-directory",
+                                                  QCoreApplication::translate("main", "If the Lottie file refers to external or embedded files, such as images, these "
+                                                                                      "will be copied into the same directory as the output QML file by default. "
+                                                                                      "Set the asset output directory to override the location."),
+                                                  QCoreApplication::translate("main", "directory"));
+    parser.addOption(assetOutputDirectoryOption);
+
+    QCommandLineOption assetOutputPrefixOption("asset-output-prefix",
+                                               QCoreApplication::translate("main", "If the Lottie file refers to external or embedded files, such as images, these "
+                                                                                   "will be copied to files with unique identifiers. By default, the files will be prefixed "
+                                                                                   "with \"lottie_asset_\". Set the asset output prefix to override the prefix."),
+                                               QCoreApplication::translate("main", "prefix"));
+    assetOutputPrefixOption.setDefaultValue(QLatin1String("lottie_asset_"));
+    parser.addOption(assetOutputPrefixOption);
+
+    QCommandLineOption keepPathsOption("keep-external-paths",
+                                       QCoreApplication::translate("main", "Any paths to external files will be retained in the QML output. "
+                                                                           "The paths will be reformatted as relative to the output file. If "
+                                                                           "this is not enabled, copies of the file will be saved to the asset output "
+                                                                           "directory. Embedded data will still be saved to files, even if "
+                                                                           "this option is set."));
+    parser.addOption(keepPathsOption);
+
 #ifdef ENABLE_GUI
     QCommandLineOption guiOption({ "v", "view" },
                                  QCoreApplication::translate("main", "Display the generated QML in a window. This is the default behavior if no "
@@ -62,10 +85,13 @@ int main(int argc, char *argv[])
     const QString inFileName = args.at(0);
 
     QString commentString = QLatin1String("Generated from Lottie file %1").arg(inFileName);
-    QString importString = QLatin1String("Qt.labs.lottieqt.VectorImageHelpers");
+    const QString importString = QLatin1String("Qt.labs.lottieqt.VectorImageHelpers");
 
     const auto outFileName = args.size() > 1 ? args.at(1) : QString{};
     const auto typeName = parser.value(typeNameOption);
+    const auto assetOutputDirectory = parser.value(assetOutputDirectoryOption);
+    const auto assetOutputPrefix = parser.value(assetOutputPrefixOption);
+    const bool keepPaths = parser.isSet(keepPathsOption);
     auto copyrightString = parser.value(copyrightOption);
 
     if (!copyrightString.isEmpty()) {
@@ -82,6 +108,9 @@ int main(int argc, char *argv[])
     QQuickQmlGenerator generator(inFileName, flags, outFileName);
     generator.setShapeTypeName(typeName);
     generator.setCommentString(commentString);
+    generator.setAssetFileDirectory(assetOutputDirectory);
+    generator.setAssetFilePrefix(assetOutputPrefix);
+    generator.setRetainFilePaths(keepPaths);
     generator.addExtraImport(importString);
 
     int frameNo = qEnvironmentVariableIntValue("QLT_FRAMENO");
