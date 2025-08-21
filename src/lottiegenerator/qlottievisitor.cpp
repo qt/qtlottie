@@ -344,13 +344,47 @@ void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *tra
                              });
     m_currentPaintInfo.transformAnimations.append(info);
 
+    auto storeRotationParameter = [](const QVariant &v) {
+        return QVariantList{ QVariant::fromValue(QPointF(0, 0)), v };
+    };
     info = collectAnimations(rotations,
                              QTransform::TxRotate,
                              storeAnimationFrame,
-                             [](const QVariant &v) {
-                                 return QVariantList{ QVariant::fromValue(QPointF(0, 0)), v };
-                             });
+                             storeRotationParameter);
     m_currentPaintInfo.transformAnimations.append(info);
+
+    if (isShapeTransform) {
+        const QLottieShapeTransform *shapeTransform =
+            static_cast<const QLottieShapeTransform *>(transform);
+
+        const QLottieProperty<qreal> skews = shapeTransform->skewProperty();
+        const QLottieProperty<qreal> skewAxes = shapeTransform->skewAxisProperty();
+
+        // Lottie shear transforms work by first rotating by skew axis angle, then applying
+        // the skewAngle as the shear along the X-axis, and then rotating back.
+        info = collectAnimations(skewAxes,
+                                 QTransform::TxRotate,
+                                 storeAnimationFrame,
+                                 [](const QVariant &v) {
+                                     return QVariantList{ QVariant::fromValue(QPointF(0, 0)),
+                                                          QVariant::fromValue(-1.0 * v.toReal()) };
+                                 });
+        m_currentPaintInfo.transformAnimations.append(info);
+
+        info = collectAnimations(skews,
+                                 QTransform::TxShear,
+                                 storeAnimationFrame,
+                                 [](const QVariant &v) {
+                                     return QVariantList{ QVariant::fromValue(QPointF(-1.0 * v.toReal(), 0.0)) };
+                                 });
+        m_currentPaintInfo.transformAnimations.append(info);
+
+        info = collectAnimations(skewAxes,
+                                 QTransform::TxRotate,
+                                 storeAnimationFrame,
+                                 storeRotationParameter);
+        m_currentPaintInfo.transformAnimations.append(info);
+    }
 
     info = collectAnimations(scales,
                              QTransform::TxScale,
@@ -359,8 +393,6 @@ void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *tra
                                  return QVariantList{ QVariant::fromValue(v.toPointF() / 100.0) };
                              });
     m_currentPaintInfo.transformAnimations.append(info);
-
-    // ### Skew animations not implemented
 
     info = collectAnimations(anchorPoints,
                              QTransform::TxTranslate,
@@ -409,10 +441,10 @@ bool QLottieVisitor::hasAnimations(const QLottieBasicTransform *transform, bool 
                          || transform->scaleProperty().startFrame() < transform->scaleProperty().endFrame()
                          || transform->opacityProperty().startFrame() < transform->opacityProperty().endFrame();
 
-    // ### Skew animations not implemented
     if (isShapeTransform && !hasAnimations) {
         const QLottieShapeTransform *shapeTransform = static_cast<const QLottieShapeTransform *>(transform);
-        hasAnimations = shapeTransform->skewProperty().startFrame() < shapeTransform->skewProperty().endFrame();
+        hasAnimations = shapeTransform->skewProperty().startFrame() < shapeTransform->skewProperty().endFrame()
+            || shapeTransform->skewAxisProperty().startFrame() < shapeTransform->skewAxisProperty().endFrame();
     }
 
     if (qEnvironmentVariableIntValue("QLOTTIEVISITOR_DISABLE_ANIMATIONS"))
