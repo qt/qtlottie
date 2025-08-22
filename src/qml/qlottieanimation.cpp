@@ -181,17 +181,18 @@ void QLottieAnimation::paint(QPainter *painter)
             qCDebug(lcLottieQtLottieRender) << "Element '" << elem->name() << "' inactive. No need to paint";
     }
 
-    m_frameRenderThread->frameRendered(this, m_currentFrame);
+    if (m_frameAdvance->isActive()) {
+        m_frameRenderThread->frameRendered(this, m_currentFrame);
+        m_currentFrame += m_direction;
 
-    m_currentFrame += m_direction;
-
-    if (m_currentFrame < m_startFrame || m_currentFrame > m_endFrame) {
+        if (m_currentFrame < m_startFrame || m_currentFrame > m_endFrame) {
             m_currentLoop += (m_loops > 0 ? 1 : 0);
-    }
+        }
 
-    if ((m_loops - m_currentLoop) != 0) {
-        m_currentFrame = m_currentFrame < m_startFrame ? m_endFrame :
-                         m_currentFrame > m_endFrame ? m_startFrame : m_currentFrame;
+        if ((m_loops - m_currentLoop) != 0) {
+            m_currentFrame = m_currentFrame < m_startFrame ? m_endFrame :
+                    m_currentFrame > m_endFrame ? m_startFrame : m_currentFrame;
+        }
     }
 }
 
@@ -506,8 +507,8 @@ bool QLottieAnimation::gotoAndPlay(const QString &frameMarker)
 */
 void QLottieAnimation::gotoAndStop(int frame)
 {
-    gotoFrame(frame);
     m_frameAdvance->stop();
+    gotoFrame(frame);
     renderNextFrame();
 }
 
