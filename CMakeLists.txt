@@ -26,4 +26,6 @@ if(NOT TARGET Qt6::Gui)
     return()
 endif()
 
+include("${CMAKE_CURRENT_LIST_DIR}/tools/lottietoqml/Qt6LottieToQmlMacros.cmake")
+
 qt_build_repo()
