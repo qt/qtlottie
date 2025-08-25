@@ -29,10 +29,9 @@ Item {
             id: _qt_layer0_transform_base_group
             TransformGroup {
                 id: _qt_layer0_transform_group_0
-                Translate { id: _qt_layer0_transform_0_3 }
+                Translate { x: -279.5; y: -517.438 }
                 Scale { id: _qt_layer0_transform_0_2}
-                Rotation { id: _qt_layer0_transform_0_1; origin.x: _qt_layer0.width / 2.0; origin.y: _qt_layer0.height / 2.0 }
-                Translate { id: _qt_layer0_transform_0_0 }
+                Translate { x: 179.5; y: 289.938 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer0_transform_animation.restart() } }
@@ -47,51 +46,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer0_transform_0_0
-                                property: "x"
-                                to: 179.5
+                            ScriptAction {
+                                script:_qt_layer0_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer0_transform_0_0
-                                property: "y"
-                                to: 289.938
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer0_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer0_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer0_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer0_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer0_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 500 }
@@ -101,12 +60,16 @@ Item {
                                 target: _qt_layer0_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer0_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3334 }
@@ -116,32 +79,19 @@ Item {
                                 target: _qt_layer0_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer0_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 633 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer0_transform_0_3
-                                property: "x"
-                                to: -279.5
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer0_transform_0_3
-                                property: "y"
-                                to: -517.438
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -161,25 +111,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer0
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer0.opacity = 0
                     }
                     PauseAnimation { duration: 500 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer0
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3500 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer0
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 800 }
                 }
@@ -234,10 +181,9 @@ Item {
             id: _qt_layer1_transform_base_group
             TransformGroup {
                 id: _qt_layer1_transform_group_0
-                Translate { id: _qt_layer1_transform_0_3 }
+                Translate { x: -297.125; y: -524.625 }
                 Scale { id: _qt_layer1_transform_0_2}
-                Rotation { id: _qt_layer1_transform_0_1; origin.x: _qt_layer1.width / 2.0; origin.y: _qt_layer1.height / 2.0 }
-                Translate { id: _qt_layer1_transform_0_0 }
+                Translate { x: 197.125; y: 297.125 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer1_transform_animation.restart() } }
@@ -252,51 +198,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer1_transform_0_0
-                                property: "x"
-                                to: 197.125
+                            ScriptAction {
+                                script:_qt_layer1_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer1_transform_0_0
-                                property: "y"
-                                to: 297.125
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer1_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer1_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer1_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer1_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer1_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 467 }
@@ -306,12 +212,16 @@ Item {
                                 target: _qt_layer1_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer1_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3333 }
@@ -321,32 +231,19 @@ Item {
                                 target: _qt_layer1_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer1_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 667 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer1_transform_0_3
-                                property: "x"
-                                to: -297.125
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer1_transform_0_3
-                                property: "y"
-                                to: -524.625
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -366,25 +263,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer1
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer1.opacity = 0
                     }
                     PauseAnimation { duration: 467 }
                     PropertyAnimation {
+                        duration: 466
                         target: _qt_layer1
                         property: "opacity"
                         to: 1
-                        duration: 466
                     }
                     PauseAnimation { duration: 3500 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer1
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 833 }
                 }
@@ -439,10 +333,9 @@ Item {
             id: _qt_layer2_transform_base_group
             TransformGroup {
                 id: _qt_layer2_transform_group_0
-                Translate { id: _qt_layer2_transform_0_3 }
+                Translate { x: -315.062; y: -532.75 }
                 Scale { id: _qt_layer2_transform_0_2}
-                Rotation { id: _qt_layer2_transform_0_1; origin.x: _qt_layer2.width / 2.0; origin.y: _qt_layer2.height / 2.0 }
-                Translate { id: _qt_layer2_transform_0_0 }
+                Translate { x: 215.062; y: 305.25 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer2_transform_animation.restart() } }
@@ -457,51 +350,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer2_transform_0_0
-                                property: "x"
-                                to: 215.062
+                            ScriptAction {
+                                script:_qt_layer2_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer2_transform_0_0
-                                property: "y"
-                                to: 305.25
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer2_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer2_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer2_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer2_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer2_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 433 }
@@ -511,12 +364,16 @@ Item {
                                 target: _qt_layer2_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 634
                                 target: _qt_layer2_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3333 }
@@ -526,32 +383,19 @@ Item {
                                 target: _qt_layer2_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer2_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 700 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer2_transform_0_3
-                                property: "x"
-                                to: -315.062
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer2_transform_0_3
-                                property: "y"
-                                to: -532.75
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -571,25 +415,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer2
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer2.opacity = 0
                     }
                     PauseAnimation { duration: 433 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer2
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3500 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer2
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 867 }
                 }
@@ -644,10 +485,9 @@ Item {
             id: _qt_layer3_transform_base_group
             TransformGroup {
                 id: _qt_layer3_transform_group_0
-                Translate { id: _qt_layer3_transform_0_3 }
+                Translate { x: -324; y: -546 }
                 Scale { id: _qt_layer3_transform_0_2}
-                Rotation { id: _qt_layer3_transform_0_1; origin.x: _qt_layer3.width / 2.0; origin.y: _qt_layer3.height / 2.0 }
-                Translate { id: _qt_layer3_transform_0_0 }
+                Translate { x: 224; y: 318.5 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer3_transform_animation.restart() } }
@@ -662,51 +502,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer3_transform_0_0
-                                property: "x"
-                                to: 224
+                            ScriptAction {
+                                script:_qt_layer3_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer3_transform_0_0
-                                property: "y"
-                                to: 318.5
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer3_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer3_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer3_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer3_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer3_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 400 }
@@ -716,12 +516,16 @@ Item {
                                 target: _qt_layer3_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer3_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3334 }
@@ -731,32 +535,19 @@ Item {
                                 target: _qt_layer3_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer3_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 733 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer3_transform_0_3
-                                property: "x"
-                                to: -324
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer3_transform_0_3
-                                property: "y"
-                                to: -546
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -776,25 +567,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer3
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer3.opacity = 0
                     }
                     PauseAnimation { duration: 400 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer3
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3500 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer3
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 900 }
                 }
@@ -849,10 +637,9 @@ Item {
             id: _qt_layer4_transform_base_group
             TransformGroup {
                 id: _qt_layer4_transform_group_0
-                Translate { id: _qt_layer4_transform_0_3 }
+                Translate { x: -250.75; y: -545.25 }
                 Scale { id: _qt_layer4_transform_0_2}
-                Rotation { id: _qt_layer4_transform_0_1; origin.x: _qt_layer4.width / 2.0; origin.y: _qt_layer4.height / 2.0 }
-                Translate { id: _qt_layer4_transform_0_0 }
+                Translate { x: 150.75; y: 317.75 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer4_transform_animation.restart() } }
@@ -867,51 +654,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer4_transform_0_0
-                                property: "x"
-                                to: 150.75
+                            ScriptAction {
+                                script:_qt_layer4_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer4_transform_0_0
-                                property: "y"
-                                to: 317.75
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer4_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer4_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer4_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer4_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer4_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 367 }
@@ -921,12 +668,16 @@ Item {
                                 target: _qt_layer4_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer4_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3333 }
@@ -936,32 +687,19 @@ Item {
                                 target: _qt_layer4_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer4_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 767 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer4_transform_0_3
-                                property: "x"
-                                to: -250.75
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer4_transform_0_3
-                                property: "y"
-                                to: -545.25
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -981,25 +719,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer4
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer4.opacity = 0
                     }
                     PauseAnimation { duration: 367 }
                     PropertyAnimation {
+                        duration: 466
                         target: _qt_layer4
                         property: "opacity"
                         to: 1
-                        duration: 466
                     }
                     PauseAnimation { duration: 3500 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer4
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 933 }
                 }
@@ -1054,10 +789,9 @@ Item {
             id: _qt_layer5_transform_base_group
             TransformGroup {
                 id: _qt_layer5_transform_group_0
-                Translate { id: _qt_layer5_transform_0_3 }
+                Translate { x: -199.625; y: -542 }
                 Scale { id: _qt_layer5_transform_0_2}
-                Rotation { id: _qt_layer5_transform_0_1; origin.x: _qt_layer5.width / 2.0; origin.y: _qt_layer5.height / 2.0 }
-                Translate { id: _qt_layer5_transform_0_0 }
+                Translate { x: 99.625; y: 314.5 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer5_transform_animation.restart() } }
@@ -1072,51 +806,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer5_transform_0_0
-                                property: "x"
-                                to: 99.625
+                            ScriptAction {
+                                script:_qt_layer5_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer5_transform_0_0
-                                property: "y"
-                                to: 314.5
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer5_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer5_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer5_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer5_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer5_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 333 }
@@ -1126,12 +820,16 @@ Item {
                                 target: _qt_layer5_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 634
                                 target: _qt_layer5_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3333 }
@@ -1141,32 +839,19 @@ Item {
                                 target: _qt_layer5_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer5_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer5_transform_0_3
-                                property: "x"
-                                to: -199.625
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer5_transform_0_3
-                                property: "y"
-                                to: -542
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -1186,25 +871,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer5
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer5.opacity = 0
                     }
                     PauseAnimation { duration: 333 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer5
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3500 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer5
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 967 }
                 }
@@ -1259,10 +941,9 @@ Item {
             id: _qt_layer6_transform_base_group
             TransformGroup {
                 id: _qt_layer6_transform_group_0
-                Translate { id: _qt_layer6_transform_0_3 }
+                Translate { x: -209; y: -506 }
                 Scale { id: _qt_layer6_transform_0_2}
-                Rotation { id: _qt_layer6_transform_0_1; origin.x: _qt_layer6.width / 2.0; origin.y: _qt_layer6.height / 2.0 }
-                Translate { id: _qt_layer6_transform_0_0 }
+                Translate { x: 109; y: 278.5 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer6_transform_animation.restart() } }
@@ -1277,51 +958,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer6_transform_0_0
-                                property: "x"
-                                to: 109
+                            ScriptAction {
+                                script:_qt_layer6_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer6_transform_0_0
-                                property: "y"
-                                to: 278.5
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer6_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer6_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer6_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer6_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer6_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 300 }
@@ -1331,12 +972,16 @@ Item {
                                 target: _qt_layer6_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer6_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3334 }
@@ -1346,32 +991,19 @@ Item {
                                 target: _qt_layer6_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer6_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 833 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer6_transform_0_3
-                                property: "x"
-                                to: -209
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer6_transform_0_3
-                                property: "y"
-                                to: -506
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -1391,25 +1023,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer6
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer6.opacity = 0
                     }
                     PauseAnimation { duration: 300 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer6
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3500 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer6
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 1000 }
                 }
@@ -1464,10 +1093,9 @@ Item {
             id: _qt_layer7_transform_base_group
             TransformGroup {
                 id: _qt_layer7_transform_group_0
-                Translate { id: _qt_layer7_transform_0_3 }
+                Translate { x: -626.091; y: -288.039 }
                 Scale { id: _qt_layer7_transform_0_2}
-                Rotation { id: _qt_layer7_transform_0_1; origin.x: _qt_layer7.width / 2.0; origin.y: _qt_layer7.height / 2.0 }
-                Translate { id: _qt_layer7_transform_0_0 }
+                Translate { x: 526.091; y: 60.539 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer7_transform_animation.restart() } }
@@ -1482,51 +1110,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer7_transform_0_0
-                                property: "x"
-                                to: 526.091
+                            ScriptAction {
+                                script:_qt_layer7_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer7_transform_0_0
-                                property: "y"
-                                to: 60.539
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer7_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer7_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer7_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer7_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer7_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 1500 }
@@ -1536,12 +1124,16 @@ Item {
                                 target: _qt_layer7_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer7_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 2934 }
@@ -1551,32 +1143,19 @@ Item {
                                 target: _qt_layer7_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer7_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 33 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer7_transform_0_3
-                                property: "x"
-                                to: -626.091
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer7_transform_0_3
-                                property: "y"
-                                to: -288.039
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -1596,25 +1175,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer7
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer7.opacity = 0
                     }
                     PauseAnimation { duration: 1500 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer7
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3100 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer7
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 200 }
                 }
@@ -1669,10 +1245,9 @@ Item {
             id: _qt_layer8_transform_base_group
             TransformGroup {
                 id: _qt_layer8_transform_group_0
-                Translate { id: _qt_layer8_transform_0_3 }
+                Translate { x: -611.576; y: -312.871 }
                 Scale { id: _qt_layer8_transform_0_2}
-                Rotation { id: _qt_layer8_transform_0_1; origin.x: _qt_layer8.width / 2.0; origin.y: _qt_layer8.height / 2.0 }
-                Translate { id: _qt_layer8_transform_0_0 }
+                Translate { x: 511.576; y: 85.371 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer8_transform_animation.restart() } }
@@ -1687,51 +1262,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer8_transform_0_0
-                                property: "x"
-                                to: 511.576
+                            ScriptAction {
+                                script:_qt_layer8_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer8_transform_0_0
-                                property: "y"
-                                to: 85.371
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer8_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer8_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer8_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer8_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer8_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 1433 }
@@ -1741,12 +1276,16 @@ Item {
                                 target: _qt_layer8_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 634
                                 target: _qt_layer8_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 2966 }
@@ -1756,32 +1295,19 @@ Item {
                                 target: _qt_layer8_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer8_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 67 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer8_transform_0_3
-                                property: "x"
-                                to: -611.576
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer8_transform_0_3
-                                property: "y"
-                                to: -312.871
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -1801,25 +1327,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer8
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer8.opacity = 0
                     }
                     PauseAnimation { duration: 1433 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer8
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3133 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer8
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 233 }
                 }
@@ -1874,10 +1397,9 @@ Item {
             id: _qt_layer9_transform_base_group
             TransformGroup {
                 id: _qt_layer9_transform_group_0
-                Translate { id: _qt_layer9_transform_0_3 }
+                Translate { x: -601.23; y: -309.82 }
                 Scale { id: _qt_layer9_transform_0_2}
-                Rotation { id: _qt_layer9_transform_0_1; origin.x: _qt_layer9.width / 2.0; origin.y: _qt_layer9.height / 2.0 }
-                Translate { id: _qt_layer9_transform_0_0 }
+                Translate { x: 501.23; y: 82.32 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer9_transform_animation.restart() } }
@@ -1892,51 +1414,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer9_transform_0_0
-                                property: "x"
-                                to: 501.23
+                            ScriptAction {
+                                script:_qt_layer9_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer9_transform_0_0
-                                property: "y"
-                                to: 82.32
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer9_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer9_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer9_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer9_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer9_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 1367 }
@@ -1946,12 +1428,16 @@ Item {
                                 target: _qt_layer9_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer9_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3000 }
@@ -1961,32 +1447,19 @@ Item {
                                 target: _qt_layer9_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer9_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 100 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer9_transform_0_3
-                                property: "x"
-                                to: -601.23
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer9_transform_0_3
-                                property: "y"
-                                to: -309.82
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -2006,25 +1479,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer9
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer9.opacity = 0
                     }
                     PauseAnimation { duration: 1367 }
                     PropertyAnimation {
+                        duration: 466
                         target: _qt_layer9
                         property: "opacity"
                         to: 1
-                        duration: 466
                     }
                     PauseAnimation { duration: 3167 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer9
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 267 }
                 }
@@ -2079,10 +1549,9 @@ Item {
             id: _qt_layer10_transform_base_group
             TransformGroup {
                 id: _qt_layer10_transform_group_0
-                Translate { id: _qt_layer10_transform_0_3 }
+                Translate { x: -611.596; y: -325.709 }
                 Scale { id: _qt_layer10_transform_0_2}
-                Rotation { id: _qt_layer10_transform_0_1; origin.x: _qt_layer10.width / 2.0; origin.y: _qt_layer10.height / 2.0 }
-                Translate { id: _qt_layer10_transform_0_0 }
+                Translate { x: 511.596; y: 98.209 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer10_transform_animation.restart() } }
@@ -2097,51 +1566,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer10_transform_0_0
-                                property: "x"
-                                to: 511.596
+                            ScriptAction {
+                                script:_qt_layer10_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer10_transform_0_0
-                                property: "y"
-                                to: 98.209
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer10_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer10_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer10_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer10_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer10_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 1300 }
@@ -2151,12 +1580,16 @@ Item {
                                 target: _qt_layer10_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer10_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3034 }
@@ -2166,32 +1599,19 @@ Item {
                                 target: _qt_layer10_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer10_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 133 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer10_transform_0_3
-                                property: "x"
-                                to: -611.596
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer10_transform_0_3
-                                property: "y"
-                                to: -325.709
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -2211,25 +1631,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer10
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer10.opacity = 0
                     }
                     PauseAnimation { duration: 1300 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer10
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3200 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer10
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 300 }
                 }
@@ -2284,10 +1701,9 @@ Item {
             id: _qt_layer11_transform_base_group
             TransformGroup {
                 id: _qt_layer11_transform_group_0
-                Translate { id: _qt_layer11_transform_0_3 }
+                Translate { x: -616.625; y: -333.625 }
                 Scale { id: _qt_layer11_transform_0_2}
-                Rotation { id: _qt_layer11_transform_0_1; origin.x: _qt_layer11.width / 2.0; origin.y: _qt_layer11.height / 2.0 }
-                Translate { id: _qt_layer11_transform_0_0 }
+                Translate { x: 516.625; y: 106.125 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer11_transform_animation.restart() } }
@@ -2302,51 +1718,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer11_transform_0_0
-                                property: "x"
-                                to: 516.625
+                            ScriptAction {
+                                script:_qt_layer11_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer11_transform_0_0
-                                property: "y"
-                                to: 106.125
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer11_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer11_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer11_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer11_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer11_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 1267 }
@@ -2356,12 +1732,16 @@ Item {
                                 target: _qt_layer11_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer11_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3033 }
@@ -2371,32 +1751,19 @@ Item {
                                 target: _qt_layer11_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer11_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 167 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer11_transform_0_3
-                                property: "x"
-                                to: -616.625
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer11_transform_0_3
-                                property: "y"
-                                to: -333.625
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -2416,25 +1783,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer11
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer11.opacity = 0
                     }
                     PauseAnimation { duration: 1267 }
                     PropertyAnimation {
+                        duration: 466
                         target: _qt_layer11
                         property: "opacity"
                         to: 1
-                        duration: 466
                     }
                     PauseAnimation { duration: 3200 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer11
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 333 }
                 }
@@ -2489,10 +1853,9 @@ Item {
             id: _qt_layer12_transform_base_group
             TransformGroup {
                 id: _qt_layer12_transform_group_0
-                Translate { id: _qt_layer12_transform_0_3 }
+                Translate { x: -607.604; y: -335.062 }
                 Scale { id: _qt_layer12_transform_0_2}
-                Rotation { id: _qt_layer12_transform_0_1; origin.x: _qt_layer12.width / 2.0; origin.y: _qt_layer12.height / 2.0 }
-                Translate { id: _qt_layer12_transform_0_0 }
+                Translate { x: 507.604; y: 107.562 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer12_transform_animation.restart() } }
@@ -2507,51 +1870,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer12_transform_0_0
-                                property: "x"
-                                to: 507.604
+                            ScriptAction {
+                                script:_qt_layer12_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer12_transform_0_0
-                                property: "y"
-                                to: 107.562
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer12_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer12_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer12_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer12_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer12_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 1233 }
@@ -2561,12 +1884,16 @@ Item {
                                 target: _qt_layer12_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 634
                                 target: _qt_layer12_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3033 }
@@ -2576,32 +1903,19 @@ Item {
                                 target: _qt_layer12_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer12_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 200 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer12_transform_0_3
-                                property: "x"
-                                to: -607.604
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer12_transform_0_3
-                                property: "y"
-                                to: -335.062
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -2621,25 +1935,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer12
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer12.opacity = 0
                     }
                     PauseAnimation { duration: 1233 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer12
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3200 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer12
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 367 }
                 }
@@ -2694,10 +2005,9 @@ Item {
             id: _qt_layer13_transform_base_group
             TransformGroup {
                 id: _qt_layer13_transform_group_0
-                Translate { id: _qt_layer13_transform_0_3 }
+                Translate { x: -589.687; y: -374.194 }
                 Scale { id: _qt_layer13_transform_0_2}
-                Rotation { id: _qt_layer13_transform_0_1; origin.x: _qt_layer13.width / 2.0; origin.y: _qt_layer13.height / 2.0 }
-                Translate { id: _qt_layer13_transform_0_0 }
+                Translate { x: 489.687; y: 146.694 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer13_transform_animation.restart() } }
@@ -2712,51 +2022,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer13_transform_0_0
-                                property: "x"
-                                to: 489.687
+                            ScriptAction {
+                                script:_qt_layer13_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer13_transform_0_0
-                                property: "y"
-                                to: 146.694
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer13_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer13_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer13_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer13_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer13_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 1233 }
@@ -2766,12 +2036,16 @@ Item {
                                 target: _qt_layer13_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 634
                                 target: _qt_layer13_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3000 }
@@ -2781,32 +2055,19 @@ Item {
                                 target: _qt_layer13_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer13_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 233 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer13_transform_0_3
-                                property: "x"
-                                to: -589.687
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer13_transform_0_3
-                                property: "y"
-                                to: -374.194
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -2826,25 +2087,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer13
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer13.opacity = 0
                     }
                     PauseAnimation { duration: 1233 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer13
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3167 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer13
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 400 }
                 }
@@ -2899,10 +2157,9 @@ Item {
             id: _qt_layer14_transform_base_group
             TransformGroup {
                 id: _qt_layer14_transform_group_0
-                Translate { id: _qt_layer14_transform_0_3 }
+                Translate { x: -584; y: -322.72 }
                 Scale { id: _qt_layer14_transform_0_2}
-                Rotation { id: _qt_layer14_transform_0_1; origin.x: _qt_layer14.width / 2.0; origin.y: _qt_layer14.height / 2.0 }
-                Translate { id: _qt_layer14_transform_0_0 }
+                Translate { x: 484; y: 95.22 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer14_transform_animation.restart() } }
@@ -2917,51 +2174,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer14_transform_0_0
-                                property: "x"
-                                to: 484
+                            ScriptAction {
+                                script:_qt_layer14_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer14_transform_0_0
-                                property: "y"
-                                to: 95.22
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer14_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer14_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer14_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer14_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer14_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 1200 }
@@ -2971,12 +2188,16 @@ Item {
                                 target: _qt_layer14_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer14_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3000 }
@@ -2986,32 +2207,19 @@ Item {
                                 target: _qt_layer14_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer14_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 267 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer14_transform_0_3
-                                property: "x"
-                                to: -584
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer14_transform_0_3
-                                property: "y"
-                                to: -322.72
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -3031,25 +2239,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer14
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer14.opacity = 0
                     }
                     PauseAnimation { duration: 1200 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer14
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3166 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer14
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 433 }
                 }
@@ -3112,10 +2317,9 @@ Item {
             id: _qt_layer15_transform_base_group
             TransformGroup {
                 id: _qt_layer15_transform_group_0
-                Translate { id: _qt_layer15_transform_0_3 }
+                Translate { x: -557.083; y: -508.419 }
                 Scale { id: _qt_layer15_transform_0_2}
-                Rotation { id: _qt_layer15_transform_0_1; origin.x: _qt_layer15.width / 2.0; origin.y: _qt_layer15.height / 2.0 }
-                Translate { id: _qt_layer15_transform_0_0 }
+                Translate { x: 457.083; y: 280.919 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer15_transform_animation.restart() } }
@@ -3130,51 +2334,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer15_transform_0_0
-                                property: "x"
-                                to: 457.083
+                            ScriptAction {
+                                script:_qt_layer15_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer15_transform_0_0
-                                property: "y"
-                                to: 280.919
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer15_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer15_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer15_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer15_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer15_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 1000 }
@@ -3184,12 +2348,16 @@ Item {
                                 target: _qt_layer15_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer15_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3200 }
@@ -3199,32 +2367,19 @@ Item {
                                 target: _qt_layer15_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer15_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 267 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer15_transform_0_3
-                                property: "x"
-                                to: -557.083
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer15_transform_0_3
-                                property: "y"
-                                to: -508.419
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -3244,25 +2399,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer15
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer15.opacity = 0
                     }
                     PauseAnimation { duration: 1000 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer15
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3366 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer15
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 433 }
                 }
@@ -3317,10 +2469,9 @@ Item {
             id: _qt_layer16_transform_base_group
             TransformGroup {
                 id: _qt_layer16_transform_group_0
-                Translate { id: _qt_layer16_transform_0_3 }
+                Translate { x: -527.891; y: -460.166 }
                 Scale { id: _qt_layer16_transform_0_2}
-                Rotation { id: _qt_layer16_transform_0_1; origin.x: _qt_layer16.width / 2.0; origin.y: _qt_layer16.height / 2.0 }
-                Translate { id: _qt_layer16_transform_0_0 }
+                Translate { x: 427.891; y: 232.666 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer16_transform_animation.restart() } }
@@ -3335,51 +2486,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer16_transform_0_0
-                                property: "x"
-                                to: 427.891
+                            ScriptAction {
+                                script:_qt_layer16_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer16_transform_0_0
-                                property: "y"
-                                to: 232.666
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer16_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer16_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer16_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer16_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer16_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 1067 }
@@ -3389,12 +2500,16 @@ Item {
                                 target: _qt_layer16_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer16_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3133 }
@@ -3404,32 +2519,19 @@ Item {
                                 target: _qt_layer16_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer16_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 267 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer16_transform_0_3
-                                property: "x"
-                                to: -527.891
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer16_transform_0_3
-                                property: "y"
-                                to: -460.166
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -3449,25 +2551,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer16
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer16.opacity = 0
                     }
                     PauseAnimation { duration: 1067 }
                     PropertyAnimation {
+                        duration: 466
                         target: _qt_layer16
                         property: "opacity"
                         to: 1
-                        duration: 466
                     }
                     PauseAnimation { duration: 3300 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer16
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 433 }
                 }
@@ -3522,10 +2621,9 @@ Item {
             id: _qt_layer17_transform_base_group
             TransformGroup {
                 id: _qt_layer17_transform_group_0
-                Translate { id: _qt_layer17_transform_0_3 }
+                Translate { x: -551.463; y: -436.764 }
                 Scale { id: _qt_layer17_transform_0_2}
-                Rotation { id: _qt_layer17_transform_0_1; origin.x: _qt_layer17.width / 2.0; origin.y: _qt_layer17.height / 2.0 }
-                Translate { id: _qt_layer17_transform_0_0 }
+                Translate { x: 451.463; y: 209.264 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer17_transform_animation.restart() } }
@@ -3540,51 +2638,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer17_transform_0_0
-                                property: "x"
-                                to: 451.463
+                            ScriptAction {
+                                script:_qt_layer17_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer17_transform_0_0
-                                property: "y"
-                                to: 209.264
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer17_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer17_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer17_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer17_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer17_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 1100 }
@@ -3594,12 +2652,16 @@ Item {
                                 target: _qt_layer17_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer17_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3100 }
@@ -3609,32 +2671,19 @@ Item {
                                 target: _qt_layer17_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer17_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 267 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer17_transform_0_3
-                                property: "x"
-                                to: -551.463
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer17_transform_0_3
-                                property: "y"
-                                to: -436.764
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -3654,25 +2703,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer17
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer17.opacity = 0
                     }
                     PauseAnimation { duration: 1100 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer17
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3266 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer17
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 433 }
                 }
@@ -3727,10 +2773,9 @@ Item {
             id: _qt_layer18_transform_base_group
             TransformGroup {
                 id: _qt_layer18_transform_group_0
-                Translate { id: _qt_layer18_transform_0_3 }
+                Translate { x: -567; y: -418.435 }
                 Scale { id: _qt_layer18_transform_0_2}
-                Rotation { id: _qt_layer18_transform_0_1; origin.x: _qt_layer18.width / 2.0; origin.y: _qt_layer18.height / 2.0 }
-                Translate { id: _qt_layer18_transform_0_0 }
+                Translate { x: 467; y: 190.935 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer18_transform_animation.restart() } }
@@ -3745,51 +2790,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer18_transform_0_0
-                                property: "x"
-                                to: 467
+                            ScriptAction {
+                                script:_qt_layer18_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer18_transform_0_0
-                                property: "y"
-                                to: 190.935
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer18_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer18_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer18_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer18_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer18_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 1133 }
@@ -3799,12 +2804,16 @@ Item {
                                 target: _qt_layer18_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 634
                                 target: _qt_layer18_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3066 }
@@ -3814,32 +2823,19 @@ Item {
                                 target: _qt_layer18_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer18_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 267 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer18_transform_0_3
-                                property: "x"
-                                to: -567
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer18_transform_0_3
-                                property: "y"
-                                to: -418.435
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -3859,25 +2855,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer18
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer18.opacity = 0
                     }
                     PauseAnimation { duration: 1133 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer18
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3233 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer18
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 433 }
                 }
@@ -3932,10 +2925,9 @@ Item {
             id: _qt_layer19_transform_base_group
             TransformGroup {
                 id: _qt_layer19_transform_group_0
-                Translate { id: _qt_layer19_transform_0_3 }
+                Translate { x: -568.5; y: -391.547 }
                 Scale { id: _qt_layer19_transform_0_2}
-                Rotation { id: _qt_layer19_transform_0_1; origin.x: _qt_layer19.width / 2.0; origin.y: _qt_layer19.height / 2.0 }
-                Translate { id: _qt_layer19_transform_0_0 }
+                Translate { x: 468.5; y: 164.047 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer19_transform_animation.restart() } }
@@ -3950,51 +2942,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer19_transform_0_0
-                                property: "x"
-                                to: 468.5
+                            ScriptAction {
+                                script:_qt_layer19_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer19_transform_0_0
-                                property: "y"
-                                to: 164.047
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer19_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer19_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer19_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer19_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer19_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 1167 }
@@ -4004,12 +2956,16 @@ Item {
                                 target: _qt_layer19_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer19_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3033 }
@@ -4019,32 +2975,19 @@ Item {
                                 target: _qt_layer19_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer19_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 267 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer19_transform_0_3
-                                property: "x"
-                                to: -568.5
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer19_transform_0_3
-                                property: "y"
-                                to: -391.547
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -4064,25 +3007,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer19
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer19.opacity = 0
                     }
                     PauseAnimation { duration: 1167 }
                     PropertyAnimation {
+                        duration: 466
                         target: _qt_layer19
                         property: "opacity"
                         to: 1
-                        duration: 466
                     }
                     PauseAnimation { duration: 3200 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer19
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 433 }
                 }
@@ -4137,10 +3077,9 @@ Item {
             id: _qt_layer20_transform_base_group
             TransformGroup {
                 id: _qt_layer20_transform_group_0
-                Translate { id: _qt_layer20_transform_0_3 }
+                Translate { x: -589.892; y: -362.814 }
                 Scale { id: _qt_layer20_transform_0_2}
-                Rotation { id: _qt_layer20_transform_0_1; origin.x: _qt_layer20.width / 2.0; origin.y: _qt_layer20.height / 2.0 }
-                Translate { id: _qt_layer20_transform_0_0 }
+                Translate { x: 489.892; y: 135.314 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer20_transform_animation.restart() } }
@@ -4155,51 +3094,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer20_transform_0_0
-                                property: "x"
-                                to: 489.892
+                            ScriptAction {
+                                script:_qt_layer20_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer20_transform_0_0
-                                property: "y"
-                                to: 135.314
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer20_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer20_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer20_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer20_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer20_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 1200 }
@@ -4209,12 +3108,16 @@ Item {
                                 target: _qt_layer20_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer20_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3000 }
@@ -4224,32 +3127,19 @@ Item {
                                 target: _qt_layer20_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer20_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 267 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer20_transform_0_3
-                                property: "x"
-                                to: -589.892
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer20_transform_0_3
-                                property: "y"
-                                to: -362.814
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -4269,25 +3159,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer20
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer20.opacity = 0
                     }
                     PauseAnimation { duration: 1200 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer20
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3166 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer20
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 433 }
                 }
@@ -4342,10 +3229,9 @@ Item {
             id: _qt_layer21_transform_base_group
             TransformGroup {
                 id: _qt_layer21_transform_group_0
-                Translate { id: _qt_layer21_transform_0_3 }
+                Translate { x: -567.416; y: -353.423 }
                 Scale { id: _qt_layer21_transform_0_2}
-                Rotation { id: _qt_layer21_transform_0_1; origin.x: _qt_layer21.width / 2.0; origin.y: _qt_layer21.height / 2.0 }
-                Translate { id: _qt_layer21_transform_0_0 }
+                Translate { x: 467.416; y: 125.923 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer21_transform_animation.restart() } }
@@ -4360,51 +3246,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer21_transform_0_0
-                                property: "x"
-                                to: 467.416
+                            ScriptAction {
+                                script:_qt_layer21_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer21_transform_0_0
-                                property: "y"
-                                to: 125.923
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer21_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer21_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer21_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer21_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer21_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 1167 }
@@ -4414,12 +3260,16 @@ Item {
                                 target: _qt_layer21_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer21_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3033 }
@@ -4429,32 +3279,19 @@ Item {
                                 target: _qt_layer21_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer21_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 267 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer21_transform_0_3
-                                property: "x"
-                                to: -567.416
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer21_transform_0_3
-                                property: "y"
-                                to: -353.423
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -4474,25 +3311,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer21
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer21.opacity = 0
                     }
                     PauseAnimation { duration: 1167 }
                     PropertyAnimation {
+                        duration: 466
                         target: _qt_layer21
                         property: "opacity"
                         to: 1
-                        duration: 466
                     }
                     PauseAnimation { duration: 3200 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer21
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 433 }
                 }
@@ -4547,10 +3381,9 @@ Item {
             id: _qt_layer22_transform_base_group
             TransformGroup {
                 id: _qt_layer22_transform_group_0
-                Translate { id: _qt_layer22_transform_0_3 }
+                Translate { x: -558.252; y: -370.808 }
                 Scale { id: _qt_layer22_transform_0_2}
-                Rotation { id: _qt_layer22_transform_0_1; origin.x: _qt_layer22.width / 2.0; origin.y: _qt_layer22.height / 2.0 }
-                Translate { id: _qt_layer22_transform_0_0 }
+                Translate { x: 458.252; y: 143.308 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer22_transform_animation.restart() } }
@@ -4565,51 +3398,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer22_transform_0_0
-                                property: "x"
-                                to: 458.252
+                            ScriptAction {
+                                script:_qt_layer22_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer22_transform_0_0
-                                property: "y"
-                                to: 143.308
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer22_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer22_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer22_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer22_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer22_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 1133 }
@@ -4619,12 +3412,16 @@ Item {
                                 target: _qt_layer22_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 634
                                 target: _qt_layer22_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3066 }
@@ -4634,32 +3431,19 @@ Item {
                                 target: _qt_layer22_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer22_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 267 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer22_transform_0_3
-                                property: "x"
-                                to: -558.252
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer22_transform_0_3
-                                property: "y"
-                                to: -370.808
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -4679,25 +3463,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer22
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer22.opacity = 0
                     }
                     PauseAnimation { duration: 1133 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer22
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3233 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer22
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 433 }
                 }
@@ -4752,10 +3533,9 @@ Item {
             id: _qt_layer23_transform_base_group
             TransformGroup {
                 id: _qt_layer23_transform_group_0
-                Translate { id: _qt_layer23_transform_0_3 }
+                Translate { x: -547.032; y: -383.355 }
                 Scale { id: _qt_layer23_transform_0_2}
-                Rotation { id: _qt_layer23_transform_0_1; origin.x: _qt_layer23.width / 2.0; origin.y: _qt_layer23.height / 2.0 }
-                Translate { id: _qt_layer23_transform_0_0 }
+                Translate { x: 447.032; y: 155.855 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer23_transform_animation.restart() } }
@@ -4770,51 +3550,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer23_transform_0_0
-                                property: "x"
-                                to: 447.032
+                            ScriptAction {
+                                script:_qt_layer23_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer23_transform_0_0
-                                property: "y"
-                                to: 155.855
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer23_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer23_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer23_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer23_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer23_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 1100 }
@@ -4824,12 +3564,16 @@ Item {
                                 target: _qt_layer23_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer23_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3100 }
@@ -4839,32 +3583,19 @@ Item {
                                 target: _qt_layer23_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer23_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 267 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer23_transform_0_3
-                                property: "x"
-                                to: -547.032
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer23_transform_0_3
-                                property: "y"
-                                to: -383.355
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -4884,25 +3615,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer23
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer23.opacity = 0
                     }
                     PauseAnimation { duration: 1100 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer23
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3266 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer23
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 433 }
                 }
@@ -4957,10 +3685,9 @@ Item {
             id: _qt_layer24_transform_base_group
             TransformGroup {
                 id: _qt_layer24_transform_group_0
-                Translate { id: _qt_layer24_transform_0_3 }
+                Translate { x: -522.46; y: -367.263 }
                 Scale { id: _qt_layer24_transform_0_2}
-                Rotation { id: _qt_layer24_transform_0_1; origin.x: _qt_layer24.width / 2.0; origin.y: _qt_layer24.height / 2.0 }
-                Translate { id: _qt_layer24_transform_0_0 }
+                Translate { x: 422.46; y: 139.763 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer24_transform_animation.restart() } }
@@ -4975,51 +3702,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer24_transform_0_0
-                                property: "x"
-                                to: 422.46
+                            ScriptAction {
+                                script:_qt_layer24_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer24_transform_0_0
-                                property: "y"
-                                to: 139.763
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer24_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer24_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer24_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer24_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer24_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 1000 }
@@ -5029,12 +3716,16 @@ Item {
                                 target: _qt_layer24_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer24_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3200 }
@@ -5044,32 +3735,19 @@ Item {
                                 target: _qt_layer24_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer24_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 267 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer24_transform_0_3
-                                property: "x"
-                                to: -522.46
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer24_transform_0_3
-                                property: "y"
-                                to: -367.263
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -5089,25 +3767,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer24
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer24.opacity = 0
                     }
                     PauseAnimation { duration: 1000 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer24
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3366 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer24
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 433 }
                 }
@@ -5162,10 +3837,9 @@ Item {
             id: _qt_layer25_transform_base_group
             TransformGroup {
                 id: _qt_layer25_transform_group_0
-                Translate { id: _qt_layer25_transform_0_3 }
+                Translate { x: -499.958; y: -460.32 }
                 Scale { id: _qt_layer25_transform_0_2}
-                Rotation { id: _qt_layer25_transform_0_1; origin.x: _qt_layer25.width / 2.0; origin.y: _qt_layer25.height / 2.0 }
-                Translate { id: _qt_layer25_transform_0_0 }
+                Translate { x: 399.958; y: 232.82 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer25_transform_animation.restart() } }
@@ -5180,51 +3854,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer25_transform_0_0
-                                property: "x"
-                                to: 399.958
+                            ScriptAction {
+                                script:_qt_layer25_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer25_transform_0_0
-                                property: "y"
-                                to: 232.82
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer25_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer25_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer25_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer25_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer25_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 933 }
@@ -5234,12 +3868,16 @@ Item {
                                 target: _qt_layer25_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 634
                                 target: _qt_layer25_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3266 }
@@ -5249,32 +3887,19 @@ Item {
                                 target: _qt_layer25_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer25_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 267 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer25_transform_0_3
-                                property: "x"
-                                to: -499.958
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer25_transform_0_3
-                                property: "y"
-                                to: -460.32
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -5294,25 +3919,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer25
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer25.opacity = 0
                     }
                     PauseAnimation { duration: 933 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer25
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3433 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer25
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 433 }
                 }
@@ -5367,10 +3989,9 @@ Item {
             id: _qt_layer26_transform_base_group
             TransformGroup {
                 id: _qt_layer26_transform_group_0
-                Translate { id: _qt_layer26_transform_0_3 }
+                Translate { x: -501.894; y: -402.313 }
                 Scale { id: _qt_layer26_transform_0_2}
-                Rotation { id: _qt_layer26_transform_0_1; origin.x: _qt_layer26.width / 2.0; origin.y: _qt_layer26.height / 2.0 }
-                Translate { id: _qt_layer26_transform_0_0 }
+                Translate { x: 401.894; y: 174.813 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer26_transform_animation.restart() } }
@@ -5385,51 +4006,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer26_transform_0_0
-                                property: "x"
-                                to: 401.894
+                            ScriptAction {
+                                script:_qt_layer26_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer26_transform_0_0
-                                property: "y"
-                                to: 174.813
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer26_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer26_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer26_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer26_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer26_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 900 }
@@ -5439,12 +4020,16 @@ Item {
                                 target: _qt_layer26_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer26_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3300 }
@@ -5454,32 +4039,19 @@ Item {
                                 target: _qt_layer26_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer26_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 267 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer26_transform_0_3
-                                property: "x"
-                                to: -501.894
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer26_transform_0_3
-                                property: "y"
-                                to: -402.313
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -5499,25 +4071,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer26
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer26.opacity = 0
                     }
                     PauseAnimation { duration: 900 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer26
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3466 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer26
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 433 }
                 }
@@ -5572,10 +4141,9 @@ Item {
             id: _qt_layer27_transform_base_group
             TransformGroup {
                 id: _qt_layer27_transform_group_0
-                Translate { id: _qt_layer27_transform_0_3 }
+                Translate { x: -493.322; y: -377.654 }
                 Scale { id: _qt_layer27_transform_0_2}
-                Rotation { id: _qt_layer27_transform_0_1; origin.x: _qt_layer27.width / 2.0; origin.y: _qt_layer27.height / 2.0 }
-                Translate { id: _qt_layer27_transform_0_0 }
+                Translate { x: 393.322; y: 150.154 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer27_transform_animation.restart() } }
@@ -5590,51 +4158,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer27_transform_0_0
-                                property: "x"
-                                to: 393.322
+                            ScriptAction {
+                                script:_qt_layer27_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer27_transform_0_0
-                                property: "y"
-                                to: 150.154
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer27_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer27_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer27_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer27_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer27_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 867 }
@@ -5644,12 +4172,16 @@ Item {
                                 target: _qt_layer27_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer27_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3333 }
@@ -5659,32 +4191,19 @@ Item {
                                 target: _qt_layer27_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer27_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 267 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer27_transform_0_3
-                                property: "x"
-                                to: -493.322
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer27_transform_0_3
-                                property: "y"
-                                to: -377.654
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -5704,25 +4223,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer27
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer27.opacity = 0
                     }
                     PauseAnimation { duration: 867 }
                     PropertyAnimation {
+                        duration: 466
                         target: _qt_layer27
                         property: "opacity"
                         to: 1
-                        duration: 466
                     }
                     PauseAnimation { duration: 3500 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer27
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 433 }
                 }
@@ -5777,10 +4293,9 @@ Item {
             id: _qt_layer28_transform_base_group
             TransformGroup {
                 id: _qt_layer28_transform_group_0
-                Translate { id: _qt_layer28_transform_0_3 }
+                Translate { x: -503.457; y: -341 }
                 Scale { id: _qt_layer28_transform_0_2}
-                Rotation { id: _qt_layer28_transform_0_1; origin.x: _qt_layer28.width / 2.0; origin.y: _qt_layer28.height / 2.0 }
-                Translate { id: _qt_layer28_transform_0_0 }
+                Translate { x: 403.457; y: 113.5 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer28_transform_animation.restart() } }
@@ -5795,51 +4310,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer28_transform_0_0
-                                property: "x"
-                                to: 403.457
+                            ScriptAction {
+                                script:_qt_layer28_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer28_transform_0_0
-                                property: "y"
-                                to: 113.5
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer28_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer28_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer28_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer28_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer28_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 833 }
@@ -5849,12 +4324,16 @@ Item {
                                 target: _qt_layer28_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 634
                                 target: _qt_layer28_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3366 }
@@ -5864,32 +4343,19 @@ Item {
                                 target: _qt_layer28_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer28_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 267 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer28_transform_0_3
-                                property: "x"
-                                to: -503.457
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer28_transform_0_3
-                                property: "y"
-                                to: -341
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -5909,25 +4375,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer28
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer28.opacity = 0
                     }
                     PauseAnimation { duration: 833 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer28
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3533 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer28
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 433 }
                 }
@@ -5982,10 +4445,9 @@ Item {
             id: _qt_layer29_transform_base_group
             TransformGroup {
                 id: _qt_layer29_transform_group_0
-                Translate { id: _qt_layer29_transform_0_3 }
+                Translate { x: -467.463; y: -461.474 }
                 Scale { id: _qt_layer29_transform_0_2}
-                Rotation { id: _qt_layer29_transform_0_1; origin.x: _qt_layer29.width / 2.0; origin.y: _qt_layer29.height / 2.0 }
-                Translate { id: _qt_layer29_transform_0_0 }
+                Translate { x: 367.463; y: 233.974 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer29_transform_animation.restart() } }
@@ -6000,51 +4462,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer29_transform_0_0
-                                property: "x"
-                                to: 367.463
+                            ScriptAction {
+                                script:_qt_layer29_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer29_transform_0_0
-                                property: "y"
-                                to: 233.974
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer29_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer29_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer29_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer29_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer29_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 800 }
@@ -6054,12 +4476,16 @@ Item {
                                 target: _qt_layer29_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer29_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3367 }
@@ -6069,32 +4495,19 @@ Item {
                                 target: _qt_layer29_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer29_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 300 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer29_transform_0_3
-                                property: "x"
-                                to: -467.463
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer29_transform_0_3
-                                property: "y"
-                                to: -461.474
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -6114,25 +4527,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer29
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer29.opacity = 0
                     }
                     PauseAnimation { duration: 800 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer29
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3533 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer29
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 467 }
                 }
@@ -6187,10 +4597,9 @@ Item {
             id: _qt_layer30_transform_base_group
             TransformGroup {
                 id: _qt_layer30_transform_group_0
-                Translate { id: _qt_layer30_transform_0_3 }
+                Translate { x: -464.857; y: -381.773 }
                 Scale { id: _qt_layer30_transform_0_2}
-                Rotation { id: _qt_layer30_transform_0_1; origin.x: _qt_layer30.width / 2.0; origin.y: _qt_layer30.height / 2.0 }
-                Translate { id: _qt_layer30_transform_0_0 }
+                Translate { x: 364.857; y: 154.273 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer30_transform_animation.restart() } }
@@ -6205,51 +4614,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer30_transform_0_0
-                                property: "x"
-                                to: 364.857
+                            ScriptAction {
+                                script:_qt_layer30_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer30_transform_0_0
-                                property: "y"
-                                to: 154.273
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer30_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer30_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer30_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer30_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer30_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 767 }
@@ -6259,12 +4628,16 @@ Item {
                                 target: _qt_layer30_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer30_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3367 }
@@ -6274,32 +4647,19 @@ Item {
                                 target: _qt_layer30_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer30_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 333 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer30_transform_0_3
-                                property: "x"
-                                to: -464.857
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer30_transform_0_3
-                                property: "y"
-                                to: -381.773
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -6319,25 +4679,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer30
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer30.opacity = 0
                     }
                     PauseAnimation { duration: 767 }
                     PropertyAnimation {
+                        duration: 466
                         target: _qt_layer30
                         property: "opacity"
                         to: 1
-                        duration: 466
                     }
                     PauseAnimation { duration: 3534 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer30
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 500 }
                 }
@@ -6392,10 +4749,9 @@ Item {
             id: _qt_layer31_transform_base_group
             TransformGroup {
                 id: _qt_layer31_transform_group_0
-                Translate { id: _qt_layer31_transform_0_3 }
+                Translate { x: -454.412; y: -324.295 }
                 Scale { id: _qt_layer31_transform_0_2}
-                Rotation { id: _qt_layer31_transform_0_1; origin.x: _qt_layer31.width / 2.0; origin.y: _qt_layer31.height / 2.0 }
-                Translate { id: _qt_layer31_transform_0_0 }
+                Translate { x: 354.412; y: 96.795 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer31_transform_animation.restart() } }
@@ -6410,51 +4766,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer31_transform_0_0
-                                property: "x"
-                                to: 354.412
+                            ScriptAction {
+                                script:_qt_layer31_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer31_transform_0_0
-                                property: "y"
-                                to: 96.795
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer31_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer31_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer31_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer31_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer31_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 733 }
@@ -6464,12 +4780,16 @@ Item {
                                 target: _qt_layer31_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 634
                                 target: _qt_layer31_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3366 }
@@ -6479,32 +4799,19 @@ Item {
                                 target: _qt_layer31_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer31_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 367 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer31_transform_0_3
-                                property: "x"
-                                to: -454.412
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer31_transform_0_3
-                                property: "y"
-                                to: -324.295
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -6524,25 +4831,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer31
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer31.opacity = 0
                     }
                     PauseAnimation { duration: 733 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer31
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3533 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer31
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 533 }
                 }
@@ -6597,10 +4901,9 @@ Item {
             id: _qt_layer32_transform_base_group
             TransformGroup {
                 id: _qt_layer32_transform_group_0
-                Translate { id: _qt_layer32_transform_0_3 }
+                Translate { x: -478.003; y: -300.027 }
                 Scale { id: _qt_layer32_transform_0_2}
-                Rotation { id: _qt_layer32_transform_0_1; origin.x: _qt_layer32.width / 2.0; origin.y: _qt_layer32.height / 2.0 }
-                Translate { id: _qt_layer32_transform_0_0 }
+                Translate { x: 378.003; y: 72.527 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer32_transform_animation.restart() } }
@@ -6615,51 +4918,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer32_transform_0_0
-                                property: "x"
-                                to: 378.003
+                            ScriptAction {
+                                script:_qt_layer32_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer32_transform_0_0
-                                property: "y"
-                                to: 72.527
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer32_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer32_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer32_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer32_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer32_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 700 }
@@ -6669,12 +4932,16 @@ Item {
                                 target: _qt_layer32_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer32_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3367 }
@@ -6684,32 +4951,19 @@ Item {
                                 target: _qt_layer32_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer32_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 400 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer32_transform_0_3
-                                property: "x"
-                                to: -478.003
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer32_transform_0_3
-                                property: "y"
-                                to: -300.027
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -6729,25 +4983,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer32
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer32.opacity = 0
                     }
                     PauseAnimation { duration: 700 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer32
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3533 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer32
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 567 }
                 }
@@ -6802,10 +5053,9 @@ Item {
             id: _qt_layer33_transform_base_group
             TransformGroup {
                 id: _qt_layer33_transform_group_0
-                Translate { id: _qt_layer33_transform_0_3 }
+                Translate { x: -443.713; y: -482.808 }
                 Scale { id: _qt_layer33_transform_0_2}
-                Rotation { id: _qt_layer33_transform_0_1; origin.x: _qt_layer33.width / 2.0; origin.y: _qt_layer33.height / 2.0 }
-                Translate { id: _qt_layer33_transform_0_0 }
+                Translate { x: 343.713; y: 255.308 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer33_transform_animation.restart() } }
@@ -6820,51 +5070,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer33_transform_0_0
-                                property: "x"
-                                to: 343.713
+                            ScriptAction {
+                                script:_qt_layer33_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer33_transform_0_0
-                                property: "y"
-                                to: 255.308
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer33_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer33_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer33_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer33_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer33_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 667 }
@@ -6874,12 +5084,16 @@ Item {
                                 target: _qt_layer33_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer33_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3367 }
@@ -6889,32 +5103,19 @@ Item {
                                 target: _qt_layer33_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer33_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 433 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer33_transform_0_3
-                                property: "x"
-                                to: -443.713
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer33_transform_0_3
-                                property: "y"
-                                to: -482.808
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -6934,25 +5135,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer33
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer33.opacity = 0
                     }
                     PauseAnimation { duration: 667 }
                     PropertyAnimation {
+                        duration: 466
                         target: _qt_layer33
                         property: "opacity"
                         to: 1
-                        duration: 466
                     }
                     PauseAnimation { duration: 3534 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer33
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 600 }
                 }
@@ -7007,10 +5205,9 @@ Item {
             id: _qt_layer34_transform_base_group
             TransformGroup {
                 id: _qt_layer34_transform_group_0
-                Translate { id: _qt_layer34_transform_0_3 }
+                Translate { x: -443; y: -435.009 }
                 Scale { id: _qt_layer34_transform_0_2}
-                Rotation { id: _qt_layer34_transform_0_1; origin.x: _qt_layer34.width / 2.0; origin.y: _qt_layer34.height / 2.0 }
-                Translate { id: _qt_layer34_transform_0_0 }
+                Translate { x: 343; y: 207.509 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer34_transform_animation.restart() } }
@@ -7025,51 +5222,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer34_transform_0_0
-                                property: "x"
-                                to: 343
+                            ScriptAction {
+                                script:_qt_layer34_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer34_transform_0_0
-                                property: "y"
-                                to: 207.509
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer34_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer34_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer34_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer34_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer34_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 633 }
@@ -7079,12 +5236,16 @@ Item {
                                 target: _qt_layer34_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 634
                                 target: _qt_layer34_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3366 }
@@ -7094,32 +5255,19 @@ Item {
                                 target: _qt_layer34_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer34_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 467 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer34_transform_0_3
-                                property: "x"
-                                to: -443
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer34_transform_0_3
-                                property: "y"
-                                to: -435.009
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -7139,25 +5287,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer34
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer34.opacity = 0
                     }
                     PauseAnimation { duration: 633 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer34
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3533 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer34
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 633 }
                 }
@@ -7212,10 +5357,9 @@ Item {
             id: _qt_layer35_transform_base_group
             TransformGroup {
                 id: _qt_layer35_transform_group_0
-                Translate { id: _qt_layer35_transform_0_3 }
+                Translate { x: -437.943; y: -398.83 }
                 Scale { id: _qt_layer35_transform_0_2}
-                Rotation { id: _qt_layer35_transform_0_1; origin.x: _qt_layer35.width / 2.0; origin.y: _qt_layer35.height / 2.0 }
-                Translate { id: _qt_layer35_transform_0_0 }
+                Translate { x: 337.943; y: 171.33 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer35_transform_animation.restart() } }
@@ -7230,51 +5374,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer35_transform_0_0
-                                property: "x"
-                                to: 337.943
+                            ScriptAction {
+                                script:_qt_layer35_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer35_transform_0_0
-                                property: "y"
-                                to: 171.33
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer35_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer35_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer35_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer35_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer35_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 600 }
@@ -7284,12 +5388,16 @@ Item {
                                 target: _qt_layer35_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer35_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3367 }
@@ -7299,32 +5407,19 @@ Item {
                                 target: _qt_layer35_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer35_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 500 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer35_transform_0_3
-                                property: "x"
-                                to: -437.943
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer35_transform_0_3
-                                property: "y"
-                                to: -398.83
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -7344,25 +5439,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer35
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer35.opacity = 0
                     }
                     PauseAnimation { duration: 600 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer35
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3533 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer35
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 667 }
                 }
@@ -7417,10 +5509,9 @@ Item {
             id: _qt_layer36_transform_base_group
             TransformGroup {
                 id: _qt_layer36_transform_group_0
-                Translate { id: _qt_layer36_transform_0_3 }
+                Translate { x: -427.442; y: -354.75 }
                 Scale { id: _qt_layer36_transform_0_2}
-                Rotation { id: _qt_layer36_transform_0_1; origin.x: _qt_layer36.width / 2.0; origin.y: _qt_layer36.height / 2.0 }
-                Translate { id: _qt_layer36_transform_0_0 }
+                Translate { x: 327.442; y: 127.25 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer36_transform_animation.restart() } }
@@ -7435,51 +5526,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer36_transform_0_0
-                                property: "x"
-                                to: 327.442
+                            ScriptAction {
+                                script:_qt_layer36_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer36_transform_0_0
-                                property: "y"
-                                to: 127.25
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer36_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer36_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer36_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer36_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer36_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 567 }
@@ -7489,12 +5540,16 @@ Item {
                                 target: _qt_layer36_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer36_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3367 }
@@ -7504,32 +5559,19 @@ Item {
                                 target: _qt_layer36_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer36_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 533 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer36_transform_0_3
-                                property: "x"
-                                to: -427.442
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer36_transform_0_3
-                                property: "y"
-                                to: -354.75
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -7549,25 +5591,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer36
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer36.opacity = 0
                     }
                     PauseAnimation { duration: 567 }
                     PropertyAnimation {
+                        duration: 466
                         target: _qt_layer36
                         property: "opacity"
                         to: 1
-                        duration: 466
                     }
                     PauseAnimation { duration: 3534 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer36
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 700 }
                 }
@@ -7622,10 +5661,9 @@ Item {
             id: _qt_layer37_transform_base_group
             TransformGroup {
                 id: _qt_layer37_transform_group_0
-                Translate { id: _qt_layer37_transform_0_3 }
+                Translate { x: -413.573; y: -304.682 }
                 Scale { id: _qt_layer37_transform_0_2}
-                Rotation { id: _qt_layer37_transform_0_1; origin.x: _qt_layer37.width / 2.0; origin.y: _qt_layer37.height / 2.0 }
-                Translate { id: _qt_layer37_transform_0_0 }
+                Translate { x: 313.562; y: 77.265 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer37_transform_animation.restart() } }
@@ -7640,51 +5678,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer37_transform_0_0
-                                property: "x"
-                                to: 313.562
+                            ScriptAction {
+                                script:_qt_layer37_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer37_transform_0_0
-                                property: "y"
-                                to: 77.265
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer37_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer37_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer37_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer37_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer37_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 533 }
@@ -7694,12 +5692,16 @@ Item {
                                 target: _qt_layer37_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 634
                                 target: _qt_layer37_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3366 }
@@ -7709,32 +5711,19 @@ Item {
                                 target: _qt_layer37_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer37_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 567 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer37_transform_0_3
-                                property: "x"
-                                to: -413.573
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer37_transform_0_3
-                                property: "y"
-                                to: -304.682
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -7754,25 +5743,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer37
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer37.opacity = 0
                     }
                     PauseAnimation { duration: 533 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer37
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3533 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer37
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 733 }
                 }
@@ -7827,10 +5813,9 @@ Item {
             id: _qt_layer38_transform_base_group
             TransformGroup {
                 id: _qt_layer38_transform_group_0
-                Translate { id: _qt_layer38_transform_0_3 }
+                Translate { x: -375.5; y: -481.12 }
                 Scale { id: _qt_layer38_transform_0_2}
-                Rotation { id: _qt_layer38_transform_0_1; origin.x: _qt_layer38.width / 2.0; origin.y: _qt_layer38.height / 2.0 }
-                Translate { id: _qt_layer38_transform_0_0 }
+                Translate { x: 275.5; y: 253.62 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer38_transform_animation.restart() } }
@@ -7845,51 +5830,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer38_transform_0_0
-                                property: "x"
-                                to: 275.5
+                            ScriptAction {
+                                script:_qt_layer38_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer38_transform_0_0
-                                property: "y"
-                                to: 253.62
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer38_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer38_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer38_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer38_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer38_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 500 }
@@ -7899,12 +5844,16 @@ Item {
                                 target: _qt_layer38_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer38_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3367 }
@@ -7914,32 +5863,19 @@ Item {
                                 target: _qt_layer38_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer38_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 600 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer38_transform_0_3
-                                property: "x"
-                                to: -375.5
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer38_transform_0_3
-                                property: "y"
-                                to: -481.12
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -7959,25 +5895,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer38
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer38.opacity = 0
                     }
                     PauseAnimation { duration: 500 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer38
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3533 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer38
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 767 }
                 }
@@ -8032,10 +5965,9 @@ Item {
             id: _qt_layer39_transform_base_group
             TransformGroup {
                 id: _qt_layer39_transform_group_0
-                Translate { id: _qt_layer39_transform_0_3 }
+                Translate { x: -393.5; y: -433.444 }
                 Scale { id: _qt_layer39_transform_0_2}
-                Rotation { id: _qt_layer39_transform_0_1; origin.x: _qt_layer39.width / 2.0; origin.y: _qt_layer39.height / 2.0 }
-                Translate { id: _qt_layer39_transform_0_0 }
+                Translate { x: 293.5; y: 205.944 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer39_transform_animation.restart() } }
@@ -8050,51 +5982,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer39_transform_0_0
-                                property: "x"
-                                to: 293.5
+                            ScriptAction {
+                                script:_qt_layer39_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer39_transform_0_0
-                                property: "y"
-                                to: 205.944
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer39_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer39_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer39_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer39_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer39_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 467 }
@@ -8104,12 +5996,16 @@ Item {
                                 target: _qt_layer39_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer39_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3367 }
@@ -8119,32 +6015,19 @@ Item {
                                 target: _qt_layer39_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer39_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 633 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer39_transform_0_3
-                                property: "x"
-                                to: -393.5
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer39_transform_0_3
-                                property: "y"
-                                to: -433.444
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -8164,25 +6047,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer39
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer39.opacity = 0
                     }
                     PauseAnimation { duration: 467 }
                     PropertyAnimation {
+                        duration: 466
                         target: _qt_layer39
                         property: "opacity"
                         to: 1
-                        duration: 466
                     }
                     PauseAnimation { duration: 3534 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer39
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 800 }
                 }
@@ -8237,10 +6117,9 @@ Item {
             id: _qt_layer40_transform_base_group
             TransformGroup {
                 id: _qt_layer40_transform_group_0
-                Translate { id: _qt_layer40_transform_0_3 }
+                Translate { x: -384.987; y: -396.786 }
                 Scale { id: _qt_layer40_transform_0_2}
-                Rotation { id: _qt_layer40_transform_0_1; origin.x: _qt_layer40.width / 2.0; origin.y: _qt_layer40.height / 2.0 }
-                Translate { id: _qt_layer40_transform_0_0 }
+                Translate { x: 284.987; y: 169.286 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer40_transform_animation.restart() } }
@@ -8255,51 +6134,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer40_transform_0_0
-                                property: "x"
-                                to: 284.987
+                            ScriptAction {
+                                script:_qt_layer40_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer40_transform_0_0
-                                property: "y"
-                                to: 169.286
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer40_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer40_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer40_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer40_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer40_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 433 }
@@ -8309,12 +6148,16 @@ Item {
                                 target: _qt_layer40_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 634
                                 target: _qt_layer40_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3366 }
@@ -8324,32 +6167,19 @@ Item {
                                 target: _qt_layer40_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer40_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 667 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer40_transform_0_3
-                                property: "x"
-                                to: -384.987
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer40_transform_0_3
-                                property: "y"
-                                to: -396.786
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -8369,25 +6199,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer40
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer40.opacity = 0
                     }
                     PauseAnimation { duration: 433 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer40
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3533 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer40
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 833 }
                 }
@@ -8442,10 +6269,9 @@ Item {
             id: _qt_layer41_transform_base_group
             TransformGroup {
                 id: _qt_layer41_transform_group_0
-                Translate { id: _qt_layer41_transform_0_3 }
+                Translate { x: -372.059; y: -360.446 }
                 Scale { id: _qt_layer41_transform_0_2}
-                Rotation { id: _qt_layer41_transform_0_1; origin.x: _qt_layer41.width / 2.0; origin.y: _qt_layer41.height / 2.0 }
-                Translate { id: _qt_layer41_transform_0_0 }
+                Translate { x: 272.059; y: 132.946 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer41_transform_animation.restart() } }
@@ -8460,51 +6286,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer41_transform_0_0
-                                property: "x"
-                                to: 272.059
+                            ScriptAction {
+                                script:_qt_layer41_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer41_transform_0_0
-                                property: "y"
-                                to: 132.946
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer41_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer41_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer41_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer41_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer41_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 400 }
@@ -8514,12 +6300,16 @@ Item {
                                 target: _qt_layer41_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer41_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3367 }
@@ -8529,32 +6319,19 @@ Item {
                                 target: _qt_layer41_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer41_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 700 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer41_transform_0_3
-                                property: "x"
-                                to: -372.059
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer41_transform_0_3
-                                property: "y"
-                                to: -360.446
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -8574,25 +6351,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer41
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer41.opacity = 0
                     }
                     PauseAnimation { duration: 400 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer41
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3533 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer41
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 867 }
                 }
@@ -8647,10 +6421,9 @@ Item {
             id: _qt_layer42_transform_base_group
             TransformGroup {
                 id: _qt_layer42_transform_group_0
-                Translate { id: _qt_layer42_transform_0_3 }
+                Translate { x: -369.021; y: -327.663 }
                 Scale { id: _qt_layer42_transform_0_2}
-                Rotation { id: _qt_layer42_transform_0_1; origin.x: _qt_layer42.width / 2.0; origin.y: _qt_layer42.height / 2.0 }
-                Translate { id: _qt_layer42_transform_0_0 }
+                Translate { x: 269.021; y: 100.163 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer42_transform_animation.restart() } }
@@ -8665,51 +6438,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer42_transform_0_0
-                                property: "x"
-                                to: 269.021
+                            ScriptAction {
+                                script:_qt_layer42_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer42_transform_0_0
-                                property: "y"
-                                to: 100.163
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer42_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer42_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer42_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer42_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer42_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 367 }
@@ -8719,12 +6452,16 @@ Item {
                                 target: _qt_layer42_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer42_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3367 }
@@ -8734,32 +6471,19 @@ Item {
                                 target: _qt_layer42_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer42_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 733 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer42_transform_0_3
-                                property: "x"
-                                to: -369.021
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer42_transform_0_3
-                                property: "y"
-                                to: -327.663
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -8779,25 +6503,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer42
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer42.opacity = 0
                     }
                     PauseAnimation { duration: 367 }
                     PropertyAnimation {
+                        duration: 466
                         target: _qt_layer42
                         property: "opacity"
                         to: 1
-                        duration: 466
                     }
                     PauseAnimation { duration: 3534 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer42
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 900 }
                 }
@@ -8852,10 +6573,9 @@ Item {
             id: _qt_layer43_transform_base_group
             TransformGroup {
                 id: _qt_layer43_transform_group_0
-                Translate { id: _qt_layer43_transform_0_3 }
+                Translate { x: -370.302; y: -291.295 }
                 Scale { id: _qt_layer43_transform_0_2}
-                Rotation { id: _qt_layer43_transform_0_1; origin.x: _qt_layer43.width / 2.0; origin.y: _qt_layer43.height / 2.0 }
-                Translate { id: _qt_layer43_transform_0_0 }
+                Translate { x: 270.302; y: 63.795 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer43_transform_animation.restart() } }
@@ -8870,51 +6590,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer43_transform_0_0
-                                property: "x"
-                                to: 270.302
+                            ScriptAction {
+                                script:_qt_layer43_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer43_transform_0_0
-                                property: "y"
-                                to: 63.795
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer43_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer43_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer43_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer43_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer43_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 333 }
@@ -8924,12 +6604,16 @@ Item {
                                 target: _qt_layer43_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 634
                                 target: _qt_layer43_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3366 }
@@ -8939,32 +6623,19 @@ Item {
                                 target: _qt_layer43_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer43_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 767 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer43_transform_0_3
-                                property: "x"
-                                to: -370.302
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer43_transform_0_3
-                                property: "y"
-                                to: -291.295
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -8984,25 +6655,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer43
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer43.opacity = 0
                     }
                     PauseAnimation { duration: 333 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer43
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3533 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer43
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 933 }
                 }
@@ -9057,10 +6725,9 @@ Item {
             id: _qt_layer44_transform_base_group
             TransformGroup {
                 id: _qt_layer44_transform_group_0
-                Translate { id: _qt_layer44_transform_0_3 }
+                Translate { x: -308.742; y: -438.291 }
                 Scale { id: _qt_layer44_transform_0_2}
-                Rotation { id: _qt_layer44_transform_0_1; origin.x: _qt_layer44.width / 2.0; origin.y: _qt_layer44.height / 2.0 }
-                Translate { id: _qt_layer44_transform_0_0 }
+                Translate { x: 208.742; y: 210.791 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer44_transform_animation.restart() } }
@@ -9075,51 +6742,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer44_transform_0_0
-                                property: "x"
-                                to: 208.742
+                            ScriptAction {
+                                script:_qt_layer44_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer44_transform_0_0
-                                property: "y"
-                                to: 210.791
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer44_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer44_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer44_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer44_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer44_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 333 }
@@ -9129,12 +6756,16 @@ Item {
                                 target: _qt_layer44_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 634
                                 target: _qt_layer44_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3333 }
@@ -9144,32 +6775,19 @@ Item {
                                 target: _qt_layer44_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer44_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer44_transform_0_3
-                                property: "x"
-                                to: -308.742
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer44_transform_0_3
-                                property: "y"
-                                to: -438.291
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -9189,25 +6807,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer44
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer44.opacity = 0
                     }
                     PauseAnimation { duration: 333 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer44
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3500 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer44
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 967 }
                 }
@@ -9262,10 +6877,9 @@ Item {
             id: _qt_layer45_transform_base_group
             TransformGroup {
                 id: _qt_layer45_transform_group_0
-                Translate { id: _qt_layer45_transform_0_3 }
+                Translate { x: -318.828; y: -386.92 }
                 Scale { id: _qt_layer45_transform_0_2}
-                Rotation { id: _qt_layer45_transform_0_1; origin.x: _qt_layer45.width / 2.0; origin.y: _qt_layer45.height / 2.0 }
-                Translate { id: _qt_layer45_transform_0_0 }
+                Translate { x: 218.828; y: 159.42 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer45_transform_animation.restart() } }
@@ -9280,51 +6894,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer45_transform_0_0
-                                property: "x"
-                                to: 218.828
+                            ScriptAction {
+                                script:_qt_layer45_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer45_transform_0_0
-                                property: "y"
-                                to: 159.42
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer45_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer45_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer45_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer45_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer45_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 300 }
@@ -9334,12 +6908,16 @@ Item {
                                 target: _qt_layer45_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer45_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3334 }
@@ -9349,32 +6927,19 @@ Item {
                                 target: _qt_layer45_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer45_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 833 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer45_transform_0_3
-                                property: "x"
-                                to: -318.828
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer45_transform_0_3
-                                property: "y"
-                                to: -386.92
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -9394,25 +6959,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer45
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer45.opacity = 0
                     }
                     PauseAnimation { duration: 300 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer45
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3500 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer45
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 1000 }
                 }
@@ -9467,10 +7029,9 @@ Item {
             id: _qt_layer46_transform_base_group
             TransformGroup {
                 id: _qt_layer46_transform_group_0
-                Translate { id: _qt_layer46_transform_0_3 }
+                Translate { x: -306.084; y: -339.077 }
                 Scale { id: _qt_layer46_transform_0_2}
-                Rotation { id: _qt_layer46_transform_0_1; origin.x: _qt_layer46.width / 2.0; origin.y: _qt_layer46.height / 2.0 }
-                Translate { id: _qt_layer46_transform_0_0 }
+                Translate { x: 206.084; y: 111.577 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer46_transform_animation.restart() } }
@@ -9485,51 +7046,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer46_transform_0_0
-                                property: "x"
-                                to: 206.084
+                            ScriptAction {
+                                script:_qt_layer46_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer46_transform_0_0
-                                property: "y"
-                                to: 111.577
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer46_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer46_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer46_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer46_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer46_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 267 }
@@ -9539,12 +7060,16 @@ Item {
                                 target: _qt_layer46_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer46_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3333 }
@@ -9554,32 +7079,19 @@ Item {
                                 target: _qt_layer46_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer46_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.892, 0, 0.346, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 867 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer46_transform_0_3
-                                property: "x"
-                                to: -306.084
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer46_transform_0_3
-                                property: "y"
-                                to: -339.077
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -9599,25 +7111,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer46
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer46.opacity = 0
                     }
                     PauseAnimation { duration: 267 }
                     PropertyAnimation {
+                        duration: 466
                         target: _qt_layer46
                         property: "opacity"
                         to: 1
-                        duration: 466
                     }
                     PauseAnimation { duration: 3500 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer46
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 1033 }
                 }
@@ -9672,10 +7181,9 @@ Item {
             id: _qt_layer47_transform_base_group
             TransformGroup {
                 id: _qt_layer47_transform_group_0
-                Translate { id: _qt_layer47_transform_0_3 }
+                Translate { x: -296.882; y: -287.963 }
                 Scale { id: _qt_layer47_transform_0_2}
-                Rotation { id: _qt_layer47_transform_0_1; origin.x: _qt_layer47.width / 2.0; origin.y: _qt_layer47.height / 2.0 }
-                Translate { id: _qt_layer47_transform_0_0 }
+                Translate { x: 196.882; y: 60.463 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer47_transform_animation.restart() } }
@@ -9690,51 +7198,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer47_transform_0_0
-                                property: "x"
-                                to: 196.882
+                            ScriptAction {
+                                script:_qt_layer47_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer47_transform_0_0
-                                property: "y"
-                                to: 60.463
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer47_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer47_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer47_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer47_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer47_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 233 }
@@ -9744,12 +7212,16 @@ Item {
                                 target: _qt_layer47_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 634
                                 target: _qt_layer47_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3333 }
@@ -9759,32 +7231,19 @@ Item {
                                 target: _qt_layer47_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.895, 0, 0.349, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer47_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.895, 0, 0.349, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 900 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer47_transform_0_3
-                                property: "x"
-                                to: -296.882
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer47_transform_0_3
-                                property: "y"
-                                to: -287.963
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -9804,25 +7263,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer47
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer47.opacity = 0
                     }
                     PauseAnimation { duration: 233 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer47
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3500 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer47
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 1067 }
                 }
@@ -9881,10 +7337,9 @@ Item {
             id: _qt_layer48_transform_base_group
             TransformGroup {
                 id: _qt_layer48_transform_group_0
-                Translate { id: _qt_layer48_transform_0_3 }
+                Translate { x: -267.769; y: -372.746 }
                 Scale { id: _qt_layer48_transform_0_2}
-                Rotation { id: _qt_layer48_transform_0_1; origin.x: _qt_layer48.width / 2.0; origin.y: _qt_layer48.height / 2.0 }
-                Translate { id: _qt_layer48_transform_0_0 }
+                Translate { x: 167.769; y: 145.246 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer48_transform_animation.restart() } }
@@ -9899,51 +7354,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer48_transform_0_0
-                                property: "x"
-                                to: 167.769
+                            ScriptAction {
+                                script:_qt_layer48_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer48_transform_0_0
-                                property: "y"
-                                to: 145.246
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer48_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer48_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer48_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer48_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer48_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 200 }
@@ -9953,12 +7368,16 @@ Item {
                                 target: _qt_layer48_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer48_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3334 }
@@ -9968,32 +7387,19 @@ Item {
                                 target: _qt_layer48_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.895, 0, 0.349, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer48_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.895, 0, 0.349, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 933 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer48_transform_0_3
-                                property: "x"
-                                to: -267.769
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer48_transform_0_3
-                                property: "y"
-                                to: -372.746
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -10013,25 +7419,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer48
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer48.opacity = 0
                     }
                     PauseAnimation { duration: 200 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer48
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3500 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer48
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 1100 }
                 }
@@ -10090,10 +7493,9 @@ Item {
             id: _qt_layer49_transform_base_group
             TransformGroup {
                 id: _qt_layer49_transform_group_0
-                Translate { id: _qt_layer49_transform_0_3 }
+                Translate { x: -254.209; y: -436.16 }
                 Scale { id: _qt_layer49_transform_0_2}
-                Rotation { id: _qt_layer49_transform_0_1; origin.x: _qt_layer49.width / 2.0; origin.y: _qt_layer49.height / 2.0 }
-                Translate { id: _qt_layer49_transform_0_0 }
+                Translate { x: 154.209; y: 208.66 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer49_transform_animation.restart() } }
@@ -10108,51 +7510,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer49_transform_0_0
-                                property: "x"
-                                to: 154.209
+                            ScriptAction {
+                                script:_qt_layer49_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer49_transform_0_0
-                                property: "y"
-                                to: 208.66
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer49_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer49_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer49_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer49_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer49_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 167 }
@@ -10162,12 +7524,16 @@ Item {
                                 target: _qt_layer49_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer49_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3333 }
@@ -10177,32 +7543,19 @@ Item {
                                 target: _qt_layer49_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.895, 0, 0.349, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer49_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.895, 0, 0.349, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 967 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer49_transform_0_3
-                                property: "x"
-                                to: -254.209
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer49_transform_0_3
-                                property: "y"
-                                to: -436.16
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -10222,25 +7575,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer49
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer49.opacity = 0
                     }
                     PauseAnimation { duration: 167 }
                     PropertyAnimation {
+                        duration: 466
                         target: _qt_layer49
                         property: "opacity"
                         to: 1
-                        duration: 466
                     }
                     PauseAnimation { duration: 3500 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer49
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 1133 }
                 }
@@ -10299,10 +7649,9 @@ Item {
             id: _qt_layer50_transform_base_group
             TransformGroup {
                 id: _qt_layer50_transform_group_0
-                Translate { id: _qt_layer50_transform_0_3 }
+                Translate { x: -221.922; y: -365.5 }
                 Scale { id: _qt_layer50_transform_0_2}
-                Rotation { id: _qt_layer50_transform_0_1; origin.x: _qt_layer50.width / 2.0; origin.y: _qt_layer50.height / 2.0 }
-                Translate { id: _qt_layer50_transform_0_0 }
+                Translate { x: 121.922; y: 138 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer50_transform_animation.restart() } }
@@ -10317,51 +7666,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer50_transform_0_0
-                                property: "x"
-                                to: 121.922
+                            ScriptAction {
+                                script:_qt_layer50_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer50_transform_0_0
-                                property: "y"
-                                to: 138
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer50_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer50_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer50_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer50_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer50_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 133 }
@@ -10371,12 +7680,16 @@ Item {
                                 target: _qt_layer50_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 634
                                 target: _qt_layer50_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3333 }
@@ -10386,32 +7699,19 @@ Item {
                                 target: _qt_layer50_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.895, 0, 0.349, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer50_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.895, 0, 0.349, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 1000 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer50_transform_0_3
-                                property: "x"
-                                to: -221.922
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer50_transform_0_3
-                                property: "y"
-                                to: -365.5
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -10431,25 +7731,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer50
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer50.opacity = 0
                     }
                     PauseAnimation { duration: 133 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer50
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3500 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer50
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 1167 }
                 }
@@ -10508,10 +7805,9 @@ Item {
             id: _qt_layer51_transform_base_group
             TransformGroup {
                 id: _qt_layer51_transform_group_0
-                Translate { id: _qt_layer51_transform_0_3 }
+                Translate { x: -254.255; y: -316 }
                 Scale { id: _qt_layer51_transform_0_2}
-                Rotation { id: _qt_layer51_transform_0_1; origin.x: _qt_layer51.width / 2.0; origin.y: _qt_layer51.height / 2.0 }
-                Translate { id: _qt_layer51_transform_0_0 }
+                Translate { x: 154.255; y: 88.5 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer51_transform_animation.restart() } }
@@ -10526,51 +7822,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer51_transform_0_0
-                                property: "x"
-                                to: 154.255
+                            ScriptAction {
+                                script:_qt_layer51_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer51_transform_0_0
-                                property: "y"
-                                to: 88.5
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer51_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer51_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer51_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer51_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer51_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 100 }
@@ -10580,12 +7836,16 @@ Item {
                                 target: _qt_layer51_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer51_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3334 }
@@ -10595,32 +7855,19 @@ Item {
                                 target: _qt_layer51_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.895, 0, 0.349, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer51_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.895, 0, 0.349, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 1033 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer51_transform_0_3
-                                property: "x"
-                                to: -254.255
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer51_transform_0_3
-                                property: "y"
-                                to: -316
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -10640,25 +7887,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer51
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer51.opacity = 0
                     }
                     PauseAnimation { duration: 100 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer51
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3500 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer51
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 1200 }
                 }
@@ -10717,10 +7961,9 @@ Item {
             id: _qt_layer52_transform_base_group
             TransformGroup {
                 id: _qt_layer52_transform_group_0
-                Translate { id: _qt_layer52_transform_0_3 }
+                Translate { x: -213.674; y: -268.083 }
                 Scale { id: _qt_layer52_transform_0_2}
-                Rotation { id: _qt_layer52_transform_0_1; origin.x: _qt_layer52.width / 2.0; origin.y: _qt_layer52.height / 2.0 }
-                Translate { id: _qt_layer52_transform_0_0 }
+                Translate { x: 113.674; y: 40.583 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer52_transform_animation.restart() } }
@@ -10735,51 +7978,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer52_transform_0_0
-                                property: "x"
-                                to: 113.674
+                            ScriptAction {
+                                script:_qt_layer52_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer52_transform_0_0
-                                property: "y"
-                                to: 40.583
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer52_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer52_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer52_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer52_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer52_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 67 }
@@ -10789,12 +7992,16 @@ Item {
                                 target: _qt_layer52_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer52_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3333 }
@@ -10804,32 +8011,19 @@ Item {
                                 target: _qt_layer52_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.895, 0, 0.349, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer52_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.895, 0, 0.349, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 1067 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer52_transform_0_3
-                                property: "x"
-                                to: -213.674
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer52_transform_0_3
-                                property: "y"
-                                to: -268.083
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -10849,25 +8043,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer52
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer52.opacity = 0
                     }
                     PauseAnimation { duration: 67 }
                     PropertyAnimation {
+                        duration: 466
                         target: _qt_layer52
                         property: "opacity"
                         to: 1
-                        duration: 466
                     }
                     PauseAnimation { duration: 3500 }
                     PropertyAnimation {
+                        duration: 534
                         target: _qt_layer52
                         property: "opacity"
                         to: 0
-                        duration: 534
                     }
                     PauseAnimation { duration: 1233 }
                 }
@@ -10926,10 +8117,9 @@ Item {
             id: _qt_layer53_transform_base_group
             TransformGroup {
                 id: _qt_layer53_transform_group_0
-                Translate { id: _qt_layer53_transform_0_3 }
+                Translate { x: -203.035; y: -303.472 }
                 Scale { id: _qt_layer53_transform_0_2}
-                Rotation { id: _qt_layer53_transform_0_1; origin.x: _qt_layer53.width / 2.0; origin.y: _qt_layer53.height / 2.0 }
-                Translate { id: _qt_layer53_transform_0_0 }
+                Translate { x: 103.035; y: 75.972 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer53_transform_animation.restart() } }
@@ -10944,51 +8134,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer53_transform_0_0
-                                property: "x"
-                                to: 103.035
+                            ScriptAction {
+                                script:_qt_layer53_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer53_transform_0_0
-                                property: "y"
-                                to: 75.972
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer53_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer53_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer53_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer53_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer53_transform_0_2.yScale = 0
                             }
                         }
                         PauseAnimation { duration: 33 }
@@ -10998,12 +8148,16 @@ Item {
                                 target: _qt_layer53_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 634
                                 target: _qt_layer53_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3333 }
@@ -11013,32 +8167,19 @@ Item {
                                 target: _qt_layer53_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.895, 0, 0.349, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer53_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.895, 0, 0.349, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 1100 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer53_transform_0_3
-                                property: "x"
-                                to: -203.035
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer53_transform_0_3
-                                property: "y"
-                                to: -303.472
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -11058,25 +8199,22 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer53
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer53.opacity = 0
                     }
                     PauseAnimation { duration: 33 }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer53
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3500 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer53
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 1267 }
                 }
@@ -11135,10 +8273,9 @@ Item {
             id: _qt_layer54_transform_base_group
             TransformGroup {
                 id: _qt_layer54_transform_group_0
-                Translate { id: _qt_layer54_transform_0_3 }
+                Translate { x: -183.413; y: -383.96 }
                 Scale { id: _qt_layer54_transform_0_2}
-                Rotation { id: _qt_layer54_transform_0_1; origin.x: _qt_layer54.width / 2.0; origin.y: _qt_layer54.height / 2.0 }
-                Translate { id: _qt_layer54_transform_0_0 }
+                Translate { x: 83.413; y: 156.46 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer54_transform_animation.restart() } }
@@ -11153,51 +8290,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer54_transform_0_0
-                                property: "x"
-                                to: 83.413
+                            ScriptAction {
+                                script:_qt_layer54_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer54_transform_0_0
-                                property: "y"
-                                to: 156.46
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer54_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer54_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer54_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer54_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer54_transform_0_2.yScale = 0
                             }
                         }
                         ParallelAnimation {
@@ -11206,12 +8303,16 @@ Item {
                                 target: _qt_layer54_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 633
                                 target: _qt_layer54_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.423, 0, 0, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 3334 }
@@ -11221,32 +8322,19 @@ Item {
                                 target: _qt_layer54_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.895, 0, 0.349, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 700
                                 target: _qt_layer54_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.895, 0, 0.349, 1, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 1133 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer54_transform_0_3
-                                property: "x"
-                                to: -183.413
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer54_transform_0_3
-                                property: "y"
-                                to: -383.96
-                            }
-                        }
-                        PauseAnimation { duration: 5800 }
                     }
                 }
                 ScriptAction {
@@ -11266,24 +8354,21 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer54
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer54.opacity = 0
                     }
                     PropertyAnimation {
+                        duration: 467
                         target: _qt_layer54
                         property: "opacity"
                         to: 1
-                        duration: 467
                     }
                     PauseAnimation { duration: 3500 }
                     PropertyAnimation {
+                        duration: 533
                         target: _qt_layer54
                         property: "opacity"
                         to: 0
-                        duration: 533
                     }
                     PauseAnimation { duration: 1300 }
                 }

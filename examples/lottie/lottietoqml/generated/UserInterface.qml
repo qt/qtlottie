@@ -36,10 +36,9 @@ Item {
                 id: _qt_layer1_transform_base_group
                 TransformGroup {
                     id: _qt_layer1_transform_group_0
-                    Translate { id: _qt_layer1_transform_0_3 }
+                    Translate { x: -122.006; y: -476.81 }
                     Scale { id: _qt_layer1_transform_0_2}
-                    Rotation { id: _qt_layer1_transform_0_1; origin.x: _qt_layer1.width / 2.0; origin.y: _qt_layer1.height / 2.0 }
-                    Translate { id: _qt_layer1_transform_0_0 }
+                    Translate { x: 525.064; y: 774.041 }
                 }
             }
             Connections { target: _qt_node0.animations; function onRestart() {_qt_layer1_transform_animation.restart() } }
@@ -54,51 +53,11 @@ Item {
                     ParallelAnimation {
                         SequentialAnimation {
                             ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer1_transform_0_0
-                                    property: "x"
-                                    to: 525.064
+                                ScriptAction {
+                                    script:_qt_layer1_transform_0_2.xScale = 0
                                 }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer1_transform_0_0
-                                    property: "y"
-                                    to: 774.041
-                                }
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer1_transform_0_1
-                                    property: "origin"
-                                    to: Qt.vector3d(0, 0, 0.0)
-                                }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer1_transform_0_1
-                                    property: "angle"
-                                    to: 0
-                                }
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer1_transform_0_2
-                                    property: "xScale"
-                                    to: 0
-                                }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer1_transform_0_2
-                                    property: "yScale"
-                                    to: 0
+                                ScriptAction {
+                                    script:_qt_layer1_transform_0_2.yScale = 0
                                 }
                             }
                             ParallelAnimation {
@@ -107,12 +66,16 @@ Item {
                                     target: _qt_layer1_transform_0_2
                                     property: "xScale"
                                     to: 1
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: [ 0.658, 0, 0.456, 1, 1, 1 ]
                                 }
                                 PropertyAnimation {
                                     duration: 467
                                     target: _qt_layer1_transform_0_2
                                     property: "yScale"
                                     to: 1
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: [ 0.658, 0, 0.456, 1, 1, 1 ]
                                 }
                             }
                             ParallelAnimation {
@@ -121,12 +84,16 @@ Item {
                                     target: _qt_layer1_transform_0_2
                                     property: "xScale"
                                     to: 0.95
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: [ 0.664, 0, 0.318, 1, 1, 1 ]
                                 }
                                 PropertyAnimation {
                                     duration: 166
                                     target: _qt_layer1_transform_0_2
                                     property: "yScale"
                                     to: 0.95
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: [ 0.664, 0, 0.318, 1, 1, 1 ]
                                 }
                             }
                             ParallelAnimation {
@@ -135,32 +102,19 @@ Item {
                                     target: _qt_layer1_transform_0_2
                                     property: "xScale"
                                     to: 1
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: [ 0.654, 0, 0.417, 1, 1, 1 ]
                                 }
                                 PropertyAnimation {
                                     duration: 200
                                     target: _qt_layer1_transform_0_2
                                     property: "yScale"
                                     to: 1
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: [ 0.654, 0, 0.417, 1, 1, 1 ]
                                 }
                             }
                             PauseAnimation { duration: 3767 }
-                        }
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer1_transform_0_3
-                                    property: "x"
-                                    to: -122.006
-                                }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer1_transform_0_3
-                                    property: "y"
-                                    to: -476.81
-                                }
-                            }
-                            PauseAnimation { duration: 4600 }
                         }
                     }
                     ScriptAction {
@@ -242,9 +196,7 @@ Item {
                 id: _qt_layer2_transform_base_group
                 TransformGroup {
                     id: _qt_layer2_transform_group_0
-                    Translate { id: _qt_layer2_transform_0_3 }
-                    Scale { id: _qt_layer2_transform_0_2}
-                    Rotation { id: _qt_layer2_transform_0_1; origin.x: _qt_layer2.width / 2.0; origin.y: _qt_layer2.height / 2.0 }
+                    Translate { x: -92.561; y: -95.775 }
                     Translate { id: _qt_layer2_transform_0_0 }
                 }
             }
@@ -260,17 +212,11 @@ Item {
                     ParallelAnimation {
                         SequentialAnimation {
                             ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer2_transform_0_0
-                                    property: "x"
-                                    to: 525.064
+                                ScriptAction {
+                                    script:_qt_layer2_transform_0_0.x = 525.064
                                 }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer2_transform_0_0
-                                    property: "y"
-                                    to: 880.255
+                                ScriptAction {
+                                    script:_qt_layer2_transform_0_0.y = 880.255
                                 }
                             }
                             PauseAnimation { duration: 1300 }
@@ -280,66 +226,19 @@ Item {
                                     target: _qt_layer2_transform_0_0
                                     property: "x"
                                     to: 525.064
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: [ 0.538, 0, 0.482, 1, 1, 1 ]
                                 }
                                 PropertyAnimation {
                                     duration: 533
                                     target: _qt_layer2_transform_0_0
                                     property: "y"
                                     to: 608.255
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: [ 0.538, 0, 0.482, 1, 1, 1 ]
                                 }
                             }
                             PauseAnimation { duration: 2767 }
-                        }
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer2_transform_0_1
-                                    property: "origin"
-                                    to: Qt.vector3d(0, 0, 0.0)
-                                }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer2_transform_0_1
-                                    property: "angle"
-                                    to: 0
-                                }
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer2_transform_0_2
-                                    property: "xScale"
-                                    to: 1
-                                }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer2_transform_0_2
-                                    property: "yScale"
-                                    to: 1
-                                }
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer2_transform_0_3
-                                    property: "x"
-                                    to: -92.561
-                                }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer2_transform_0_3
-                                    property: "y"
-                                    to: -95.775
-                                }
-                            }
-                            PauseAnimation { duration: 4600 }
                         }
                     }
                     ScriptAction {
@@ -570,10 +469,9 @@ Item {
                 id: _qt_layer3_transform_base_group
                 TransformGroup {
                     id: _qt_layer3_transform_group_0
-                    Translate { id: _qt_layer3_transform_0_3 }
+                    Translate { x: -94.449; y: -61.642 }
                     Scale { id: _qt_layer3_transform_0_2}
-                    Rotation { id: _qt_layer3_transform_0_1; origin.x: _qt_layer3.width / 2.0; origin.y: _qt_layer3.height / 2.0 }
-                    Translate { id: _qt_layer3_transform_0_0 }
+                    Translate { x: 524.46; y: 433.355 }
                 }
             }
             Connections { target: _qt_node0.animations; function onRestart() {_qt_layer3_transform_animation.restart() } }
@@ -588,51 +486,11 @@ Item {
                     ParallelAnimation {
                         SequentialAnimation {
                             ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer3_transform_0_0
-                                    property: "x"
-                                    to: 524.46
+                                ScriptAction {
+                                    script:_qt_layer3_transform_0_2.xScale = 0
                                 }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer3_transform_0_0
-                                    property: "y"
-                                    to: 433.355
-                                }
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer3_transform_0_1
-                                    property: "origin"
-                                    to: Qt.vector3d(0, 0, 0.0)
-                                }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer3_transform_0_1
-                                    property: "angle"
-                                    to: 0
-                                }
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer3_transform_0_2
-                                    property: "xScale"
-                                    to: 0
-                                }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer3_transform_0_2
-                                    property: "yScale"
-                                    to: 0
+                                ScriptAction {
+                                    script:_qt_layer3_transform_0_2.yScale = 0
                                 }
                             }
                             PauseAnimation { duration: 833 }
@@ -642,12 +500,16 @@ Item {
                                     target: _qt_layer3_transform_0_2
                                     property: "xScale"
                                     to: 1
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: [ 0.801, 0, 0.607, 1, 1, 1 ]
                                 }
                                 PropertyAnimation {
                                     duration: 300
                                     target: _qt_layer3_transform_0_2
                                     property: "yScale"
                                     to: 1
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: [ 0.801, 0, 0.607, 1, 1, 1 ]
                                 }
                             }
                             ParallelAnimation {
@@ -656,12 +518,16 @@ Item {
                                     target: _qt_layer3_transform_0_2
                                     property: "xScale"
                                     to: 0.98
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: [ 0.731, 0, 0.431, 1, 1, 1 ]
                                 }
                                 PropertyAnimation {
                                     duration: 67
                                     target: _qt_layer3_transform_0_2
                                     property: "yScale"
                                     to: 0.98
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: [ 0.731, 0, 0.431, 1, 1, 1 ]
                                 }
                             }
                             ParallelAnimation {
@@ -670,32 +536,19 @@ Item {
                                     target: _qt_layer3_transform_0_2
                                     property: "xScale"
                                     to: 1
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: [ 0.751, 0, 0.231, 1, 1, 1 ]
                                 }
                                 PropertyAnimation {
                                     duration: 100
                                     target: _qt_layer3_transform_0_2
                                     property: "yScale"
                                     to: 1
+                                    easing.type: Easing.BezierSpline
+                                    easing.bezierCurve: [ 0.751, 0, 0.231, 1, 1, 1 ]
                                 }
                             }
                             PauseAnimation { duration: 3300 }
-                        }
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer3_transform_0_3
-                                    property: "x"
-                                    to: -94.449
-                                }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer3_transform_0_3
-                                    property: "y"
-                                    to: -61.642
-                                }
-                            }
-                            PauseAnimation { duration: 4600 }
                         }
                     }
                     ScriptAction {
@@ -816,60 +669,17 @@ Item {
                     SequentialAnimation {
                         SequentialAnimation {
                             loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_18.trim
-                                property: "start"
-                                to: 0
-                                duration: 0
+                            ScriptAction {
+                                script:_qt_shapePath_18.trim.start = 0
                             }
                             PauseAnimation { duration: 2667 }
                             PropertyAnimation {
+                                duration: 166
                                 target: _qt_shapePath_18.trim
                                 property: "start"
                                 to: 1
-                                duration: 166
                             }
                             PauseAnimation { duration: 1767 }
-                        }
-                    }
-                }
-                Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_18_trim_end_animation.restart() } }
-                ParallelAnimation {
-                    id: _qt_shapePath_18_trim_end_animation
-                    loops: _qt_node0.animations.loops
-                    paused: _qt_node0.animations.paused
-                    running: true
-                    onLoopsChanged: { if (running) { restart() } }
-                    SequentialAnimation {
-                        SequentialAnimation {
-                            loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_18.trim
-                                property: "end"
-                                to: 0
-                                duration: 0
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                    }
-                }
-                Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_18_trim_offset_animation.restart() } }
-                ParallelAnimation {
-                    id: _qt_shapePath_18_trim_offset_animation
-                    loops: _qt_node0.animations.loops
-                    paused: _qt_node0.animations.paused
-                    running: true
-                    onLoopsChanged: { if (running) { restart() } }
-                    SequentialAnimation {
-                        SequentialAnimation {
-                            loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_18.trim
-                                property: "offset"
-                                to: 0
-                                duration: 0
-                            }
-                            PauseAnimation { duration: 4600 }
                         }
                     }
                 }
@@ -932,60 +742,17 @@ Item {
                     SequentialAnimation {
                         SequentialAnimation {
                             loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_19.trim
-                                property: "start"
-                                to: 0
-                                duration: 0
+                            ScriptAction {
+                                script:_qt_shapePath_19.trim.start = 0
                             }
                             PauseAnimation { duration: 2500 }
                             PropertyAnimation {
+                                duration: 167
                                 target: _qt_shapePath_19.trim
                                 property: "start"
                                 to: 1
-                                duration: 167
                             }
                             PauseAnimation { duration: 1933 }
-                        }
-                    }
-                }
-                Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_19_trim_end_animation.restart() } }
-                ParallelAnimation {
-                    id: _qt_shapePath_19_trim_end_animation
-                    loops: _qt_node0.animations.loops
-                    paused: _qt_node0.animations.paused
-                    running: true
-                    onLoopsChanged: { if (running) { restart() } }
-                    SequentialAnimation {
-                        SequentialAnimation {
-                            loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_19.trim
-                                property: "end"
-                                to: 0
-                                duration: 0
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                    }
-                }
-                Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_19_trim_offset_animation.restart() } }
-                ParallelAnimation {
-                    id: _qt_shapePath_19_trim_offset_animation
-                    loops: _qt_node0.animations.loops
-                    paused: _qt_node0.animations.paused
-                    running: true
-                    onLoopsChanged: { if (running) { restart() } }
-                    SequentialAnimation {
-                        SequentialAnimation {
-                            loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_19.trim
-                                property: "offset"
-                                to: 0
-                                duration: 0
-                            }
-                            PauseAnimation { duration: 4600 }
                         }
                     }
                 }
@@ -1048,60 +815,17 @@ Item {
                     SequentialAnimation {
                         SequentialAnimation {
                             loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_20.trim
-                                property: "start"
-                                to: 0
-                                duration: 0
+                            ScriptAction {
+                                script:_qt_shapePath_20.trim.start = 0
                             }
                             PauseAnimation { duration: 2333 }
                             PropertyAnimation {
+                                duration: 167
                                 target: _qt_shapePath_20.trim
                                 property: "start"
                                 to: 1
-                                duration: 167
                             }
                             PauseAnimation { duration: 2100 }
-                        }
-                    }
-                }
-                Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_20_trim_end_animation.restart() } }
-                ParallelAnimation {
-                    id: _qt_shapePath_20_trim_end_animation
-                    loops: _qt_node0.animations.loops
-                    paused: _qt_node0.animations.paused
-                    running: true
-                    onLoopsChanged: { if (running) { restart() } }
-                    SequentialAnimation {
-                        SequentialAnimation {
-                            loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_20.trim
-                                property: "end"
-                                to: 0
-                                duration: 0
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                    }
-                }
-                Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_20_trim_offset_animation.restart() } }
-                ParallelAnimation {
-                    id: _qt_shapePath_20_trim_offset_animation
-                    loops: _qt_node0.animations.loops
-                    paused: _qt_node0.animations.paused
-                    running: true
-                    onLoopsChanged: { if (running) { restart() } }
-                    SequentialAnimation {
-                        SequentialAnimation {
-                            loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_20.trim
-                                property: "offset"
-                                to: 0
-                                duration: 0
-                            }
-                            PauseAnimation { duration: 4600 }
                         }
                     }
                 }
@@ -1164,60 +888,17 @@ Item {
                     SequentialAnimation {
                         SequentialAnimation {
                             loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_21.trim
-                                property: "start"
-                                to: 0
-                                duration: 0
+                            ScriptAction {
+                                script:_qt_shapePath_21.trim.start = 0
                             }
                             PauseAnimation { duration: 2167 }
                             PropertyAnimation {
+                                duration: 166
                                 target: _qt_shapePath_21.trim
                                 property: "start"
                                 to: 1
-                                duration: 166
                             }
                             PauseAnimation { duration: 2267 }
-                        }
-                    }
-                }
-                Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_21_trim_end_animation.restart() } }
-                ParallelAnimation {
-                    id: _qt_shapePath_21_trim_end_animation
-                    loops: _qt_node0.animations.loops
-                    paused: _qt_node0.animations.paused
-                    running: true
-                    onLoopsChanged: { if (running) { restart() } }
-                    SequentialAnimation {
-                        SequentialAnimation {
-                            loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_21.trim
-                                property: "end"
-                                to: 0
-                                duration: 0
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                    }
-                }
-                Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_21_trim_offset_animation.restart() } }
-                ParallelAnimation {
-                    id: _qt_shapePath_21_trim_offset_animation
-                    loops: _qt_node0.animations.loops
-                    paused: _qt_node0.animations.paused
-                    running: true
-                    onLoopsChanged: { if (running) { restart() } }
-                    SequentialAnimation {
-                        SequentialAnimation {
-                            loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_21.trim
-                                property: "offset"
-                                to: 0
-                                duration: 0
-                            }
-                            PauseAnimation { duration: 4600 }
                         }
                     }
                 }
@@ -1276,60 +957,17 @@ Item {
                     SequentialAnimation {
                         SequentialAnimation {
                             loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_22.trim
-                                property: "start"
-                                to: 0
-                                duration: 0
+                            ScriptAction {
+                                script:_qt_shapePath_22.trim.start = 0
                             }
                             PauseAnimation { duration: 2000 }
                             PropertyAnimation {
+                                duration: 167
                                 target: _qt_shapePath_22.trim
                                 property: "start"
                                 to: 1
-                                duration: 167
                             }
                             PauseAnimation { duration: 2433 }
-                        }
-                    }
-                }
-                Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_22_trim_end_animation.restart() } }
-                ParallelAnimation {
-                    id: _qt_shapePath_22_trim_end_animation
-                    loops: _qt_node0.animations.loops
-                    paused: _qt_node0.animations.paused
-                    running: true
-                    onLoopsChanged: { if (running) { restart() } }
-                    SequentialAnimation {
-                        SequentialAnimation {
-                            loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_22.trim
-                                property: "end"
-                                to: 0
-                                duration: 0
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                    }
-                }
-                Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_22_trim_offset_animation.restart() } }
-                ParallelAnimation {
-                    id: _qt_shapePath_22_trim_offset_animation
-                    loops: _qt_node0.animations.loops
-                    paused: _qt_node0.animations.paused
-                    running: true
-                    onLoopsChanged: { if (running) { restart() } }
-                    SequentialAnimation {
-                        SequentialAnimation {
-                            loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_22.trim
-                                property: "offset"
-                                to: 0
-                                duration: 0
-                            }
-                            PauseAnimation { duration: 4600 }
                         }
                     }
                 }
@@ -1362,60 +1000,17 @@ Item {
                     SequentialAnimation {
                         SequentialAnimation {
                             loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_23.trim
-                                property: "start"
-                                to: 0
-                                duration: 0
+                            ScriptAction {
+                                script:_qt_shapePath_23.trim.start = 0
                             }
                             PauseAnimation { duration: 2000 }
                             PropertyAnimation {
+                                duration: 167
                                 target: _qt_shapePath_23.trim
                                 property: "start"
                                 to: 1
-                                duration: 167
                             }
                             PauseAnimation { duration: 2433 }
-                        }
-                    }
-                }
-                Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_23_trim_end_animation.restart() } }
-                ParallelAnimation {
-                    id: _qt_shapePath_23_trim_end_animation
-                    loops: _qt_node0.animations.loops
-                    paused: _qt_node0.animations.paused
-                    running: true
-                    onLoopsChanged: { if (running) { restart() } }
-                    SequentialAnimation {
-                        SequentialAnimation {
-                            loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_23.trim
-                                property: "end"
-                                to: 0
-                                duration: 0
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                    }
-                }
-                Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_23_trim_offset_animation.restart() } }
-                ParallelAnimation {
-                    id: _qt_shapePath_23_trim_offset_animation
-                    loops: _qt_node0.animations.loops
-                    paused: _qt_node0.animations.paused
-                    running: true
-                    onLoopsChanged: { if (running) { restart() } }
-                    SequentialAnimation {
-                        SequentialAnimation {
-                            loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_23.trim
-                                property: "offset"
-                                to: 0
-                                duration: 0
-                            }
-                            PauseAnimation { duration: 4600 }
                         }
                     }
                 }
@@ -1478,60 +1073,17 @@ Item {
                     SequentialAnimation {
                         SequentialAnimation {
                             loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_24.trim
-                                property: "start"
-                                to: 0
-                                duration: 0
+                            ScriptAction {
+                                script:_qt_shapePath_24.trim.start = 0
                             }
                             PauseAnimation { duration: 1833 }
                             PropertyAnimation {
+                                duration: 167
                                 target: _qt_shapePath_24.trim
                                 property: "start"
                                 to: 1
-                                duration: 167
                             }
                             PauseAnimation { duration: 2600 }
-                        }
-                    }
-                }
-                Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_24_trim_end_animation.restart() } }
-                ParallelAnimation {
-                    id: _qt_shapePath_24_trim_end_animation
-                    loops: _qt_node0.animations.loops
-                    paused: _qt_node0.animations.paused
-                    running: true
-                    onLoopsChanged: { if (running) { restart() } }
-                    SequentialAnimation {
-                        SequentialAnimation {
-                            loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_24.trim
-                                property: "end"
-                                to: 0
-                                duration: 0
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                    }
-                }
-                Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_24_trim_offset_animation.restart() } }
-                ParallelAnimation {
-                    id: _qt_shapePath_24_trim_offset_animation
-                    loops: _qt_node0.animations.loops
-                    paused: _qt_node0.animations.paused
-                    running: true
-                    onLoopsChanged: { if (running) { restart() } }
-                    SequentialAnimation {
-                        SequentialAnimation {
-                            loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_24.trim
-                                property: "offset"
-                                to: 0
-                                duration: 0
-                            }
-                            PauseAnimation { duration: 4600 }
                         }
                     }
                 }
@@ -1622,9 +1174,7 @@ Item {
                 id: _qt_layer11_transform_base_group
                 TransformGroup {
                     id: _qt_layer11_transform_group_0
-                    Translate { id: _qt_layer11_transform_0_3 }
-                    Scale { id: _qt_layer11_transform_0_2}
-                    Rotation { id: _qt_layer11_transform_0_1; origin.x: _qt_layer11.width / 2.0; origin.y: _qt_layer11.height / 2.0 }
+                    Translate { x: -4.556; y: -4.556 }
                     Translate { id: _qt_layer11_transform_0_0 }
                 }
                 Matrix4x4 { matrix: _qt_layer3.transformMatrix }
@@ -1641,17 +1191,11 @@ Item {
                     ParallelAnimation {
                         SequentialAnimation {
                             ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer11_transform_0_0
-                                    property: "x"
-                                    to: 49.939
+                                ScriptAction {
+                                    script:_qt_layer11_transform_0_0.x = 49.939
                                 }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer11_transform_0_0
-                                    property: "y"
-                                    to: 102.789
+                                ScriptAction {
+                                    script:_qt_layer11_transform_0_0.y = 102.789
                                 }
                             }
                             PauseAnimation { duration: 2833 }
@@ -1715,57 +1259,6 @@ Item {
                             }
                             PauseAnimation { duration: 400 }
                         }
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer11_transform_0_1
-                                    property: "origin"
-                                    to: Qt.vector3d(0, 0, 0.0)
-                                }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer11_transform_0_1
-                                    property: "angle"
-                                    to: 0
-                                }
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer11_transform_0_2
-                                    property: "xScale"
-                                    to: 1
-                                }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer11_transform_0_2
-                                    property: "yScale"
-                                    to: 1
-                                }
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer11_transform_0_3
-                                    property: "x"
-                                    to: -4.556
-                                }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer11_transform_0_3
-                                    property: "y"
-                                    to: -4.556
-                                }
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
                     }
                     ScriptAction {
                         script: {
@@ -1819,9 +1312,7 @@ Item {
                 id: _qt_layer12_transform_base_group
                 TransformGroup {
                     id: _qt_layer12_transform_group_0
-                    Translate { id: _qt_layer12_transform_0_3 }
-                    Scale { id: _qt_layer12_transform_0_2}
-                    Rotation { id: _qt_layer12_transform_0_1; origin.x: _qt_layer12.width / 2.0; origin.y: _qt_layer12.height / 2.0 }
+                    Translate { x: -4.556; y: -4.556 }
                     Translate { id: _qt_layer12_transform_0_0 }
                 }
                 Matrix4x4 { matrix: _qt_layer3.transformMatrix }
@@ -1838,17 +1329,11 @@ Item {
                     ParallelAnimation {
                         SequentialAnimation {
                             ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer12_transform_0_0
-                                    property: "x"
-                                    to: 97.177
+                                ScriptAction {
+                                    script:_qt_layer12_transform_0_0.x = 97.177
                                 }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer12_transform_0_0
-                                    property: "y"
-                                    to: 102.789
+                                ScriptAction {
+                                    script:_qt_layer12_transform_0_0.y = 102.789
                                 }
                             }
                             PauseAnimation { duration: 2833 }
@@ -1882,57 +1367,6 @@ Item {
                                 }
                             }
                             PauseAnimation { duration: 1267 }
-                        }
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer12_transform_0_1
-                                    property: "origin"
-                                    to: Qt.vector3d(0, 0, 0.0)
-                                }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer12_transform_0_1
-                                    property: "angle"
-                                    to: 0
-                                }
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer12_transform_0_2
-                                    property: "xScale"
-                                    to: 1
-                                }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer12_transform_0_2
-                                    property: "yScale"
-                                    to: 1
-                                }
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer12_transform_0_3
-                                    property: "x"
-                                    to: -4.556
-                                }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer12_transform_0_3
-                                    property: "y"
-                                    to: -4.556
-                                }
-                            }
-                            PauseAnimation { duration: 4600 }
                         }
                     }
                     ScriptAction {
@@ -1987,9 +1421,7 @@ Item {
                 id: _qt_layer13_transform_base_group
                 TransformGroup {
                     id: _qt_layer13_transform_group_0
-                    Translate { id: _qt_layer13_transform_0_3 }
-                    Scale { id: _qt_layer13_transform_0_2}
-                    Rotation { id: _qt_layer13_transform_0_1; origin.x: _qt_layer13.width / 2.0; origin.y: _qt_layer13.height / 2.0 }
+                    Translate { x: -4.556; y: -4.556 }
                     Translate { id: _qt_layer13_transform_0_0 }
                 }
                 Matrix4x4 { matrix: _qt_layer3.transformMatrix }
@@ -2006,17 +1438,11 @@ Item {
                     ParallelAnimation {
                         SequentialAnimation {
                             ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer13_transform_0_0
-                                    property: "x"
-                                    to: 149.666
+                                ScriptAction {
+                                    script:_qt_layer13_transform_0_0.x = 149.666
                                 }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer13_transform_0_0
-                                    property: "y"
-                                    to: 102.789
+                                ScriptAction {
+                                    script:_qt_layer13_transform_0_0.y = 102.789
                                 }
                             }
                             PauseAnimation { duration: 3333 }
@@ -2050,57 +1476,6 @@ Item {
                                 }
                             }
                             PauseAnimation { duration: 400 }
-                        }
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer13_transform_0_1
-                                    property: "origin"
-                                    to: Qt.vector3d(0, 0, 0.0)
-                                }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer13_transform_0_1
-                                    property: "angle"
-                                    to: 0
-                                }
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer13_transform_0_2
-                                    property: "xScale"
-                                    to: 1
-                                }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer13_transform_0_2
-                                    property: "yScale"
-                                    to: 1
-                                }
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                        SequentialAnimation {
-                            ParallelAnimation {
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer13_transform_0_3
-                                    property: "x"
-                                    to: -4.556
-                                }
-                                PropertyAnimation {
-                                    duration: 0
-                                    target: _qt_layer13_transform_0_3
-                                    property: "y"
-                                    to: -4.556
-                                }
-                            }
-                            PauseAnimation { duration: 4600 }
                         }
                     }
                     ScriptAction {
@@ -2209,69 +1584,26 @@ Item {
                     SequentialAnimation {
                         SequentialAnimation {
                             loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_31.trim
-                                property: "start"
-                                to: 0.34
-                                duration: 0
+                            ScriptAction {
+                                script:_qt_shapePath_31.trim.start = 0.34
                             }
                             PauseAnimation { duration: 3333 }
                             PropertyAnimation {
+                                duration: 300
                                 target: _qt_shapePath_31.trim
                                 property: "start"
                                 to: 0.03
-                                duration: 300
                             }
                             PauseAnimation { duration: 34 }
                             PauseAnimation { duration: 200 }
                             PauseAnimation { duration: 33 }
                             PropertyAnimation {
+                                duration: 300
                                 target: _qt_shapePath_31.trim
                                 property: "start"
                                 to: 0.34
-                                duration: 300
                             }
                             PauseAnimation { duration: 400 }
-                        }
-                    }
-                }
-                Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_31_trim_end_animation.restart() } }
-                ParallelAnimation {
-                    id: _qt_shapePath_31_trim_end_animation
-                    loops: _qt_node0.animations.loops
-                    paused: _qt_node0.animations.paused
-                    running: true
-                    onLoopsChanged: { if (running) { restart() } }
-                    SequentialAnimation {
-                        SequentialAnimation {
-                            loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_31.trim
-                                property: "end"
-                                to: 1
-                                duration: 0
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                    }
-                }
-                Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_31_trim_offset_animation.restart() } }
-                ParallelAnimation {
-                    id: _qt_shapePath_31_trim_offset_animation
-                    loops: _qt_node0.animations.loops
-                    paused: _qt_node0.animations.paused
-                    running: true
-                    onLoopsChanged: { if (running) { restart() } }
-                    SequentialAnimation {
-                        SequentialAnimation {
-                            loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_31.trim
-                                property: "offset"
-                                to: 0
-                                duration: 0
-                            }
-                            PauseAnimation { duration: 4600 }
                         }
                     }
                 }
@@ -2328,26 +1660,6 @@ Item {
                     pathHints: ShapePath.PathQuadratic
                     PathSvg { path: "M 14.374 16.893 Q 14.4718 16.0167 14.5219 15.2014 Q 14.576 14.32 14.576 13.485 Q 14.576 1.23046 6.07875 -7.59037 Q -2.38942 -16.381 -14.576 -16.893 Q -20.4925 -17.546 -27.3309 -14.9646 Q -41.0076 -9.80188 -45.617 6.37 " }
                 }
-                Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_32_trim_start_animation.restart() } }
-                ParallelAnimation {
-                    id: _qt_shapePath_32_trim_start_animation
-                    loops: _qt_node0.animations.loops
-                    paused: _qt_node0.animations.paused
-                    running: true
-                    onLoopsChanged: { if (running) { restart() } }
-                    SequentialAnimation {
-                        SequentialAnimation {
-                            loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_32.trim
-                                property: "start"
-                                to: 0
-                                duration: 0
-                            }
-                            PauseAnimation { duration: 4600 }
-                        }
-                    }
-                }
                 Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_32_trim_end_animation.restart() } }
                 ParallelAnimation {
                     id: _qt_shapePath_32_trim_end_animation
@@ -2358,49 +1670,26 @@ Item {
                     SequentialAnimation {
                         SequentialAnimation {
                             loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_32.trim
-                                property: "end"
-                                to: 0.55
-                                duration: 0
+                            ScriptAction {
+                                script:_qt_shapePath_32.trim.end = 0.55
                             }
                             PauseAnimation { duration: 2833 }
                             PropertyAnimation {
+                                duration: 134
                                 target: _qt_shapePath_32.trim
                                 property: "end"
                                 to: 0.97
-                                duration: 134
                             }
                             PauseAnimation { duration: 33 }
                             PauseAnimation { duration: 133 }
                             PauseAnimation { duration: 34 }
                             PropertyAnimation {
+                                duration: 166
                                 target: _qt_shapePath_32.trim
                                 property: "end"
                                 to: 0.55
-                                duration: 166
                             }
                             PauseAnimation { duration: 1267 }
-                        }
-                    }
-                }
-                Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_32_trim_offset_animation.restart() } }
-                ParallelAnimation {
-                    id: _qt_shapePath_32_trim_offset_animation
-                    loops: _qt_node0.animations.loops
-                    paused: _qt_node0.animations.paused
-                    running: true
-                    onLoopsChanged: { if (running) { restart() } }
-                    SequentialAnimation {
-                        SequentialAnimation {
-                            loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_32.trim
-                                property: "offset"
-                                to: 0
-                                duration: 0
-                            }
-                            PauseAnimation { duration: 4600 }
                         }
                     }
                 }
@@ -2467,27 +1756,24 @@ Item {
                     SequentialAnimation {
                         SequentialAnimation {
                             loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_33.trim
-                                property: "start"
-                                to: 0.4
-                                duration: 0
+                            ScriptAction {
+                                script:_qt_shapePath_33.trim.start = 0.4
                             }
                             PauseAnimation { duration: 2833 }
                             PropertyAnimation {
+                                duration: 134
                                 target: _qt_shapePath_33.trim
                                 property: "start"
                                 to: 0.54
-                                duration: 134
                             }
                             PauseAnimation { duration: 33 }
                             PauseAnimation { duration: 133 }
                             PauseAnimation { duration: 34 }
                             PropertyAnimation {
+                                duration: 166
                                 target: _qt_shapePath_33.trim
                                 property: "start"
                                 to: 0.4
-                                duration: 166
                             }
                             PauseAnimation { duration: 1267 }
                         }
@@ -2503,49 +1789,26 @@ Item {
                     SequentialAnimation {
                         SequentialAnimation {
                             loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_33.trim
-                                property: "end"
-                                to: 1
-                                duration: 0
+                            ScriptAction {
+                                script:_qt_shapePath_33.trim.end = 1
                             }
                             PauseAnimation { duration: 3333 }
                             PropertyAnimation {
+                                duration: 300
                                 target: _qt_shapePath_33.trim
                                 property: "end"
                                 to: 0.7
-                                duration: 300
                             }
                             PauseAnimation { duration: 34 }
                             PauseAnimation { duration: 200 }
                             PauseAnimation { duration: 33 }
                             PropertyAnimation {
+                                duration: 300
                                 target: _qt_shapePath_33.trim
                                 property: "end"
                                 to: 1
-                                duration: 300
                             }
                             PauseAnimation { duration: 400 }
-                        }
-                    }
-                }
-                Connections { target: _qt_node0.animations; function onRestart() {_qt_shapePath_33_trim_offset_animation.restart() } }
-                ParallelAnimation {
-                    id: _qt_shapePath_33_trim_offset_animation
-                    loops: _qt_node0.animations.loops
-                    paused: _qt_node0.animations.paused
-                    running: true
-                    onLoopsChanged: { if (running) { restart() } }
-                    SequentialAnimation {
-                        SequentialAnimation {
-                            loops: 1
-                            PropertyAnimation {
-                                target: _qt_shapePath_33.trim
-                                property: "offset"
-                                to: 0
-                                duration: 0
-                            }
-                            PauseAnimation { duration: 4600 }
                         }
                     }
                 }
