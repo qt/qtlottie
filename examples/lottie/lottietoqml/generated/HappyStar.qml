@@ -44,14 +44,6 @@ Item {
         Shape {
             preferredRendererType: Shape.CurveRenderer
             id: _qt_node2
-            ShapePath {
-                id: _qt_shapePath_1
-                strokeColor: "transparent"
-                fillColor: "#00000000"
-                fillRule: ShapePath.WindingFill
-                pathHints: ShapePath.PathQuadratic | ShapePath.PathNonIntersecting | ShapePath.PathNonOverlappingControlPointTriangles
-                PathSvg { path: "M 0 -12 Q 30.2376 -12 51.6188 -8.48528 Q 73 -4.97056 73 0 Q 73 4.97056 51.6188 8.48528 Q 30.2376 12 0 12 Q -30.2376 12 -51.6188 8.48528 Q -73 4.97056 -73 0 Q -73 -4.97056 -51.6188 -8.48528 Q -30.2376 -12 0 -12 " }
-            }
         }
     }
     LayerItem {
@@ -65,7 +57,7 @@ Item {
             preferredRendererType: Shape.CurveRenderer
             id: _qt_node3
             ShapePath {
-                id: _qt_shapePath_2
+                id: _qt_shapePath_1
                 strokeColor: "transparent"
                 fillColor: "#ffffc13b"
                 fillRule: ShapePath.WindingFill
@@ -85,7 +77,7 @@ Item {
             preferredRendererType: Shape.CurveRenderer
             id: _qt_node4
             ShapePath {
-                id: _qt_shapePath_3
+                id: _qt_shapePath_2
                 strokeColor: "transparent"
                 fillColor: "#fffea547"
                 fillRule: ShapePath.WindingFill
@@ -101,10 +93,9 @@ Item {
             id: _qt_layer3_transform_base_group
             TransformGroup {
                 id: _qt_layer3_transform_group_0
-                Translate { id: _qt_layer3_transform_0_3 }
+                Translate { x: -6.262; y: -6.262 }
                 Scale { id: _qt_layer3_transform_0_2}
-                Rotation { id: _qt_layer3_transform_0_1; origin.x: _qt_layer3.width / 2.0; origin.y: _qt_layer3.height / 2.0 }
-                Translate { id: _qt_layer3_transform_0_0 }
+                Translate { x: 65.324; y: 94.575 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer3_transform_animation.restart() } }
@@ -119,51 +110,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer3_transform_0_0
-                                property: "x"
-                                to: 65.324
+                            ScriptAction {
+                                script:_qt_layer3_transform_0_2.xScale = 1
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer3_transform_0_0
-                                property: "y"
-                                to: 94.575
-                            }
-                        }
-                        PauseAnimation { duration: 7000 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer3_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer3_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 7000 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer3_transform_0_2
-                                property: "xScale"
-                                to: 1
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer3_transform_0_2
-                                property: "yScale"
-                                to: 1
+                            ScriptAction {
+                                script:_qt_layer3_transform_0_2.yScale = 1
                             }
                         }
                         PauseAnimation { duration: 467 }
@@ -284,23 +235,6 @@ Item {
                         }
                         PauseAnimation { duration: 800 }
                     }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer3_transform_0_3
-                                property: "x"
-                                to: -6.262
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer3_transform_0_3
-                                property: "y"
-                                to: -6.262
-                            }
-                        }
-                        PauseAnimation { duration: 7000 }
-                    }
                 }
                 ScriptAction {
                     script: {
@@ -313,7 +247,7 @@ Item {
             preferredRendererType: Shape.CurveRenderer
             id: _qt_node5
             ShapePath {
-                id: _qt_shapePath_4
+                id: _qt_shapePath_3
                 strokeColor: "transparent"
                 fillColor: "#ff421c40"
                 fillRule: ShapePath.WindingFill
@@ -329,10 +263,8 @@ Item {
             id: _qt_layer4_transform_base_group
             TransformGroup {
                 id: _qt_layer4_transform_group_0
-                Translate { id: _qt_layer4_transform_0_3 }
                 Scale { id: _qt_layer4_transform_0_2}
-                Rotation { id: _qt_layer4_transform_0_1; origin.x: _qt_layer4.width / 2.0; origin.y: _qt_layer4.height / 2.0 }
-                Translate { id: _qt_layer4_transform_0_0 }
+                Translate { x: 118.098; y: 96.076 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer4_transform_animation.restart() } }
@@ -347,51 +279,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer4_transform_0_0
-                                property: "x"
-                                to: 118.098
+                            ScriptAction {
+                                script:_qt_layer4_transform_0_2.xScale = 1
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer4_transform_0_0
-                                property: "y"
-                                to: 96.076
-                            }
-                        }
-                        PauseAnimation { duration: 7000 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer4_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer4_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 7000 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer4_transform_0_2
-                                property: "xScale"
-                                to: 1
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer4_transform_0_2
-                                property: "yScale"
-                                to: 1
+                            ScriptAction {
+                                script:_qt_layer4_transform_0_2.yScale = 1
                             }
                         }
                         PauseAnimation { duration: 467 }
@@ -512,23 +404,6 @@ Item {
                         }
                         PauseAnimation { duration: 800 }
                     }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer4_transform_0_3
-                                property: "x"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer4_transform_0_3
-                                property: "y"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 7000 }
-                    }
                 }
                 ScriptAction {
                     script: {
@@ -541,7 +416,7 @@ Item {
             preferredRendererType: Shape.CurveRenderer
             id: _qt_node6
             ShapePath {
-                id: _qt_shapePath_5
+                id: _qt_shapePath_4
                 strokeColor: "transparent"
                 fillColor: "#ff421c40"
                 fillRule: ShapePath.WindingFill
@@ -564,7 +439,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node7
                 ShapePath {
-                    id: _qt_shapePath_6
+                    id: _qt_shapePath_5
                     strokeColor: "transparent"
                     fillColor: "#ff421a40"
                     fillRule: ShapePath.WindingFill
@@ -584,7 +459,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node8
                 ShapePath {
-                    id: _qt_shapePath_7
+                    id: _qt_shapePath_6
                     strokeColor: "transparent"
                     fillColor: "#ffd90658"
                     fillRule: ShapePath.WindingFill
@@ -601,9 +476,8 @@ Item {
             id: _qt_layer8_transform_base_group
             TransformGroup {
                 id: _qt_layer8_transform_group_0
-                Translate { id: _qt_layer8_transform_0_3 }
+                Translate { x: -3.266; y: -3.745 }
                 Scale { id: _qt_layer8_transform_0_2}
-                Rotation { id: _qt_layer8_transform_0_1; origin.x: _qt_layer8.width / 2.0; origin.y: _qt_layer8.height / 2.0 }
                 Translate { id: _qt_layer8_transform_0_0 }
             }
         }
@@ -619,17 +493,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer8_transform_0_0
-                                property: "x"
-                                to: 155.851
+                            ScriptAction {
+                                script:_qt_layer8_transform_0_0.x = 155.851
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer8_transform_0_0
-                                property: "y"
-                                to: 85.524
+                            ScriptAction {
+                                script:_qt_layer8_transform_0_0.y = 85.524
                             }
                         }
                         ParallelAnimation {
@@ -638,12 +506,16 @@ Item {
                                 target: _qt_layer8_transform_0_0
                                 property: "x"
                                 to: 166.351
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 467
                                 target: _qt_layer8_transform_0_0
                                 property: "y"
                                 to: 85.524
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
@@ -652,12 +524,16 @@ Item {
                                 target: _qt_layer8_transform_0_0
                                 property: "x"
                                 to: 155.851
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 500
                                 target: _qt_layer8_transform_0_0
                                 property: "y"
                                 to: 85.524
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 2400 }
@@ -667,12 +543,16 @@ Item {
                                 target: _qt_layer8_transform_0_0
                                 property: "x"
                                 to: 166.351
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 500
                                 target: _qt_layer8_transform_0_0
                                 property: "y"
                                 to: 85.524
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
@@ -681,46 +561,27 @@ Item {
                                 target: _qt_layer8_transform_0_0
                                 property: "x"
                                 to: 155.851
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 533
                                 target: _qt_layer8_transform_0_0
                                 property: "y"
                                 to: 85.524
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 2600 }
                     }
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer8_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
+                            ScriptAction {
+                                script:_qt_layer8_transform_0_2.xScale = 1
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer8_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 7000 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer8_transform_0_2
-                                property: "xScale"
-                                to: 1
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer8_transform_0_2
-                                property: "yScale"
-                                to: 1
+                            ScriptAction {
+                                script:_qt_layer8_transform_0_2.yScale = 1
                             }
                         }
                         ParallelAnimation {
@@ -729,12 +590,16 @@ Item {
                                 target: _qt_layer8_transform_0_2
                                 property: "xScale"
                                 to: 1.16
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 467
                                 target: _qt_layer8_transform_0_2
                                 property: "yScale"
                                 to: 1.16
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
@@ -743,12 +608,16 @@ Item {
                                 target: _qt_layer8_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 500
                                 target: _qt_layer8_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 2400 }
@@ -758,12 +627,16 @@ Item {
                                 target: _qt_layer8_transform_0_2
                                 property: "xScale"
                                 to: 1.16
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 500
                                 target: _qt_layer8_transform_0_2
                                 property: "yScale"
                                 to: 1.16
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
@@ -772,32 +645,19 @@ Item {
                                 target: _qt_layer8_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 533
                                 target: _qt_layer8_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 2600 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer8_transform_0_3
-                                property: "x"
-                                to: -3.266
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer8_transform_0_3
-                                property: "y"
-                                to: -3.745
-                            }
-                        }
-                        PauseAnimation { duration: 7000 }
                     }
                 }
                 ScriptAction {
@@ -811,7 +671,7 @@ Item {
             preferredRendererType: Shape.CurveRenderer
             id: _qt_node9
             ShapePath {
-                id: _qt_shapePath_8
+                id: _qt_shapePath_7
                 strokeColor: "transparent"
                 fillColor: "#ffd31b5c"
                 fillRule: ShapePath.WindingFill
@@ -827,9 +687,8 @@ Item {
             id: _qt_layer9_transform_base_group
             TransformGroup {
                 id: _qt_layer9_transform_group_0
-                Translate { id: _qt_layer9_transform_0_3 }
+                Translate { x: -3.745; y: -3.266 }
                 Scale { id: _qt_layer9_transform_0_2}
-                Rotation { id: _qt_layer9_transform_0_1; origin.x: _qt_layer9.width / 2.0; origin.y: _qt_layer9.height / 2.0 }
                 Translate { id: _qt_layer9_transform_0_0 }
             }
         }
@@ -845,17 +704,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer9_transform_0_0
-                                property: "x"
-                                to: 136.546
+                            ScriptAction {
+                                script:_qt_layer9_transform_0_0.x = 136.546
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer9_transform_0_0
-                                property: "y"
-                                to: 71.227
+                            ScriptAction {
+                                script:_qt_layer9_transform_0_0.y = 71.227
                             }
                         }
                         ParallelAnimation {
@@ -864,12 +717,16 @@ Item {
                                 target: _qt_layer9_transform_0_0
                                 property: "x"
                                 to: 136.546
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 467
                                 target: _qt_layer9_transform_0_0
                                 property: "y"
                                 to: 59.227
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
@@ -878,12 +735,16 @@ Item {
                                 target: _qt_layer9_transform_0_0
                                 property: "x"
                                 to: 136.546
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 500
                                 target: _qt_layer9_transform_0_0
                                 property: "y"
                                 to: 71.227
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 2400 }
@@ -893,12 +754,16 @@ Item {
                                 target: _qt_layer9_transform_0_0
                                 property: "x"
                                 to: 136.546
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 500
                                 target: _qt_layer9_transform_0_0
                                 property: "y"
                                 to: 59.227
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
@@ -907,46 +772,27 @@ Item {
                                 target: _qt_layer9_transform_0_0
                                 property: "x"
                                 to: 136.546
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 533
                                 target: _qt_layer9_transform_0_0
                                 property: "y"
                                 to: 71.227
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 2600 }
                     }
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer9_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
+                            ScriptAction {
+                                script:_qt_layer9_transform_0_2.xScale = 1
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer9_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 7000 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer9_transform_0_2
-                                property: "xScale"
-                                to: 1
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer9_transform_0_2
-                                property: "yScale"
-                                to: 1
+                            ScriptAction {
+                                script:_qt_layer9_transform_0_2.yScale = 1
                             }
                         }
                         ParallelAnimation {
@@ -955,12 +801,16 @@ Item {
                                 target: _qt_layer9_transform_0_2
                                 property: "xScale"
                                 to: 1.16
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 467
                                 target: _qt_layer9_transform_0_2
                                 property: "yScale"
                                 to: 1.16
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
@@ -969,12 +819,16 @@ Item {
                                 target: _qt_layer9_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 500
                                 target: _qt_layer9_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 2400 }
@@ -984,12 +838,16 @@ Item {
                                 target: _qt_layer9_transform_0_2
                                 property: "xScale"
                                 to: 1.16
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 500
                                 target: _qt_layer9_transform_0_2
                                 property: "yScale"
                                 to: 1.16
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
@@ -998,32 +856,19 @@ Item {
                                 target: _qt_layer9_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 533
                                 target: _qt_layer9_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 2600 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer9_transform_0_3
-                                property: "x"
-                                to: -3.745
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer9_transform_0_3
-                                property: "y"
-                                to: -3.266
-                            }
-                        }
-                        PauseAnimation { duration: 7000 }
                     }
                 }
                 ScriptAction {
@@ -1037,7 +882,7 @@ Item {
             preferredRendererType: Shape.CurveRenderer
             id: _qt_node10
             ShapePath {
-                id: _qt_shapePath_9
+                id: _qt_shapePath_8
                 strokeColor: "transparent"
                 fillColor: "#ffd31b5c"
                 fillRule: ShapePath.WindingFill
@@ -1053,9 +898,8 @@ Item {
             id: _qt_layer10_transform_base_group
             TransformGroup {
                 id: _qt_layer10_transform_group_0
-                Translate { id: _qt_layer10_transform_0_3 }
+                Translate { x: -6.473; y: -6.353 }
                 Scale { id: _qt_layer10_transform_0_2}
-                Rotation { id: _qt_layer10_transform_0_1; origin.x: _qt_layer10.width / 2.0; origin.y: _qt_layer10.height / 2.0 }
                 Translate { id: _qt_layer10_transform_0_0 }
             }
         }
@@ -1071,17 +915,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer10_transform_0_0
-                                property: "x"
-                                to: 149.273
+                            ScriptAction {
+                                script:_qt_layer10_transform_0_0.x = 149.273
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer10_transform_0_0
-                                property: "y"
-                                to: 73.541
+                            ScriptAction {
+                                script:_qt_layer10_transform_0_0.y = 73.541
                             }
                         }
                         ParallelAnimation {
@@ -1090,12 +928,16 @@ Item {
                                 target: _qt_layer10_transform_0_0
                                 property: "x"
                                 to: 154.523
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 467
                                 target: _qt_layer10_transform_0_0
                                 property: "y"
                                 to: 68.041
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
@@ -1104,12 +946,16 @@ Item {
                                 target: _qt_layer10_transform_0_0
                                 property: "x"
                                 to: 149.273
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 500
                                 target: _qt_layer10_transform_0_0
                                 property: "y"
                                 to: 73.541
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 2400 }
@@ -1119,12 +965,16 @@ Item {
                                 target: _qt_layer10_transform_0_0
                                 property: "x"
                                 to: 154.523
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 500
                                 target: _qt_layer10_transform_0_0
                                 property: "y"
                                 to: 68.041
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
@@ -1133,46 +983,27 @@ Item {
                                 target: _qt_layer10_transform_0_0
                                 property: "x"
                                 to: 149.273
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 533
                                 target: _qt_layer10_transform_0_0
                                 property: "y"
                                 to: 73.541
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 2600 }
                     }
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer10_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
+                            ScriptAction {
+                                script:_qt_layer10_transform_0_2.xScale = 1
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer10_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 7000 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer10_transform_0_2
-                                property: "xScale"
-                                to: 1
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer10_transform_0_2
-                                property: "yScale"
-                                to: 1
+                            ScriptAction {
+                                script:_qt_layer10_transform_0_2.yScale = 1
                             }
                         }
                         ParallelAnimation {
@@ -1181,12 +1012,16 @@ Item {
                                 target: _qt_layer10_transform_0_2
                                 property: "xScale"
                                 to: 1.16
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 467
                                 target: _qt_layer10_transform_0_2
                                 property: "yScale"
                                 to: 1.16
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
@@ -1195,12 +1030,16 @@ Item {
                                 target: _qt_layer10_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 500
                                 target: _qt_layer10_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 2400 }
@@ -1210,12 +1049,16 @@ Item {
                                 target: _qt_layer10_transform_0_2
                                 property: "xScale"
                                 to: 1.16
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 500
                                 target: _qt_layer10_transform_0_2
                                 property: "yScale"
                                 to: 1.16
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
@@ -1224,32 +1067,19 @@ Item {
                                 target: _qt_layer10_transform_0_2
                                 property: "xScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 533
                                 target: _qt_layer10_transform_0_2
                                 property: "yScale"
                                 to: 1
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 2600 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer10_transform_0_3
-                                property: "x"
-                                to: -6.473
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer10_transform_0_3
-                                property: "y"
-                                to: -6.353
-                            }
-                        }
-                        PauseAnimation { duration: 7000 }
                     }
                 }
                 ScriptAction {
@@ -1263,7 +1093,7 @@ Item {
             preferredRendererType: Shape.CurveRenderer
             id: _qt_node11
             ShapePath {
-                id: _qt_shapePath_10
+                id: _qt_shapePath_9
                 strokeColor: "transparent"
                 fillColor: "#ffd31b5c"
                 fillRule: ShapePath.WindingFill
@@ -1279,10 +1109,9 @@ Item {
             id: _qt_layer11_transform_base_group
             TransformGroup {
                 id: _qt_layer11_transform_group_0
-                Translate { id: _qt_layer11_transform_0_3 }
-                Scale { id: _qt_layer11_transform_0_2}
-                Rotation { id: _qt_layer11_transform_0_1; origin.x: _qt_layer11.width / 2.0; origin.y: _qt_layer11.height / 2.0 }
-                Translate { id: _qt_layer11_transform_0_0 }
+                Translate { x: -90; y: -110 }
+                Rotation { id: _qt_layer11_transform_0_1 }
+                Translate { x: 90; y: 110 }
             }
         }
         Connections { target: _qt_node0.animations; function onRestart() {_qt_layer11_transform_animation.restart() } }
@@ -1297,34 +1126,8 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer11_transform_0_0
-                                property: "x"
-                                to: 90
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer11_transform_0_0
-                                property: "y"
-                                to: 110
-                            }
-                        }
-                        PauseAnimation { duration: 7000 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer11_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer11_transform_0_1
-                                property: "angle"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer11_transform_0_1.angle = 0
                             }
                         }
                         PauseAnimation { duration: 267 }
@@ -1332,42 +1135,30 @@ Item {
                             PropertyAnimation {
                                 duration: 400
                                 target: _qt_layer11_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 400
-                                target: _qt_layer11_transform_0_1
                                 property: "angle"
                                 to: 2
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 300
-                                target: _qt_layer11_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
                             PropertyAnimation {
                                 duration: 300
                                 target: _qt_layer11_transform_0_1
                                 property: "angle"
                                 to: -4
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
                             PropertyAnimation {
                                 duration: 266
                                 target: _qt_layer11_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 266
-                                target: _qt_layer11_transform_0_1
                                 property: "angle"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 2267 }
@@ -1375,79 +1166,33 @@ Item {
                             PropertyAnimation {
                                 duration: 433
                                 target: _qt_layer11_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
-                            PropertyAnimation {
-                                duration: 433
-                                target: _qt_layer11_transform_0_1
                                 property: "angle"
                                 to: 2
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 300
-                                target: _qt_layer11_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
                             PropertyAnimation {
                                 duration: 300
                                 target: _qt_layer11_transform_0_1
                                 property: "angle"
                                 to: -4
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 300
-                                target: _qt_layer11_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
-                            }
                             PropertyAnimation {
                                 duration: 300
                                 target: _qt_layer11_transform_0_1
                                 property: "angle"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 2467 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer11_transform_0_2
-                                property: "xScale"
-                                to: 1
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer11_transform_0_2
-                                property: "yScale"
-                                to: 1
-                            }
-                        }
-                        PauseAnimation { duration: 7000 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer11_transform_0_3
-                                property: "x"
-                                to: -90
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer11_transform_0_3
-                                property: "y"
-                                to: -110
-                            }
-                        }
-                        PauseAnimation { duration: 7000 }
                     }
                 }
                 ScriptAction {
@@ -1468,7 +1213,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node12
                 ShapePath {
-                    id: _qt_shapePath_11
+                    id: _qt_shapePath_10
                     strokeColor: "transparent"
                     fillColor: "#ffd6135a"
                     fillRule: ShapePath.WindingFill
@@ -1488,7 +1233,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node13
                 ShapePath {
-                    id: _qt_shapePath_12
+                    id: _qt_shapePath_11
                     strokeColor: "transparent"
                     fillColor: "#ffffffff"
                     fillRule: ShapePath.WindingFill
@@ -1508,7 +1253,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node14
                 ShapePath {
-                    id: _qt_shapePath_13
+                    id: _qt_shapePath_12
                     strokeColor: "transparent"
                     fillColor: "#ffffffff"
                     fillRule: ShapePath.WindingFill
@@ -1528,7 +1273,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node15
                 ShapePath {
-                    id: _qt_shapePath_14
+                    id: _qt_shapePath_13
                     strokeColor: "transparent"
                     fillColor: "#ffffffff"
                     fillRule: ShapePath.WindingFill
@@ -1548,7 +1293,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node16
                 ShapePath {
-                    id: _qt_shapePath_15
+                    id: _qt_shapePath_14
                     strokeColor: "transparent"
                     fillColor: "#ffffffff"
                     fillRule: ShapePath.WindingFill
@@ -1568,7 +1313,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node17
                 ShapePath {
-                    id: _qt_shapePath_16
+                    id: _qt_shapePath_15
                     strokeColor: "transparent"
                     fillColor: "#ffffffff"
                     fillRule: ShapePath.WindingFill
@@ -1588,7 +1333,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node18
                 ShapePath {
-                    id: _qt_shapePath_17
+                    id: _qt_shapePath_16
                     strokeColor: "transparent"
                     fillColor: "#ffffffff"
                     fillRule: ShapePath.WindingFill
@@ -1605,9 +1350,8 @@ Item {
             id: _qt_layer19_transform_base_group
             TransformGroup {
                 id: _qt_layer19_transform_group_0
-                Translate { id: _qt_layer19_transform_0_3 }
+                Translate { x: -50.5; y: -41.5 }
                 Scale { id: _qt_layer19_transform_0_2}
-                Rotation { id: _qt_layer19_transform_0_1; origin.x: _qt_layer19.width / 2.0; origin.y: _qt_layer19.height / 2.0 }
                 Translate { id: _qt_layer19_transform_0_0 }
             }
         }
@@ -1623,17 +1367,11 @@ Item {
                 ParallelAnimation {
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer19_transform_0_0
-                                property: "x"
-                                to: 90
+                            ScriptAction {
+                                script:_qt_layer19_transform_0_0.x = 90
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer19_transform_0_0
-                                property: "y"
-                                to: 7
+                            ScriptAction {
+                                script:_qt_layer19_transform_0_0.y = 7
                             }
                         }
                         ParallelAnimation {
@@ -1642,12 +1380,16 @@ Item {
                                 target: _qt_layer19_transform_0_0
                                 property: "x"
                                 to: 90.932
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.296, 0, 0.67, 0.421, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 1333
                                 target: _qt_layer19_transform_0_0
                                 property: "y"
                                 to: 83.477
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.296, 0, 0.67, 0.421, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
@@ -1656,12 +1398,16 @@ Item {
                                 target: _qt_layer19_transform_0_0
                                 property: "x"
                                 to: 92
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.43, 0.378, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 967
                                 target: _qt_layer19_transform_0_0
                                 property: "y"
                                 to: 191.5
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.43, 0.378, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
@@ -1670,12 +1416,16 @@ Item {
                                 target: _qt_layer19_transform_0_0
                                 property: "x"
                                 to: 90
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.167, 0, 0.833, 1, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 1633
                                 target: _qt_layer19_transform_0_0
                                 property: "y"
                                 to: 7
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.167, 0, 0.833, 1, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
@@ -1684,46 +1434,27 @@ Item {
                                 target: _qt_layer19_transform_0_0
                                 property: "x"
                                 to: 92
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 2367
                                 target: _qt_layer19_transform_0_0
                                 property: "y"
                                 to: 191.5
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 700 }
                     }
                     SequentialAnimation {
                         ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer19_transform_0_1
-                                property: "origin"
-                                to: Qt.vector3d(0, 0, 0.0)
+                            ScriptAction {
+                                script:_qt_layer19_transform_0_2.xScale = 0
                             }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer19_transform_0_1
-                                property: "angle"
-                                to: 0
-                            }
-                        }
-                        PauseAnimation { duration: 7000 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer19_transform_0_2
-                                property: "xScale"
-                                to: 0
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer19_transform_0_2
-                                property: "yScale"
-                                to: 0
+                            ScriptAction {
+                                script:_qt_layer19_transform_0_2.yScale = 0
                             }
                         }
                         ParallelAnimation {
@@ -1746,12 +1477,16 @@ Item {
                                 target: _qt_layer19_transform_0_2
                                 property: "xScale"
                                 to: 1.31
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 1300
                                 target: _qt_layer19_transform_0_2
                                 property: "yScale"
                                 to: 1.31
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
@@ -1760,12 +1495,16 @@ Item {
                                 target: _qt_layer19_transform_0_2
                                 property: "xScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.167, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 1600
                                 target: _qt_layer19_transform_0_2
                                 property: "yScale"
                                 to: 0
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.167, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         ParallelAnimation {
@@ -1788,32 +1527,19 @@ Item {
                                 target: _qt_layer19_transform_0_2
                                 property: "xScale"
                                 to: 1.31
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                             PropertyAnimation {
                                 duration: 1333
                                 target: _qt_layer19_transform_0_2
                                 property: "yScale"
                                 to: 1.31
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                             }
                         }
                         PauseAnimation { duration: 667 }
-                    }
-                    SequentialAnimation {
-                        ParallelAnimation {
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer19_transform_0_3
-                                property: "x"
-                                to: -50.5
-                            }
-                            PropertyAnimation {
-                                duration: 0
-                                target: _qt_layer19_transform_0_3
-                                property: "y"
-                                to: -41.5
-                            }
-                        }
-                        PauseAnimation { duration: 7000 }
                     }
                 }
                 ScriptAction {
@@ -1833,38 +1559,39 @@ Item {
             SequentialAnimation {
                 SequentialAnimation {
                     loops: 1
-                    PropertyAnimation {
-                        target: _qt_layer19
-                        property: "opacity"
-                        to: 0
-                        duration: 0
+                    ScriptAction {
+                        script:_qt_layer19.opacity = 0
                     }
                     PropertyAnimation {
+                        duration: 1033
                         target: _qt_layer19
                         property: "opacity"
                         to: 1
-                        duration: 1033
                     }
                     PauseAnimation { duration: 1200 }
                     PropertyAnimation {
+                        duration: 100
                         target: _qt_layer19
                         property: "opacity"
                         to: 0
-                        duration: 100
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                     }
                     PauseAnimation { duration: 1600 }
                     PropertyAnimation {
+                        duration: 1067
                         target: _qt_layer19
                         property: "opacity"
                         to: 1
-                        duration: 1067
                     }
                     PauseAnimation { duration: 1200 }
                     PropertyAnimation {
+                        duration: 133
                         target: _qt_layer19
                         property: "opacity"
                         to: 0
-                        duration: 133
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: [ 0.333, 0, 0.833, 0.833, 1, 1 ]
                     }
                     PauseAnimation { duration: 667 }
                 }
@@ -1882,7 +1609,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node19
                 ShapePath {
-                    id: _qt_shapePath_18
+                    id: _qt_shapePath_17
                     strokeColor: "transparent"
                     fillColor: "#ff5b29ff"
                     fillRule: ShapePath.WindingFill
@@ -1903,7 +1630,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node20
                 ShapePath {
-                    id: _qt_shapePath_19
+                    id: _qt_shapePath_18
                     strokeColor: "transparent"
                     fillColor: "#ffffa63a"
                     fillRule: ShapePath.WindingFill
@@ -1928,7 +1655,7 @@ Item {
                     Matrix4x4 { id: _qt_node21_transform_base; matrix: PlanarTransform.fromAffineMatrix(1.42444, 0, 0, 1.42444, 0, 0)}
                 }
                 ShapePath {
-                    id: _qt_shapePath_20
+                    id: _qt_shapePath_19
                     strokeColor: "transparent"
                     fillColor: "#ff3aaeff"
                     fillRule: ShapePath.WindingFill
@@ -1949,7 +1676,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node22
                 ShapePath {
-                    id: _qt_shapePath_21
+                    id: _qt_shapePath_20
                     strokeColor: "#ffec9454"
                     strokeWidth: 2
                     capStyle: ShapePath.RoundCap
@@ -1974,7 +1701,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node23
                 ShapePath {
-                    id: _qt_shapePath_22
+                    id: _qt_shapePath_21
                     strokeColor: "#ffb40342"
                     strokeWidth: 1.5
                     capStyle: ShapePath.RoundCap
@@ -1999,7 +1726,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node24
                 ShapePath {
-                    id: _qt_shapePath_23
+                    id: _qt_shapePath_22
                     strokeColor: "#ffb40342"
                     strokeWidth: 1
                     capStyle: ShapePath.RoundCap
@@ -2024,7 +1751,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node25
                 ShapePath {
-                    id: _qt_shapePath_24
+                    id: _qt_shapePath_23
                     strokeColor: "transparent"
                     fillColor: "#ff66ccff"
                     fillRule: ShapePath.WindingFill
@@ -2045,7 +1772,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node26
                 ShapePath {
-                    id: _qt_shapePath_25
+                    id: _qt_shapePath_24
                     strokeColor: "transparent"
                     fillColor: "#ff66ccff"
                     fillRule: ShapePath.WindingFill
@@ -2066,7 +1793,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node27
                 ShapePath {
-                    id: _qt_shapePath_26
+                    id: _qt_shapePath_25
                     strokeColor: "transparent"
                     fillColor: "#ffeb6f6d"
                     fillRule: ShapePath.WindingFill
@@ -2087,7 +1814,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node28
                 ShapePath {
-                    id: _qt_shapePath_27
+                    id: _qt_shapePath_26
                     strokeColor: "transparent"
                     fillColor: "#ff4e024e"
                     fillRule: ShapePath.WindingFill
@@ -2098,14 +1825,6 @@ Item {
             Shape {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node29
-                ShapePath {
-                    id: _qt_shapePath_28
-                    strokeColor: "transparent"
-                    fillColor: "#00000000"
-                    fillRule: ShapePath.WindingFill
-                    pathHints: ShapePath.PathQuadratic | ShapePath.PathNonIntersecting | ShapePath.PathNonOverlappingControlPointTriangles
-                    PathSvg { path: "M 3.046 0 Q 4.3076 0 5.20025 0.89225 Q 6.093 1.7846 6.093 3.046 Q 6.093 4.3075 5.20025 5.20025 Q 4.3075 6.093 3.046 6.093 Q 1.7846 6.093 0.89225 5.20025 Q -1.11022e-16 4.3076 0 3.046 Q 0 1.7845 0.89225 0.89225 Q 1.7845 -1.11022e-16 3.046 0 " }
-                }
             }
         }
         LayerItem {
@@ -2120,7 +1839,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node30
                 ShapePath {
-                    id: _qt_shapePath_29
+                    id: _qt_shapePath_27
                     strokeColor: "transparent"
                     fillColor: "#ffd31b5c"
                     fillRule: ShapePath.WindingFill
@@ -2131,14 +1850,6 @@ Item {
             Shape {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node31
-                ShapePath {
-                    id: _qt_shapePath_30
-                    strokeColor: "transparent"
-                    fillColor: "#00000000"
-                    fillRule: ShapePath.WindingFill
-                    pathHints: ShapePath.PathQuadratic | ShapePath.PathNonIntersecting | ShapePath.PathNonOverlappingControlPointTriangles
-                    PathSvg { path: "M -3.0465 -3.0465 L 3.0465 -3.0465 L 3.0465 3.0465 L -3.0465 3.0465 L -3.0465 -3.0465 " }
-                }
             }
         }
         LayerItem {
@@ -2153,7 +1864,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node32
                 ShapePath {
-                    id: _qt_shapePath_31
+                    id: _qt_shapePath_28
                     strokeColor: "transparent"
                     fillColor: "#ffd31b5c"
                     fillRule: ShapePath.WindingFill
@@ -2164,14 +1875,6 @@ Item {
             Shape {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node33
-                ShapePath {
-                    id: _qt_shapePath_32
-                    strokeColor: "transparent"
-                    fillColor: "#00000000"
-                    fillRule: ShapePath.WindingFill
-                    pathHints: ShapePath.PathQuadratic | ShapePath.PathNonIntersecting | ShapePath.PathNonOverlappingControlPointTriangles
-                    PathSvg { path: "M -3.0465 -3.0465 L 3.0465 -3.0465 L 3.0465 3.0465 L -3.0465 3.0465 L -3.0465 -3.0465 " }
-                }
             }
         }
         LayerItem {
@@ -2186,7 +1889,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node34
                 ShapePath {
-                    id: _qt_shapePath_33
+                    id: _qt_shapePath_29
                     strokeColor: "transparent"
                     fillColor: "#ff424242"
                     fillRule: ShapePath.WindingFill
@@ -2197,14 +1900,6 @@ Item {
             Shape {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node35
-                ShapePath {
-                    id: _qt_shapePath_34
-                    strokeColor: "transparent"
-                    fillColor: "#00000000"
-                    fillRule: ShapePath.WindingFill
-                    pathHints: ShapePath.PathQuadratic | ShapePath.PathNonIntersecting | ShapePath.PathNonOverlappingControlPointTriangles
-                    PathSvg { path: "M 2.031 0 Q 2.8725 0 3.46725 0.59475 Q 4.062 1.1895 4.062 2.031 Q 4.062 2.8725 3.46725 3.46725 Q 2.8725 4.062 2.031 4.062 Q 1.1895 4.062 0.59475 3.46725 Q 1.11022e-16 2.8725 0 2.031 Q 0 1.1895 0.59475 0.59475 Q 1.1895 0 2.031 0 " }
-                }
             }
         }
         LayerItem {
@@ -2218,14 +1913,6 @@ Item {
             Shape {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node36
-                ShapePath {
-                    id: _qt_shapePath_35
-                    strokeColor: "transparent"
-                    fillColor: "#00000000"
-                    fillRule: ShapePath.WindingFill
-                    pathHints: ShapePath.PathQuadratic | ShapePath.PathNonIntersecting | ShapePath.PathNonOverlappingControlPointTriangles
-                    PathSvg { path: "M 11.703 0 L 17.298 0 L 17.298 22.908 L 9.023 22.908 L 9.10574 22.8928 Q 9.23385 22.8702 9.296 22.852 Q 9.53571 22.7949 9.707 22.6178 Q 9.87884 22.44 9.926 22.199 Q 10.0171 21.753 9.548 21.445 Q 9.35381 21.3285 9.126 21.289 Q 8.90827 21.2545 8.687 21.265 Q 7.04862 21.2728 6.047 20.096 Q 5.63183 19.608 5.413 19.0934 Q 5.17603 18.5361 5.163 17.934 Q 5.15776 17.663 5.24512 17.6033 Q 5.33206 17.5438 5.586 17.643 Q 7.42294 18.3787 9.402 18.283 Q 10.8903 18.2268 12.203 17.518 Q 13.2338 16.9481 13.638 16.088 Q 13.8689 15.6613 13.804 15.176 Q 13.634 14.284 12.888 13.769 Q 12.2409 13.3077 11.469 13.14 Q 10.6589 12.9488 9.836 12.859 Q 8.01066 12.6346 6.323 13.373 Q 5.22411 13.8362 4.363 14.658 Q 4.19598 14.8205 4.05325 14.818 Q 3.91245 14.8155 3.754 14.651 Q 3.22152 14.117 2.915 13.433 Q 2.45046 12.3827 2.808 11.293 Q 2.89776 11.0126 3.07075 10.9369 Q 3.23959 10.863 3.515 10.973 Q 5.69225 11.8545 8.043 11.921 Q 9.2317 11.9566 10.453 11.885 Q 12.1526 11.8051 13.79 11.365 Q 14.6293 11.147 15.38 10.685 Q 15.8831 10.3645 16.096 9.71262 Q 16.3162 9.03839 16.065 8.459 Q 15.6875 7.6221 14.874 7.203 Q 14.3444 6.90559 13.6954 6.70563 Q 13.15 6.53761 12.45 6.419 Q 10.0269 6.01591 7.599 6.369 Q 5.86945 6.59334 4.341 7.421 Q 3.45263 7.90652 2.722 8.613 Q 2.42215 8.9042 2.126 8.749 Q 1.2139 8.28693 0.51 7.536 Q 0.0300479 7.0358 0.00125 6.34425 Q -0.0275436 5.6528 0.409 5.115 Q 0.929665 4.45357 1.622 3.987 Q 3.30557 2.86261 5.272 2.357 Q 7.32069 1.81558 9.448 1.701 Q 11.2499 1.59545 13.033 1.76 Q 14.6039 1.91784 16.127 2.314 Q 16.3722 2.37644 16.621 2.337 Q 16.8841 2.28529 17.055 2.07838 Q 17.2257 1.87169 17.228 1.603 Q 17.2318 1.31921 17.0572 1.09613 Q 16.8825 0.872686 16.606 0.809 Q 14.448 0.199961 12.207 0.063 Q 12.0885 0.0559453 11.851 0.0210144 L 11.703 0 " }
-                }
             }
         }
         LayerItem {
@@ -2240,7 +1927,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node37
                 ShapePath {
-                    id: _qt_shapePath_36
+                    id: _qt_shapePath_30
                     strokeColor: "transparent"
                     fillColor: "#ffffa63a"
                     fillRule: ShapePath.WindingFill
@@ -2252,7 +1939,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node38
                 ShapePath {
-                    id: _qt_shapePath_37
+                    id: _qt_shapePath_31
                     strokeColor: "transparent"
                     fillColor: "#ffffa63a"
                     fillRule: ShapePath.WindingFill
@@ -2264,7 +1951,7 @@ Item {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node39
                 ShapePath {
-                    id: _qt_shapePath_38
+                    id: _qt_shapePath_32
                     strokeColor: "transparent"
                     fillColor: "#ffffa63a"
                     fillRule: ShapePath.WindingFill
@@ -2284,14 +1971,6 @@ Item {
             Shape {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node40
-                ShapePath {
-                    id: _qt_shapePath_39
-                    strokeColor: "transparent"
-                    fillColor: "#00000000"
-                    fillRule: ShapePath.WindingFill
-                    pathHints: ShapePath.PathQuadratic | ShapePath.PathNonIntersecting | ShapePath.PathNonOverlappingControlPointTriangles
-                    PathSvg { path: "M 11.894 0 L 11.7138 0.0154943 L 10.84 0.088 Q 9.14765 0.220166 7.64288 0.556375 Q 6.0175 0.919529 4.562 1.531 Q 3.7002 1.89302 3.06538 2.25213 Q 2.29394 2.6885 1.703 3.202 Q 0.375002 4.35348 0.079 5.797 Q 0.0322629 6.02521 0.0313944 6.26237 Q 0.0305258 6.49954 0.0755258 6.74566 Q 0.165526 7.23791 0.439 7.766 Q 1.12467 9.09038 2.742 9.924 Q 3.02986 10.0732 3.096 10.2294 Q 3.16305 10.3877 3.066 10.699 L 2.94448 11.0556 Q 2.81794 11.4094 2.773 11.591 Q 2.6389 12.1225 2.722 12.7109 Q 2.79079 13.1979 3.022 13.791 Q 3.56706 15.1863 4.697 16.179 Q 4.84076 16.3048 4.968 16.447 Q 5.14345 16.6411 5.145 16.903 L 5.14877 17.0917 Q 5.16853 18.14 5.298 18.657 Q 5.76147 20.5059 6.913 21.557 Q 7.47528 22.0712 8.18013 22.3897 Q 8.8414 22.6886 9.637 22.819 L 10.0933 22.8837 L 10.275 22.908 L 0 22.908 L 0 0 L 11.894 0 " }
-                }
             }
         }
         LayerItem {
@@ -2305,14 +1984,6 @@ Item {
             Shape {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node41
-                ShapePath {
-                    id: _qt_shapePath_40
-                    strokeColor: "transparent"
-                    fillColor: "#00000000"
-                    fillRule: ShapePath.WindingFill
-                    pathHints: ShapePath.PathQuadratic | ShapePath.PathNonIntersecting | ShapePath.PathNonOverlappingControlPointTriangles
-                    PathSvg { path: "M 5.571 0 Q 6.57463 0.0312718 7.169 0.086875 Q 8.08505 0.172572 8.818 0.362 Q 9.29609 0.494043 9.734 0.713 Q 9.97905 0.849141 10.158 1.066 Q 10.2481 1.14562 10.2556 1.26625 Q 10.2631 1.38714 10.183 1.477 Q 10.1704 1.49305 10.145 1.513 Q 9.9375 1.72508 9.659 1.824 L 8.76062 2.04737 Q 8.27633 2.15864 7.854 2.231 Q 5.47465 2.63057 3.075 2.438 Q 1.78158 2.34281 0.545 1.988 Q 0.348618 1.93147 0.159 1.845 Q 0.0689226 1.81572 0.025375 1.73025 Q -0.018225 1.64467 0.011 1.554 Q 0.0272256 1.5068 0.062 1.469 Q 0.214507 1.28931 0.413 1.163 Q 1.51372 0.466536 2.797 0.235 Q 3.39123 0.120854 4.1435 0.066125 L 5.571 0 " }
-                }
             }
         }
         LayerItem {
@@ -2326,14 +1997,6 @@ Item {
             Shape {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node42
-                ShapePath {
-                    id: _qt_shapePath_41
-                    strokeColor: "transparent"
-                    fillColor: "#00000000"
-                    fillRule: ShapePath.WindingFill
-                    pathHints: ShapePath.PathQuadratic | ShapePath.PathNonIntersecting | ShapePath.PathNonOverlappingControlPointTriangles
-                    PathSvg { path: "M 3.152 2.262 Q 1.55068 2.1874 0.456 1.772 Q 0.252112 1.68893 0.087 1.542 Q 0.0135538 1.48579 0.001625 1.394 Q -0.0102914 1.3023 0.046 1.228 Q 0.062 1.21 0.072 1.201 Q 0.204533 1.04932 0.375 0.928 Q 1.31562 0.291295 2.439 0.118 Q 4.14227 -0.15459 5.44 0.219 Q 5.8044 0.334946 6.139 0.518 Q 6.30424 0.61414 6.425 0.767 Q 6.51579 0.848034 6.52287 0.970125 Q 6.52997 1.09229 6.449 1.183 L 6.437 1.195 Q 6.22021 1.44423 5.939 1.644 Q 5.59392 1.88129 5.15063 2.0175 Q 4.78073 2.13116 4.294 2.187 Q 4.03413 2.21656 3.51001 2.24263 L 3.152 2.262 " }
-                }
             }
         }
         LayerItem {
@@ -2346,14 +2009,6 @@ Item {
             Shape {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node43
-                ShapePath {
-                    id: _qt_shapePath_42
-                    strokeColor: "transparent"
-                    fillColor: "#00000000"
-                    fillRule: ShapePath.WindingFill
-                    pathHints: ShapePath.PathQuadratic | ShapePath.PathNonIntersecting | ShapePath.PathNonOverlappingControlPointTriangles
-                    PathSvg { path: "M -9.481 -11.4545 L 9.481 -11.4545 L 9.481 11.4545 L -9.481 11.4545 L -9.481 -11.4545 " }
-                }
             }
         }
         LayerItem {
@@ -2367,14 +2022,6 @@ Item {
             Shape {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node44
-                ShapePath {
-                    id: _qt_shapePath_43
-                    strokeColor: "transparent"
-                    fillColor: "#00000000"
-                    fillRule: ShapePath.WindingFill
-                    pathHints: ShapePath.PathQuadratic | ShapePath.PathNonIntersecting | ShapePath.PathNonOverlappingControlPointTriangles
-                    PathSvg { path: "M -9.481 -11.4545 L 9.481 -11.4545 L 9.481 11.4545 L -9.481 11.4545 L -9.481 -11.4545 " }
-                }
             }
         }
         LayerItem {
@@ -2387,14 +2034,6 @@ Item {
             Shape {
                 preferredRendererType: Shape.CurveRenderer
                 id: _qt_node45
-                ShapePath {
-                    id: _qt_shapePath_44
-                    strokeColor: "transparent"
-                    fillColor: "#00000000"
-                    fillRule: ShapePath.WindingFill
-                    pathHints: ShapePath.PathQuadratic | ShapePath.PathNonIntersecting | ShapePath.PathNonOverlappingControlPointTriangles
-                    PathSvg { path: "M -49.9945 -41.2695 L 49.9945 -41.2695 L 49.9945 41.2695 L -49.9945 41.2695 L -49.9945 -41.2695 " }
-                }
             }
         }
     }
