@@ -7,7 +7,7 @@ project(lottietoqmlexample VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick LottieTools)
 
 qt_standard_project_setup(REQUIRES 6.10)
 
@@ -30,16 +30,34 @@ qt_add_qml_module(applottietoqmlexample
     QML_FILES
         Main.qml
         GridIcon.qml
-        generated/UserAuthentication.qml
-        generated/HeartMedical.qml
+)
+
+#![lottietoqml]
+qt_target_qml_from_lottie(applottietoqmlexample
+    CURVE_RENDERER
+    OPTIMIZE_PATHS
+    FILES
+        original/FingerprintIcon.json
+        original/GoogleIcons.json
+        original/HappyStar.json
+        original/HeartMedical.json
+        original/SurprisedBoy.json
+        original/USAMapWithOutlines.json
+        original/UserAuthentication.json
+        original/UserInteractionAnimation.json
+        original/UserInterface.json
+    OUTPUTS
         generated/FingerprintIcon.qml
         generated/GoogleIcons.qml
         generated/HappyStar.qml
+        generated/HeartMedical.qml
         generated/SurprisedBoy.qml
         generated/USAMapWithOutlines.qml
+        generated/UserAuthentication.qml
         generated/UserInteractionAnimation.qml
         generated/UserInterface.qml
 )
+#![lottietoqml]
 
 install(TARGETS applottietoqmlexample
     BUNDLE  DESTINATION .

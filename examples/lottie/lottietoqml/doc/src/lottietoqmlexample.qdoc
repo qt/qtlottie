@@ -33,6 +33,11 @@
     component. However, pregenerating the QML file is usually preferable, since this allows
     preprocessing the QML scene for faster loading.
 
+    \snippet lottietoqml/CMakeLists.txt lottietoqml
+
+    In this example, the Lottie files are automatically converted to QML using the
+    CMake function \l{qt_target_qml_from_lottie}{qt_target_qml_from_lottie()}.
+
     \section1 Assets
 
     This example contains animated vector images downloaded from the

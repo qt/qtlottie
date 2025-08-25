@@ -1,55 +1,55 @@
 version = 1
 
 [[annotations]]
-path = [ "original/FingerprintIcon.json", "generated/FingerprintIcon.qml" ]
+path = [ "original/FingerprintIcon.json" ]
 precedence = "closest"
 SPDX-FileCopyrightText = "Copyright (C) 2025 Solitudinem"
 SPDX-License-Identifier = "LicenseRef-Lottie-Simple-License-9.13.21"
 
 [[annotations]]
-path = [ "original/GoogleIcons.json", "generated/GoogleIcons.qml" ]
+path = [ "original/GoogleIcons.json" ]
 precedence = "closest"
 SPDX-FileCopyrightText = "Copyright (C) 2025 Jeffrey Christopher"
 SPDX-License-Identifier = "LicenseRef-Lottie-Simple-License-9.13.21"
 
 [[annotations]]
-path = [ "original/HappyStar.json", "generated/HappyStar.qml" ]
+path = [ "original/HappyStar.json" ]
 precedence = "closest"
 SPDX-FileCopyrightText = "Copyright (C) 2025 Natalia Świerz"
 SPDX-License-Identifier = "LicenseRef-Lottie-Simple-License-9.13.21"
 
 [[annotations]]
-path = [ "original/HeartMedical.json", "generated/HeartMedical.qml" ]
+path = [ "original/HeartMedical.json" ]
 precedence = "closest"
 SPDX-FileCopyrightText = "Copyright (C) 2025 Sarpreet Kalyan"
 SPDX-License-Identifier = "LicenseRef-Lottie-Simple-License-9.13.21"
 
 [[annotations]]
-path = [ "original/SurprisedBoy.json", "generated/SurprisedBoy.qml" ]
+path = [ "original/SurprisedBoy.json" ]
 precedence = "closest"
 SPDX-FileCopyrightText = "Copyright (C) 2025 Hizen"
 SPDX-License-Identifier = "LicenseRef-Lottie-Simple-License-9.13.21"
 
 [[annotations]]
-path = [ "original/USAMapWithOutlines.json", "generated/USAMapWithOutlines.qml" ]
+path = [ "original/USAMapWithOutlines.json" ]
 precedence = "closest"
 SPDX-FileCopyrightText = "Copyright (C) 2025 Marina Trajkovska"
 SPDX-License-Identifier = "LicenseRef-Lottie-Simple-License-9.13.21"
 
 [[annotations]]
-path = [ "original/UserAuthentication.json", "generated/UserAuthentication.qml" ]
+path = [ "original/UserAuthentication.json" ]
 precedence = "closest"
 SPDX-FileCopyrightText = "Copyright (C) 2025 Musa Adanur"
 SPDX-License-Identifier = "LicenseRef-Lottie-Simple-License-9.13.21"
 
 [[annotations]]
-path = [ "original/UserInteractionAnimation.json", "generated/UserInteractionAnimation.qml" ]
+path = [ "original/UserInteractionAnimation.json" ]
 precedence = "closest"
 SPDX-FileCopyrightText = "Copyright (C) 2025 Mahendra Bhunwal"
 SPDX-License-Identifier = "LicenseRef-Lottie-Simple-License-9.13.21"
 
 [[annotations]]
-path = [ "original/UserInterface.json", "generated/UserInterface.qml" ]
+path = [ "original/UserInterface.json" ]
 precedence = "closest"
 SPDX-FileCopyrightText = "Copyright (C) 2025 Bashir Ahmad"
 SPDX-License-Identifier = "LicenseRef-Lottie-Simple-License-9.13.21"

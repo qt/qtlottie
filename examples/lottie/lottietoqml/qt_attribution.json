@@ -5,7 +5,7 @@
         "QDocModule": "qtlottie",
         "QtUsage": "Used in the lottietoqml Example",
         "QtParts": [ "examples" ],
-        "Files": [ "original/FingerprintIcon.json", "generated/FingerprintIcon.qml" ],
+        "Files": [ "original/FingerprintIcon.json"  ],
         "LicenseId": "LicenseRef-Lottie-Simple-License-9.13.21",
         "License": "Lottie Simple License 9.13.21",
         "Copyright": "Copyright (C) 2025 Solitudinem"
@@ -17,7 +17,7 @@
         "QDocModule": "qtlottie",
         "QtUsage": "Used in the lottietoqml Example",
         "QtParts": [ "examples" ],
-        "Files": [ "original/GoogleIcons.json", "generated/GoogleIcons.qml" ],
+        "Files": [ "original/GoogleIcons.json" ],
         "LicenseId": "LicenseRef-Lottie-Simple-License-9.13.21",
         "License": "Lottie Simple License 9.13.21",
         "Copyright": "Copyright (C) 2025 Jeffrey Christopher"
@@ -29,7 +29,7 @@
         "QDocModule": "qtlottie",
         "QtUsage": "Used in the lottietoqml Example",
         "QtParts": [ "examples" ],
-        "Files": [ "original/HappyStar.json", "generated/HappyStar.qml" ],
+        "Files": [ "original/HappyStar.json" ],
         "LicenseId": "LicenseRef-Lottie-Simple-License-9.13.21",
         "License": "Lottie Simple License 9.13.21",
         "Copyright": "Copyright (C) 2025 Natalia Świerz"
@@ -41,7 +41,7 @@
         "QDocModule": "qtlottie",
         "QtUsage": "Used in the lottietoqml Example",
         "QtParts": [ "examples" ],
-        "Files": [ "original/HeartMedical.json", "generated/HeartMedical.qml" ],
+        "Files": [ "original/HeartMedical.json" ],
         "LicenseId": "LicenseRef-Lottie-Simple-License-9.13.21",
         "License": "Lottie Simple License 9.13.21",
         "Copyright": "Copyright (C) 2025 Sarpreet Kalyan"
@@ -53,7 +53,7 @@
         "QDocModule": "qtlottie",
         "QtUsage": "Used in the lottietoqml Example",
         "QtParts": [ "examples" ],
-        "Files": [ "original/SurprisedBoy.json", "generated/SurprisedBoy.qml" ],
+        "Files": [ "original/SurprisedBoy.json" ],
         "LicenseId": "LicenseRef-Lottie-Simple-License-9.13.21",
         "License": "Lottie Simple License 9.13.21",
         "Copyright": "Copyright (C) 2025 Hizen"
@@ -65,7 +65,7 @@
         "QDocModule": "qtlottie",
         "QtUsage": "Used in the lottietoqml Example",
         "QtParts": [ "examples" ],
-        "Files": [ "original/USAMapWithOutlines.json", "generated/USAMapWithOutlines.qml" ],
+        "Files": [ "original/USAMapWithOutlines.json" ],
         "LicenseId": "LicenseRef-Lottie-Simple-License-9.13.21",
         "License": "Lottie Simple License 9.13.21",
         "Copyright": "Copyright (C) 2025 Marina Trajkovska"
@@ -77,7 +77,7 @@
         "QDocModule": "qtlottie",
         "QtUsage": "Used in the lottietoqml Example",
         "QtParts": [ "examples" ],
-        "Files": [ "original/UserAuthentication.json", "generated/UserAuthentication.qml" ],
+        "Files": [ "original/UserAuthentication.json" ],
         "LicenseId": "LicenseRef-Lottie-Simple-License-9.13.21",
         "License": "Lottie Simple License 9.13.21",
         "Copyright": "Copyright (C) 2025 Musa Adanur"
@@ -89,7 +89,7 @@
         "QDocModule": "qtlottie",
         "QtUsage": "Used in the lottietoqml Example",
         "QtParts": [ "examples" ],
-        "Files": [ "original/UserInteractionAnimation.json", "generated/UserInteractionAnimation.qml" ],
+        "Files": [ "original/UserInteractionAnimation.json" ],
         "LicenseId": "LicenseRef-Lottie-Simple-License-9.13.21",
         "License": "Lottie Simple License 9.13.21",
         "Copyright": "Copyright (C) 2025 Mahendra Bhunwal"
@@ -101,7 +101,7 @@
         "QDocModule": "qtlottie",
         "QtUsage": "Used in the lottietoqml Example",
         "QtParts": [ "examples" ],
-        "Files": [ "original/UserInterface.json", "generated/UserInterface.qml" ],
+        "Files": [ "original/UserInterface.json" ],
         "LicenseId": "LicenseRef-Lottie-Simple-License-9.13.21",
         "License": "Lottie Simple License 9.13.21",
         "Copyright": "Copyright (C) 2025 Bashir Ahmad"

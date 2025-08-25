@@ -3,7 +3,7 @@
 
 /*!
 \page qt_target_qml_from_lottie.html
-\ingroup cmake-commands-qtquick
+\ingroup cmake-commands-qtlottie
 
 \title qt_target_qml_from_lottie
 \keyword qt6_target_qml_from_lottie
@@ -34,6 +34,10 @@ qt_target_qml_from_lottie(target
 \endcode
 
 \versionlessCMakeCommandsNote qt6_target_qml_from_lottie()
+
+Example:
+
+\snippet lottietoqml/CMakeLists.txt lottietoqml
 
 \section1 Description
 
