@@ -28,7 +28,7 @@ Image {
             onStatusChanged: {
                 if (status === LottieAnimation.Ready) {
                     if (freezeFrame < 0)
-                        freezeFrame = Math.floor((endFrame - startFrame) / 2);
+                        freezeFrame = Math.floor(startFrame + ((endFrame - startFrame) / 2));
                     gotoAndStop(freezeFrame);
                 }
             }

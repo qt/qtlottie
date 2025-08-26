@@ -46,7 +46,7 @@ bool QLottieVectorImagePlugin::generate(const QString &fileName, QQuickItemGener
 
         if (!root.parseSource(jsonSource, fileName)) {
             if (frameNo < 0)
-                frameNo = (root.endFrame() - root.startFrame()) / 2;
+                frameNo = root.startFrame() + (root.endFrame() - root.startFrame()) / 2;
 
             root.setStructureDumping(true);
             for (QLottieBase *elem : root.children()) {
