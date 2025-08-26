@@ -317,12 +317,13 @@ void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *tra
                                                 bool isShapeTransform)
 {
     Q_UNUSED(isShapeTransform);
-    // ### Split position
     const QLottieProperty<QPointF> anchorPoints = transform->anchorPointProperty();
     const QLottieProperty<qreal> rotations = transform->rotationProperty();
     const QLottieProperty<QPointF> scales = transform->scaleProperty();
-    const QLottieSpatialProperty positions = transform->positionProperty(); // ### Also support split positions
+    const QLottieSpatialProperty positions = transform->positionProperty();
     const QLottieProperty<qreal> opacities = transform->opacityProperty();
+    const QLottieProperty<qreal> xPositions = transform->xPosProperty();
+    const QLottieProperty<qreal> yPositions = transform->yPosProperty();
 
     auto storeAnimationFrame = [&](qreal lottieFrameNumber,
                                    const QVariant &propertyValue,
@@ -335,14 +336,34 @@ void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *tra
     };
 
     QLottieVisitor::PaintInfo::TransformAnimationInfo info;
-    info = collectAnimations(positions,
-                             QTransform::TxTranslate,
-                             storeAnimationFrame,
-                             [](const QVariant &v)
-                             {
-                                 return QVariantList{ v };
-                             });
-    m_currentPaintInfo.transformAnimations.append(info);
+    if (!transform->splitPosition()) {
+        info = collectAnimations(positions,
+                                 QTransform::TxTranslate,
+                                 storeAnimationFrame,
+                                 [](const QVariant &v)
+                                 {
+                                     return QVariantList{ v };
+                                 });
+        m_currentPaintInfo.transformAnimations.append(info);
+    } else {
+        info = collectAnimations(xPositions,
+                                 QTransform::TxTranslate,
+                                 storeAnimationFrame,
+                                 [](const QVariant &v)
+                                 {
+                                     return QVariantList{ QVariant::fromValue(QPointF(v.toReal(), 0.0)) };
+                                 });
+        m_currentPaintInfo.transformAnimations.append(info);
+
+        info = collectAnimations(yPositions,
+                                 QTransform::TxTranslate,
+                                 storeAnimationFrame,
+                                 [](const QVariant &v)
+                                 {
+                                     return QVariantList{ QVariant::fromValue(QPointF(0.0, v.toReal())) };
+                                 });
+        m_currentPaintInfo.transformAnimations.append(info);
+    }
 
     auto storeRotationParameter = [](const QVariant &v) {
         return QVariantList{ QVariant::fromValue(QPointF(0, 0)), v };
@@ -435,11 +456,15 @@ void QLottieVisitor::enumerateLayerChildren(const QLottieBase *node)
 
 bool QLottieVisitor::hasAnimations(const QLottieBasicTransform *transform, bool isShapeTransform)
 {
-    Q_UNUSED(isShapeTransform);
     bool hasAnimations = transform->rotationProperty().startFrame() < transform->rotationProperty().endFrame()
                          || transform->positionProperty().startFrame() < transform->positionProperty().endFrame()
                          || transform->scaleProperty().startFrame() < transform->scaleProperty().endFrame()
                          || transform->opacityProperty().startFrame() < transform->opacityProperty().endFrame();
+
+    if (transform->splitPosition() && !hasAnimations) {
+        hasAnimations = transform->xPosProperty().startFrame() < transform->xPosProperty().endFrame()
+                        || transform->yPosProperty().startFrame() < transform->yPosProperty().endFrame();
+    }
 
     if (isShapeTransform && !hasAnimations) {
         const QLottieShapeTransform *shapeTransform = static_cast<const QLottieShapeTransform *>(transform);
