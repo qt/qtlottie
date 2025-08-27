@@ -86,7 +86,7 @@ QLottieLayer *QLottieLayer::construct(QJsonObject definition, const QMap<QString
         layer = new QLottieShapeLayer(definition);
         break;
     default:
-        qCWarning(lcLottieQtLottieParser) << "Unsupported layer type:" << type;
+        qCInfo(lcLottieQtLottieParser) << "Unsupported layer type:" << type;
     }
     return layer;
 }
@@ -154,19 +154,19 @@ void QLottieLayer::parse(const QJsonObject &definition)
     parseEffects(effects);
 
     if (m_clipMode > 2)
-        qCWarning(lcLottieQtLottieParser)
+        qCInfo(lcLottieQtLottieParser)
                 << "Lottie Layer: Only alpha mask layer supported:" << m_clipMode;
     if (m_blendMode > 0)
-        qCWarning(lcLottieQtLottieParser)
+        qCInfo(lcLottieQtLottieParser)
                 << "Lottie Layer: Unsupported blend mode" << m_blendMode;
     if (m_stretch > 1)
-        qCWarning(lcLottieQtLottieParser)
+        qCInfo(lcLottieQtLottieParser)
                 << "Lottie Layer: stretch not supported" << m_stretch;
     if (m_autoOrient)
-        qCWarning(lcLottieQtLottieParser)
+        qCInfo(lcLottieQtLottieParser)
                 << "Lottie Layer: auto-orient not supported";
     if (m_3dLayer)
-        qCWarning(lcLottieQtLottieParser)
+        qCInfo(lcLottieQtLottieParser)
                 << "Lottie Layer: is a 3D layer, but not handled";
 }
 
@@ -349,7 +349,7 @@ void QLottieLayer::parseEffects(const QJsonArray &definition, QLottieBase *effec
             break;
         }
         default:
-            qCWarning(lcLottieQtLottieParser)
+            qCInfo(lcLottieQtLottieParser)
                 << "QLottieLayer: Unsupported effect" << type;
         }
     }

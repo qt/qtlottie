@@ -44,7 +44,7 @@ QLottieShape *QLottieShape::construct(QJsonObject definition, QLottieBase *paren
     const QByteArray type = definition.value(QLatin1String("ty")).toString().toLatin1();
 
     if (Q_UNLIKELY(type.size() != 2)) {
-        qCWarning(lcLottieQtLottieParser) << "Unsupported shape type:"
+        qCInfo(lcLottieQtLottieParser) << "Unsupported shape type:"
                                              << type;
         return shape;
     }
@@ -141,7 +141,7 @@ QLottieShape *QLottieShape::construct(QJsonObject definition, QLottieBase *paren
     case LOTTIE_SHAPE_TAG('g', 's'): // ### LOTTIE_SHAPE_GSTROKE_IX
         // fall through
     default:
-        qCWarning(lcLottieQtLottieParser) << "Unsupported shape type:"
+        qCInfo(lcLottieQtLottieParser) << "Unsupported shape type:"
                                              << type;
     }
 

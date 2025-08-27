@@ -679,13 +679,13 @@ int QLottieAnimation::parse(const QByteArray &jsonSource)
         m_markers.insert(marker, frame);
 
         if ((*markerIt).toObject().value(QLatin1String("dr")).toInt())
-            qCWarning(lcLottieQtLottieParser)
+            qCInfo(lcLottieQtLottieParser)
                     << "property 'dr' not support in a marker";
         ++markerIt;
     }
 
     if (rootObj.value(QLatin1String("chars")).toArray().count())
-        qCWarning(lcLottieQtLottieParser) << "chars not supported";
+        qCInfo(lcLottieQtLottieParser) << "chars not supported";
 
     setWidth(m_animWidth);
     setHeight(m_animHeight);

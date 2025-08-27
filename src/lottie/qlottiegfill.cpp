@@ -131,7 +131,7 @@ QLottieGFill::QLottieGFill(const QJsonObject &definition, QLottieBase *parent)
             }
         }
     } else {
-        qCWarning(lcLottieQtLottieParser) << "Animated gradient is not supported";
+        qCInfo(lcLottieQtLottieParser) << "Animated gradient is not supported";
     }
 
     QJsonObject opacity = definition.value(QLatin1String("o")).toObject();

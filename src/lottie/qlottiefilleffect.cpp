@@ -35,19 +35,19 @@ void QLottieFillEffect::construct(const QJsonObject &definition)
     m_opacity.construct(properties.at(6).toObject().value(QLatin1String("v")).toObject());
 
     if (!qFuzzyCompare(properties.at(0).toObject().value(QLatin1String("v")).toObject().value(QLatin1String("k")).toDouble(), 0.0))
-        qCWarning(lcLottieQtLottieParser)<< "QLottieFillEffect: Property 'Fill mask' not supported";
+        qCInfo(lcLottieQtLottieParser)<< "QLottieFillEffect: Property 'Fill mask' not supported";
 
     if (!qFuzzyCompare(properties.at(1).toObject().value(QLatin1String("v")).toObject().value(QLatin1String("k")).toDouble(), 0.0))
-        qCWarning(lcLottieQtLottieParser) << "QLottieFillEffect: Property 'All masks' not supported";
+        qCInfo(lcLottieQtLottieParser) << "QLottieFillEffect: Property 'All masks' not supported";
 
     if (!qFuzzyCompare(properties.at(3).toObject().value(QLatin1String("v")).toObject().value(QLatin1String("k")).toDouble(), 0.0))
-        qCWarning(lcLottieQtLottieParser) << "QLottieFillEffect: Property 'Invert' not supported";
+        qCInfo(lcLottieQtLottieParser) << "QLottieFillEffect: Property 'Invert' not supported";
 
     if (!qFuzzyCompare(properties.at(4).toObject().value(QLatin1String("v")).toObject().value(QLatin1String("k")).toDouble(), 0.0))
-        qCWarning(lcLottieQtLottieParser) << "QLottieFillEffect: Property 'Horizontal feather' not supported";
+        qCInfo(lcLottieQtLottieParser) << "QLottieFillEffect: Property 'Horizontal feather' not supported";
 
     if (!qFuzzyCompare(properties.at(5).toObject().value(QLatin1String("v")).toObject().value(QLatin1String("k")).toDouble(), 0.0))
-        qCWarning(lcLottieQtLottieParser)
+        qCInfo(lcLottieQtLottieParser)
                 << "QLottieFillEffect: Property 'Vertical feather' not supported";
 }
 

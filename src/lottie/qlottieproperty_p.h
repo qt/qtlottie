@@ -52,7 +52,7 @@ public:
     virtual void construct(const QJsonObject &definition)
     {
         if (definition.value(QLatin1String("s")).toVariant().toInt())
-            qCWarning(lcLottieQtLottieParser)
+            qCInfo(lcLottieQtLottieParser)
                     << "Property is split into separate x and y but it is not supported";
 
         bool fromExpression = definition.value(QLatin1String("fromExpression")).toBool();
