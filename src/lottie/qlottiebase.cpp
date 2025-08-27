@@ -9,7 +9,7 @@
 
 QT_BEGIN_NAMESPACE
 
-Q_LOGGING_CATEGORY(lcLottieQtLottieParser, "qt.lottieqt.lottie.parser");
+Q_LOGGING_CATEGORY(lcLottieQtLottieParser, "qt.lottieqt.lottie.parser", QtWarningMsg);
 Q_LOGGING_CATEGORY(lcLottieQtLottieUpdate, "qt.lottieqt.lottie.update");
 Q_LOGGING_CATEGORY(lcLottieQtLottieRender, "qt.lottieqt.lottie.render");
 
@@ -157,8 +157,7 @@ void QLottieBase::parse(const QJsonObject &definition)
     m_autoOrient = definition.value(QLatin1String("ao")).toBool();
 
     if (m_autoOrient)
-        qCWarning(lcLottieQtLottieParser)
-                << "Element has auto-orientation set, but it is not supported";
+        qCInfo(lcLottieQtLottieParser, "Element has auto-orientation set, but it is not supported");
 }
 
 const QJsonObject &QLottieBase::definition() const
