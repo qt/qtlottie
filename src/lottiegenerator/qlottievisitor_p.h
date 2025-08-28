@@ -18,6 +18,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 
+#include <QtCore/QStack>
 #include <QtGui/qbrush.h>
 #include <QtGui/qpen.h>
 
@@ -72,7 +73,10 @@ public:
 
     void render(const QLottieLayer &layer) override;
     void render(const QLottieSolidLayer &layer) override;
+    void render(const QLottieGroup &group) override;
+
     void finish(const QLottieLayer &layer) override;
+    void finish(const QLottieGroup &group) override;
 
     void render(const QLottieRect &rect) override;
     void render(const QLottieEllipse &ellipse) override;
@@ -95,7 +99,8 @@ public:
     void fillLayerAnimationInfo(const QLottieLayer *node, NodeInfo *info);
 
 private:
-    static bool nodeIsShape(const QLottieBase &node);
+    static bool nodeIsGraphicElement(const QLottieBase *node);
+    static bool nodeIsShape(const QLottieBase *node);
     static bool hasAnimations(const QLottieBasicTransform *transform, bool isShapeTransform = false);
     void processShape(const QLottieShape *shape);
     void processShape(const QLottieShape *shape, const QPainterPath &path);
@@ -115,6 +120,7 @@ private:
     qreal m_frameOffset = 0;
 
     QList<const QLottieBase *> m_layers;
+    QStack<const QLottieBase *> m_currentStructElements;
 };
 
 QT_END_NAMESPACE
