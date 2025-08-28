@@ -37,9 +37,24 @@ QLottieVisitor::QLottieVisitor(const QString lottieFileName, QQuickGenerator *ge
 {
 }
 
-bool QLottieVisitor::nodeIsShape(const QLottieBase &node)
+bool QLottieVisitor::nodeIsGraphicElement(const QLottieBase *node)
 {
-    return (node.type() >= LOTTIE_SHAPE_ELLIPSE_IX && node.type() <= LOTTIE_SHAPE_REPEATER_IX);
+    return (node->type() >= LOTTIE_SHAPE_ELLIPSE_IX && node->type() <= LOTTIE_SHAPE_REPEATER_IX);
+}
+
+bool QLottieVisitor::nodeIsShape(const QLottieBase *node)
+{
+    switch (node->type()) {
+    case LOTTIE_SHAPE_ELLIPSE_IX: Q_FALLTHROUGH();
+    case LOTTIE_SHAPE_RECT_IX: Q_FALLTHROUGH();
+    case LOTTIE_SHAPE_SHAPE_IX: Q_FALLTHROUGH();
+    case LOTTIE_SHAPE_STAR_IX:
+        return true;
+        break;
+    default:
+        break;
+    }
+    return false;
 }
 
 void QLottieVisitor::render(const QLottieRoot &root)
@@ -132,7 +147,7 @@ void QLottieVisitor::restoreState()
 
 void QLottieVisitor::render(const QLottieLayer &layer)
 {
-    QLOTTIEVISITOR_DEBUG << "[layer " << layer.name() << "type" << Qt::hex << layer.type() << "]";
+    QLOTTIEVISITOR_DEBUG << "[layer '" << layer.name() << "' type " << Qt::hex << layer.type() << "]";
 
     m_frameOffset += layer.frameOffset();
 
@@ -175,8 +190,50 @@ void QLottieVisitor::render(const QLottieSolidLayer &layer)
     }
 }
 
+void QLottieVisitor::render(const QLottieGroup &group)
+{
+    QLOTTIEVISITOR_DEBUG << "[group '" << group.name() << "' #children " << group.children().size() << "]";
+
+    bool hasGroups = false;
+    for (const QLottieBase *child : group.children()) {
+        if (child->type() == LOTTIE_SHAPE_GROUP_IX) {
+            hasGroups = true;
+            break;
+        }
+    }
+
+    // Child groups have their own transforms, so we need a structure node for correct xf ordering.
+    if (hasGroups) {
+        // We must apply the group xf already here, so it will become the structure node's xf.
+        // If non-identity, m_currentStructElements is used to avoid re-applying it on normal visit.
+        const QLottieBase *groupXf = group.children().first();
+        if (groupXf->type() == LOTTIE_SHAPE_TRANS_IX) // Always true in wellformed lottie file
+            render(*static_cast<const QLottieShapeTransform *>(groupXf));
+        const bool groupHasTransform = !m_currentPaintInfo.transform.isIdentity()
+                                       || m_currentPaintInfo.transformAnimations.size() > 0;
+        if (groupHasTransform) {
+            StructureNodeInfo info;
+            info.stage = StructureNodeStage::Start;
+            info.nodeId = group.name();
+            info.transform.setDefaultValue(QVariant::fromValue(m_currentPaintInfo.transform));
+            info.isDefaultTransform = m_currentPaintInfo.transform.isIdentity();
+
+            fillCommonNodeInfo(&group, &info);
+            fillAnimationNodeInfo(&group, &info);
+
+            m_generator->generateStructureNode(info);
+            m_currentStructElements.push(&group);
+
+            m_currentPaintInfo.transform.reset();
+            m_currentPaintInfo.transformAnimations.clear();
+        }
+    }
+}
+
 void QLottieVisitor::finish(const QLottieLayer &layer)
 {
+    QLOTTIEVISITOR_DEBUG << "[layer '" << layer.name() << "' finish]";
+
     m_frameOffset -= layer.frameOffset();
 
     StructureNodeInfo info;
@@ -184,6 +241,20 @@ void QLottieVisitor::finish(const QLottieLayer &layer)
 
     fillCommonNodeInfo(&layer, &info);
     m_generator->generateStructureNode(info);
+}
+
+void QLottieVisitor::finish(const QLottieGroup &group)
+{
+    QLOTTIEVISITOR_DEBUG << "[group '" << group.name() << "' finish]";
+
+    if (!m_currentStructElements.isEmpty() && m_currentStructElements.top() == &group) {
+        StructureNodeInfo info;
+        info.stage = StructureNodeStage::End;
+
+        fillCommonNodeInfo(&group, &info);
+        m_generator->generateStructureNode(info);
+        m_currentStructElements.pop();
+    }
 }
 
 void QLottieVisitor::render(const QLottieRect &rect)
@@ -480,6 +551,11 @@ bool QLottieVisitor::hasAnimations(const QLottieBasicTransform *transform, bool 
 
 void QLottieVisitor::render(const QLottieShapeTransform &transform)
 {
+    if (!m_currentStructElements.isEmpty() && transform.parent() == m_currentStructElements.top()) {
+        // This transform was already applied as part of a group structure node
+        return;
+    }
+
     QLOTTIEVISITOR_DEBUG << "[shape transform s=" << transform.scale()
         << ", r=" << transform.rotation()
         << ", o=" << transform.opacity() << "]";

@@ -75,6 +75,8 @@ void QLottieGroup::render(QLottieRenderer &renderer) const
 
     renderer.saveState();
 
+    renderer.render(*this);
+
     if (m_appliedTrim && !m_appliedTrim->hidden()) {
         if (m_appliedTrim->isParallel())
             renderer.setTrimmingState(QLottieRenderer::Parallel);
@@ -91,6 +93,8 @@ void QLottieGroup::render(QLottieRenderer &renderer) const
 
    if (m_appliedTrim && !m_appliedTrim->hidden() && !m_appliedTrim->isParallel())
        m_appliedTrim->render(renderer);
+
+    renderer.finish(*this);
 
     renderer.restoreState();
 }
