@@ -26,15 +26,15 @@ QT_BEGIN_NAMESPACE
 class Q_LOTTIE_EXPORT QLottieFill : public QLottieShape
 {
 public:
-    QLottieFill() = default;
     explicit QLottieFill(const QLottieFill &other);
-    QLottieFill(const QJsonObject &definition, QLottieBase *parent = nullptr);
+    QLottieFill(QLottieBase *parent = nullptr);
 
     QLottieBase *clone() const override;
 
     void updateProperties(int frame) override;
 
     void render(QLottieRenderer &renderer) const override;
+    int parse(const QJsonObject &definition) override;
 
     QColor color() const;
     qreal opacity() const;

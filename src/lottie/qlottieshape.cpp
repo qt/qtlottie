@@ -38,10 +38,16 @@ QLottieBase *QLottieShape::clone() const
 
 QLottieShape *QLottieShape::construct(QJsonObject definition, QLottieBase *parent)
 {
-    qCDebug(lcLottieQtLottieParser) << "QLottieShape::construct()";
+    qCDebug(lcLottieQtLottieParser) << "QLottieShape::parse()";
 
     QLottieShape *shape = nullptr;
-    const QByteArray type = definition.value(QLatin1String("ty")).toString().toLatin1();
+    if (!definition.contains(u"ty"_s)) {
+        qCWarning(lcLottieQtLottieParser) << "Shape"
+                << definition.value(u"nm"_s).toString()
+                << "is missing required key \"ty\"";
+        return nullptr;
+    }
+    const QByteArray type = definition.value(u"ty"_s).toString().toLatin1();
 
     if (Q_UNLIKELY(type.size() != 2)) {
         qCInfo(lcLottieQtLottieParser) << "Unsupported shape type:"
@@ -57,83 +63,105 @@ QLottieShape *QLottieShape::construct(QJsonObject definition, QLottieBase *paren
     case LOTTIE_SHAPE_TAG('g', 'r'):
     {
         qCDebug(lcLottieQtLottieParser) << "Parse group";
-        shape = new QLottieGroup(definition, parent);
+        shape = new QLottieGroup(parent);
+        if (shape->parse(definition) < 0)
+            return nullptr;
         shape->setType(LOTTIE_SHAPE_GROUP_IX);
         break;
     }
     case LOTTIE_SHAPE_TAG('r', 'c'):
     {
-        qCDebug(lcLottieQtLottieParser) << "Parse m_rect";
-        shape = new QLottieRect(definition, parent);
+        qCDebug(lcLottieQtLottieParser) << "Parse rect";
+        shape = new QLottieRect(parent);
+        if (shape->parse(definition) < 0)
+            return nullptr;
         shape->setType(LOTTIE_SHAPE_RECT_IX);
         break;
     }
     case LOTTIE_SHAPE_TAG('f', 'l'):
     {
         qCDebug(lcLottieQtLottieParser) << "Parse fill";
-        shape = new QLottieFill(definition, parent);
+        shape = new QLottieFill(parent);
+        if (shape->parse(definition) < 0)
+            return nullptr;
         shape->setType(LOTTIE_SHAPE_FILL_IX);
         break;
     }
     case LOTTIE_SHAPE_TAG('g', 'f'):
     {
-        qCDebug(lcLottieQtLottieParser) << "Parse group fill";
-        shape = new QLottieGFill(definition, parent);
+        qCDebug(lcLottieQtLottieParser) << "Parse gradient fill";
+        shape = new QLottieGFill(parent);
+        if (shape->parse(definition) < 0)
+            return nullptr;
         shape->setType(LOTTIE_SHAPE_GFILL_IX);
         break;
     }
     case LOTTIE_SHAPE_TAG('s', 't'):
     {
         qCDebug(lcLottieQtLottieParser) << "Parse stroke";
-        shape = new QLottieStroke(definition, parent);
+        shape = new QLottieStroke(parent);
+        if (shape->parse(definition) < 0)
+            return nullptr;
         shape->setType(LOTTIE_SHAPE_STROKE_IX);
         break;
     }
     case LOTTIE_SHAPE_TAG('t', 'r'):
     {
         qCDebug(lcLottieQtLottieParser) << "Parse shape transform";
-        shape = new QLottieShapeTransform(definition, parent);
+        shape = new QLottieShapeTransform(parent);
+        if (shape->parse(definition) < 0)
+            return nullptr;
         shape->setType(LOTTIE_SHAPE_TRANS_IX);
         break;
     }
     case LOTTIE_SHAPE_TAG('e', 'l'):
     {
         qCDebug(lcLottieQtLottieParser) << "Parse ellipse";
-        shape = new QLottieEllipse(definition, parent);
+        shape = new QLottieEllipse(parent);
+        if (shape->parse(definition) < 0)
+            return nullptr;
         shape->setType(LOTTIE_SHAPE_ELLIPSE_IX);
         break;
     }
     case LOTTIE_SHAPE_TAG('s', 'r'):
     {
         qCDebug(lcLottieQtLottieParser) << "Parse polystar";
-        shape = new QLottiePolyStar(definition, parent);
+        shape = new QLottiePolyStar(parent);
+        if (shape->parse(definition) < 0)
+            return nullptr;
         shape->setType(LOTTIE_SHAPE_STAR_IX);
         break;
     }
     case LOTTIE_SHAPE_TAG('r', 'd'):
     {
         qCDebug(lcLottieQtLottieParser) << "Parse round";
-        shape = new QLottieRound(definition, parent);
+        shape = new QLottieRound(parent);
+        if (shape->parse(definition) < 0)
+            return nullptr;
         shape->setType(LOTTIE_SHAPE_ROUND_IX);
         break;
     }
     case LOTTIE_SHAPE_TAG('s', 'h'):
     {
-        qCDebug(lcLottieQtLottieParser) << "Parse shape";
-        shape = new QLottieFreeFormShape(definition, parent);
+        qCDebug(lcLottieQtLottieParser) << "Parse path";
+        shape = new QLottieFreeFormShape(parent);
+        if (shape->parse(definition) < 0)
+            return nullptr;
         shape->setType(LOTTIE_SHAPE_SHAPE_IX);
         break;
     }
     case LOTTIE_SHAPE_TAG('t', 'm'):
     {
         qCDebug(lcLottieQtLottieParser) << "Parse trim path";
-        shape = new QLottieTrimPath(definition, parent);
+        shape = new QLottieTrimPath(parent);
+        if (shape->parse(definition) < 0)
+            return nullptr;
         shape->setType(LOTTIE_SHAPE_TRIM_IX);
         break;
     }
     case LOTTIE_SHAPE_TAG('r', 'p'):
     {
-        qCDebug(lcLottieQtLottieParser) << "Parse trim path";
+        qCDebug(lcLottieQtLottieParser) << "Parse repeater";
         shape = new QLottieRepeater(definition, parent);
         shape->setType(LOTTIE_SHAPE_REPEATER_IX);
         break;

@@ -42,7 +42,7 @@ public:
     void setType(int type);
     bool isShapeElement() const;
     bool isPathElement() const;
-    virtual void parse(const QJsonObject &definition);
+    virtual int parse(const QJsonObject &definition);
 
     const QJsonObject& definition() const;
 
@@ -69,6 +69,7 @@ protected:
     QLottieBase *topRoot() const;
     const QJsonObject resolveExpression(const QJsonObject& definition);
     void renderChildren(QLottieRenderer &renderer) const;
+    bool checkRequiredKey(const QJsonObject &definition, const QString &type, QList<QString> keys, const QString &name = QString());
 
 protected:
     QJsonObject m_definition;

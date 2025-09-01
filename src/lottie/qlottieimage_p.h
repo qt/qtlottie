@@ -29,13 +29,12 @@ class QJsonObject;
 class Q_LOTTIE_EXPORT QLottieImage : public QLottieBase
 {
 public:
-    QLottieImage() = default;
     explicit QLottieImage(const QLottieImage &other);
-    QLottieImage(const QJsonObject &definition, QLottieBase *parent = nullptr);
+    QLottieImage(QLottieBase *parent = nullptr);
 
     QLottieBase *clone() const override;
 
-    void construct(const QJsonObject &definition);
+    int construct(const QJsonObject &definition);
 
     void render(QLottieRenderer &renderer) const override;
 

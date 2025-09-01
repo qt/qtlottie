@@ -28,11 +28,11 @@ class Q_LOTTIE_EXPORT QLottieNullLayer : public QLottieLayer
 public:
     QLottieNullLayer() = default;
     explicit QLottieNullLayer(const QLottieNullLayer &other);
-    QLottieNullLayer(const QJsonObject &definition);
 
     QLottieBase *clone() const override;
 
     void render(QLottieRenderer &render) const override;
+    int parse(const QJsonObject &definition) override;
 };
 
 class Q_LOTTIE_EXPORT QLottieSolidLayer : public QLottieLayer
@@ -40,11 +40,11 @@ class Q_LOTTIE_EXPORT QLottieSolidLayer : public QLottieLayer
 public:
     QLottieSolidLayer() = default;
     explicit QLottieSolidLayer(const QLottieSolidLayer &other);
-    QLottieSolidLayer(const QJsonObject &definition);
 
     QLottieBase *clone() const override;
 
     void render(QLottieRenderer &render) const override;
+    int parse(const QJsonObject &definition) override;
 
     QColor color() const;
 
@@ -57,11 +57,11 @@ class Q_LOTTIE_EXPORT QLottieImageLayer : public QLottieLayer
 public:
     QLottieImageLayer() = default;
     explicit QLottieImageLayer(const QLottieImageLayer &other);
-    QLottieImageLayer(const QJsonObject &definition);
 
     QLottieBase *clone() const override;
 
     void render(QLottieRenderer &render) const override;
+    int parse(const QJsonObject &definition) override;
 };
 
 QT_END_NAMESPACE

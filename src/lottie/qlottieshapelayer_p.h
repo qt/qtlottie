@@ -30,12 +30,12 @@ class Q_LOTTIE_EXPORT QLottieShapeLayer : public QLottieLayer
 public:
     QLottieShapeLayer() = default;
     explicit QLottieShapeLayer(const QLottieShapeLayer &other);
-    QLottieShapeLayer(const QJsonObject &definition);
 
     QLottieBase *clone() const override;
 
     void updateProperties(int frame) override;
     void render(QLottieRenderer &render) const override;
+    int parse(const QJsonObject &definition) override;
 
 private:
     QLottieTrimPath *m_appliedTrim = nullptr;

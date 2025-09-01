@@ -156,15 +156,18 @@ void tst_QLottieShapeLayer::loadTestData(const QString &filename)
     int type = layerObj.value(QLatin1String("ty")).toInt();
     if (type != 4)
         QFAIL("It's not shape layer");
-    m_layer = new QLottieShapeLayer(layerObj);
+    m_layer = new QLottieShapeLayer();
+    int ret = m_layer->parse(layerObj);
     QVERIFY(m_layer != nullptr);
+    QVERIFY(ret >= 0);
 
     if (layers.size() > 1) {
         layerObj = layers[1].toObject();
         type = layerObj.value(QLatin1String("ty")).toInt();
         if (type != 4)
             QFAIL("it's not shape layer");
-        m_clippedlayer = new QLottieShapeLayer(layerObj);
+        m_clippedlayer = new QLottieShapeLayer();
+        m_clippedlayer->parse(layerObj);
         QVERIFY(m_clippedlayer != nullptr);
     }
 }

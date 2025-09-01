@@ -665,26 +665,66 @@ int QLottieAnimation::parse(const QByteArray &jsonSource)
 
     m_version = QVersionNumber::fromString(rootObj.value("v"_L1).toString());
 
-    int startFrame = rootObj.value(QLatin1String("ip")).toVariant().toInt();
-    int endFrame = rootObj.value(QLatin1String("op")).toVariant().toInt();
-    m_animFrameRate = rootObj.value(QLatin1String("fr")).toVariant().toInt();
-    m_animWidth = rootObj.value(QLatin1String("w")).toVariant().toReal();
-    m_animHeight = rootObj.value(QLatin1String("h")).toVariant().toReal();
+    int startFrame = 0;
+    if (!rootObj.contains(u"ip"_s)) {
+        qCWarning(lcLottieQtLottieParser) << "Required key \"ip\" for in point is missing";
+        return -1;
+    } else {
+        startFrame = rootObj.value(u"ip"_s).toVariant().toInt();
+    }
 
-    QJsonArray markerArr = rootObj.value(QLatin1String("markers")).toArray();
+    int endFrame = 0;
+    if (!rootObj.contains(u"op"_s)) {
+        qCWarning(lcLottieQtLottieParser) << "Required key \"op\" for out point is missing";
+        return -1;
+    } else {
+        endFrame = rootObj.value(u"op"_s).toVariant().toInt();
+    }
+
+    if (!rootObj.contains(u"fr"_s)) {
+        qCWarning(lcLottieQtLottieParser) << "Required key \"fr\" for framerate is missing";
+        return -1;
+    }
+    m_animFrameRate = rootObj.value(u"fr"_s).toVariant().toInt();
+    if (m_animFrameRate <= 0) {
+        qCWarning(lcLottieQtLottieParser) << "Framerate \"fr\" value shold be greater than 0";
+        return -1;
+    }
+
+    if (!rootObj.contains(u"w"_s)) {
+        qCWarning(lcLottieQtLottieParser) << "Required key \"w\" for width is missing";
+        return -1;
+    }
+    m_animWidth = rootObj.value(u"w"_s).toVariant().toReal();
+    if (m_animWidth < 0) {
+        qCWarning(lcLottieQtLottieParser) << "Width \"w\" value cannot be negative";
+        return -1;
+    }
+
+    if (!rootObj.contains(u"h"_s)) {
+        qCWarning(lcLottieQtLottieParser) << "Required key \"h\" for height is missing";
+        return -1;
+    }
+    m_animHeight = rootObj.value(u"h"_s).toVariant().toReal();
+    if (m_animHeight < 0) {
+        qCWarning(lcLottieQtLottieParser) << "Height \"h\" value cannot be negative";
+        return -1;
+    }
+
+    QJsonArray markerArr = rootObj.value(u"markers"_s).toArray();
     QJsonArray::const_iterator markerIt = markerArr.constBegin();
     while (markerIt != markerArr.constEnd()) {
-        QString marker = (*markerIt).toObject().value(QLatin1String("cm")).toString();
-        int frame = (*markerIt).toObject().value(QLatin1String("tm")).toInt();
+        QString marker = (*markerIt).toObject().value(u"cm"_s).toString();
+        int frame = (*markerIt).toObject().value(u"tm"_s).toInt();
         m_markers.insert(marker, frame);
 
-        if ((*markerIt).toObject().value(QLatin1String("dr")).toInt())
+        if ((*markerIt).toObject().value(u"dr"_s).toInt())
             qCInfo(lcLottieQtLottieParser)
                     << "property 'dr' not support in a marker";
         ++markerIt;
     }
 
-    if (rootObj.value(QLatin1String("chars")).toArray().count())
+    if (rootObj.value(u"chars"_s).toArray().count())
         qCInfo(lcLottieQtLottieParser) << "chars not supported";
 
     setWidth(m_animWidth);

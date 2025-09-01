@@ -24,14 +24,12 @@ class QJsonObject;
 class Q_LOTTIE_EXPORT QLottieRepeaterTransform : public QLottieBasicTransform
 {
 public:
-    QLottieRepeaterTransform() = default;
     explicit QLottieRepeaterTransform(const QLottieRepeaterTransform &other);
-    QLottieRepeaterTransform(const QJsonObject &definition,
-                        QLottieBase *parent);
+    QLottieRepeaterTransform(QLottieBase *parent = nullptr);
 
     QLottieBase *clone() const override;
 
-    void construct(const QJsonObject &definition);
+    int parse(const QJsonObject &definition) override;
 
     void updateProperties(int frame) override;
     void render(QLottieRenderer &renderer) const override;

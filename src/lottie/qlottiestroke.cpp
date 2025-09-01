@@ -24,76 +24,9 @@ QLottieStroke::QLottieStroke(const QLottieStroke &other)
     m_isDashed = other.m_isDashed;
 }
 
-QLottieStroke::QLottieStroke(const QJsonObject &definition, QLottieBase *parent)
+QLottieStroke::QLottieStroke(QLottieBase *parent)
 {
     setParent(parent);
-
-    QLottieBase::parse(definition);
-    if (m_hidden)
-        return;
-
-    qCDebug(lcLottieQtLottieParser) << "QLottieStroke::QLottieStroke()" << m_name;
-
-    int lineCap = definition.value(QLatin1String("lc")).toVariant().toInt();
-    switch (lineCap) {
-    case 1:
-        m_capStyle = Qt::FlatCap;
-        break;
-    case 2:
-        m_capStyle = Qt::RoundCap;
-        break;
-    case 3:
-        m_capStyle = Qt::SquareCap;
-        break;
-    default:
-        qCDebug(lcLottieQtLottieParser) << "Unknown line cap style in QLottieStroke";
-    }
-
-    int lineJoin = definition.value(QLatin1String("lj")).toVariant().toInt();
-    switch (lineJoin) {
-    case 1:
-        m_joinStyle = Qt::MiterJoin;
-        m_miterLimit = definition.value(QLatin1String("ml")).toVariant().toReal();
-        break;
-    case 2:
-        m_joinStyle = Qt::RoundJoin;
-        break;
-    case 3:
-        m_joinStyle = Qt::BevelJoin;
-        break;
-    default:
-        qCDebug(lcLottieQtLottieParser) << "Unknown line join style in QLottieStroke";
-    }
-
-    QJsonObject opacity = definition.value(QLatin1String("o")).toObject();
-    opacity = resolveExpression(opacity);
-    m_opacity.construct(opacity);
-
-    QJsonObject width = definition.value(QLatin1String("w")).toObject();
-    width = resolveExpression(width);
-    m_width.construct(width);
-
-    QJsonObject color = definition.value(QLatin1String("c")).toObject();
-    color = resolveExpression(color);
-    m_color.construct(color);
-
-    QJsonArray dashes = definition.value(QLatin1String("d")).toArray();
-    if (dashes.size()) {
-        auto it = dashes.cend();
-        while (it != dashes.cbegin()) {
-            --it;
-            QJsonObject dashSpec = it->toObject();
-            QJsonObject val = resolveExpression(dashSpec.value(QLatin1String("v")).toObject());
-            QString n = dashSpec.value(QLatin1String("n")).toString();
-            if (n == QLatin1String("o"))
-                m_dashOffset.construct(val);
-            else if (n == QLatin1String("g"))
-                m_dashGap.construct(val);
-            else if (n == QLatin1String("d"))
-                m_dashLength.construct(val);
-        }
-        m_isDashed = true;
-    }
 }
 
 QLottieBase *QLottieStroke::clone() const
@@ -116,6 +49,81 @@ void QLottieStroke::updateProperties(int frame)
 void QLottieStroke::render(QLottieRenderer &renderer) const
 {
     renderer.render(*this);
+}
+
+int QLottieStroke::parse(const QJsonObject &definition)
+{
+    QLottieBase::parse(definition);
+    if (m_hidden)
+        return 0;
+
+    qCDebug(lcLottieQtLottieParser) << "QLottieStroke::QLottieStroke()" << m_name;
+
+    if (!checkRequiredKey(definition, u"Stroke"_s, {u"c"_s, u"o"_s, u"w"_s}, m_name))
+        return -1;
+
+    int lineCap = definition.value(u"lc"_s).toVariant().toInt();
+    switch (lineCap) {
+    case 1:
+        m_capStyle = Qt::FlatCap;
+        break;
+    case 2:
+        m_capStyle = Qt::RoundCap;
+        break;
+    case 3:
+        m_capStyle = Qt::SquareCap;
+        break;
+    default:
+        qCDebug(lcLottieQtLottieParser) << "Unknown line cap style in QLottieStroke";
+    }
+
+    int lineJoin = definition.value(u"lj"_s).toVariant().toInt();
+    switch (lineJoin) {
+    case 1:
+        m_joinStyle = Qt::MiterJoin;
+        m_miterLimit = definition.value(u"ml"_s).toVariant().toReal();
+        break;
+    case 2:
+        m_joinStyle = Qt::RoundJoin;
+        break;
+    case 3:
+        m_joinStyle = Qt::BevelJoin;
+        break;
+    default:
+        qCDebug(lcLottieQtLottieParser) << "Unknown line join style in QLottieStroke";
+    }
+
+    QJsonObject opacity = definition.value(u"o"_s).toObject();
+    opacity = resolveExpression(opacity);
+    m_opacity.construct(opacity);
+
+    QJsonObject width = definition.value(u"w"_s).toObject();
+    width = resolveExpression(width);
+    m_width.construct(width);
+
+    QJsonObject color = definition.value(u"c"_s).toObject();
+    color = resolveExpression(color);
+    m_color.construct(color);
+
+    QJsonArray dashes = definition.value(u"d"_s).toArray();
+    if (dashes.size()) {
+        auto it = dashes.cend();
+        while (it != dashes.cbegin()) {
+            --it;
+            QJsonObject dashSpec = it->toObject();
+            QJsonObject val = resolveExpression(dashSpec.value(u"v"_s).toObject());
+            QString n = dashSpec.value(u"n"_s).toString();
+            if (n == u"o"_s)
+                m_dashOffset.construct(val);
+            else if (n == u"g"_s)
+                m_dashGap.construct(val);
+            else if (n == u"d"_s)
+                m_dashLength.construct(val);
+        }
+        m_isDashed = true;
+    }
+
+    return 0;
 }
 
 QPen QLottieStroke::pen() const

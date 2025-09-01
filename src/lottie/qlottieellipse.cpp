@@ -5,10 +5,13 @@
 
 #include <QJsonObject>
 #include <QRectF>
+#include <QString>
 
 #include "qlottietrimpath_p.h"
 
 QT_BEGIN_NAMESPACE
+
+using namespace Qt::Literals::StringLiterals;
 
 QLottieEllipse::QLottieEllipse(const QLottieEllipse &other)
     : QLottieShape(other)
@@ -17,34 +20,14 @@ QLottieEllipse::QLottieEllipse(const QLottieEllipse &other)
     m_size = other.m_size;
 }
 
-QLottieEllipse::QLottieEllipse(const QJsonObject &definition, QLottieBase *parent)
+QLottieEllipse::QLottieEllipse(QLottieBase *parent)
 {
     setParent(parent);
-    construct(definition);
 }
 
 QLottieBase *QLottieEllipse::clone() const
 {
     return new QLottieEllipse(*this);
-}
-
-void QLottieEllipse::construct(const QJsonObject &definition)
-{
-    QLottieBase::parse(definition);
-    if (m_hidden)
-        return;
-
-    qCDebug(lcLottieQtLottieParser) << "QLottieEllipse::construct():" << m_name;
-
-    QJsonObject position = definition.value(QLatin1String("p")).toObject();
-    position = resolveExpression(position);
-    m_position.construct(position);
-
-    QJsonObject size = definition.value(QLatin1String("s")).toObject();
-    size = resolveExpression(size);
-    m_size.construct(size);
-
-    m_direction = definition.value(QLatin1String("d")).toInt();
 }
 
 bool QLottieEllipse::acceptsTrim() const
@@ -73,6 +56,30 @@ void QLottieEllipse::updateProperties(int frame)
 void QLottieEllipse::render(QLottieRenderer &renderer) const
 {
     renderer.render(*this);
+}
+
+int QLottieEllipse::parse(const QJsonObject &definition)
+{
+    QLottieBase::parse(definition);
+    if (m_hidden)
+        return 0;
+
+    qCDebug(lcLottieQtLottieParser) << "QLottieEllipse::parse():" << m_name;
+
+    if (!checkRequiredKey(definition, QStringLiteral("Ellipse"), {"p", "s"}, m_name))
+        return -1;
+
+    QJsonObject position = definition.value(u"p"_s).toObject();
+    position = resolveExpression(position);
+    m_position.construct(position);
+
+    QJsonObject size = definition.value(u"s"_s).toObject();
+    size = resolveExpression(size);
+    m_size.construct(size);
+
+    m_direction = definition.value(u"d"_s).toInt();
+
+    return 0;
 }
 
 QPointF QLottieEllipse::position() const

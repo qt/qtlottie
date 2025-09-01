@@ -29,15 +29,13 @@ class QLottieTrimPath;
 class Q_LOTTIE_EXPORT QLottieGroup : public QLottieShape
 {
 public:
-    QLottieGroup() = default;
-    QLottieGroup(const QJsonObject &definition, QLottieBase *parent = nullptr);
+    QLottieGroup(QLottieBase *parent = nullptr);
 
     QLottieBase *clone() const override;
 
-    void construct(const QJsonObject &definition);
-
     void updateProperties(int frame) override;
     void render(QLottieRenderer &renderer) const override;
+    int parse(const QJsonObject &definition) override;
 
     bool acceptsTrim() const override;
     void applyTrim(const QLottieTrimPath  &trimmer) override;

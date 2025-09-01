@@ -34,16 +34,14 @@ class QJsonObject;
 class Q_LOTTIE_EXPORT QLottieEllipse : public QLottieShape
 {
 public:
-    QLottieEllipse() = default;
     explicit QLottieEllipse(const QLottieEllipse &other);
-    QLottieEllipse(const QJsonObject &definition, QLottieBase *parent = nullptr);
+    QLottieEllipse(QLottieBase *parent = nullptr);
 
     QLottieBase *clone() const override;
 
-    void construct(const QJsonObject &definition);
-
     void updateProperties(int frame) override;
     void render(QLottieRenderer &renderer) const override;
+    int parse(const QJsonObject &definition) override;
 
     bool acceptsTrim() const override;
 

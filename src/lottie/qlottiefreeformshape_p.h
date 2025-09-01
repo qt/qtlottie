@@ -33,13 +33,12 @@ class QJsonObject;
 class Q_LOTTIE_EXPORT QLottieFreeFormShape : public QLottieShape
 {
 public:
-    QLottieFreeFormShape();
     explicit QLottieFreeFormShape(const QLottieFreeFormShape &other);
-    QLottieFreeFormShape(const QJsonObject &definition, QLottieBase *parent = nullptr);
+    QLottieFreeFormShape(QLottieBase *parent = nullptr);
 
     QLottieBase *clone() const override;
 
-    void construct(const QJsonObject &definition);
+    int parse(const QJsonObject &definition) override;
 
     void updateProperties(int frame) override;
     void render(QLottieRenderer &renderer) const override;

@@ -5,13 +5,13 @@
 
 #include <QJsonObject>
 #include <QJsonArray>
-#include <QLoggingCategory>
-
-#include <QDebug>
+#include <QString>
 
 #include "qlottietrimpath_p.h"
 
 QT_BEGIN_NAMESPACE
+
+using namespace Qt::Literals::StringLiterals;
 
 QLottieRect::QLottieRect(const QLottieRect &other)
     : QLottieShape(other)
@@ -21,28 +21,9 @@ QLottieRect::QLottieRect(const QLottieRect &other)
     m_roundness = other.m_roundness;
 }
 
-QLottieRect::QLottieRect(const QJsonObject &definition, QLottieBase *parent)
+QLottieRect::QLottieRect(QLottieBase *parent)
 {
     setParent(parent);
-    QLottieBase::parse(definition);
-    if (m_hidden)
-        return;
-
-    qCDebug(lcLottieQtLottieParser) << "QLottieRect::QLottieRect():" << m_name;
-
-    QJsonObject position = definition.value(QLatin1String("p")).toObject();
-    position = resolveExpression(position);
-    m_position.construct(position);
-
-    QJsonObject size = definition.value(QLatin1String("s")).toObject();
-    size = resolveExpression(size);
-    m_size.construct(size);
-
-    QJsonObject roundness = definition.value(QLatin1String("r")).toObject();
-    roundness = resolveExpression(roundness);
-    m_roundness.construct(roundness);
-
-    m_direction = definition.value(QLatin1String("d")).toInt();
 }
 
 
@@ -91,6 +72,34 @@ void QLottieRect::render(QLottieRenderer &renderer) const
 bool QLottieRect::acceptsTrim() const
 {
     return true;
+}
+
+int QLottieRect::parse(const QJsonObject &definition)
+{
+    QLottieBase::parse(definition);
+    if (m_hidden)
+        return 0;
+
+    qCDebug(lcLottieQtLottieParser) << "QLottieRect::QLottieRect():" << m_name;
+
+    if (!checkRequiredKey(definition, u"Rectangle"_s, {u"p"_s, u"s"_s}, m_name))
+        return -1;
+
+    QJsonObject position = definition.value(u"p"_s).toObject();
+    position = resolveExpression(position);
+    m_position.construct(position);
+
+    QJsonObject size = definition.value(u"s"_s).toObject();
+    size = resolveExpression(size);
+    m_size.construct(size);
+
+    QJsonObject roundness = definition.value(u"r"_s).toObject();
+    roundness = resolveExpression(roundness);
+    m_roundness.construct(roundness);
+
+    m_direction = definition.value(u"d"_s).toInt();
+
+    return 0;
 }
 
 QPointF QLottieRect::position() const

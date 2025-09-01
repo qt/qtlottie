@@ -31,9 +31,8 @@ QT_BEGIN_NAMESPACE
 class Q_LOTTIE_EXPORT QLottieRect : public QLottieShape
 {
 public:
-    QLottieRect() = default;
     explicit QLottieRect(const QLottieRect &other);
-    QLottieRect(const QJsonObject &definition, QLottieBase *parent = nullptr);
+    QLottieRect(QLottieBase *parent = nullptr);
 
     QLottieBase *clone() const override;
 
@@ -44,6 +43,7 @@ public:
     void updateProperties(int frame) override;
     void render(QLottieRenderer &renderer) const override;
     bool acceptsTrim() const override;
+    int parse(const QJsonObject &definition) override;
 
     QPointF position() const;
     QSizeF size() const;

@@ -7,8 +7,11 @@
 #include <QRadialGradient>
 #include <QtMath>
 #include <QColor>
+#include <QString>
 
 QT_BEGIN_NAMESPACE
+
+using namespace Qt::Literals::StringLiterals;
 
 QLottieGFill::QLottieGFill(const QLottieGFill &other)
     : QLottieShape(other)
@@ -43,17 +46,49 @@ QLottieBase *QLottieGFill::clone() const
     return new QLottieGFill(*this);
 }
 
-QLottieGFill::QLottieGFill(const QJsonObject &definition, QLottieBase *parent)
+QLottieGFill::QLottieGFill(QLottieBase *parent)
 {
     setParent(parent);
+}
 
-    QLottieBase::parse(definition);
-    if (m_hidden)
+void QLottieGFill::updateProperties(int frame)
+{
+    QGradient::Type type = gradientType();
+    if (type != QGradient::LinearGradient &&
+        type != QGradient::RadialGradient)
         return;
 
-    qCDebug(lcLottieQtLottieParser) << "QLottieGFill::construct():" << m_name;
+    m_startPoint.update(frame);
+    m_endPoint.update(frame);
+    m_highlightLength.update(frame);
+    m_highlightAngle.update(frame);
+    m_opacity.update(frame);
+    QHash<qreal, QLottieProperty4D<QVector4D>>::iterator colorIt = m_colors.begin();
+    while (colorIt != m_colors.end()) {
+        (*colorIt).update(frame);
+        ++colorIt;
+    }
 
-    int type = definition.value(QLatin1String("t")).toVariant().toInt();
+    setGradient();
+}
+
+void QLottieGFill::render(QLottieRenderer &renderer) const
+{
+    renderer.render(*this);
+}
+
+int QLottieGFill::parse(const QJsonObject &definition)
+{
+    QLottieBase::parse(definition);
+    if (m_hidden)
+        return 0;
+
+    qCDebug(lcLottieQtLottieParser) << "QLottieGFill::parse():" << m_name;
+
+    if (!checkRequiredKey(definition, u"Gradient"_s, {u"s"_s, u"e"_s, u"g"_s, u"t"_s, u"o"_s}, m_name))
+        return -1;
+
+    int type = definition.value(u"t"_s).toVariant().toInt();
     switch (type) {
     case 1:
         m_gradient = new QLinearGradient;
@@ -65,11 +100,18 @@ QLottieGFill::QLottieGFill(const QJsonObject &definition, QLottieBase *parent)
         qCWarning(lcLottieQtLottieParser) << "Unknown gradient fill type";
     }
 
-    QJsonObject color = definition.value(QLatin1String("g")).toObject();
-    int elementCount = color.value(QLatin1String("p")).toInt();
-    bool isAnimated = color.value(QLatin1String("k")).toObject().value(QLatin1String("a")).toVariant().toBool();
+    QJsonObject color = definition.value(u"g"_s).toObject();
+    if (!checkRequiredKey(color, u"Gradient"_s, {u"p"_s, u"k"_s}, m_name))
+        return -1;
+
+    int elementCount = color.value(u"p"_s).toInt();
+    QJsonObject stops = color.value(u"k"_s).toObject();
+    bool isAnimated = stops.value(u"a"_s).toVariant().toBool();
+    if (!checkRequiredKey(stops, u"Gradient"_s, {u"a"_s, u"k"_s}, m_name))
+        return -1;
+
     if (!isAnimated) {
-        QJsonArray colorArr = color.value(QLatin1String("k")).toObject().value(QLatin1String("k")).toArray();
+        QJsonArray colorArr = stops.value(u"k"_s).toArray();
         for (int i = 0; i < (elementCount * 4); i += 4) {
             // p denotes the color stop percentage
             QVector4D colorVec;
@@ -135,22 +177,22 @@ QLottieGFill::QLottieGFill(const QJsonObject &definition, QLottieBase *parent)
         qCInfo(lcLottieQtLottieParser) << "Animated gradient is not supported";
     }
 
-    QJsonObject opacity = definition.value(QLatin1String("o")).toObject();
+    QJsonObject opacity = definition.value(u"o"_s).toObject();
     opacity = resolveExpression(opacity);
     m_opacity.construct(opacity);
 
-    QJsonObject startPoint = definition.value(QLatin1String("s")).toObject();
+    QJsonObject startPoint = definition.value(u"s"_s).toObject();
     startPoint = resolveExpression(startPoint);
     m_startPoint.construct(startPoint);
 
-    QJsonObject endPoint = definition.value(QLatin1String("e")).toObject();
+    QJsonObject endPoint = definition.value(u"e"_s).toObject();
     endPoint = resolveExpression(endPoint);
     m_endPoint.construct(endPoint);
 
-    QJsonObject highlight = definition.value(QLatin1String("h")).toObject();
+    QJsonObject highlight = definition.value(u"h"_s).toObject();
     m_highlightLength.construct(highlight);
 
-    QJsonObject angle = definition.value(QLatin1String("a")).toObject();
+    QJsonObject angle = definition.value(u"a"_s).toObject();
     angle = resolveExpression(angle);
     m_highlightAngle.construct(angle);
 
@@ -158,32 +200,8 @@ QLottieGFill::QLottieGFill(const QJsonObject &definition, QLottieBase *parent)
 
     const int fillValue = definition.value(QLatin1String("r")).toInt();
     m_fillRule = (fillValue == 2) ? Qt::OddEvenFill : Qt::WindingFill;
-}
 
-void QLottieGFill::updateProperties(int frame)
-{
-    QGradient::Type type = gradientType();
-    if (type != QGradient::LinearGradient &&
-        type != QGradient::RadialGradient)
-        return;
-
-    m_startPoint.update(frame);
-    m_endPoint.update(frame);
-    m_highlightLength.update(frame);
-    m_highlightAngle.update(frame);
-    m_opacity.update(frame);
-    QHash<qreal, QLottieProperty4D<QVector4D>>::iterator colorIt = m_colors.begin();
-    while (colorIt != m_colors.end()) {
-        (*colorIt).update(frame);
-        ++colorIt;
-    }
-
-    setGradient();
-}
-
-void QLottieGFill::render(QLottieRenderer &renderer) const
-{
-    renderer.render(*this);
+    return 0;
 }
 
 QGradient *QLottieGFill::value() const

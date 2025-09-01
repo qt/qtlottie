@@ -28,15 +28,15 @@ QT_BEGIN_NAMESPACE
 class Q_LOTTIE_EXPORT QLottieGFill : public QLottieShape
 {
 public:
-    QLottieGFill() = default;
     explicit QLottieGFill(const QLottieGFill &other);
-    QLottieGFill(const QJsonObject &definition, QLottieBase *parent = nullptr);
+    QLottieGFill(QLottieBase *parent = nullptr);
     ~QLottieGFill() override;
 
     QLottieBase *clone() const override;
 
     void updateProperties(int frame) override;
     void render(QLottieRenderer &renderer) const override;
+    int parse(const QJsonObject &definition) override;
 
     QGradient *value() const;
     QGradient::Type gradientType() const;

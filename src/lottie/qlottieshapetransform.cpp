@@ -19,11 +19,9 @@ QLottieShapeTransform::QLottieShapeTransform(const QLottieShapeTransform &other)
     m_shearAngle = other.m_shearAngle;
 }
 
-QLottieShapeTransform::QLottieShapeTransform(const QJsonObject &definition,
-                                   QLottieBase *parent)
+QLottieShapeTransform::QLottieShapeTransform(QLottieBase *parent)
 {
     setParent(parent);
-    construct(definition);
 }
 
 QLottieBase *QLottieShapeTransform::clone() const
@@ -31,19 +29,26 @@ QLottieBase *QLottieShapeTransform::clone() const
     return new QLottieShapeTransform(*this);
 }
 
-void QLottieShapeTransform::construct(const QJsonObject &definition)
+int QLottieShapeTransform::parse(const QJsonObject &definition)
 {
-    QLottieBasicTransform::construct(definition);
+    if (QLottieBasicTransform::parse(definition) < 0)
+        return -1;
 
-    qCDebug(lcLottieQtLottieParser) << "QLottieShapeTransform::construct():" << QLottieShape::name();
+    qCDebug(lcLottieQtLottieParser) << "QLottieShapeTransform::parse():" << QLottieShape::name();
 
-    QJsonObject skew = definition.value(QLatin1String("sk")).toObject();
-    skew = resolveExpression(skew);
-    m_skew.construct(skew);
+    if (definition.contains(u"sk"_s)) {
+        QJsonObject skew = definition.value(u"sk"_s).toObject();
+        skew = resolveExpression(skew);
+        m_skew.construct(skew);
+    }
 
-    QJsonObject skewAxis = definition.value(QLatin1String("sa")).toObject();
-    skewAxis = resolveExpression(skewAxis);
-    m_skewAxis.construct(skewAxis);
+    if (definition.contains(u"sa"_s)) {
+        QJsonObject skewAxis = definition.value(u"sa"_s).toObject();
+        skewAxis = resolveExpression(skewAxis);
+        m_skewAxis.construct(skewAxis);
+    }
+
+    return 0;
 }
 
 void QLottieShapeTransform::updateProperties(int frame)

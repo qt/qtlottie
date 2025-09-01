@@ -13,24 +13,9 @@ QLottieFill::QLottieFill(const QLottieFill &other)
     m_fillRule = other.m_fillRule;
 }
 
-QLottieFill::QLottieFill(const QJsonObject &definition, QLottieBase *parent)
+QLottieFill::QLottieFill(QLottieBase *parent)
 {
     setParent(parent);
-    QLottieBase::parse(definition);
-    if (m_hidden)
-        return;
-
-    qCDebug(lcLottieQtLottieParser) << "QLottieFill::construct():" << m_name;
-
-    QJsonObject color = definition.value(QLatin1String("c")).toObject();
-    m_color.construct(color);
-
-    QJsonObject opacity = definition.value(QLatin1String("o")).toObject();
-    opacity = resolveExpression(opacity);
-    m_opacity.construct(opacity);
-
-    const int fillValue = definition.value(QLatin1String("r")).toInt();
-    m_fillRule = (fillValue == 2) ? Qt::OddEvenFill : Qt::WindingFill;
 }
 
 QLottieBase *QLottieFill::clone() const
@@ -47,6 +32,30 @@ void QLottieFill::updateProperties(int frame)
 void QLottieFill::render(QLottieRenderer &renderer) const
 {
     renderer.render(*this);
+}
+
+int QLottieFill::parse(const QJsonObject &definition)
+{
+    QLottieBase::parse(definition);
+    if (m_hidden)
+        return 0;
+
+    qCDebug(lcLottieQtLottieParser) << "QLottieFill::parse():" << m_name;
+
+     if (!checkRequiredKey(definition, QStringLiteral("Fill"), {"o", "c"}, m_name))
+        return -1;
+
+    QJsonObject color = definition.value(u"c"_s).toObject();
+    m_color.construct(color);
+
+    QJsonObject opacity = definition.value(u"o"_s).toObject();
+    opacity = resolveExpression(opacity);
+    m_opacity.construct(opacity);
+
+    const int fillValue = definition.value(QLatin1String("r")).toInt();
+    m_fillRule = (fillValue == 2) ? Qt::OddEvenFill : Qt::WindingFill;
+
+    return 0;
 }
 
 QColor QLottieFill::color() const

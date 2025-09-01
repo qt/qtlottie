@@ -27,7 +27,7 @@ class QLottieSpatialProperty : public QLottieProperty2D<QPointF>
 public:
     virtual void construct(const QJsonObject &definition) override
     {
-        qCDebug(lcLottieQtLottieParser) << "QLottieSpatialProperty::construct()";
+        qCDebug(lcLottieQtLottieParser) << "QLottieSpatialProperty::parse()";
         m_bezierPath.setCachingEnabled(true);
         QLottieProperty2D<QPointF>::construct(definition);
     }
@@ -48,8 +48,8 @@ public:
             // If spatial property definition originates from
             // an expression (specifically Slider), it contains scalar
             // property. It must be expanded to both x and y coordinates
-            QJsonArray iArr = keyframe.value(QLatin1String("i")).toArray();
-            QJsonArray oArr = keyframe.value(QLatin1String("o")).toArray();
+            QJsonArray iArr = keyframe.value(u"i"_s).toArray();
+            QJsonArray oArr = keyframe.value(u"o"_s).toArray();
 
             if (iArr.count() && oArr.count()) {
                 tix = iArr.at(0).toDouble();
@@ -58,8 +58,8 @@ public:
                 toy = tox;
             }
         } else {
-            QJsonArray tiArr = keyframe.value(QLatin1String("ti")).toArray();
-            QJsonArray toArr = keyframe.value(QLatin1String("to")).toArray();
+            QJsonArray tiArr = keyframe.value(u"ti"_s).toArray();
+            QJsonArray toArr = keyframe.value(u"to"_s).toArray();
 
             if (tiArr.count() && toArr.count()) {
                 tix = tiArr.at(0).toDouble();
@@ -102,8 +102,8 @@ public:
             // If spatial property definition originates from
             // an expression (specifically Slider), it contains scalar
             // property. It must be expanded to both x and y coordinates
-            QJsonArray iArr = keyframe.value(QLatin1String("i")).toArray();
-            QJsonArray oArr = keyframe.value(QLatin1String("o")).toArray();
+            QJsonArray iArr = keyframe.value(u"i"_s).toArray();
+            QJsonArray oArr = keyframe.value(u"o"_s).toArray();
 
             if (iArr.count() && oArr.count()) {
                 tix = iArr.at(0).toDouble();
@@ -112,8 +112,8 @@ public:
                 toy = tox;
             }
         } else {
-            QJsonArray tiArr = keyframe.value(QLatin1String("ti")).toArray();
-            QJsonArray toArr = keyframe.value(QLatin1String("to")).toArray();
+            QJsonArray tiArr = keyframe.value(u"ti"_s).toArray();
+            QJsonArray toArr = keyframe.value(u"to"_s).toArray();
 
             if (tiArr.count() && toArr.count()) {
                 tix = tiArr.at(0).toDouble();

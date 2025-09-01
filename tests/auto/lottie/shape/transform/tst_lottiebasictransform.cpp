@@ -375,9 +375,11 @@ void tst_QLottieBasicTransform::loadTestData(const QString &filename)
         QFAIL("It's not shape layer");
 
     QJsonObject transformObj = layerObj.value(QLatin1String("ks")).toObject();
-    m_transform = new QLottieBasicTransform(transformObj);
+    m_transform = new QLottieBasicTransform();
+    int ret = m_transform->parse(transformObj);
 
     QVERIFY(m_transform != nullptr);
+    QVERIFY(ret >= 0);
 }
 
 void tst_QLottieBasicTransform::updateProperty(int frame)

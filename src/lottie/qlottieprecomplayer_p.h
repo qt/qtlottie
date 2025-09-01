@@ -26,11 +26,15 @@ class Q_LOTTIE_EXPORT QLottiePrecompLayer : public QLottieLayer
 public:
     QLottiePrecompLayer() = default;
     explicit QLottiePrecompLayer(const QLottiePrecompLayer &other);
-    QLottiePrecompLayer(const QJsonObject &definition, const QMap<QString, QJsonObject> &assets);
+    QLottiePrecompLayer(const QMap<QString, QJsonObject> &assets);
 
     QLottieBase *clone() const override;
 
     void render(QLottieRenderer &renderer) const override;
+    int parse(const QJsonObject &definition) override;
+
+private:
+    QMap<QString, QJsonObject> m_assets;
 };
 
 QT_END_NAMESPACE

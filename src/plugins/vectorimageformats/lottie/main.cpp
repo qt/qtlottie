@@ -44,7 +44,7 @@ bool QLottieVectorImagePlugin::generate(const QString &fileName, QQuickItemGener
 
         static int frameNo = qEnvironmentVariableIntValue("QLT_FRAMENO");
 
-        if (!root.parseSource(jsonSource, fileName)) {
+        if (root.parseSource(jsonSource, fileName) >= 0) {
             if (frameNo < 0)
                 frameNo = root.startFrame() + (root.endFrame() - root.startFrame()) / 2;
 

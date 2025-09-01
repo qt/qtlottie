@@ -5,7 +5,7 @@
 
 #include <QJsonObject>
 #include <QJsonArray>
-
+#include <QString>
 
 #include "qlottiebase_p.h"
 #include "qlottieimage_p.h"
@@ -16,21 +16,11 @@
 
 QT_BEGIN_NAMESPACE
 
+using namespace Qt::Literals::StringLiterals;
+
 QLottieNullLayer::QLottieNullLayer(const QLottieNullLayer &other)
     : QLottieLayer(other)
 {
-}
-
-QLottieNullLayer::QLottieNullLayer(const QJsonObject &definition)
-{
-    m_type = LOTTIE_LAYER_NULL_IX;
-
-    QLottieLayer::parse(definition);
-
-    if (m_hidden)
-        return;
-
-    qCDebug(lcLottieQtLottieParser) << "QLottieNullLayer::QLottieNullLayer()" << m_name;
 }
 
 QLottieBase *QLottieNullLayer::clone() const
@@ -53,25 +43,23 @@ void QLottieNullLayer::render(QLottieRenderer &renderer) const
     renderer.restoreState();
 }
 
+int QLottieNullLayer::parse(const QJsonObject &definition)
+{
+    m_type = LOTTIE_LAYER_NULL_IX;
+
+    int ret = QLottieLayer::parse(definition);
+
+    if (m_hidden)
+        return 0;
+
+    qCDebug(lcLottieQtLottieParser) << "QLottieNullLayer::QLottieNullLayer()" << m_name;
+    return ret;
+}
+
 QLottieSolidLayer::QLottieSolidLayer(const QLottieSolidLayer &other)
     : QLottieLayer(other)
 {
     m_color = other.m_color;
-}
-
-QLottieSolidLayer::QLottieSolidLayer(const QJsonObject &definition)
-{
-    m_type = LOTTIE_LAYER_SOLID_IX;
-
-    QLottieLayer::parse(definition);
-
-    if (m_hidden)
-        return;
-
-    m_size = QSize(definition.value(QLatin1String("sw")).toInt(-1), definition.value(QLatin1String("sh")).toInt(-1));
-    m_color = QColor(definition.value(QLatin1String("sc")).toString());
-
-    qCDebug(lcLottieQtLottieParser) << "QLottieSolidLayer::QLottieSolidLayer()" << m_name;
 }
 
 QLottieBase *QLottieSolidLayer::clone() const
@@ -94,6 +82,26 @@ void QLottieSolidLayer::render(QLottieRenderer &renderer) const
     renderer.restoreState();
 }
 
+int QLottieSolidLayer::parse(const QJsonObject &definition)
+{
+    m_type = LOTTIE_LAYER_SOLID_IX;
+
+    int ret = QLottieLayer::parse(definition);
+
+    if (m_hidden)
+        return 0;
+
+
+    if (!checkRequiredKey(definition, QStringLiteral("Layer"), {u"sw"_s, u"sh"_s, u"sc"_s}, m_name))
+        return -1;
+
+    m_size = QSize(definition.value(u"sw"_s).toInt(-1), definition.value(u"sh"_s).toInt(-1));
+    m_color = QColor(definition.value(u"sc"_s).toString());
+
+    qCDebug(lcLottieQtLottieParser) << "QLottieSolidLayer::QLottieSolidLayer()" << m_name;
+    return ret;
+}
+
 QColor QLottieSolidLayer::color() const
 {
     return m_color;
@@ -102,21 +110,6 @@ QColor QLottieSolidLayer::color() const
 QLottieImageLayer::QLottieImageLayer(const QLottieImageLayer &other)
     : QLottieLayer(other)
 {
-}
-
-QLottieImageLayer::QLottieImageLayer(const QJsonObject &definition)
-{
-    m_type = LOTTIE_LAYER_IMAGE_IX;
-
-    QLottieLayer::parse(definition);
-
-    QLottieImage *image = new QLottieImage(definition, this);
-    appendChild(image);
-
-    if (m_hidden)
-        return;
-
-    qCDebug(lcLottieQtLottieParser) << "QLottieImageLayer::QLottieImageLayer()" << m_name;
 }
 
 QLottieBase *QLottieImageLayer::clone() const
@@ -135,6 +128,26 @@ void QLottieImageLayer::render(QLottieRenderer &renderer) const
 
     renderer.finish(*this);
     renderer.restoreState();
+}
+
+int QLottieImageLayer::parse(const QJsonObject &definition)
+{
+    m_type = LOTTIE_LAYER_IMAGE_IX;
+
+    int ret = QLottieLayer::parse(definition);
+
+    if (ret >= 0) {
+        QLottieImage *image = new QLottieImage(this);
+        ret = image->construct(definition);
+        if (ret >= 0)
+            appendChild(image);
+    }
+
+    if (m_hidden)
+        return 0;
+
+    qCDebug(lcLottieQtLottieParser) << "QLottieImageLayer::QLottieImageLayer()" << m_name;
+    return ret;
 }
 
 QT_END_NAMESPACE

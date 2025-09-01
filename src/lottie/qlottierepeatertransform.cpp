@@ -13,11 +13,9 @@ QLottieRepeaterTransform::QLottieRepeaterTransform(const QLottieRepeaterTransfor
     m_opacities = other.m_opacities;
 }
 
-QLottieRepeaterTransform::QLottieRepeaterTransform(const QJsonObject &definition,
-                                                   QLottieBase *parent)
+QLottieRepeaterTransform::QLottieRepeaterTransform(QLottieBase *parent)
 {
     setParent(parent);
-    construct(definition);
 }
 
 QLottieBase *QLottieRepeaterTransform::clone() const
@@ -25,21 +23,25 @@ QLottieBase *QLottieRepeaterTransform::clone() const
     return new QLottieRepeaterTransform(*this);
 }
 
-void QLottieRepeaterTransform::construct(const QJsonObject &definition)
+int QLottieRepeaterTransform::parse(const QJsonObject &definition)
 {
-    qCDebug(lcLottieQtLottieParser) << "QLottieRepeaterTransform::construct():" << name();
+    qCDebug(lcLottieQtLottieParser) << "QLottieRepeaterTransform::parse():" << name();
 
-    QLottieBasicTransform::construct(definition);
+    if (QLottieBasicTransform::parse(definition) < 0)
+        return -1;
+
     if (m_hidden)
-        return;
+        return 0;
 
-    QJsonObject startOpacity = definition.value(QLatin1String("so")).toObject();
+    QJsonObject startOpacity = definition.value(u"so"_s).toObject();
     startOpacity = resolveExpression(startOpacity);
     m_startOpacity.construct(startOpacity);
 
-    QJsonObject endOpacity = definition.value(QLatin1String("eo")).toObject();
+    QJsonObject endOpacity = definition.value(u"eo"_s).toObject();
     endOpacity = resolveExpression(endOpacity);
     m_endOpacity.construct(endOpacity);
+
+    return 0;
 }
 
 void QLottieRepeaterTransform::updateProperties(int frame)

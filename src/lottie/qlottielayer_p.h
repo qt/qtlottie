@@ -28,7 +28,7 @@ public:
     enum MatteClipMode {NoClip, Alpha, InvertedAlpha, Luminence, InvertedLuminence};
 
     QLottieLayer() = default;
-   explicit  QLottieLayer (const QLottieLayer &other);
+    explicit QLottieLayer (const QLottieLayer &other);
     ~QLottieLayer() override;
 
     QLottieBase *clone() const override;
@@ -39,7 +39,7 @@ public:
 
     bool active(int frame) const override;
 
-    void parse(const QJsonObject &definition) override;
+    int parse(const QJsonObject &definition) override;
 
     void updateProperties(int frame) override;
     void render(QLottieRenderer &renderer) const override;

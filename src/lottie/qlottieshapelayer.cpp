@@ -22,26 +22,6 @@ QLottieShapeLayer::QLottieShapeLayer(const QLottieShapeLayer &other)
     m_appliedTrim = other.m_appliedTrim;
 }
 
-QLottieShapeLayer::QLottieShapeLayer(const QJsonObject &definition)
-{
-    m_type = LOTTIE_LAYER_SHAPE_IX;
-
-    QLottieLayer::parse(definition);
-    if (m_hidden)
-        return;
-
-    qCDebug(lcLottieQtLottieParser) << "QLottieShapeLayer::QLottieShapeLayer()" << m_name;
-
-    QJsonArray items = definition.value(QLatin1String("shapes")).toArray();
-    QJsonArray::const_iterator itemIt = items.constEnd();
-    while (itemIt != items.constBegin()) {
-        itemIt--;
-        QLottieShape *shape = QLottieShape::construct((*itemIt).toObject(), this);
-        if (shape)
-            appendChild(shape);
-    }
-}
-
 QLottieBase *QLottieShapeLayer::clone() const
 {
     return new QLottieShapeLayer(*this);
@@ -86,6 +66,31 @@ void QLottieShapeLayer::render(QLottieRenderer &renderer) const
 
     renderer.finish(*this);
     renderer.restoreState();
+}
+
+int QLottieShapeLayer::parse(const QJsonObject &definition)
+{
+    m_type = LOTTIE_LAYER_SHAPE_IX;
+
+    QLottieLayer::parse(definition);
+    if (m_hidden)
+        return 0;
+
+    qCDebug(lcLottieQtLottieParser) << "QLottieShapeLayer::QLottieShapeLayer()" << m_name;
+
+    if (!checkRequiredKey(definition, u"Layer"_s, {u"shapes"_s}, m_name))
+        return -1;
+
+    QJsonArray items = definition.value(u"shapes"_s).toArray();
+    QJsonArray::const_iterator itemIt = items.constEnd();
+    while (itemIt != items.constBegin()) {
+        itemIt--;
+        QLottieShape *shape = QLottieShape::construct((*itemIt).toObject(), this);
+        if (shape)
+            appendChild(shape);
+    }
+
+    return 0;
 }
 
 QT_END_NAMESPACE
