@@ -11,7 +11,7 @@ Window {
     width: 640
     height: 480
     visible: true
-    title: qsTr("Vector Image Demo")
+    title: qsTr("Lottietoqml Example")
     color: grid.selectedItem == null ? "black" : "darkslategray"
     visibility: Window.Maximized
 
