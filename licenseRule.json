@@ -99,6 +99,11 @@
                 "file type": "3rd party",
                 "spdx": ["LicenseRef-Lottie-Simple-License-9.13.21"]
             },
+            "examples/lottie/qtlottieviewer/logo.json": {
+                "comment": "",
+                "file type": "3rd party",
+                "spdx": ["MIT"]
+            },
             "(.*)(examples/|snippets/)": {
                 "comment": "Default",
                 "file type": "examples and snippets",
