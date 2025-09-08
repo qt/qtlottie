@@ -15,7 +15,7 @@ qt_add_executable(qtlottieviewerexample
     main.cpp
 )
 
-set(default_lottie_file "../../../tests/baseline/data/docsamples/mod/logo.json")
+set(default_lottie_file "logo.json")
 set_source_files_properties(${default_lottie_file} PROPERTIES
     QT_RESOURCE_ALIAS default_file.json
 )
