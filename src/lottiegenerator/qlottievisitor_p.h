@@ -102,7 +102,7 @@ private:
     static bool nodeIsGraphicElement(const QLottieBase *node);
     static bool nodeIsShape(const QLottieBase *node);
     static bool hasAnimations(const QLottieBasicTransform *transform, bool isShapeTransform = false);
-    void processShape(const QLottieShape *shape);
+    void processPath(const QLottieShape *shape);
     void processShape(const QLottieShape *shape, const QPainterPath &path);
     void collectTransformAnimations(const QLottieBasicTransform *transform,
                                     bool isShapeTransform = false);

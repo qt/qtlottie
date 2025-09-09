@@ -87,7 +87,8 @@ void QLottieVisitor::render(const QLottieRoot &root)
 
 QString QLottieVisitor::idForNode(const QLottieBase *node)
 {
-    QString &id = m_idForNodeId[node];
+    QString idForNull;
+    QString &id = node ? m_idForNodeId[node] : idForNull;
     if (id.isNull())
         id = QStringLiteral("_qt_node%1").arg(m_nodeIdCounter++);
     return id;
@@ -97,8 +98,9 @@ void QLottieVisitor::fillCommonNodeInfo(const QLottieBase *node,
                                         NodeInfo *info,
                                         const QString &suffix)
 {
+    info->id = idForNode(node) + suffix;
     if (node != nullptr) {
-        info->id = idForNode(node) + suffix;
+        info->nodeId = node->name();
         info->typeName = QStringLiteral("Type%1").arg(node->type());
     }
 }
@@ -162,16 +164,14 @@ void QLottieVisitor::render(const QLottieLayer &layer)
     m_frameOffset += layer.frameOffset();
 
     StructureNodeInfo info;
-    info.customItemType = QStringLiteral("LayerItem");
-    info.stage = StructureNodeStage::Start;
+    fillCommonNodeInfo(&layer, &info);
     if (layer.type() == LOTTIE_LAYER_PRECOMP_IX)
         info.nodeId = layer.definition().value(QLatin1String("refId")).toString();
-    else
-        info.nodeId = layer.name();
+    info.customItemType = QStringLiteral("LayerItem");
+    info.stage = StructureNodeStage::Start;
     info.transform.setDefaultValue(QVariant::fromValue(m_currentPaintInfo.transform));
     info.isDefaultTransform = m_currentPaintInfo.transform.isIdentity();
 
-    fillCommonNodeInfo(&layer, &info);
     fillAnimationNodeInfo(&layer, &info);
     fillLayerAnimationInfo(&layer, &info);
     if (layer.hasLinkedLayer() && layer.parent()) {
@@ -204,39 +204,46 @@ void QLottieVisitor::render(const QLottieGroup &group)
 {
     QLOTTIEVISITOR_DEBUG << "[group '" << group.name() << "' #children " << group.children().size() << "]";
 
+    bool hasShapes = false;
     bool hasGroups = false;
     for (const QLottieBase *child : group.children()) {
-        if (child->type() == LOTTIE_SHAPE_GROUP_IX) {
+        if (child->type() == LOTTIE_SHAPE_GROUP_IX)
             hasGroups = true;
-            break;
-        }
+        else if (nodeIsShape(child))
+            hasShapes = true;
     }
 
-    // Child groups have their own transforms, so we need a structure node for correct xf ordering.
-    if (hasGroups) {
+    // There are two cases where we want to generate a structure node for a LottieGroup
+    // 1) If the group contains concrete shapes, then we want a Shape node to contain the paths
+    // 2) If the group contains (sub)groups and has a transform. Since the subgroups will have
+    //    their own transforms, this group's transform must be applied first with a structure node
+
+    const QLottieBase *groupXf = group.children().first();
+    if (groupXf->type() == LOTTIE_SHAPE_TRANS_IX) { // Always true in wellformed lottie file
         // We must apply the group xf already here, so it will become the structure node's xf.
         // If non-identity, m_currentStructElements is used to avoid re-applying it on normal visit.
-        const QLottieBase *groupXf = group.children().first();
-        if (groupXf->type() == LOTTIE_SHAPE_TRANS_IX) // Always true in wellformed lottie file
-            render(*static_cast<const QLottieShapeTransform *>(groupXf));
-        const bool groupHasTransform = !m_currentPaintInfo.transform.isIdentity()
-                                       || m_currentPaintInfo.transformAnimations.size() > 0;
-        if (groupHasTransform) {
-            StructureNodeInfo info;
-            info.stage = StructureNodeStage::Start;
-            info.nodeId = group.name();
-            info.transform.setDefaultValue(QVariant::fromValue(m_currentPaintInfo.transform));
-            info.isDefaultTransform = m_currentPaintInfo.transform.isIdentity();
+        render(*static_cast<const QLottieShapeTransform *>(groupXf));
+    }
+    const bool groupHasTransform = !m_currentPaintInfo.transform.isIdentity()
+            || m_currentPaintInfo.transformAnimations.size() > 0;
+    if (hasShapes || (hasGroups && groupHasTransform)) {
+        StructureNodeInfo info;
+        fillCommonNodeInfo(&group, &info);
+        info.stage = StructureNodeStage::Start;
+        info.isPathContainer = hasShapes;
+        info.transform.setDefaultValue(QVariant::fromValue(m_currentPaintInfo.transform));
+        info.isDefaultTransform = m_currentPaintInfo.transform.isIdentity();
+        info.opacity.setDefaultValue(m_currentPaintInfo.opacity);
+        info.isDefaultOpacity = qFuzzyCompare(m_currentPaintInfo.opacity, 1.0);
 
-            fillCommonNodeInfo(&group, &info);
-            fillAnimationNodeInfo(&group, &info);
+        fillAnimationNodeInfo(&group, &info);
 
-            m_generator->generateStructureNode(info);
-            m_currentStructElements.push(&group);
+        m_generator->generateStructureNode(info);
+        m_currentStructElements.push(&group);
 
-            m_currentPaintInfo.transform.reset();
-            m_currentPaintInfo.transformAnimations.clear();
-        }
+        m_currentPaintInfo.transform.reset();
+        m_currentPaintInfo.transformAnimations.clear();
+        m_currentPaintInfo.opacity = 1.0;
     }
 }
 
@@ -258,8 +265,17 @@ void QLottieVisitor::finish(const QLottieGroup &group)
     QLOTTIEVISITOR_DEBUG << "[group '" << group.name() << "' finish]";
 
     if (!m_currentStructElements.isEmpty() && m_currentStructElements.top() == &group) {
+        bool hasShapes = false;
+        for (const QLottieBase *child : group.children()) {
+            if (nodeIsShape(child)) {
+                hasShapes = true;
+                break;
+            }
+        }
+
         StructureNodeInfo info;
         info.stage = StructureNodeStage::End;
+        info.isPathContainer = hasShapes;
 
         fillCommonNodeInfo(&group, &info);
         m_generator->generateStructureNode(info);
@@ -271,28 +287,29 @@ void QLottieVisitor::render(const QLottieRect &rect)
 {
     QLOTTIEVISITOR_DEBUG << "[rect]";
 
-    processShape(&rect);
+    processPath(&rect);
 }
 
 void QLottieVisitor::render(const QLottieEllipse &ellipse)
 {
     QLOTTIEVISITOR_DEBUG << "[ellipse]";
 
-    processShape(&ellipse);
+    processPath(&ellipse);
 }
 
 void QLottieVisitor::render(const QLottiePolyStar &star)
 {
     QLOTTIEVISITOR_DEBUG << "[star]";
 
-    processShape(&star);
+    processPath(&star);
 }
 
 void QLottieVisitor::render(const QLottieRound &round)
 {
     QLOTTIEVISITOR_DEBUG << "[round]";
 
-    processShape(&round);
+    // ### Not implemented: path rounding modifier
+    Q_UNUSED(round);
 }
 
 void QLottieVisitor::render(const QLottieFill &fill)
@@ -574,7 +591,7 @@ void QLottieVisitor::render(const QLottieFreeFormShape &shape)
 {
     QLOTTIEVISITOR_DEBUG << "[freeform]";
 
-    processShape(&shape);
+    processPath(&shape);
 }
 
 void QLottieVisitor::render(const QLottieTrimPath &trim)
@@ -645,24 +662,25 @@ void QLottieVisitor::processShape(const QLottieShape *shape, const QPainterPath 
 
     if (path.isEmpty())
         return;
+
     StructureNodeInfo info;
-    fillCommonNodeInfo(shape, &info);
+    if (m_currentStructElements.isEmpty()) {
+        fillCommonNodeInfo(shape, &info);
+        info.stage = StructureNodeStage::Start;
+        info.isPathContainer = true;
 
-    info.stage = StructureNodeStage::Start;
-    info.isPathContainer = true;
+        info.transform.setDefaultValue(QVariant::fromValue(m_currentPaintInfo.transform));
+        info.isDefaultTransform = m_currentPaintInfo.transform.isIdentity();
+        info.opacity.setDefaultValue(m_currentPaintInfo.opacity);
+        info.isDefaultOpacity = qFuzzyCompare(m_currentPaintInfo.opacity, 1.0);
 
-    info.transform.setDefaultValue(QVariant::fromValue(m_currentPaintInfo.transform));
-    info.isDefaultTransform = m_currentPaintInfo.transform.isIdentity();
-    info.opacity.setDefaultValue(m_currentPaintInfo.opacity);
-    info.isDefaultOpacity = qFuzzyCompare(m_currentPaintInfo.opacity, 1.0);
-
-    if (shape)
         fillAnimationNodeInfo(shape, &info);
 
-    m_generator->generateStructureNode(info);
+        m_generator->generateStructureNode(info);
+    }
 
     PathNodeInfo pathInfo;
-    fillCommonNodeInfo(shape, &pathInfo, QStringLiteral("_path"));
+    fillCommonNodeInfo(shape, &pathInfo, QLatin1String("_path"));
 
     pathInfo.painterPath = path;
     pathInfo.fillRule = m_currentPaintInfo.fillRule;
@@ -675,19 +693,20 @@ void QLottieVisitor::processShape(const QLottieShape *shape, const QPainterPath 
         pathInfo.trim = m_currentPaintInfo.trim;
     m_generator->generatePath(pathInfo);
 
-    info.stage = StructureNodeStage::End;
-    m_generator->generateStructureNode(info);
+    if (m_currentStructElements.isEmpty()) {
+        info.stage = StructureNodeStage::End;
+        m_generator->generateStructureNode(info);
+    }
 }
 
-void QLottieVisitor::processShape(const QLottieShape *shape)
+void QLottieVisitor::processPath(const QLottieShape *shape)
 {
-    QLOTTIEVISITOR_DEBUG << "[shape bounds=" << shape->path().controlPointRect() << "]";
+    QLOTTIEVISITOR_DEBUG << "[path bounds=" << shape->path().controlPointRect() << "]";
 
     if (trimmingState() == Sequential) {
         QPainterPath p = m_currentPaintInfo.transform.map(shape->path());
         p.addPath(m_currentPaintInfo.unitedPath);
         m_currentPaintInfo.unitedPath = p;
-    // } else if (m_buildingClipRegion) {     ###
     } else {
         processShape(shape, shape->path());
     }
