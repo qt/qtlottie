@@ -67,6 +67,17 @@ void QLottieBase::setType(int type)
     m_type = type;
 }
 
+bool QLottieBase::isShapeElement() const
+{
+    return (m_type >= LOTTIE_SHAPE_ELLIPSE_IX && m_type <= LOTTIE_SHAPE_REPEATER_IX);
+}
+
+bool QLottieBase::isPathElement() const
+{
+    return (m_type == LOTTIE_SHAPE_ELLIPSE_IX || m_type == LOTTIE_SHAPE_RECT_IX
+            || m_type == LOTTIE_SHAPE_SHAPE_IX || m_type == LOTTIE_SHAPE_STAR_IX);
+}
+
 void QLottieBase::prependChild(QLottieBase *child)
 {
     m_children.push_front(child);
@@ -111,12 +122,28 @@ void QLottieBase::render(QLottieRenderer &renderer) const
         return;
 
     renderer.saveState();
-    for (QLottieBase *child : std::as_const(m_children)) {
-        if (child->m_hidden)
-            continue;
-        child->render(renderer);
-    }
+    renderChildren(renderer);
     renderer.restoreState();
+}
+
+void QLottieBase::renderChildren(QLottieRenderer &renderer) const
+{
+    QList<QLottieBase *> pathElements;
+    for (QLottieBase *child : std::as_const(m_children)) {
+        if (child->isPathElement()) {
+            if (!child->m_hidden)
+                pathElements.prepend(child);
+        } else {
+            if (!pathElements.isEmpty()) {
+                renderer.renderPathElements(pathElements);
+                pathElements.clear();
+            }
+            if (!child->m_hidden)
+                child->render(renderer);
+        }
+    }
+    if (!pathElements.isEmpty())
+        renderer.renderPathElements(pathElements);
 }
 
 bool QLottieBase::isStructureDumping() const

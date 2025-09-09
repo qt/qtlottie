@@ -92,6 +92,7 @@ public:
     void render(const QLottieTrimPath &trim) override;
     void render(const QLottieFillEffect &effect) override;
     void render(const QLottieRepeater &repeater) override;
+    void renderPathElements(const QList<QLottieBase *> &pathElements) override;
 
     void fillCommonNodeInfo(const QLottieBase *node, NodeInfo *info, const QString &suffix = QString{});
     void fillAnimationNodeInfo(const QLottieBase *node, NodeInfo *info);
@@ -102,7 +103,7 @@ private:
     static bool nodeIsGraphicElement(const QLottieBase *node);
     static bool nodeIsShape(const QLottieBase *node);
     static bool hasAnimations(const QLottieBasicTransform *transform, bool isShapeTransform = false);
-    void processPath(const QLottieShape *shape);
+    void processPath(const QLottieShape *shape, const QPainterPath &path);
     void processShape(const QLottieShape *shape, const QPainterPath &path);
     void collectTransformAnimations(const QLottieBasicTransform *transform,
                                     bool isShapeTransform = false);

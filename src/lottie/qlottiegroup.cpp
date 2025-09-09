@@ -85,14 +85,10 @@ void QLottieGroup::render(QLottieRenderer &renderer) const
     } else
         renderer.setTrimmingState(QLottieRenderer::Off);
 
-   for (QLottieBase *child : children()) {
-        if (child->hidden())
-            continue;
-        child->render(renderer);
-   }
+    renderChildren(renderer);
 
-   if (m_appliedTrim && !m_appliedTrim->hidden() && !m_appliedTrim->isParallel())
-       m_appliedTrim->render(renderer);
+    if (m_appliedTrim && !m_appliedTrim->hidden() && !m_appliedTrim->isParallel())
+        m_appliedTrim->render(renderer);
 
     renderer.finish(*this);
 

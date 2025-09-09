@@ -51,9 +51,11 @@ public:
     void render(const QLottieTrimPath &trans) override;
     void render(const QLottieFillEffect &effect) override;
     void render(const QLottieRepeater &repeater) override;
+    void renderPathElements(const QList<QLottieBase *> &pathElements) override;
 
 protected:
     QPainter *m_painter = nullptr;
+    QPainterPath m_renderPath;
     QPainterPath m_unitedPath;
     // TODO: create a context to handle paths and effect
     // instead of pushing each to a stack independently

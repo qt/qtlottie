@@ -40,6 +40,8 @@ public:
 
     int type() const;
     void setType(int type);
+    bool isShapeElement() const;
+    bool isPathElement() const;
     virtual void parse(const QJsonObject &definition);
 
     const QJsonObject& definition() const;
@@ -66,6 +68,7 @@ protected:
     void resolveTopRoot();
     QLottieBase *topRoot() const;
     const QJsonObject resolveExpression(const QJsonObject& definition);
+    void renderChildren(QLottieRenderer &renderer) const;
 
 protected:
     QJsonObject m_definition;

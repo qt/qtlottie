@@ -74,6 +74,7 @@ public:
     virtual void render(const QLottieTrimPath &trans) = 0;
     virtual void render(const QLottieFillEffect &effect) = 0;
     virtual void render(const QLottieRepeater &repeater) = 0;
+    virtual void renderPathElements(const QList<QLottieBase *> &pathElements) = 0;
 
     virtual void finish(const QLottieLayer &) {}
     virtual void finish(const QLottieGroup &) {}

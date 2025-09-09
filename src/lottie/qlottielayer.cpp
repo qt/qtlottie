@@ -205,11 +205,7 @@ void QLottieLayer::render(QLottieRenderer &renderer) const
 
     renderer.render(*this);
 
-    for (QLottieBase *child : children()) {
-        if (child->hidden())
-            continue;
-        child->render(renderer);
-    }
+    renderChildren(renderer);
 }
 
 QLottieBase *QLottieLayer::findChild(const QString &childName)
