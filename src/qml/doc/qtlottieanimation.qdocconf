@@ -35,7 +35,7 @@ qhp.QtLottieAnimation.subprojects.examples.sortPages = true
 
 tagfile                 = qtlottieanimation.tags
 
-examplesinstallpath     = lottieanimation
+examplesinstallpath     = lottie
 
 navigation.landingpage  = Qt Lottie Animation
 navigation.qmltypespage = Qt Lottie Animation QML Types
