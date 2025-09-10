@@ -45,3 +45,6 @@ exampledirs += \
 
 # Allow zero warnings when testing documentation in CI
 warninglimit = 0
+
+manifestmeta.highlighted.names = \
+    "QtLottieAnimation/lottietoqml Example"
