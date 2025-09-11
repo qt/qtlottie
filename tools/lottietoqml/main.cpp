@@ -13,15 +13,20 @@
 #include <QtLottie/private/qlottieroot_p.h>
 #include <QtLottieVectorImageGenerator/private/qlottievisitor_p.h>
 
-#define ENABLE_GUI
+#include <QtGui/qpa/qplatformintegrationfactory_p.h>
+#include <QtGui/private/qguiapplication_p.h>
 
 int main(int argc, char *argv[])
 {
-#ifdef ENABLE_GUI
+    const QStringList platforms = QPlatformIntegrationFactory::keys();
+    const bool useOffscreenPlugin = platforms.contains(QGuiApplication::platformName())
+                                    && !qEnvironmentVariableIsEmpty("QT_QPA_PLATFORM")
+                                    && platforms.contains("offscreen");
+
+    if (useOffscreenPlugin)
+        qputenv("QT_QPA_PLATFORM", QByteArrayLiteral("offscreen"));
+
     QGuiApplication app(argc, argv);
-#else
-    QCoreApplication app(argc, argv);
-#endif
 
     QCommandLineParser parser;
     parser.setApplicationDescription("Lottie to QML converter [tech preview]");
@@ -70,12 +75,10 @@ int main(int argc, char *argv[])
                                                                            "this option is set."));
     parser.addOption(keepPathsOption);
 
-#ifdef ENABLE_GUI
     QCommandLineOption guiOption({ "v", "view" },
                                  QCoreApplication::translate("main", "Display the generated QML in a window. This is the default behavior if no "
                                                                      "output file is specified."));
     parser.addOption(guiOption);
-#endif
     parser.process(app);
     const QStringList args = parser.positionalArguments();
     if (args.size() < 1) {
@@ -134,8 +137,7 @@ int main(int argc, char *argv[])
         }
     }
 
-#if defined(ENABLE_GUI)
-    if (ok && (parser.isSet(guiOption) || outFileName.isEmpty())) {
+    if (!useOffscreenPlugin && ok && (parser.isSet(guiOption) || outFileName.isEmpty())) {
         app.setOrganizationName("QtProject");
         const QUrl url(QStringLiteral("qrc:/main.qml"));
         QQmlApplicationEngine engine;
@@ -155,7 +157,6 @@ int main(int argc, char *argv[])
         engine.load(url);
         return app.exec();
     }
-#endif
 
     return ok ? 0 : 1;
 }
