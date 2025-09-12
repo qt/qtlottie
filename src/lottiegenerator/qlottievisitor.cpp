@@ -62,6 +62,8 @@ void QLottieVisitor::render(const QLottieRoot &root)
     enumerateLayerChildren(&root);
 
     StructureNodeInfo info;
+    fillCommonNodeInfo(&root, &info);
+
     const QJsonObject rootObj = root.definition();
     info.size = QSize(rootObj.value("w"_L1).toInt(), rootObj.value("h"_L1).toInt());
 
@@ -85,12 +87,26 @@ void QLottieVisitor::render(const QLottieRoot &root)
     m_generator->generateRootNode(info);
 }
 
-void QLottieVisitor::fillCommonNodeInfo(const QLottieBase *node, NodeInfo *info)
+QString QLottieVisitor::nextNodeId() const
 {
-    Q_ASSERT(node);
-    Q_ASSERT(info);
+    return QStringLiteral("_qt_node%1").arg(m_nodeIdCounter++);
+}
 
-    info->typeName = QStringLiteral("Type%1").arg(node->type());
+void QLottieVisitor::fillCommonNodeInfo(const QLottieBase *node,
+                                        NodeInfo *info,
+                                        const QString &suffix)
+{
+    if (node != nullptr) {
+        info->id = m_idForNodeId.value(node);
+        if (info->id.isEmpty()) {
+            info->id = nextNodeId();
+            m_idForNodeId.insert(node, info->id);
+        }
+
+        info->typeName = QStringLiteral("Type%1").arg(node->type());
+
+        info->id += suffix;
+    }
 }
 
 void QLottieVisitor::fillLayerAnimationInfo(const QLottieLayer *node, NodeInfo *info)
@@ -644,6 +660,8 @@ void QLottieVisitor::processShape(const QLottieShape *shape, const QPainterPath 
     if (path.isEmpty())
         return;
     StructureNodeInfo info;
+    fillCommonNodeInfo(shape, &info);
+
     info.stage = StructureNodeStage::Start;
     info.isPathContainer = true;
 
@@ -652,14 +670,13 @@ void QLottieVisitor::processShape(const QLottieShape *shape, const QPainterPath 
     info.opacity.setDefaultValue(m_currentPaintInfo.opacity);
     info.isDefaultOpacity = qFuzzyCompare(m_currentPaintInfo.opacity, 1.0);
 
-    if (shape) {
-        fillCommonNodeInfo(shape, &info);
+    if (shape)
         fillAnimationNodeInfo(shape, &info);
-    }
 
     m_generator->generateStructureNode(info);
 
     PathNodeInfo pathInfo;
+    fillCommonNodeInfo(shape, &pathInfo, QStringLiteral("_path"));
 
     pathInfo.painterPath = path;
     pathInfo.fillRule = m_currentPaintInfo.fillRule;

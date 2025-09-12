@@ -93,7 +93,7 @@ public:
     void render(const QLottieFillEffect &effect) override;
     void render(const QLottieRepeater &repeater) override;
 
-    void fillCommonNodeInfo(const QLottieBase *node, NodeInfo *info);
+    void fillCommonNodeInfo(const QLottieBase *node, NodeInfo *info, const QString &suffix = QString{});
     void fillAnimationNodeInfo(const QLottieBase *node, NodeInfo *info);
     void fillBasicPathInfo(const QLottieShape *strokeOrFill, PathNodeInfo *pathInfo);
     void fillLayerAnimationInfo(const QLottieLayer *node, NodeInfo *info);
@@ -107,6 +107,7 @@ private:
     void collectTransformAnimations(const QLottieBasicTransform *transform,
                                     bool isShapeTransform = false);
     void enumerateLayerChildren(const QLottieBase *node);
+    QString nextNodeId() const;
 
     QString m_lottieFileName;
     QQuickGenerator *m_generator;
@@ -121,6 +122,9 @@ private:
 
     QList<const QLottieBase *> m_layers;
     QStack<const QLottieBase *> m_currentStructElements;
+
+    mutable int m_nodeIdCounter = 0;
+    QHash<const QLottieBase *, QString> m_idForNodeId;
 };
 
 QT_END_NAMESPACE
