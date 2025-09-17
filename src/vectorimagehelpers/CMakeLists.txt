@@ -4,7 +4,6 @@
 qt_internal_add_qml_module(LottieVectorImageHelpers
     URI "Qt.labs.lottieqt.VectorImageHelpers"
     VERSION "${PROJECT_VERSION}"
-    NO_PLUGIN_OPTIONAL
     CLASS_NAME QLottieVectorImageHelpersPlugin
     SOURCES
         qquicklayeritem_p.h qquicklayeritem.cpp

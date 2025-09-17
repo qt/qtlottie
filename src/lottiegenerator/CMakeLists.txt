@@ -11,5 +11,5 @@ qt_internal_add_module(LottieVectorImageGeneratorPrivate
         Qt::QuickShapesPrivate
         Qt::QuickVectorImageGeneratorPrivate
         Qt::LottiePrivate
-
+        Qt::LottieVectorImageHelpers
 )
