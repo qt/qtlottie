@@ -57,7 +57,7 @@ protected:
     QLottieProperty<qreal> m_start;
     QLottieProperty<qreal> m_end;
     QLottieProperty<qreal> m_offset;
-    bool m_isParallel = false;
+    bool m_isParallel = true;
 };
 
 QT_END_NAMESPACE

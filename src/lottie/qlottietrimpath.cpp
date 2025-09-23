@@ -56,19 +56,8 @@ void QLottieTrimPath::construct(const QJsonObject &definition)
     offset = resolveExpression(offset);
     m_offset.construct(offset);
 
-    int multiMode = 1;
-    if (definition.contains(QLatin1String("m"))) {
-        multiMode = definition.value(QLatin1String("m")).toInt();
-    }
-    m_isParallel = (multiMode == 1);
-
-    if (strcmp(qgetenv("QLOTTIE_FORCE_TRIM_MODE"), "sequential") == 0) {
-        qCDebug(lcLottieQtLottieRender) << "Forcing trim mode to Sequential";
-        m_isParallel = true;
-    } else if (strcmp(qgetenv("QLOTTIE_FORCE_TRIM_MODE"), "parallel") == 0) {
-        qCDebug(lcLottieQtLottieRender) << "Forcing trim mode to Parallel";
-        m_isParallel = false;
-    }
+    const int multiMode = definition.value(QLatin1String("m")).toInt();
+    m_isParallel = (multiMode != 2);
 }
 
 void QLottieTrimPath::updateProperties(int frame)
