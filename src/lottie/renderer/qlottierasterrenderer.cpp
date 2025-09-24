@@ -32,6 +32,7 @@ QLottieRasterRenderer::QLottieRasterRenderer(QPainter *painter)
     : m_painter(painter)
 {
     m_painter->setPen(QPen(Qt::NoPen));
+    m_unitedPath.setCachingEnabled(true);
 }
 
 void QLottieRasterRenderer::saveState()
@@ -41,7 +42,7 @@ void QLottieRasterRenderer::saveState()
     saveTrimmingState();
     m_pathStack.push_back(m_unitedPath);
     m_fillEffectStack.push_back(m_fillEffect);
-    m_unitedPath = QPainterPath();
+    m_unitedPath.clear();
 }
 
 void QLottieRasterRenderer::restoreState()
@@ -221,6 +222,8 @@ void QLottieRasterRenderer::render(const QLottieFill &fill)
     QColor color = fill.color();
     color.setAlphaF(alpha);
     m_painter->setBrush(color);
+    m_unitedPath.setFillRule(fill.fillRule());
+    m_clipPath.setFillRule(fill.fillRule());
 }
 
 void QLottieRasterRenderer::render(const QLottieGFill &gradient)
@@ -237,6 +240,8 @@ void QLottieRasterRenderer::render(const QLottieGFill &gradient)
         qCWarning(lcLottieQtLottieRender) << "Gradient:"
                                              << gradient.name()
                                              << "Cannot draw gradient fill";
+    m_unitedPath.setFillRule(gradient.fillRule());
+    m_clipPath.setFillRule(gradient.fillRule());
 }
 
 void QLottieRasterRenderer::render(const QLottieStroke &stroke)
@@ -296,8 +301,11 @@ void QLottieRasterRenderer::render(const QLottieFreeFormShape &shape)
             QPainterPath tp = t.map(shape.path());
             tp.addPath(m_clipPath);
             m_clipPath = tp;
-        } else
-            m_painter->drawPath(shape.path());
+        } else {
+            QPainterPath path = shape.path();
+            path.setFillRule(m_unitedPath.fillRule());
+            m_painter->drawPath(path);
+        }
     }
 
     m_painter->restore();

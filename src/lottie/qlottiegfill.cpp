@@ -29,6 +29,7 @@ QLottieGFill::QLottieGFill(const QLottieGFill &other)
     else {
         Q_UNREACHABLE();
     }
+    m_fillRule = other.m_fillRule;
 }
 
 QLottieGFill::~QLottieGFill()
@@ -154,6 +155,9 @@ QLottieGFill::QLottieGFill(const QJsonObject &definition, QLottieBase *parent)
     m_highlightAngle.construct(angle);
 
     m_highlightAngle.setValue(0.0);
+
+    const int fillValue = definition.value(QLatin1String("r")).toInt();
+    m_fillRule = (fillValue == 2) ? Qt::OddEvenFill : Qt::WindingFill;
 }
 
 void QLottieGFill::updateProperties(int frame)
@@ -218,6 +222,11 @@ qreal QLottieGFill::highlightAngle() const
 qreal QLottieGFill::opacity() const
 {
     return m_opacity.value();
+}
+
+Qt::FillRule QLottieGFill::fillRule() const
+{
+    return m_fillRule;
 }
 
 void QLottieGFill::setGradient()

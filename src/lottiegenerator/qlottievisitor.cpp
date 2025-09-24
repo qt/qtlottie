@@ -319,9 +319,7 @@ void QLottieVisitor::render(const QLottieFill &fill)
     QColor color = fill.color();
     color.setAlphaF(color.alphaF() * (fill.opacity() / 100.0));
     m_currentPaintInfo.fill = color;
-
-    bool isEvenOdd = (fill.definition().value(QLatin1String("r")).toInt() == 2);
-    m_currentPaintInfo.fillRule = isEvenOdd ? Qt::OddEvenFill : Qt::WindingFill;
+    m_currentPaintInfo.fillRule = fill.fillRule();
 }
 
 void QLottieVisitor::render(const QLottieGFill &gradient)
@@ -330,8 +328,7 @@ void QLottieVisitor::render(const QLottieGFill &gradient)
 
     if (gradient.value() != nullptr)
         m_currentPaintInfo.fill = *gradient.value();
-    bool isEvenOdd = (gradient.definition().value(QLatin1String("r")).toInt() == 2);
-    m_currentPaintInfo.fillRule = isEvenOdd ? Qt::OddEvenFill : Qt::WindingFill;
+    m_currentPaintInfo.fillRule = gradient.fillRule();
 }
 
 void QLottieVisitor::render(const QLottieImage &image)

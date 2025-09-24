@@ -10,6 +10,7 @@ QLottieFill::QLottieFill(const QLottieFill &other)
 {
     m_color = other.m_color;
     m_opacity = other.m_opacity;
+    m_fillRule = other.m_fillRule;
 }
 
 QLottieFill::QLottieFill(const QJsonObject &definition, QLottieBase *parent)
@@ -27,6 +28,9 @@ QLottieFill::QLottieFill(const QJsonObject &definition, QLottieBase *parent)
     QJsonObject opacity = definition.value(QLatin1String("o")).toObject();
     opacity = resolveExpression(opacity);
     m_opacity.construct(opacity);
+
+    const int fillValue = definition.value(QLatin1String("r")).toInt();
+    m_fillRule = (fillValue == 2) ? Qt::OddEvenFill : Qt::WindingFill;
 }
 
 QLottieBase *QLottieFill::clone() const
@@ -60,6 +64,11 @@ QColor QLottieFill::color() const
 qreal QLottieFill::opacity() const
 {
     return m_opacity.value();
+}
+
+Qt::FillRule QLottieFill::fillRule() const
+{
+    return m_fillRule;
 }
 
 QT_END_NAMESPACE

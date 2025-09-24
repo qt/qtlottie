@@ -38,10 +38,12 @@ public:
 
     QColor color() const;
     qreal opacity() const;
+    Qt::FillRule fillRule() const;
 
 protected:
     QLottieProperty4D<QVector4D> m_color;
     QLottieProperty<qreal> m_opacity;
+    Qt::FillRule m_fillRule = Qt::WindingFill;
 };
 
 QT_END_NAMESPACE

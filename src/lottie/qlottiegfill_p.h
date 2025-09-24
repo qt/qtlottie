@@ -45,6 +45,7 @@ public:
     qreal highlightLength() const;
     qreal highlightAngle() const;
     qreal opacity() const;
+    Qt::FillRule fillRule() const;
 
 private:
     void setGradient();
@@ -57,6 +58,7 @@ protected:
     QLottieProperty<qreal> m_highlightAngle;
     QHash<qreal, QLottieProperty4D<QVector4D>> m_colors;
     QGradient *m_gradient = nullptr;
+    Qt::FillRule m_fillRule = Qt::WindingFill;
 };
 
 QT_END_NAMESPACE
