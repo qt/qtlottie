@@ -2,7 +2,7 @@
     {
         "Id": "fingerprint-icon",
         "Name": "Fingerprint Icon",
-        "QDocModule": "qtlottie",
+        "QDocModule": "qtlottieanimation",
         "QtUsage": "Used in the lottietoqml Example",
         "QtParts": [ "examples" ],
         "Files": [ "original/FingerprintIcon.json", "generated/FingerprintIcon.qml" ],
@@ -14,7 +14,7 @@
     {
         "Id": "google-icons",
         "Name": "Google Icons",
-        "QDocModule": "qtlottie",
+        "QDocModule": "qtlottieanimation",
         "QtUsage": "Used in the lottietoqml Example",
         "QtParts": [ "examples" ],
         "Files": [ "original/GoogleIcons.json", "generated/GoogleIcons.qml" ],
@@ -26,7 +26,7 @@
     {
         "Id": "happy-star",
         "Name": "Happy Star",
-        "QDocModule": "qtlottie",
+        "QDocModule": "qtlottieanimation",
         "QtUsage": "Used in the lottietoqml Example",
         "QtParts": [ "examples" ],
         "Files": [ "original/HappyStar.json", "generated/HappyStar.qml" ],
@@ -38,7 +38,7 @@
     {
         "Id": "heartbeat-medical",
         "Name": "Heartbeat | Medical",
-        "QDocModule": "qtlottie",
+        "QDocModule": "qtlottieanimation",
         "QtUsage": "Used in the lottietoqml Example",
         "QtParts": [ "examples" ],
         "Files": [ "original/HeartMedical.json", "generated/HeartMedical.qml" ],
@@ -50,7 +50,7 @@
     {
         "Id": "surprised-boy",
         "Name": "Surprised Boy",
-        "QDocModule": "qtlottie",
+        "QDocModule": "qtlottieanimation",
         "QtUsage": "Used in the lottietoqml Example",
         "QtParts": [ "examples" ],
         "Files": [ "original/SurprisedBoy.json", "generated/SurprisedBoy.qml" ],
@@ -62,7 +62,7 @@
     {
         "Id": "usa-map-with-outlines-blue",
         "Name": "USA Map with outlines blue",
-        "QDocModule": "qtlottie",
+        "QDocModule": "qtlottieanimation",
         "QtUsage": "Used in the lottietoqml Example",
         "QtParts": [ "examples" ],
         "Files": [ "original/USAMapWithOutlines.json", "generated/USAMapWithOutlines.qml" ],
@@ -74,7 +74,7 @@
     {
         "Id": "user-authentication",
         "Name": "User Authentication",
-        "QDocModule": "qtlottie",
+        "QDocModule": "qtlottieanimation",
         "QtUsage": "Used in the lottietoqml Example",
         "QtParts": [ "examples" ],
         "Files": [ "original/UserAuthentication.json", "generated/UserAuthentication.qml" ],
@@ -86,7 +86,7 @@
     {
         "Id": "user-interaction",
         "Name": "User Interaction",
-        "QDocModule": "qtlottie",
+        "QDocModule": "qtlottieanimation",
         "QtUsage": "Used in the lottietoqml Example",
         "QtParts": [ "examples" ],
         "Files": [ "original/UserInteractionAnimation.json", "generated/UserInteractionAnimation.qml" ],
@@ -98,7 +98,7 @@
     {
         "Id": "user-interface",
         "Name": "User Interface",
-        "QDocModule": "qtlottie",
+        "QDocModule": "qtlottieanimation",
         "QtUsage": "Used in the lottietoqml Example",
         "QtParts": [ "examples" ],
         "Files": [ "original/UserInterface.json", "generated/UserInterface.qml" ],
