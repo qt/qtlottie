@@ -2,7 +2,7 @@
     {
         "Id": "lottielogo",
         "Name": "Lottie Logo",
-        "QDocModule": "qtlottie",
+        "QDocModule": "qtlottieanimation",
         "QtUsage": "Used in the qtlottieviewer Example",
         "QtParts": [ "examples" ],
         "Files": [ "logo.json"  ],

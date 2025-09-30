@@ -2,7 +2,7 @@
     {
         "Id": "lottiedocs-examples",
         "Name": "Example Lottie files from github.com/LottieFiles/lottie-docs",
-        "QDocModule": "qtlottie",
+        "QDocModule": "qtlottieanimation",
         "QtUsage": "Used for baseline testing",
         "QtParts": [ "tests" ],
         "Path": "docsamples",
