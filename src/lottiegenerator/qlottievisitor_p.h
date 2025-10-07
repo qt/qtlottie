@@ -106,8 +106,7 @@ private:
     void processShape(const QLottieShape *shape, const QPainterPath &path);
     void collectTransformAnimations(const QLottieBasicTransform *transform,
                                     bool isShapeTransform = false);
-    void enumerateLayerChildren(const QLottieBase *node);
-    QString nextNodeId() const;
+    QString idForNode(const QLottieBase *node);
 
     QString m_lottieFileName;
     QQuickGenerator *m_generator;
@@ -120,10 +119,9 @@ private:
     int m_duration = 1000;
     qreal m_frameOffset = 0;
 
-    QList<const QLottieBase *> m_layers;
     QStack<const QLottieBase *> m_currentStructElements;
 
-    mutable int m_nodeIdCounter = 0;
+    int m_nodeIdCounter = 0;
     QHash<const QLottieBase *, QString> m_idForNodeId;
 };
 

@@ -59,8 +59,6 @@ bool QLottieVisitor::nodeIsShape(const QLottieBase *node)
 
 void QLottieVisitor::render(const QLottieRoot &root)
 {
-    enumerateLayerChildren(&root);
-
     StructureNodeInfo info;
     fillCommonNodeInfo(&root, &info);
 
@@ -87,9 +85,12 @@ void QLottieVisitor::render(const QLottieRoot &root)
     m_generator->generateRootNode(info);
 }
 
-QString QLottieVisitor::nextNodeId() const
+QString QLottieVisitor::idForNode(const QLottieBase *node)
 {
-    return QStringLiteral("_qt_node%1").arg(m_nodeIdCounter++);
+    QString &id = m_idForNodeId[node];
+    if (id.isNull())
+        id = QStringLiteral("_qt_node%1").arg(m_nodeIdCounter++);
+    return id;
 }
 
 void QLottieVisitor::fillCommonNodeInfo(const QLottieBase *node,
@@ -97,15 +98,8 @@ void QLottieVisitor::fillCommonNodeInfo(const QLottieBase *node,
                                         const QString &suffix)
 {
     if (node != nullptr) {
-        info->id = m_idForNodeId.value(node);
-        if (info->id.isEmpty()) {
-            info->id = nextNodeId();
-            m_idForNodeId.insert(node, info->id);
-        }
-
+        info->id = idForNode(node) + suffix;
         info->typeName = QStringLiteral("Type%1").arg(node->type());
-
-        info->id += suffix;
     }
 }
 
@@ -168,6 +162,7 @@ void QLottieVisitor::render(const QLottieLayer &layer)
     m_frameOffset += layer.frameOffset();
 
     StructureNodeInfo info;
+    info.customItemType = QStringLiteral("LayerItem");
     info.stage = StructureNodeStage::Start;
     if (layer.type() == LOTTIE_LAYER_PRECOMP_IX)
         info.nodeId = layer.definition().value(QLatin1String("refId")).toString();
@@ -179,15 +174,14 @@ void QLottieVisitor::render(const QLottieLayer &layer)
     fillCommonNodeInfo(&layer, &info);
     fillAnimationNodeInfo(&layer, &info);
     fillLayerAnimationInfo(&layer, &info);
-    info.layerNum = m_layers.indexOf(&layer);
     if (layer.hasLinkedLayer() && layer.parent()) {
         for (const QLottieBase *sibling : layer.parent()->children()) {
             if (auto siblingLayer = QLottieLayer::checkedCast(sibling)) {
                 if (siblingLayer != &layer && siblingLayer->layerId() == layer.linkedLayerId())
-                    info.transformReferenceLayerNum = m_layers.indexOf(siblingLayer);
+                    info.transformReferenceId = idForNode(siblingLayer);
             }
         }
-        QLOTTIEVISITOR_DEBUG << "  xf link resolved to layernum" << info.transformReferenceLayerNum;
+        QLOTTIEVISITOR_DEBUG << "  xf link resolved to layer " << info.transformReferenceId;
     }
 
     m_generator->generateStructureNode(info);
@@ -531,14 +525,6 @@ void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *tra
         }
         m_currentPaintInfo.transformAnimations.append(info);
     }
-}
-
-void QLottieVisitor::enumerateLayerChildren(const QLottieBase *node)
-{
-    if (auto layer = QLottieLayer::checkedCast(node))
-        m_layers.append(layer);
-    for (const QLottieBase *child : node->children())
-        enumerateLayerChildren(child);
 }
 
 bool QLottieVisitor::hasAnimations(const QLottieBasicTransform *transform, bool isShapeTransform)
