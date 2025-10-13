@@ -18,7 +18,7 @@ find_package(Qt6 ${PROJECT_VERSION} CONFIG REQUIRED COMPONENTS BuildInternals)
 qt_internal_project_setup()
 
 find_package(Qt6 ${PROJECT_VERSION} CONFIG REQUIRED COMPONENTS Core)
-find_package(Qt6 ${PROJECT_VERSION} QUIET CONFIG OPTIONAL_COMPONENTS Gui Qml Quick QuickTest
+find_package(Qt6 ${PROJECT_VERSION} QUIET CONFIG OPTIONAL_COMPONENTS Gui Qml Quick QuickTest QuickTestUtilsPrivate
 QuickVectorImageGeneratorPrivate QuickControls2)
 
 if(NOT TARGET Qt6::Gui)
