@@ -19,6 +19,7 @@ find_package(Qt6 ${PROJECT_VERSION} QUIET CONFIG
         Quick
         QuickShapesPrivate
         QuickTest
+        QuickTestUtilsPrivate
         QuickVectorImageGeneratorPrivate
         QuickControls2)
 qt_internal_project_setup()
