@@ -31,7 +31,7 @@
 
 Q_LOGGING_CATEGORY(lcGrabber, "qt.baseline.scenegrabber")
 
-static const QSize DefaultGrabSize(512, 512);
+static const QSize DefaultGrabSize(800, 800);
 
 class GrabbingView : public QQuickView
 {
@@ -87,7 +87,10 @@ private slots:
     {
         qCDebug(lcGrabber) << "...sceneStabilized IN";
         if (QGuiApplication::platformName() == QLatin1String("eglfs")) {
-            QSize grabSize = initialSize().isEmpty() ? DefaultGrabSize : initialSize();
+            QSize rootSize;
+            if (QQuickItem *r = rootObject())
+                rootSize = (QSizeF(r->width(), r->height()) * effectiveDevicePixelRatio()).toSize();
+            QSize grabSize = rootSize.isEmpty() ? DefaultGrabSize : rootSize;
             lastGrab = lastGrab.copy(QRect(QPoint(0, 0), grabSize));
         }
 
