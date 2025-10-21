@@ -285,7 +285,7 @@ protected:
     const EasingSegment<T> *m_currentEasing = nullptr;
     int m_startFrame = INT_MAX;
     int m_endFrame = 0;
-    T m_value;
+    T m_value = {};
 };
 
 

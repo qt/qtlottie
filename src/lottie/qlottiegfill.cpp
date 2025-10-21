@@ -196,8 +196,6 @@ int QLottieGFill::parse(const QJsonObject &definition)
     angle = resolveExpression(angle);
     m_highlightAngle.construct(angle);
 
-    m_highlightAngle.setValue(0.0);
-
     const int fillValue = definition.value(QLatin1String("r")).toInt();
     m_fillRule = (fillValue == 2) ? Qt::OddEvenFill : Qt::WindingFill;
 

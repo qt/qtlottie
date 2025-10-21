@@ -83,8 +83,6 @@ int QLottieBasicTransform::parse(const QJsonObject &definition)
         QJsonObject rotation = definition.value(u"r"_s).toObject();
         rotation = resolveExpression(rotation);
         m_rotation.construct(rotation);
-    } else {
-        m_rotation.setValue(0);
     }
 
     // If this is the base class for QLottieRepeaterTransform,
