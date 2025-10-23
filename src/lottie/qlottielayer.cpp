@@ -33,8 +33,8 @@ QLottieLayer::QLottieLayer(const QLottieLayer &other)
     m_stretch = other.m_stretch;
     m_hasLinkedLayer = other.m_hasLinkedLayer;
     m_linkedLayerId = other.m_linkedLayerId;
-    m_td = other.m_td;
-    m_clipMode = other.m_clipMode;
+    m_isMatte = other.m_isMatte;
+    m_matteMode = other.m_matteMode;
     if (other.m_layerTransform) {
         m_layerTransform = new QLottieBasicTransform(*other.m_layerTransform);
         m_layerTransform->setParent(this);
@@ -141,10 +141,10 @@ int QLottieLayer::constructLayers(QJsonArray jsonLayers, QLottieBase *parent,
         QLottieLayer *layer = QLottieLayer::construct(jsonLayer, assets);
         if (layer) {
             layer->setParent(parent);
-            // Mask layers must be rendered before the layers they affect to
-            // although they appear after in layer hierarchy. For this reason
-            // move a mask in front of the affected layer, so it will be rendered first
-            if (layer->isMaskLayer())
+            // Matte layers must be rendered before the layer they apply to, even though they
+            // appear after in the list of layers. Hence, we move matte layers in front of
+            // the layer they (by default) apply to, so it will be rendered first
+            if (layer->isMatteLayer())
                 parent->insertChildBeforeLast(layer);
             else
                 parent->appendChild(layer);
@@ -177,10 +177,10 @@ int QLottieLayer::parse(const QJsonObject &definition)
     m_3dLayer = definition.value(u"ddd"_s).toBool();
     m_stretch = definition.value(u"sr"_s).toVariant().toReal();
     m_linkedLayerId = definition.value(u"parent"_s).toVariant().toInt(&m_hasLinkedLayer);
-    m_td = definition.value(u"td"_s).toInt();
-    int clipMode = definition.value(u"tt"_s).toInt(-1);
-    if (clipMode > -1 && clipMode < 5)
-        m_clipMode = static_cast<MatteClipMode>(clipMode);
+    m_isMatte = definition.value(u"td"_s).toInt() == 1;
+    int matteMode = definition.value(u"tt"_s).toInt(-1);
+    if (matteMode > -1 && matteMode < 5)
+        m_matteMode = static_cast<MatteClipMode>(matteMode);
 
     QJsonObject trans = definition.value(u"ks"_s).toObject();
     m_layerTransform = new QLottieBasicTransform(this);
@@ -190,9 +190,9 @@ int QLottieLayer::parse(const QJsonObject &definition)
     QJsonArray effects = definition.value(u"ef"_s).toArray();
     parseEffects(effects);
 
-    if (m_clipMode > 2)
+    if (m_matteMode > 2)
         qCInfo(lcLottieQtLottieParser)
-                << "Lottie Layer: Only alpha mask layer supported:" << m_clipMode;
+                << "Lottie Layer: Only alpha matte layer supported:" << m_matteMode;
     if (m_blendMode > 0)
         qCInfo(lcLottieQtLottieParser)
                 << "Lottie Layer: Unsupported blend mode" << m_blendMode;
@@ -282,19 +282,19 @@ QLottieLayer *QLottieLayer::linkedLayer() const
     return m_linkedLayer;
 }
 
-bool QLottieLayer::isClippedLayer() const
+bool QLottieLayer::isUsingMatteLayer() const
 {
-    return m_clipMode != NoClip;
+    return m_matteMode != NoClip;
 }
 
-bool QLottieLayer::isMaskLayer() const
+bool QLottieLayer::isMatteLayer() const
 {
-    return m_td > 0;
+    return m_isMatte;
 }
 
-QLottieLayer::MatteClipMode QLottieLayer::clipMode() const
+QLottieLayer::MatteClipMode QLottieLayer::matteMode() const
 {
-    return m_clipMode;
+    return m_matteMode;
 }
 
 int QLottieLayer::layerId() const

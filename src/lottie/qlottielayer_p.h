@@ -46,9 +46,9 @@ public:
 
     QLottieBase *findChild(const QString &childName) override;
 
-    bool isClippedLayer() const;
-    bool isMaskLayer() const;
-    MatteClipMode clipMode() const;
+    bool isUsingMatteLayer() const;
+    bool isMatteLayer() const;
+    MatteClipMode matteMode() const;
 
     int layerId() const;
     QLottieBasicTransform *transform() const;
@@ -93,8 +93,8 @@ protected:
 
     bool m_hasLinkedLayer = false;
     int m_linkedLayerId = 0;
-    int m_td = 0;
-    MatteClipMode m_clipMode = NoClip;
+    bool m_isMatte = false;
+    MatteClipMode m_matteMode = NoClip;
 
     bool m_isActive = true;
     QSize m_size;

@@ -59,14 +59,15 @@ void QLottieRasterRenderer::restoreState()
 void QLottieRasterRenderer::render(const QLottieLayer &layer)
 {
     qCDebug(lcLottieQtLottieRender) << "Layer:" << layer.name()
-                                       << "clip layer" << layer.isClippedLayer();
-    if (layer.isMaskLayer())
+                                    << "is matte:" << layer.isMatteLayer()
+                                    << "using matte:" << layer.isUsingMatteLayer();
+    if (layer.isMatteLayer())
         m_buildingClipRegion = true;
     else if (!m_clipPath.isEmpty()) {
         QTransform inv = m_painter->transform().inverted();
-        if (layer.clipMode() == QLottieLayer::Alpha)
+        if (layer.matteMode() == QLottieLayer::Alpha)
             m_painter->setClipPath(inv.map(m_clipPath));
-        else if (layer.clipMode() == QLottieLayer::InvertedAlpha) {
+        else if (layer.matteMode() == QLottieLayer::InvertedAlpha) {
             QPainterPath screen;
             screen.addRect(0, 0, m_painter->device()->width(),
                            m_painter->device()->height());

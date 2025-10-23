@@ -30,9 +30,9 @@ private slots:
     void testWidth();
     void testHeight();
     void testActive();
-    void testIsClippedLayer();
-    void testIsMaskLayer();
-    void testClipMode();
+    void testIsUsingMatteLayer();
+    void testIsMatteLayer();
+    void testMatteMode();
 
 private:
     void loadTestData(const QString &filename);
@@ -96,34 +96,34 @@ void tst_QLottieShapeLayer::testHeight()
     QVERIFY(m_height == 100.0);
 }
 
-void tst_QLottieShapeLayer::testIsClippedLayer()
+void tst_QLottieShapeLayer::testIsUsingMatteLayer()
 {
     loadTestData("shape_active_60to120.json");
-    QVERIFY(m_layer->isClippedLayer() == false);
-    loadTestData("shape_mask_alphaclip.json");
-    QVERIFY(m_clippedlayer->isClippedLayer() == true);
+    QVERIFY(m_layer->isUsingMatteLayer() == false);
+    loadTestData("shape_matte_alphaclip.json");
+    QVERIFY(m_clippedlayer->isUsingMatteLayer() == true);
 }
 
-void tst_QLottieShapeLayer::testIsMaskLayer()
+void tst_QLottieShapeLayer::testIsMatteLayer()
 {
     loadTestData("shape_active_60to120.json");
-    QVERIFY(m_layer->isMaskLayer() == false);
-    loadTestData("shape_mask_alphaclip.json");
-    QVERIFY(m_layer->isMaskLayer() == true);
+    QVERIFY(m_layer->isMatteLayer() == false);
+    loadTestData("shape_matte_alphaclip.json");
+    QVERIFY(m_layer->isMatteLayer() == true);
 }
 
-void tst_QLottieShapeLayer::testClipMode()
+void tst_QLottieShapeLayer::testMatteMode()
 {
     loadTestData("shape_active_60to120.json");
-    QVERIFY(m_layer->clipMode() == QLottieLayer::MatteClipMode::NoClip);
-    loadTestData("shape_mask_alphaclip.json");
-    QVERIFY(m_clippedlayer->clipMode() == QLottieLayer::MatteClipMode::Alpha);
-    loadTestData("shape_mask_alphainvclip.json");
-    QVERIFY(m_clippedlayer->clipMode() == QLottieLayer::MatteClipMode::InvertedAlpha);
-    loadTestData("shape_mask_lumaclip.json");
-    QVERIFY(m_clippedlayer->clipMode() == QLottieLayer::MatteClipMode::Luminence);
-    loadTestData("shape_mask_lumainvclip.json");
-    QVERIFY(m_clippedlayer->clipMode() == QLottieLayer::MatteClipMode::InvertedLuminence);
+    QVERIFY(m_layer->matteMode() == QLottieLayer::MatteClipMode::NoClip);
+    loadTestData("shape_matte_alphaclip.json");
+    QVERIFY(m_clippedlayer->matteMode() == QLottieLayer::MatteClipMode::Alpha);
+    loadTestData("shape_matte_alphainvclip.json");
+    QVERIFY(m_clippedlayer->matteMode() == QLottieLayer::MatteClipMode::InvertedAlpha);
+    loadTestData("shape_matte_lumaclip.json");
+    QVERIFY(m_clippedlayer->matteMode() == QLottieLayer::MatteClipMode::Luminence);
+    loadTestData("shape_matte_lumainvclip.json");
+    QVERIFY(m_clippedlayer->matteMode() == QLottieLayer::MatteClipMode::InvertedLuminence);
 }
 
 void tst_QLottieShapeLayer::loadTestData(const QString &filename)
