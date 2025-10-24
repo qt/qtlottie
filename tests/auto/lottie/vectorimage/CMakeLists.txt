@@ -13,7 +13,7 @@ file(GLOB_RECURSE test_data_glob
     data/*)
 list(APPEND test_data ${test_data_glob})
 
-qt_internal_add_test(tst_qquickvectorimage
+qt_internal_add_test(tst_vectorimage
     SOURCES
         tst_vectorimage.cpp
     LIBRARIES
@@ -35,7 +35,7 @@ file(GLOB_RECURSE test_data_glob_lottie_original
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../baseline/data/original/*)
 list(APPEND lottie_data ${test_data_glob_lottie_original})
 
-qt_add_resources(tst_qquickvectorimage lottieoriginal
+qt_add_resources(tst_vectorimage lottieoriginal
     PREFIX /json
     BASE ${CMAKE_CURRENT_SOURCE_DIR}/../../../baseline/data/original/
     FILES
@@ -47,14 +47,14 @@ file(GLOB_RECURSE test_data_glob_lottie_docsamples
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../baseline/data/docsamples/*)
 list(APPEND lottie_data ${test_data_glob_lottie_docsamples})
 
-qt_add_resources(tst_qquickvectorimage lottiedocsamples
+qt_add_resources(tst_vectorimage lottiedocsamples
     PREFIX /json
     BASE ${CMAKE_CURRENT_SOURCE_DIR}/../../../baseline/data/docsamples/
     FILES
         ${lottie_data}
 )
 
-qt_internal_extend_target(tst_qquickvectorimage CONDITION ANDROID OR IOS
+qt_internal_extend_target(tst_vectorimage CONDITION ANDROID OR IOS
     DEFINES
     QT_QMLTEST_DATADIR=":/data"
 )
