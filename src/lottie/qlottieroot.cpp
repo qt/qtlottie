@@ -22,6 +22,11 @@ QLottieBase *QLottieRoot::clone() const
     return new QLottieRoot(*this);
 }
 
+QSize QLottieRoot::layerSize() const
+{
+    return m_size;
+}
+
 int QLottieRoot::parseSource(const QByteArray &jsonSource, const QUrl &fileSource)
 {
     QJsonDocument doc = QJsonDocument::fromJson(jsonSource);
@@ -47,6 +52,8 @@ int QLottieRoot::parseSource(const QByteArray &jsonSource, const QUrl &fileSourc
 
     m_startFrame = rootObj.value(u"ip"_s).toVariant().toInt();
     m_endFrame = rootObj.value(u"op"_s).toVariant().toInt();
+
+    m_size = QSize(rootObj.value(u"w"_s).toInt(-1), rootObj.value(u"h"_s).toInt(-1));
 
     QJsonArray::const_iterator jsonAssetsIt = jsonAssets.constBegin();
     while (jsonAssetsIt != jsonAssets.constEnd()) {

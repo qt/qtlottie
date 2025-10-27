@@ -86,7 +86,7 @@ void QLottieRasterRenderer::render(const QLottieLayer &layer)
 void QLottieRasterRenderer::render(const QLottieSolidLayer &layer)
 {
     render(static_cast<const QLottieLayer &>(layer));
-    m_painter->fillRect(QRect(QPoint(), layer.size()), layer.color());
+    m_painter->fillRect(QRect(QPoint(), layer.layerSize()), layer.color());
 }
 
 void QLottieRasterRenderer::render(const QLottieRect &rect)

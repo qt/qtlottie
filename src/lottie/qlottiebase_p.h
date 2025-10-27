@@ -17,6 +17,7 @@
 
 #include <QJsonObject>
 #include <QList>
+#include <QSize>
 
 #include <QtLottie/qtlottieexports.h>
 #include <QtLottie/private/qlottieconstants_p.h>
@@ -61,6 +62,7 @@ public:
 
     virtual void updateProperties(int frame);
     virtual void render(QLottieRenderer &renderer) const;
+    virtual QSize layerSize() const;
 
     bool isStructureDumping() const;
 

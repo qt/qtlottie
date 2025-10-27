@@ -43,7 +43,7 @@ void QLottieVisitor::render(const QLottieRoot &root)
     fillCommonNodeInfo(&root, &info);
 
     const QJsonObject rootObj = root.definition();
-    info.size = QSize(rootObj.value("w"_L1).toInt(), rootObj.value("h"_L1).toInt());
+    info.size = root.layerSize();
 
     int frameRate = rootObj.value(QLatin1String("fr")).toVariant().toInt();
     if (frameRate > 0)
@@ -174,10 +174,10 @@ void QLottieVisitor::render(const QLottieLayer &layer)
 void QLottieVisitor::render(const QLottieSolidLayer &layer)
 {
     render(static_cast<const QLottieLayer &>(layer));
-    if (!layer.size().isEmpty()) {
+    if (!layer.layerSize().isEmpty()) {
         m_currentPaintInfo.fill = layer.color();
         QPainterPath layerRect;
-        layerRect.addRect(QRect(QPoint(), layer.size()));
+        layerRect.addRect(QRect(QPoint(), layer.layerSize()));
         processShape(nullptr, layerRect);
     }
 }

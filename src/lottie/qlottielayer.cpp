@@ -333,9 +333,12 @@ void QLottieLayer::applyLayerTransform(QLottieRenderer &renderer) const
         m_layerTransform->render(renderer); // TBD: except opacity
 }
 
-QSize QLottieLayer::size() const
+QSize QLottieLayer::layerSize() const
 {
-    return m_size;
+    QSize res = m_size;
+    if (!res.isValid() && parent())
+        res = parent()->layerSize();
+    return res;
 }
 
 const QLottieLayer *QLottieLayer::checkedCast(const QLottieBase *node)

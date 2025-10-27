@@ -55,7 +55,7 @@ public:
     bool hasLinkedLayer() const { return m_hasLinkedLayer; }
     int linkedLayerId() const { return m_linkedLayerId; }
     void applyLayerTransform(QLottieRenderer &renderer) const;
-    QSize size() const;
+    QSize layerSize() const override;
 
     int startFrame() const
     {

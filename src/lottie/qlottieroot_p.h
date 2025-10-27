@@ -26,6 +26,7 @@ public:
     explicit QLottieRoot(const QLottieRoot &other);
 
     QLottieBase *clone() const override;
+    QSize layerSize() const override;
 
     int parseSource(const QByteArray &jsonSource, const QUrl &fileSource);
 
@@ -44,6 +45,7 @@ public:
     }
 
 private:
+    QSize m_size;
     int m_frameRate = 30;
     int m_startFrame = 0;
     int m_endFrame = 0;

@@ -208,6 +208,11 @@ bool QLottieBase::hidden() const
     return m_hidden;
 }
 
+QSize QLottieBase::layerSize() const
+{
+    return m_parent ? m_parent->layerSize() : QSize();
+}
+
 void QLottieBase::setParent(QLottieBase *parent)
 {
     m_parent = parent;
