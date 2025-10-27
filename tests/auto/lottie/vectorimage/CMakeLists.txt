@@ -55,6 +55,7 @@ qt_add_resources(tst_vectorimage lottiedocsamples
 )
 
 qt_internal_extend_target(tst_vectorimage CONDITION ANDROID OR IOS
+    OR QT_FORCE_BUILTIN_TESTDATA
     DEFINES
     QT_QMLTEST_DATADIR=":/data"
 )
