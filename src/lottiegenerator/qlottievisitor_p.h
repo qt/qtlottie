@@ -94,6 +94,7 @@ public:
     void render(const QLottieRepeater &repeater) override;
     void renderPathElements(const QList<QLottieBase *> &pathElements) override;
 
+    void generateMatteNode(const QLottieLayer *layer, StructureNodeStage stage);
     void fillCommonNodeInfo(const QLottieBase *node, NodeInfo *info, const QString &suffix = QString{});
     void fillAnimationNodeInfo(const QLottieBase *node, NodeInfo *info);
     void fillBasicPathInfo(const QLottieShape *strokeOrFill, PathNodeInfo *pathInfo);

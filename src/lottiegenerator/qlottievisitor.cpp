@@ -137,11 +137,50 @@ void QLottieVisitor::restoreState()
     m_currentPaintInfo = m_savedPaintInfos.takeLast();
 }
 
+void QLottieVisitor::generateMatteNode(const QLottieLayer *layer, StructureNodeStage stage)
+{
+    constexpr QLatin1String suffix("_box");
+
+    if (layer->isMatteLayer()) {
+        MaskNodeInfo maskInfo;
+        maskInfo.stage = stage;
+        fillCommonNodeInfo(layer, &maskInfo, suffix);
+        maskInfo.nodeId.clear();
+        maskInfo.typeName.clear();
+        maskInfo.bounds = QRect(QPoint(), layer->layerSize());
+        maskInfo.maskRect = maskInfo.bounds;
+        m_generator->generateMaskNode(maskInfo);
+    } else if (layer->isUsingMatteLayer() && layer->parent()) {
+        StructureNodeInfo info;
+        info.stage = stage;
+        fillCommonNodeInfo(layer, &info, suffix);
+        info.nodeId.clear();
+        info.typeName.clear();
+        info.bounds = QRect(QPoint(), layer->layerSize());
+        const QLottieLayer::MatteClipMode mode = layer->matteMode();
+        info.isMaskAlpha = (mode == QLottieLayer::Alpha || mode == QLottieLayer::InvertedAlpha);
+        info.isMaskInverted = (mode == QLottieLayer::InvertedAlpha || mode == QLottieLayer::InvertedLuminence);
+        // Find id of matte layer, assume preceding layer
+        const QList<QLottieBase *> &siblings = layer->parent()->children();
+        const QLottieBase *prevSibling = siblings.value(siblings.indexOf(layer) - 1);
+        const QLottieLayer *precedingLayer = QLottieLayer::checkedCast(prevSibling);
+        if (precedingLayer && precedingLayer->isMatteLayer()) {
+            info.maskId = idForNode(precedingLayer) + suffix;
+            m_generator->generateStructureNode(info);
+        }
+        QLOTTIEVISITOR_DEBUG << "  matte link resolved to layer: " << info.maskId;
+    }
+}
+
 void QLottieVisitor::render(const QLottieLayer &layer)
 {
-    QLOTTIEVISITOR_DEBUG << "[layer '" << layer.name() << "' type " << Qt::hex << layer.type() << "]";
+    QLOTTIEVISITOR_DEBUG << "[layer '" << layer.name() << "' type " << Qt::hex << layer.type()
+                         << (layer.isMatteLayer() ? " matte" : "") << "]";
 
     m_frameOffset += layer.frameOffset();
+
+    if (layer.isMatteLayer() || layer.isUsingMatteLayer())
+        generateMatteNode(&layer, StructureNodeStage::Start);
 
     StructureNodeInfo info;
     fillCommonNodeInfo(&layer, &info);
@@ -163,7 +202,7 @@ void QLottieVisitor::render(const QLottieLayer &layer)
                     info.transformReferenceId = idForNode(siblingLayer);
             }
         }
-        QLOTTIEVISITOR_DEBUG << "  xf link resolved to layer " << info.transformReferenceId;
+        QLOTTIEVISITOR_DEBUG << "  xf link resolved to layer: " << info.transformReferenceId;
     }
 
     m_generator->generateStructureNode(info);
@@ -237,9 +276,11 @@ void QLottieVisitor::finish(const QLottieLayer &layer)
 
     StructureNodeInfo info;
     info.stage = StructureNodeStage::End;
-
     fillCommonNodeInfo(&layer, &info);
     m_generator->generateStructureNode(info);
+
+    if (layer.isMatteLayer() || layer.isUsingMatteLayer())
+        generateMatteNode(&layer, StructureNodeStage::End);
 }
 
 void QLottieVisitor::finish(const QLottieGroup &group)
