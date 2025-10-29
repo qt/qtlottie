@@ -151,6 +151,8 @@ void QLottieVisitor::render(const QLottieLayer &layer)
     info.stage = StructureNodeStage::Start;
     info.transform.setDefaultValue(QVariant::fromValue(m_currentPaintInfo.transform));
     info.isDefaultTransform = m_currentPaintInfo.transform.isIdentity();
+    info.opacity.setDefaultValue(m_currentPaintInfo.opacity);
+    info.isDefaultOpacity = qFuzzyCompare(m_currentPaintInfo.opacity, 1.0);
 
     fillAnimationNodeInfo(&layer, &info);
     fillLayerAnimationInfo(&layer, &info);
