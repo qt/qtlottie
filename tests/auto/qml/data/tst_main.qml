@@ -57,6 +57,10 @@ Item {
             compare(bmAnim.quality, 1);
         }
 
-
+        function test_6_setEmptySource() {
+            compare(bmAnim.status, 2)
+            bmAnim.source = ""
+            compare(bmAnim.status, 0)
+        }
     }
 }

@@ -579,10 +579,16 @@ void QLottieAnimation::setDirection(QLottieAnimation::Direction direction)
 
 void QLottieAnimation::load()
 {
-    setStatus(Loading);
-
     const QQmlContext *context = qmlContext(this);
     const QUrl loadUrl = context ? context->resolvedUrl(m_source) : m_source;
+
+    if (loadUrl.isEmpty()) {
+        setStatus(Null);
+        return;
+    }
+
+    setStatus(Loading);
+
     m_file.reset(new QQmlFile(qmlEngine(this), loadUrl));
     if (m_file->isLoading())
         m_file->connectFinished(this, SLOT(loadFinished()));
