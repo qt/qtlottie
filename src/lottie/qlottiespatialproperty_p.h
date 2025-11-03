@@ -35,6 +35,8 @@ public:
     virtual EasingSegment<QPointF> parseKeyframe(const QJsonObject keyframe,
                                                  bool fromExpression) override
     {
+        m_subPaths.append(QPainterPath{});
+
         EasingSegment<QPointF> easing =
                 QLottieProperty2D<QPointF>::parseKeyframe(keyframe, fromExpression);
 
@@ -73,13 +75,13 @@ public:
         QPointF c1(tox, toy);
         QPointF c2(tix, tiy);
 
-        m_bezierPath.moveTo(s);
+        moveTo(s);
         if (c1.isNull() && c2.isNull()) {
-            m_bezierPath.lineTo(e);
+            lineTo(e);
         } else {
             c1 += s;
             c2 += e;
-            m_bezierPath.cubicTo(c1, c2, e);
+            cubicTo(c1, c2, e);
         }
 
         return easing;
@@ -89,6 +91,8 @@ public:
                                                  const QJsonObject nextKeyframe,
                                                  bool fromExpression) override
     {
+        m_subPaths.append(QPainterPath{});
+
         EasingSegment<QPointF> easing =
                 QLottieProperty2D<QPointF>::parseKeyframe(keyframe, nextKeyframe, fromExpression);
 
@@ -127,13 +131,13 @@ public:
         QPointF c1(tox, toy);
         QPointF c2(tix, tiy);
 
-        m_bezierPath.moveTo(s);
+        moveTo(s);
         if (c1.isNull() && c2.isNull()) {
-            m_bezierPath.lineTo(e);
+            lineTo(e);
         } else {
             c1 += s;
             c2 += e;
-            m_bezierPath.cubicTo(c1, c2, e);
+            cubicTo(c1, c2, e);
         }
 
         return easing;
@@ -154,8 +158,44 @@ public:
         return true;
     }
 
+    bool hasCurves() const
+    {
+        for (qsizetype i = 0; i < m_subPaths.size(); ++i) {
+            const QPainterPath path = m_subPaths.at(i);
+            for (int j = 0; j < path.elementCount(); ++j)
+                if (path.elementAt(j).isCurveTo())
+                    return true;
+        }
+
+        return false;
+    }
+
+    const QList<QPainterPath> &subPaths() const
+    {
+        return m_subPaths;
+    }
+
 private:
+    void moveTo(const QPointF &e)
+    {
+        m_bezierPath.moveTo(e);
+        m_subPaths.last().moveTo(e);
+    }
+
+    void lineTo(const QPointF &e)
+    {
+        m_bezierPath.lineTo(e);
+        m_subPaths.last().lineTo(e);
+    }
+
+    void cubicTo(const QPointF &c1, const QPointF &c2, const QPointF &e)
+    {
+        m_bezierPath.cubicTo(c1, c2, e);
+        m_subPaths.last().cubicTo(c1, c2, e);
+    }
+
     QPainterPath m_bezierPath;
+    QList<QPainterPath> m_subPaths;
 };
 
 QT_END_NAMESPACE

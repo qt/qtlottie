@@ -107,21 +107,29 @@ void QLottieVisitor::fillAnimationNodeInfo(const QLottieBase *node, NodeInfo *in
 {
     Q_UNUSED(node);
     for (const PaintInfo::TransformAnimationInfo &animInfo : std::as_const(m_currentPaintInfo.transformAnimations)) {
-        QQuickAnimatedProperty::PropertyAnimation animation;
-        animation.subtype = animInfo.animationType;
-        animation.frames = animInfo.frames;
-        animation.flags |= QQuickAnimatedProperty::PropertyAnimation::FreezeAtEnd;
+        if (!animInfo.frames.isEmpty()) {
+            const bool hasPaths = animInfo.frames.first().typeId() == qMetaTypeId<QPainterPath>();
 
-        if (!animation.frames.isEmpty()) {
+            QQuickAnimatedProperty::PropertyAnimation animation;
+            animation.frames = animInfo.frames;
+            animation.flags |= QQuickAnimatedProperty::PropertyAnimation::FreezeAtEnd;
+
             animation.frames[0] = animation.frames.first();
-            animation.frames[m_duration] = animation.frames.last();
 
             animation.easingPerFrame = animInfo.easingPerFrame;
 
-            if (animInfo.animationType == QTransform::TxNone)
-                info->opacity.addAnimation(animation);
-            else
-                info->transform.addAnimation(animation);
+            if (animInfo.animationType == QTransform::TxTranslate && hasPaths) {
+                if (animation.frames.lastKey() < m_duration)
+                    animation.frames[m_duration] = QVariant::fromValue(QPainterPath{});
+                info->motionPath.addAnimation(animation);
+            } else {
+                animation.frames[m_duration] = animation.frames.last();
+                animation.subtype = animInfo.animationType;
+                if (animInfo.animationType == QTransform::TxNone)
+                    info->opacity.addAnimation(animation);
+                else
+                    info->transform.addAnimation(animation);
+            }
         }
     }
 }
@@ -443,6 +451,8 @@ void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *tra
     const QLottieProperty<qreal> xPositions = transform->xPosProperty();
     const QLottieProperty<qreal> yPositions = transform->yPosProperty();
 
+    const bool positionHasCurves = positions.hasCurves();
+
     auto storeAnimationFrame = [&](qreal lottieFrameNumber,
                                    const QVariant &propertyValue,
                                    PaintInfo::TransformAnimationInfo *info,
@@ -455,13 +465,44 @@ void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *tra
 
     QLottieVisitor::PaintInfo::TransformAnimationInfo info;
     if (!transform->splitPosition()) {
-        info = collectAnimations(positions,
-                                 QTransform::TxTranslate,
-                                 storeAnimationFrame,
-                                 [](const QVariant &v)
-                                 {
-                                     return QVariantList{ v };
-                                 });
+        if (positionHasCurves) { // Use the motionPath property
+            const auto easingCurves = positions.easingCurves();
+            const auto &subPaths = positions.subPaths();
+            Q_ASSERT(!subPaths.isEmpty());
+
+            QLottieVisitor::PaintInfo::TransformAnimationInfo info;
+            info.animationType = QTransform::TxTranslate;
+
+            if (easingCurves.isEmpty()) {
+                const QVariant params = QVariant::fromValue(subPaths.first());
+                storeAnimationFrame(0, params, &info, std::nullopt);
+            } else {
+                for (qsizetype i = 0; i < easingCurves.size(); ++i) {
+                    const auto &curve = easingCurves.at(i);
+
+                    // If the animation starts at a frame > 0, then we need to add a pause
+                    // at the beginning. We do this by introducing an empty frame as the first
+                    // frame.
+                    if (i == 0 && curve.startFrame > 0) {
+                        const QVariant startParams = QVariant::fromValue(QPainterPath{});
+                        storeAnimationFrame(curve.startFrame, startParams, &info, std::nullopt);
+                    }
+
+                    const QVariant endParams = QVariant::fromValue(subPaths.at(i));
+                    storeAnimationFrame(curve.endFrame, endParams, &info, curve.easing.bezier());
+                }
+            }
+
+            m_currentPaintInfo.transformAnimations.append(info);
+        } else {
+            info = collectAnimations(positions,
+                                     QTransform::TxTranslate,
+                                     storeAnimationFrame,
+                                     [](const QVariant &v)
+                                     {
+                                         return QVariantList{ v };
+                                     });
+        }
         m_currentPaintInfo.transformAnimations.append(info);
     } else {
         info = collectAnimations(xPositions,
