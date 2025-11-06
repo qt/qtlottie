@@ -46,5 +46,8 @@ exampledirs += \
 # Allow zero warnings when testing documentation in CI
 warninglimit = 0
 
+# Report warnings for images without alt text
+reportmissingalttextforimages = true
+
 manifestmeta.highlighted.names = \
     "QtLottieAnimation/lottietoqml Example"

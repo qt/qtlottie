@@ -4,7 +4,8 @@
 /*!
     \title qtlottieviewer Example
     \example qtlottieviewer
-    \image qtlottieviewerexample.png
+    \image qtlottieviewerexample.png {Lottie animation viewer with frame rate and
+           scaling controls}
     \brief An example demonstrating the use of Qt LottieAnimation in an application.
     \ingroup qtlottieexamples
     \examplecategory {Graphics}

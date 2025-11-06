@@ -5,6 +5,7 @@
     \title lottietoqml Example
     \example lottietoqml
     \image lottietoqmlexample.png
+           {Grid of animated vector graphics}
     \brief An example demonstrating the use of lottietoqml in an application.
     \ingroup qtlottieexamples
     \examplecategory {Graphics}
@@ -21,6 +22,7 @@
     image is vector-based, it will remain crisp without any scaling artifacts.
 
     \image lottietoqmlexample-closeup.png
+           {Zoomed view of single animated vector graphic}
 
     The \l{lottietoqml} does the equivalent to what \l{svgtoqml} does for .SVG files. It converts
     as much as possible of the original vector image and animation to \l{Qt Quick Shapes} and other
