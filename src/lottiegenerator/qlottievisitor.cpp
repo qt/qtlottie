@@ -715,15 +715,58 @@ void QLottieVisitor::render(const QLottieRepeater &repeater)
     Q_UNUSED(repeater);
 }
 
+void QLottieVisitor::fillPathAnimationInfo(const QLottieShape *shape, PathNodeInfo *info)
+{
+    if (shape->type() == LOTTIE_SHAPE_SHAPE_IX) {
+        const QLottieFreeFormShape *ffShape = static_cast<const QLottieFreeFormShape *>(shape);
+        if (ffShape->isAnimated()) {
+            QLottieFreeFormShape copy(*ffShape);
+            QQuickAnimatedProperty::PropertyAnimation pa;
+            const auto easingCurves = copy.startPointProperty().easingCurves();
+            for (int i = 0; i < easingCurves.size(); i++) {
+                const auto &curve = easingCurves.at(i);
+                copy.updateProperties(qRound(curve.startFrame));
+                int timePointMs = qRound(1000.0 * (m_frameOffset + curve.startFrame) / m_frameRate);
+                pa.frames[timePointMs] = QVariant::fromValue(copy.path());
+                if (i > 0)
+                    pa.easingPerFrame[timePointMs] = easingCurves.at(i - 1).easing.bezier();
+                if (i == easingCurves.size() - 1) {
+                    copy.updateProperties(qRound(curve.endFrame));
+                    timePointMs = qRound(1000.0 * (m_frameOffset + curve.endFrame) / m_frameRate);
+                    pa.frames[timePointMs] = QVariant::fromValue(copy.path());
+                    pa.easingPerFrame[timePointMs] = curve.easing.bezier();
+                }
+            }
+            pa.frames[0] = pa.frames.first();
+            pa.frames[m_duration] = pa.frames.last();
+            pa.flags |= QQuickAnimatedProperty::PropertyAnimation::FreezeAtEnd;
+            info->path.addAnimation(pa);
+        }
+    }
+}
+
 void QLottieVisitor::renderPathElements(const QList<QLottieBase *> &pathElements)
 {
     QLOTTIEVISITOR_DEBUG << "[path elements, count = " << pathElements.size() << "]";
 
-    if (pathElements.size() == 1 || trimmingState() == Parallel) {
+    bool hasAnimatedElements = false;
+    for (const QLottieBase *element : pathElements) {
+        if (element->type() == LOTTIE_SHAPE_SHAPE_IX) {
+            const QLottieFreeFormShape *ffShape = static_cast<const QLottieFreeFormShape *>(element);
+            if (ffShape->isAnimated()) {
+                hasAnimatedElements = true;
+                break;
+            }
+        }
+    }
+
+    if (pathElements.size() == 1 || hasAnimatedElements || trimmingState() == Parallel) {
+        // Need individual QML path items
         for (const QLottieBase *element : pathElements) {
             element->render(*this);
         }
     } else if (pathElements.size() > 1) {
+        // Combine into one path item
         QPainterPath renderPath;
         const QLottieShape *firstShape = nullptr;
         for (const QLottieBase *element : pathElements) {
@@ -765,7 +808,10 @@ void QLottieVisitor::processShape(const QLottieShape *shape, const QPainterPath 
     PathNodeInfo pathInfo;
     fillCommonNodeInfo(shape, &pathInfo, QLatin1String("_path"));
 
-    pathInfo.painterPath = path;
+    pathInfo.path.setDefaultValue(QVariant::fromValue(path));
+    if (shape)
+        fillPathAnimationInfo(shape, &pathInfo);
+
     pathInfo.fillRule = m_currentPaintInfo.fillRule;
     pathInfo.fillColor.setDefaultValue(QVariant::fromValue(m_currentPaintInfo.fill.color()));
     pathInfo.strokeStyle = StrokeStyle::fromPen(m_currentPaintInfo.stroke);

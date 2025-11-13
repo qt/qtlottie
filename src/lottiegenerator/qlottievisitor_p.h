@@ -99,6 +99,7 @@ public:
     void fillAnimationNodeInfo(const QLottieBase *node, NodeInfo *info);
     void fillBasicPathInfo(const QLottieShape *strokeOrFill, PathNodeInfo *pathInfo);
     void fillLayerAnimationInfo(const QLottieLayer *node, NodeInfo *info);
+    void fillPathAnimationInfo(const QLottieShape *shape, PathNodeInfo *info);
 
 private:
     static bool nodeIsGraphicElement(const QLottieBase *node);

@@ -83,6 +83,11 @@ bool QLottieFreeFormShape::acceptsTrim() const
     return true;
 }
 
+bool QLottieFreeFormShape::isAnimated() const
+{
+    return !m_vertexList.isEmpty();
+}
+
 void QLottieFreeFormShape::parseShapeKeyframes(QJsonObject &keyframes)
 {
     QJsonArray vertexKeyframes = keyframes.value(u"k"_s).toArray();
@@ -99,6 +104,8 @@ void QLottieFreeFormShape::parseShapeKeyframes(QJsonObject &keyframes)
 
 void QLottieFreeFormShape::buildShape(const QJsonObject &shape)
 {
+    m_path.clear();
+
     bool needToClose = shape.value(u"c"_s).toBool();
     QJsonArray bezierIn = shape.value(u"i"_s).toArray();
     QJsonArray bezierOut = shape.value(u"o"_s).toArray();
@@ -152,6 +159,8 @@ void QLottieFreeFormShape::buildShape(const QJsonObject &shape)
 void QLottieFreeFormShape::buildShape(int frame)
 {
     if (m_closedShape.size()) {
+        m_path.clear();
+
         auto it = m_closedShape.constBegin();
         bool found = false;
 
