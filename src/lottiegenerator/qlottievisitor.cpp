@@ -65,6 +65,17 @@ void QLottieVisitor::render(const QLottieRoot &root)
     m_generator->generateRootNode(info);
 }
 
+int QLottieVisitor::timePointForFrame(qreal frameNo, bool doWrap) const
+{
+    int res = qRound(1000 * (frameNo + m_frameOffset) / qreal(m_frameRate));
+    if (doWrap && m_frameOffset != 0) {
+        res %= m_duration;
+        if (res < 0)
+            res += m_duration;
+    }
+    return res;
+}
+
 QString QLottieVisitor::idForNode(const QLottieBase *node)
 {
     QString idForNull;
@@ -105,19 +116,34 @@ void QLottieVisitor::fillCommonNodeInfo(const QLottieBase *node,
 
 void QLottieVisitor::fillLayerAnimationInfo(const QLottieLayer *node, NodeInfo *info)
 {
-    int endTime = qRound(1000 * node->endFrame() / qreal(m_frameRate));
-    if (node->startFrame() == 0 && endTime >= m_duration)
-        return;
+    constexpr bool wrapTimePoints = false;
+    const int startTime = timePointForFrame(node->startFrame(), wrapTimePoints);
+    const int endTime = timePointForFrame(node->endFrame(), wrapTimePoints);
+
+    if (startTime <= 0 && endTime >= m_duration)
+        return; // Always visible (which is default), so no animation needed
 
     QQuickAnimatedProperty::PropertyAnimation animation;
-    if (node->startFrame() > 0)
-        animation.frames[0] = QVariant::fromValue(false);
-    animation.frames[qRound(1000 * node->startFrame() / qreal(m_frameRate))] = QVariant::fromValue(true);
-    if (endTime < m_duration)
-        animation.frames[endTime] = QVariant::fromValue(false);
-    animation.frames[m_duration] = animation.frames.last();
-    animation.flags |= QQuickAnimatedProperty::PropertyAnimation::FreezeAtEnd;
 
+    if (startTime >= m_duration || endTime <= 0 || endTime <= startTime) {
+        // Always invisible
+        info->visibility.setDefaultValue(QVariant::fromValue(false));
+        animation.frames[0] = QVariant::fromValue(false);
+        animation.frames[m_duration] = QVariant::fromValue(false);
+    } else {
+        if (startTime <= 0) {
+            animation.frames[0] = QVariant::fromValue(true);
+        } else {
+            animation.frames[0] = QVariant::fromValue(false);
+            animation.frames[startTime] = QVariant::fromValue(true);
+        }
+
+        if (endTime < m_duration)
+            animation.frames[endTime] = QVariant::fromValue(false);
+        animation.frames[m_duration] = animation.frames.last();
+    }
+
+    animation.flags |= QQuickAnimatedProperty::PropertyAnimation::FreezeAtEnd;
     info->visibility.addAnimation(animation);
 }
 
@@ -203,8 +229,6 @@ void QLottieVisitor::render(const QLottieLayer &layer)
     QLOTTIEVISITOR_DEBUG << "[layer '" << layer.name() << "' type " << Qt::hex << layer.type()
                          << (layer.isMatteLayer() ? " matte" : "") << "]";
 
-    m_frameOffset += layer.frameOffset();
-
     if (layer.isMatteLayer() || layer.isUsingMatteLayer())
         generateMatteNode(&layer, StructureNodeStage::Start);
 
@@ -217,8 +241,11 @@ void QLottieVisitor::render(const QLottieLayer &layer)
     info.opacity.setDefaultValue(m_currentPaintInfo.opacity);
     info.isDefaultOpacity = qFuzzyCompare(m_currentPaintInfo.opacity, 1.0);
 
-    fillAnimationNodeInfo(&layer, &info);
     fillLayerAnimationInfo(&layer, &info);
+    if (layer.type() == LOTTIE_LAYER_PRECOMP_IX)
+        m_frameOffset += layer.frameOffset();
+
+    fillAnimationNodeInfo(&layer, &info);
     if (layer.hasLinkedLayer() && layer.parent()) {
         for (const QLottieBase *sibling : layer.parent()->children()) {
             if (auto siblingLayer = QLottieLayer::checkedCast(sibling)) {
@@ -296,7 +323,8 @@ void QLottieVisitor::finish(const QLottieLayer &layer)
 {
     QLOTTIEVISITOR_DEBUG << "[layer '" << layer.name() << "' finish]";
 
-    m_frameOffset -= layer.frameOffset();
+    if (layer.type() == LOTTIE_LAYER_PRECOMP_IX)
+        m_frameOffset -= layer.frameOffset();
 
     StructureNodeInfo info;
     info.stage = StructureNodeStage::End;
@@ -466,7 +494,7 @@ void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *tra
                                    const QVariant &propertyValue,
                                    PaintInfo::TransformAnimationInfo *info,
                                    std::optional<QBezier> easingBezier = std::nullopt) {
-        const int timePointMs = qRound(1000 * (m_frameOffset + lottieFrameNumber) / m_frameRate);
+        const int timePointMs = timePointForFrame(lottieFrameNumber);
         info->frames[timePointMs] = propertyValue;
         if (easingBezier)
             info->easingPerFrame[timePointMs] = *easingBezier;
@@ -678,7 +706,7 @@ void QLottieVisitor::render(const QLottieTrimPath &trim)
         for (int i = 0; i < easingCurves.size(); i++) {
             const auto &curve = easingCurves.at(i);
             const qreal startValue = curve.startValue * scale;
-            int startFrameTime = QFixed::fromReal(1000 * curve.startFrame / qreal(m_frameRate)).round().toInt();
+            int startFrameTime = timePointForFrame(curve.startFrame);
             animation.frames[startFrameTime] = startValue;
             if (i > 0)
                 animation.easingPerFrame[startFrameTime] = easingCurves.at(i - 1).easing.bezier();
@@ -725,7 +753,7 @@ void QLottieVisitor::fillPathAnimationInfo(const QLottieShape *shape, PathNodeIn
             for (int i = 0; i < easingCurves.size(); i++) {
                 const auto &curve = easingCurves.at(i);
                 copy.updateProperties(qRound(curve.startFrame));
-                int timePointMs = qRound(1000.0 * (m_frameOffset + curve.startFrame) / m_frameRate);
+                int timePointMs = timePointForFrame(curve.startFrame);
                 pa.frames[timePointMs] = QVariant::fromValue(copy.path());
                 if (i > 0)
                     pa.easingPerFrame[timePointMs] = easingCurves.at(i - 1).easing.bezier();

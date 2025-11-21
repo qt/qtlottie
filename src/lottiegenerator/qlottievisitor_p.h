@@ -110,6 +110,7 @@ private:
     void collectTransformAnimations(const QLottieBasicTransform *transform,
                                     bool isShapeTransform = false);
     QString idForNode(const QLottieBase *node);
+    int timePointForFrame(qreal frameNo, bool doWrap = true) const;
     QString scrub(const QString &raw);
 
     QString m_lottieFileName;
