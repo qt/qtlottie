@@ -11,14 +11,12 @@
 
     The \l{LottieAnimation} item renders animations into an intermediate buffer using the
     \l{QPainter} software renderer. This may impose some performance restrictions on the sizes of
-    illustrations, as well as on the target hardware. As an alternative, an experimental tool
-    called \l{lottietoqml} is included. This tool converts Lottie animations to QML. As a result,
-    they can be rendered using the hardware-accelerated renderer in Qt Quick. The tool is currently
-    considered to be in \e {technical preview}. It does not support the full range of features
-    supported by \e {Qt Lottie Animation} yet, and incompatible changes should be expected.
+    illustrations, as well as on the target hardware. As an alternative, a tool called
+    \l{lottietoqml} is included. This tool converts Lottie animations to QML. As a result,
+    they can be rendered using the hardware-accelerated renderer in Qt Quick.
 
     Finally, the \l{VectorImage} Qt Quick item can load Lottie format files directly. It converts
-    them to QML on the fly using the \e lottietoqml [tech preview] functionality in a plugin.
+    them to QML on the fly using the \e lottietoqml functionality in a plugin.
 
     \section1 Getting Started
 

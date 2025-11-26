@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
         arguments.append(QString::fromLocal8Bit(argv[i]));
 
     QCommandLineParser parser;
-    parser.setApplicationDescription("Lottie to QML converter [tech preview]");
+    parser.setApplicationDescription("Lottie to QML converter");
     parser.addHelpOption();
     parser.addPositionalArgument("input", QCoreApplication::translate("main", "Lottie file to read."));
     parser.addPositionalArgument("output", QCoreApplication::translate("main", "QML file to write."), "[output]");

@@ -12,8 +12,6 @@
     This example demonstrates how the \l{lottietoqml} tool can be used to convert Lottie files
     into QML and then use these in an application.
 
-    \note lottietoqml is currently in tech preview.
-
     \section1 Overview
 
     The example consists of nine vector animations that have been converted using \l{lottietoqml}.
