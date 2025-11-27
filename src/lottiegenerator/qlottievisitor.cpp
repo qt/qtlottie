@@ -415,26 +415,19 @@ namespace {
         const auto easingCurves = property.easingCurves();
         QLottieVisitor::PaintInfo::TransformAnimationInfo info;
         info.animationType = type;
-        bool firstFrame = true;
         if (easingCurves.isEmpty()) {
             const QVariantList params = createParams(QVariant::fromValue(property.value()));
             storeAnimationFrame(0, params, &info, std::nullopt);
         } else {
+            std::optional<QBezier> easingBezier;
             for (const auto &curve : easingCurves) {
-                if (firstFrame) {
-                    const auto startValue = curve.startValue;
-                    const QVariantList startParams = createParams(QVariant::fromValue(startValue));
-                    storeAnimationFrame(0, startParams, &info, std::nullopt);
-                    if (curve.startFrame > 0)
-                        storeAnimationFrame(curve.startFrame, startParams, &info, std::nullopt);
-                    firstFrame = false;
-                }
-                const auto endValue = curve.endValue;
-                const QVariantList endParams = createParams(endValue);
-                storeAnimationFrame(curve.endFrame, endParams, &info, curve.easing.bezier());
+                const auto value = curve.startValue;
+                const QVariantList params = createParams(QVariant::fromValue(value));
+                storeAnimationFrame(curve.startFrame, params, &info, easingBezier);
+
+                easingBezier = curve.easing.bezier(); // belongs to generator's next keyframe
             }
         }
-
         return info;
     }
 }
@@ -477,19 +470,19 @@ void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *tra
                 const QVariant params = QVariant::fromValue(subPaths.first());
                 storeAnimationFrame(0, params, &info, std::nullopt);
             } else {
+                std::optional<QBezier> easingBezier;
                 for (qsizetype i = 0; i < easingCurves.size(); ++i) {
                     const auto &curve = easingCurves.at(i);
-
-                    // If the animation starts at a frame > 0, then we need to add a pause
-                    // at the beginning. We do this by introducing an empty frame as the first
-                    // frame.
-                    if (i == 0 && curve.startFrame > 0) {
+                    if (i == 0) {
+                        // Store an empty path keyframe to mark the start time of the animation
                         const QVariant startParams = QVariant::fromValue(QPainterPath{});
-                        storeAnimationFrame(curve.startFrame, startParams, &info, std::nullopt);
+                        storeAnimationFrame(curve.startFrame, startParams, &info, easingBezier);
+                    } else {
+                        // Like the easing, also the motion path is expected in the ending keyframe
+                        const QVariant params = QVariant::fromValue(subPaths.at(i - 1));
+                        storeAnimationFrame(curve.startFrame, params, &info, easingBezier);
                     }
-
-                    const QVariant endParams = QVariant::fromValue(subPaths.at(i));
-                    storeAnimationFrame(curve.endFrame, endParams, &info, curve.easing.bezier());
+                    easingBezier = curve.easing.bezier(); // belongs to generator's next keyframe
                 }
             }
 
@@ -586,20 +579,14 @@ void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *tra
         const QList<EasingSegment<qreal> > easingCurves = opacities.easingCurves();
         PaintInfo::TransformAnimationInfo info;
         info.animationType = QTransform::TxNone;
-        bool firstFrame = true;
-        for (const auto &curve : easingCurves) {
-            if (firstFrame) {
-                const qreal startValue = curve.startValue / 100;
-                const QVariant startParams = QVariant::fromValue(startValue);
-                storeAnimationFrame(0, startParams, &info, std::nullopt);
-                if (curve.startFrame > 0)
-                    storeAnimationFrame(curve.startFrame, startParams, &info);
-                firstFrame = false;
-            }
 
-            const qreal endValue = curve.endValue / 100;
-            const QVariant endParams = QVariant::fromValue(endValue);
-            storeAnimationFrame(curve.endFrame, endParams, &info, curve.easing.bezier());
+        std::optional<QBezier> easingBezier;
+        for (const auto &curve : easingCurves) {
+            const auto value = curve.startValue / 100;
+            const QVariant params = QVariant::fromValue(value);
+            storeAnimationFrame(curve.startFrame, params, &info, easingBezier);
+
+            easingBezier = curve.easing.bezier(); // For next keyframe
         }
         m_currentPaintInfo.transformAnimations.append(info);
     }
@@ -672,20 +659,16 @@ void QLottieVisitor::render(const QLottieTrimPath &trim)
         QQuickAnimatedProperty::PropertyAnimation animation;
         animation.flags |= QQuickAnimatedProperty::PropertyAnimation::FreezeAtEnd;
 
-        for (const auto &curve : easingCurves) {
+        for (int i = 0; i < easingCurves.size(); i++) {
+            const auto &curve = easingCurves.at(i);
             const qreal startValue = curve.startValue * scale;
-            const qreal endValue = curve.endValue * scale;
-
             int startFrameTime = QFixed::fromReal(1000 * curve.startFrame / qreal(m_frameRate)).round().toInt();
-            int endFrameTime = QFixed::fromReal(1000 * curve.endFrame / qreal(m_frameRate)).round().toInt();
-
             animation.frames[startFrameTime] = startValue;
-            animation.frames[endFrameTime] = endValue;
-
-            animation.easingPerFrame[endFrameTime] = curve.easing.bezier();
+            if (i > 0)
+                animation.easingPerFrame[startFrameTime] = easingCurves.at(i - 1).easing.bezier();
         }
         if (!animation.frames.isEmpty()) {
-            animation.frames[0] = outProperty->defaultValue();
+            animation.frames[0] = animation.frames.first();
             animation.frames[m_duration] = animation.frames.last();
             outProperty->addAnimation(animation);
         }
@@ -730,12 +713,6 @@ void QLottieVisitor::fillPathAnimationInfo(const QLottieShape *shape, PathNodeIn
                 pa.frames[timePointMs] = QVariant::fromValue(copy.path());
                 if (i > 0)
                     pa.easingPerFrame[timePointMs] = easingCurves.at(i - 1).easing.bezier();
-                if (i == easingCurves.size() - 1) {
-                    copy.updateProperties(qRound(curve.endFrame));
-                    timePointMs = qRound(1000.0 * (m_frameOffset + curve.endFrame) / m_frameRate);
-                    pa.frames[timePointMs] = QVariant::fromValue(copy.path());
-                    pa.easingPerFrame[timePointMs] = curve.easing.bezier();
-                }
             }
             pa.frames[0] = pa.frames.first();
             pa.frames[m_duration] = pa.frames.last();
