@@ -72,14 +72,17 @@ public:
                     ++it;
                 }
             } else {
-                while (it != (keyframes.constEnd() - 1)) {
+                while (it != (keyframes.constEnd())) {
                     EasingSegment<T> easing =
-                            parseKeyframe((*it).toObject(), (*(it + 1)).toObject(), fromExpression);
+                            parseKeyframe((*it).toObject(),
+                                          (*(qMin(it + 1, keyframes.constEnd() - 1))).toObject(),
+                                          fromExpression);
                     addEasing(easing);
                     ++it;
                 }
-                int lastFrame = (*it).toObject().value(u"t"_s).toVariant().toInt();
+                int lastFrame = m_easingCurves.last().startFrame;
                 m_easingCurves.last().endFrame = lastFrame;
+                m_easingCurves.last().complete = false;
                 this->m_endFrame = lastFrame;
             }
             m_value = T();
