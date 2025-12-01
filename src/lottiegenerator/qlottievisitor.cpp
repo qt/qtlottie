@@ -85,6 +85,24 @@ void QLottieVisitor::render(const QLottieRoot &root)
     m_generator->generateRootNode(info);
 }
 
+QString QLottieVisitor::scrub(const QString &raw)
+{
+    QString res(raw.left(80));
+
+    if (!res.isEmpty()) {
+        constexpr QLatin1StringView legalSymbols("_-.:/[](){}*| "); // No quot. mark or backslash!
+        qsizetype i = 0;
+        do {
+            if (res.at(i).isLetterOrNumber() || legalSymbols.contains(res.at(i)))
+                i++;
+            else
+                res.remove(i, 1);
+        } while (i < res.size());
+    }
+
+    return res;
+}
+
 void QLottieVisitor::fillCommonNodeInfo(const QLottieBase *node, NodeInfo *info)
 {
     Q_ASSERT(node);
@@ -153,10 +171,7 @@ void QLottieVisitor::render(const QLottieLayer &layer)
 
     StructureNodeInfo info;
     info.stage = StructureNodeStage::Start;
-    if (layer.type() == LOTTIE_LAYER_PRECOMP_IX)
-        info.nodeId = layer.definition().value(QLatin1String("refId")).toString();
-    else
-        info.nodeId = layer.name();
+    info.nodeId = scrub(layer.name());
     info.transform.setDefaultValue(QVariant::fromValue(m_currentPaintInfo.transform));
     info.isDefaultTransform = m_currentPaintInfo.transform.isIdentity();
 
@@ -214,7 +229,7 @@ void QLottieVisitor::render(const QLottieGroup &group)
         if (groupHasTransform) {
             StructureNodeInfo info;
             info.stage = StructureNodeStage::Start;
-            info.nodeId = group.name();
+            info.nodeId = scrub(group.name());
             info.transform.setDefaultValue(QVariant::fromValue(m_currentPaintInfo.transform));
             info.isDefaultTransform = m_currentPaintInfo.transform.isIdentity();
 

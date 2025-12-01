@@ -107,6 +107,7 @@ private:
     void collectTransformAnimations(const QLottieBasicTransform *transform,
                                     bool isShapeTransform = false);
     void enumerateLayerChildren(const QLottieBase *node);
+    QString scrub(const QString &raw);
 
     QString m_lottieFileName;
     QQuickGenerator *m_generator;
