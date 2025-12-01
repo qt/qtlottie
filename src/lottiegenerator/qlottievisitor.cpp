@@ -74,13 +74,31 @@ QString QLottieVisitor::idForNode(const QLottieBase *node)
     return id;
 }
 
+QString QLottieVisitor::scrub(const QString &raw)
+{
+    QString res(raw.left(80));
+
+    if (!res.isEmpty()) {
+        constexpr QLatin1StringView legalSymbols("_-.:/[](){}*| "); // No quot. mark or backslash!
+        qsizetype i = 0;
+        do {
+            if (res.at(i).isLetterOrNumber() || legalSymbols.contains(res.at(i)))
+                i++;
+            else
+                res.remove(i, 1);
+        } while (i < res.size());
+    }
+
+    return res;
+}
+
 void QLottieVisitor::fillCommonNodeInfo(const QLottieBase *node,
                                         NodeInfo *info,
                                         const QString &suffix)
 {
     info->id = idForNode(node) + suffix;
     if (node != nullptr) {
-        info->nodeId = node->name();
+        info->nodeId = scrub(node->name());
         info->typeName = QStringLiteral("Type%1").arg(node->type());
     }
 }
@@ -192,8 +210,6 @@ void QLottieVisitor::render(const QLottieLayer &layer)
 
     StructureNodeInfo info;
     fillCommonNodeInfo(&layer, &info);
-    if (layer.type() == LOTTIE_LAYER_PRECOMP_IX)
-        info.nodeId = layer.definition().value(QLatin1String("refId")).toString();
     info.customItemType = QStringLiteral("LayerItem");
     info.stage = StructureNodeStage::Start;
     info.transform.setDefaultValue(QVariant::fromValue(m_currentPaintInfo.transform));
