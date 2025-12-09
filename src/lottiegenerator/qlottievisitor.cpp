@@ -394,6 +394,8 @@ void QLottieVisitor::render(const QLottieFill &fill)
     QColor color = fill.color();
     color.setAlphaF(color.alphaF() * (fill.opacity() / 100.0));
     m_currentPaintInfo.fill = color;
+    m_currentPaintInfo.fillColorAnimation = makeColorAnimation(fill.colorProperty());
+    m_currentPaintInfo.fillOpacityAnimation = makeOpacityAnimation(fill.opacityProperty());
     m_currentPaintInfo.fillRule = fill.fillRule();
 }
 
@@ -430,6 +432,9 @@ void QLottieVisitor::render(const QLottieStroke &stroke)
     QColor color = pen.color();
     color.setAlphaF(color.alphaF() * (stroke.opacity() / 100.0));
     m_currentPaintInfo.stroke.setColor(color);
+
+    m_currentPaintInfo.strokeColorAnimation = makeColorAnimation(stroke.colorProperty());
+    m_currentPaintInfo.strokeOpacityAnimation = makeOpacityAnimation(stroke.opacityProperty());
 }
 
 void QLottieVisitor::render(const QLottieBasicTransform &transform)
@@ -636,6 +641,49 @@ void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *tra
     }
 }
 
+QQuickAnimatedProperty::PropertyAnimation QLottieVisitor::makeColorAnimation(const QLottieProperty4D<QVector4D> &colorProperty)
+{
+    QQuickAnimatedProperty::PropertyAnimation animation;
+    animation.flags |= QQuickAnimatedProperty::PropertyAnimation::FreezeAtEnd;
+
+    std::optional<QBezier> easingBezier;
+    for (const auto &curve : colorProperty.easingCurves()) {
+        const QVector4D raw = curve.startValue;
+        QColor value = QColor::fromRgbF(raw.x(), raw.y(), raw.z(), raw.w());
+        int frameTime = timePointForFrame(curve.startFrame);
+        animation.frames[frameTime] = value;
+        if (easingBezier)
+            animation.easingPerFrame[frameTime] = *easingBezier;
+        easingBezier = curve.easing.bezier(); // For next keyframe
+    }
+    if (!animation.frames.isEmpty()) {
+        animation.frames[0] = animation.frames.first();
+        animation.frames[m_duration] = animation.frames.last();
+    }
+    return animation;
+}
+
+QQuickAnimatedProperty::PropertyAnimation QLottieVisitor::makeOpacityAnimation(const QLottieProperty<qreal> &opacityProperty)
+{
+    QQuickAnimatedProperty::PropertyAnimation animation;
+    animation.flags |= QQuickAnimatedProperty::PropertyAnimation::FreezeAtEnd;
+
+    std::optional<QBezier> easingBezier;
+    for (const auto &curve : opacityProperty.easingCurves()) {
+        qreal value = curve.startValue / qreal(100);
+        int frameTime = timePointForFrame(curve.startFrame);
+        animation.frames[frameTime] = value;
+        if (easingBezier)
+            animation.easingPerFrame[frameTime] = *easingBezier;
+        easingBezier = curve.easing.bezier(); // For next keyframe
+    }
+    if (!animation.frames.isEmpty()) {
+        animation.frames[0] = animation.frames.first();
+        animation.frames[m_duration] = animation.frames.last();
+    }
+    return animation;
+}
+
 bool QLottieVisitor::hasAnimations(const QLottieBasicTransform *transform, bool isShapeTransform)
 {
     bool hasAnimations = transform->rotationProperty().startFrame() < transform->rotationProperty().endFrame()
@@ -835,8 +883,16 @@ void QLottieVisitor::processShape(const QLottieShape *shape, const QPainterPath 
 
     pathInfo.fillRule = m_currentPaintInfo.fillRule;
     pathInfo.fillColor.setDefaultValue(QVariant::fromValue(m_currentPaintInfo.fill.color()));
+    if (!m_currentPaintInfo.fillColorAnimation.isConstant())
+        pathInfo.fillColor.addAnimation(m_currentPaintInfo.fillColorAnimation);
+    if (!m_currentPaintInfo.fillOpacityAnimation.isConstant())
+        pathInfo.fillOpacity.addAnimation(m_currentPaintInfo.fillOpacityAnimation);
     pathInfo.strokeStyle = StrokeStyle::fromPen(m_currentPaintInfo.stroke);
     pathInfo.strokeStyle.color.setDefaultValue(QVariant::fromValue(m_currentPaintInfo.stroke.color()));
+    if (!m_currentPaintInfo.strokeColorAnimation.isConstant())
+        pathInfo.strokeStyle.color.addAnimation(m_currentPaintInfo.strokeColorAnimation);
+    if (!m_currentPaintInfo.strokeOpacityAnimation.isConstant())
+        pathInfo.strokeStyle.opacity.addAnimation(m_currentPaintInfo.strokeOpacityAnimation);
     if (m_currentPaintInfo.fill.gradient() != nullptr)
         pathInfo.grad = *m_currentPaintInfo.fill.gradient();
     if (trimmingState() != TrimmingState::Off)

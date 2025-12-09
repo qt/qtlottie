@@ -45,7 +45,11 @@ public:
     struct PaintInfo
     {
         QBrush fill = Qt::transparent;
+        QQuickAnimatedProperty::PropertyAnimation fillColorAnimation;
+        QQuickAnimatedProperty::PropertyAnimation fillOpacityAnimation;
         QPen stroke = QPen(Qt::transparent);
+        QQuickAnimatedProperty::PropertyAnimation strokeColorAnimation;
+        QQuickAnimatedProperty::PropertyAnimation strokeOpacityAnimation;
         qreal opacity = 1.0;
         Qt::FillRule fillRule = Qt::WindingFill;
         QPainterPath unitedPath;
@@ -109,6 +113,9 @@ private:
     void processShape(const QLottieShape *shape, const QPainterPath &path);
     void collectTransformAnimations(const QLottieBasicTransform *transform,
                                     bool isShapeTransform = false);
+    QQuickAnimatedProperty::PropertyAnimation makeColorAnimation(const QLottieProperty4D<QVector4D> &colorProperty);
+    QQuickAnimatedProperty::PropertyAnimation makeOpacityAnimation(const QLottieProperty<qreal> &opacityProperty);
+
     QString idForNode(const QLottieBase *node);
     int timePointForFrame(qreal frameNo, bool doWrap = true) const;
     QString scrub(const QString &raw);

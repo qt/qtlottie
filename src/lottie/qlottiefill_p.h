@@ -40,6 +40,9 @@ public:
     qreal opacity() const;
     Qt::FillRule fillRule() const;
 
+    QLottieProperty4D<QVector4D> colorProperty() const { return m_color; }
+    QLottieProperty<qreal> opacityProperty() const { return m_opacity; }
+
 protected:
     QLottieProperty4D<QVector4D> m_color;
     QLottieProperty<qreal> m_opacity;

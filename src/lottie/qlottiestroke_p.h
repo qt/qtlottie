@@ -38,6 +38,9 @@ public:
     QPen pen() const;
     qreal opacity() const;
 
+    QLottieProperty4D<QVector4D> colorProperty() const { return m_color; }
+    QLottieProperty<qreal> opacityProperty() const { return m_opacity; }
+
 protected:
     QColor getColor() const;
 
