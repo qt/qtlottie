@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
     if (f.open(QIODevice::ReadOnly)) {
         QByteArray jsonSource = f.readAll();
 
-        if (!root.parseSource(jsonSource, inFileName)) {
+        if (root.parseSource(jsonSource, QUrl::fromLocalFile(inFileName)) >= 0) {
             root.setStructureDumping(true);
             for (QLottieBase *elem : root.children()) {
                 if (elem->active(frameNo))
