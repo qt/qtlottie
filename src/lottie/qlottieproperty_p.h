@@ -57,10 +57,16 @@ public:
                     << "Property is split into separate x and y but it is not supported";
 
         bool fromExpression = definition.value(u"fromExpression"_s).toBool();
-        m_animated = (definition.value(u"a"_s).toDouble() > 0);
+
+        const QJsonValue value = definition.value(u"k"_s);
+        const QJsonArray valueArray = value.toArray();
+        if (valueArray.size() > 0) {
+            QJsonObject firstObject = valueArray.at(0).toObject();
+            m_animated = firstObject.contains(u"t"_s) && firstObject.contains(u"s"_s);
+        }
 
         if (m_animated) {
-            QJsonArray keyframes = definition.value(u"k"_s).toArray();
+            const QJsonArray &keyframes = valueArray;
             QJsonArray::const_iterator it = keyframes.constBegin();
 
             const bool schemaChanged = keyframes.last().toObject().contains(u"s"_s);
@@ -86,8 +92,11 @@ public:
                 this->m_endFrame = lastFrame;
             }
             m_value = T();
-        } else
-            m_value = getValue(definition.value(u"k"_s));
+        } else if (value.isArray()) {
+            m_value = getValue(valueArray);
+        } else {
+            m_value = getValue(value);
+        }
     }
 
     void setValue(const T& value)
