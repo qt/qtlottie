@@ -512,11 +512,22 @@ protected:
     {
         if (value.count() >= 3) {
             // Assuming color value, so limit values to [0, 1] and default alpha to 1.
-            qreal x = qBound(qreal(0), value.at(0).toDouble(), qreal(1));
-            qreal y = qBound(qreal(0), value.at(1).toDouble(), qreal(1));
-            qreal z = qBound(qreal(0), value.at(2).toDouble(), qreal(1));
-            qreal w = value.count() > 3 ? qBound(qreal(0), value.at(3).toDouble(), qreal(1)) : 1;
-            return T(x, y, z, w);
+            float vals[4];
+            bool isNormalized = true;
+            for (int i = 0; i < 4; i++) {
+                vals[i] = float(value.at(i).toDouble());
+                if (vals[i] > float(1))
+                    isNormalized = false;
+            }
+            for (int i = 0; i < 4; i++) {
+                if (!isNormalized)
+                    vals[i] /= float(255);
+                vals[i] = qBound(float(0), vals[i], float(1));
+            }
+            if (value.count() == 3)
+                vals[3] = float(1);
+
+            return T(vals[0], vals[1], vals[2], vals[3]);
         } else {
             return T();
         }
