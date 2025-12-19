@@ -194,6 +194,15 @@ void QLottieVisitor::generateMatteNode(const QLottieLayer *layer, StructureNodeS
     constexpr QLatin1String suffix("_box");
 
     if (layer->isMatteLayer()) {
+        if (stage == StructureNodeStage::Start) {
+            StructureNodeInfo info;
+            fillCommonNodeInfo(layer, &info, suffix);
+            info.bounds = QRect(QPoint(), layer->layerSize());
+            info.stage = StructureNodeStage::Start;
+            if (!m_generator->generateDefsNode(info))
+                return;
+        }
+
         MaskNodeInfo maskInfo;
         maskInfo.stage = stage;
         fillCommonNodeInfo(layer, &maskInfo, suffix);
@@ -202,6 +211,15 @@ void QLottieVisitor::generateMatteNode(const QLottieLayer *layer, StructureNodeS
         maskInfo.bounds = QRect(QPoint(), layer->layerSize());
         maskInfo.maskRect = maskInfo.bounds;
         m_generator->generateMaskNode(maskInfo);
+
+        if (stage != StructureNodeStage::Start) {
+            StructureNodeInfo info;
+            fillCommonNodeInfo(layer, &info, suffix);
+            info.bounds = QRect(QPoint(), layer->layerSize());
+            info.stage = StructureNodeStage::End;
+            m_generator->generateDefsNode(info);
+        }
+
     } else if (layer->isUsingMatteLayer() && layer->parent()) {
         StructureNodeInfo info;
         info.stage = stage;
