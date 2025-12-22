@@ -102,6 +102,19 @@ void QLottieFreeFormShape::parseShapeKeyframes(QJsonObject &keyframes)
         finalizeVertices();
 }
 
+void QLottieFreeFormShape::addCurve(QPointF start, QPointF ctlOffset1, QPointF ctlOffset2, QPointF end)
+{
+    QPointF c1 = start + ctlOffset1;
+    QPointF c2 = end + ctlOffset2;
+
+    if (isAnimated() && start == c1 && c1 == c2 && c2 == end) {
+        // QPP::cubicTo() skips null curves, so work around since all paths should have all elements
+        end += QPointF(0.001, 0.001);
+    }
+
+    m_path.cubicTo(c1, c2, end);
+}
+
 void QLottieFreeFormShape::buildShape(const QJsonObject &shape)
 {
     m_path.clear();
@@ -129,11 +142,7 @@ void QLottieFreeFormShape::buildShape(const QJsonObject &shape)
                              bezierOut.at(i).toArray().at(1).toDouble());
         QPointF c2 = QPointF(bezierIn.at(i + 1).toArray().at(0).toDouble(),
                              bezierIn.at(i + 1).toArray().at(1).toDouble());
-        c1 += s;
-        c2 += v;
-
-        m_path.cubicTo(c1, c2, v);
-
+        addCurve(s, c1, c2, v);
         s = v;
         i++;
     }
@@ -144,10 +153,7 @@ void QLottieFreeFormShape::buildShape(const QJsonObject &shape)
                              bezierOut.at(i).toArray().at(1).toDouble());
         QPointF c2 = QPointF(bezierIn.at(0).toArray().at(0).toDouble(),
                              bezierIn.at(0).toArray().at(1).toDouble());
-        c1 += s;
-        c2 += v;
-
-        m_path.cubicTo(c1, c2, v);
+        addCurve(s, c1, c2, v);
     }
 
     m_path.setFillRule(Qt::WindingFill);
@@ -194,11 +200,7 @@ void QLottieFreeFormShape::buildShape(int frame)
             QPointF v = m_vertexList.at(i + 1).pos.value();
             QPointF c1 = m_vertexList.at(i).co.value();
             QPointF c2 = m_vertexList.at(i + 1).ci.value();
-            c1 += s;
-            c2 += v;
-
-            m_path.cubicTo(c1, c2, v);
-
+            addCurve(s, c1, c2, v);
             s = v;
             i++;
         }
@@ -207,10 +209,7 @@ void QLottieFreeFormShape::buildShape(int frame)
             QPointF v = s0;
             QPointF c1 = m_vertexList.at(i).co.value();
             QPointF c2 = m_vertexList.at(0).ci.value();
-            c1 += s;
-            c2 += v;
-
-            m_path.cubicTo(c1, c2, v);
+            addCurve(s, c1, c2, v);
         }
 
         m_path.setFillRule(Qt::WindingFill);
