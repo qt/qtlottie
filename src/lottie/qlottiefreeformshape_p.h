@@ -79,6 +79,8 @@ private:
     QJsonObject createKeyframe(QJsonArray startValue, QJsonArray endValue,
                                int startFrame, QJsonObject easingIn,
                                QJsonObject easingOut);
+
+    void addCurve(QPointF start, QPointF ctlOffset1, QPointF ctlOffset2, QPointF end);
 };
 
 QT_END_NAMESPACE
