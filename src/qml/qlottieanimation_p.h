@@ -17,16 +17,16 @@
 
 #include <QtLottie/qtlottieexports.h>
 
+#include <QtQuick/qquickpainteditem.h>
+
+#include <QtGui/qimage.h>
+
 #include <QtCore/qbytearray.h>
 #include <QtCore/qlist.h>
 #include <QtCore/qmetaobject.h>
 #include <QtCore/qthread.h>
-#include <QtGui/qimage.h>
-#include <QtQuick/qquickpainteditem.h>
 
 QT_BEGIN_NAMESPACE
-
-class QQmlFile;
 
 class QBatchRenderer;
 
@@ -112,8 +112,7 @@ Q_SIGNALS:
     void endFrameChanged();
 
 protected Q_SLOTS:
-    void loadFinished();
-
+    void loadFinished(const QByteArray &json);
     void renderNextFrame();
 
 protected:
@@ -143,7 +142,6 @@ protected:
     qreal m_animHeight = 0;
     QHash<QString, int> m_markers;
     QUrl m_source;
-    QScopedPointer<QQmlFile> m_file;
     QTimer *m_frameAdvance = nullptr;
 
     void gotoFrame(int frame);

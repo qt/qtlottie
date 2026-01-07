@@ -4,30 +4,38 @@
 
 #include "qlottieanimation_p.h"
 
-#include <QQuickPaintedItem>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QJsonValue>
-#include <QFile>
-#include <QPointF>
-#include <QPainter>
-#include <QImage>
-#include <QTimer>
-#include <QMetaObject>
-#include <QLoggingCategory>
-#include <QThread>
-#include <QQmlContext>
-#include <QQmlFile>
+#include <private/qbatchrenderer_p.h>
+#include <private/qlottiebase_p.h>
+#include <private/qlottieconstants_p.h>
+#include <private/qlottielayer_p.h>
+#include <private/qlottierasterrenderer_p.h>
+#include <private/qtlottie-config_p.h>
+
+#include <QtQuick/qquickpainteditem.h>
+
+#include <QtQml/qqmlcontext.h>
+#include <QtQml/qqmlengine.h>
+#include <QtQml/qqmlfile.h>
+
+#include <QtGui/qimage.h>
+#include <QtGui/qpainter.h>
+
+#if QT_CONFIG(lottie_network)
+#include <QtNetwork/qnetworkaccessmanager.h>
+#include <QtNetwork/qnetworkreply.h>
+#endif
+
+#include <QtCore/qfile.h>
+#include <QtCore/qjsonarray.h>
+#include <QtCore/qjsondocument.h>
+#include <QtCore/qjsonobject.h>
+#include <QtCore/qloggingcategory.h>
+#include <QtCore/qmetaobject.h>
+#include <QtCore/qpoint.h>
+#include <QtCore/qthread.h>
+#include <QtCore/qtimer.h>
+
 #include <math.h>
-
-#include <QtLottie/private/qlottiebase_p.h>
-#include <QtLottie/private/qlottielayer_p.h>
-#include <QtLottie/private/qlottieconstants_p.h>
-
-
-#include <QtLottie/private/qbatchrenderer_p.h>
-#include <QtLottie/private/qlottierasterrenderer_p.h>
 
 using namespace Qt::StringLiterals;
 
@@ -580,6 +588,8 @@ void QLottieAnimation::setDirection(QLottieAnimation::Direction direction)
 void QLottieAnimation::load()
 {
     const QQmlContext *context = qmlContext(this);
+
+    // resolvedUrl() performs URL interception if necessary.
     const QUrl loadUrl = context ? context->resolvedUrl(m_source) : m_source;
 
     if (loadUrl.isEmpty()) {
@@ -589,25 +599,49 @@ void QLottieAnimation::load()
 
     setStatus(Loading);
 
-    m_file.reset(new QQmlFile(qmlEngine(this), loadUrl));
-    if (m_file->isLoading())
-        m_file->connectFinished(this, SLOT(loadFinished()));
-    else
-        loadFinished();
-}
+    if (QQmlFile::isLocalFile(loadUrl)) {
+        QFile file(QQmlFile::urlToLocalFileOrQrc(loadUrl));
+        if (!file.open(QIODevice::ReadOnly))
+            setStatus(Error);
+        else
+            loadFinished(file.readAll());
+        return;
+    }
 
-void QLottieAnimation::loadFinished()
-{
-    if (Q_UNLIKELY(m_file->isError())) {
-        m_file.reset();
+#if QT_CONFIG(lottie_network)
+    QNetworkAccessManager *networkAccessManager = context
+            ? context->engine()->networkAccessManager()
+            : nullptr;
+
+    if (!networkAccessManager) {
         setStatus(Error);
         return;
     }
 
-    Q_ASSERT(m_file->isReady());
-    const QByteArray json = m_file->dataByteArray();
-    m_file.reset();
+    QNetworkRequest request(loadUrl);
 
+    // Don't force a new connection for this request
+    request.setAttribute(QNetworkRequest::HttpPipeliningAllowedAttribute, true);
+
+    QNetworkReply *reply = networkAccessManager->get(request);
+
+    // In case we get torn down before the reply finishes
+    reply->setParent(this);
+
+    QObject::connect(reply, &QNetworkReply::finished, this, [reply, this]() {
+        if (reply->error() != QNetworkReply::NoError)
+            setStatus(Error);
+        else
+            loadFinished(reply->readAll());
+        delete reply;
+    });
+#else
+    setStatus(Error);
+#endif
+}
+
+void QLottieAnimation::loadFinished(const QByteArray &json)
+{
     if (Q_UNLIKELY(parse(json) == -1)) {
         setStatus(Error);
         return;
