@@ -29,7 +29,8 @@ class QLottieTrimPath;
 class Q_LOTTIE_EXPORT QLottieShape : public QLottieBase
 {
 public:
-    QLottieShape() = default;
+    QLottieShape();
+    ~QLottieShape();
     explicit QLottieShape(const QLottieShape &other);
 
     QLottieBase *clone() const override;
@@ -39,14 +40,29 @@ public:
     virtual const QPainterPath &path() const;
     virtual bool acceptsTrim() const;
     virtual void applyTrim(const QLottieTrimPath& trimmer);
-    const QLottieTrimPath *currentTrim() const { return m_appliedTrim; };
+    const QLottieTrimPath *currentTrim() const;
 
     int direction() const;
     bool hasReversedDirection() const { return m_direction == 3; }
 
 protected:
+    enum class OwnsAppliedTrim: bool { No = false, Yes = true};
+    struct AppliedTrimPtr
+    {
+        Q_DISABLE_COPY_MOVE(AppliedTrimPtr)
+    public:
+        AppliedTrimPtr();
+        ~AppliedTrimPtr();
+
+        void reset(QLottieTrimPath *appliedTrim, OwnsAppliedTrim owns);
+        QLottieTrimPath *data() const;
+        bool owns() const;
+    private:
+        QTaggedPointer<QLottieTrimPath, OwnsAppliedTrim> m_appliedTrim;
+    };
+
     QPainterPath m_path;
-    QLottieTrimPath *m_appliedTrim = nullptr;
+    AppliedTrimPtr m_appliedTrim;
     int m_direction = 0;
 };
 

@@ -11,8 +11,7 @@
 
 QLottieTrimPath::QLottieTrimPath(QLottieBase *parent)
 {
-    m_appliedTrim = this;
-
+    m_appliedTrim.reset(this, OwnsAppliedTrim::No);
     setParent(parent);
 }
 
@@ -81,8 +80,8 @@ void QLottieTrimPath::updateProperties(int frame)
 
 void QLottieTrimPath::render(QLottieRenderer &renderer) const
 {
-    if (m_appliedTrim) {
-        if (m_appliedTrim->isParallel())
+    if (QLottieTrimPath *appliedTrim = m_appliedTrim.data()) {
+        if (appliedTrim->isParallel())
             renderer.setTrimmingState(QLottieRenderer::Parallel);
         else
             renderer.setTrimmingState(QLottieRenderer::Sequential);
