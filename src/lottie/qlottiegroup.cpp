@@ -37,12 +37,14 @@ void QLottieGroup::updateProperties(int frame)
         QLottieShape *shape = static_cast<QLottieShape*>(child);
         if (shape->type() == LOTTIE_SHAPE_TRIM_IX) {
             QLottieTrimPath *trim = static_cast<QLottieTrimPath*>(shape);
-            if (m_appliedTrim)
-                m_appliedTrim->applyTrim(*trim);
+            if (QLottieTrimPath *appliedTrim = m_appliedTrim.data())
+                appliedTrim->applyTrim(*trim);
             else
-                m_appliedTrim = trim;
-        } else if (m_appliedTrim  && shape->acceptsTrim())
-            shape->applyTrim(*m_appliedTrim);
+                m_appliedTrim.reset(trim, OwnsAppliedTrim::No);
+        } else if (QLottieTrimPath *appliedTrim = m_appliedTrim.data()) {
+            if (shape->acceptsTrim())
+                shape->applyTrim(*appliedTrim);
+        }
     }
 }
 
@@ -54,8 +56,9 @@ void QLottieGroup::render(QLottieRenderer &renderer) const
 
     renderer.render(*this);
 
-    if (m_appliedTrim && !m_appliedTrim->hidden()) {
-        if (m_appliedTrim->isParallel())
+    const QLottieTrimPath *appliedTrim = m_appliedTrim.data();
+    if (appliedTrim && !appliedTrim->hidden()) {
+        if (appliedTrim->isParallel())
             renderer.setTrimmingState(QLottieRenderer::Parallel);
         else
             renderer.setTrimmingState(QLottieRenderer::Sequential);
@@ -64,8 +67,8 @@ void QLottieGroup::render(QLottieRenderer &renderer) const
 
     renderChildren(renderer);
 
-    if (m_appliedTrim && !m_appliedTrim->hidden() && !m_appliedTrim->isParallel())
-        m_appliedTrim->render(renderer);
+    if (appliedTrim && !appliedTrim->hidden() && !appliedTrim->isParallel())
+        appliedTrim->render(renderer);
 
     renderer.finish(*this);
 
@@ -106,17 +109,18 @@ bool QLottieGroup::acceptsTrim() const
 
 void QLottieGroup::applyTrim(const QLottieTrimPath &trimmer)
 {
-    Q_ASSERT_X(!m_appliedTrim, "QLottieGroup", "A trim already assigned");
+    Q_ASSERT_X(!m_appliedTrim.data(), "QLottieGroup", "A trim already assigned");
 
-    m_appliedTrim = static_cast<QLottieTrimPath*>(trimmer.clone());
-    m_appliedTrim->setParent(parent());
+    QLottieTrimPath *appliedTrim = static_cast<QLottieTrimPath *>(trimmer.clone());
+    m_appliedTrim.reset(appliedTrim, OwnsAppliedTrim::Yes);
+    appliedTrim->setParent(parent());
     // Setting a friendly name helps in testing
-    m_appliedTrim->setName(QStringLiteral("Inherited from") + trimmer.name());
+    appliedTrim->setName(QStringLiteral("Inherited from") + trimmer.name());
 
     for (QLottieBase *child : children()) {
         QLottieShape *shape = static_cast<QLottieShape*>(child);
         if (shape->acceptsTrim())
-            shape->applyTrim(*m_appliedTrim);
+            shape->applyTrim(*appliedTrim);
     }
 }
 

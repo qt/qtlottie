@@ -23,12 +23,58 @@
 
 QT_BEGIN_NAMESPACE
 
+QLottieShape::AppliedTrimPtr::AppliedTrimPtr() = default;
+
+QLottieShape::AppliedTrimPtr::~AppliedTrimPtr()
+{
+    if (m_appliedTrim.tag() == OwnsAppliedTrim::Yes)
+        delete m_appliedTrim.data();
+}
+
+void QLottieShape::AppliedTrimPtr::reset(QLottieTrimPath *appliedTrim, OwnsAppliedTrim owns)
+{
+    if (appliedTrim == m_appliedTrim.data() && m_appliedTrim.tag() == owns)
+        return;
+
+    if (m_appliedTrim.tag() == OwnsAppliedTrim::Yes) {
+        if (m_appliedTrim.data() == appliedTrim) {
+            // If you set the same appliedTrim again but remove the ownership, we have to delete
+            // the appliedTrim. What is left then is a nullptr.
+            appliedTrim = nullptr;
+        }
+
+        delete m_appliedTrim.data();
+    }
+
+    m_appliedTrim = appliedTrim;
+    m_appliedTrim.setTag(owns);
+}
+
+QLottieTrimPath *QLottieShape::AppliedTrimPtr::data() const
+{
+    return m_appliedTrim.data();
+}
+
+bool QLottieShape::AppliedTrimPtr::owns() const
+{
+    return m_appliedTrim.tag() == OwnsAppliedTrim::Yes;
+}
+
+QLottieShape::QLottieShape() = default;
+QLottieShape::~QLottieShape() = default;
+
 QLottieShape::QLottieShape(const QLottieShape &other)
     : QLottieBase(other)
 {
     m_direction = other.m_direction;
     m_path = other.m_path;
-    m_appliedTrim = other.m_appliedTrim;
+    if (other.m_appliedTrim.owns()) {
+        m_appliedTrim.reset(
+                static_cast<QLottieTrimPath *>(other.m_appliedTrim.data()->clone()),
+                OwnsAppliedTrim::Yes);
+    } else {
+        m_appliedTrim.reset(other.m_appliedTrim.data(), OwnsAppliedTrim::No);
+    }
 }
 
 QLottieBase *QLottieShape::clone() const
@@ -187,6 +233,11 @@ void QLottieShape::applyTrim(const QLottieTrimPath &trimmer)
 {
     if (trimmer.isParallel())
         m_path = trimmer.trim(m_path);
+}
+
+const QLottieTrimPath *QLottieShape::currentTrim() const
+{
+    return m_appliedTrim.data();
 }
 
 int QLottieShape::direction() const
