@@ -18,18 +18,7 @@ class tst_QLottieRepeaterTransform: public QObject
 {
     Q_OBJECT
 
-public:
-    tst_QLottieRepeaterTransform();
-    ~tst_QLottieRepeaterTransform();
-
-private:
-
-    //    void testParseStaticRect();
-
 private slots:
-    void initTestCase();
-    void cleanupTestCase();
-
     void testStaticInitialAnchorX();
     void testStaticInitialAnchorY();
     void testStaticInitialPositionX();
@@ -74,28 +63,8 @@ private:
     void loadTestData(const QString &filename);
     void updateProperty(int frame);
 
-    QLottieRepeaterTransform *m_transform = nullptr;
+    std::unique_ptr<QLottieRepeaterTransform> m_transform;
 };
-
-tst_QLottieRepeaterTransform::tst_QLottieRepeaterTransform()
-{
-
-}
-
-tst_QLottieRepeaterTransform::~tst_QLottieRepeaterTransform()
-{
-
-}
-
-void tst_QLottieRepeaterTransform::initTestCase()
-{
-}
-
-void tst_QLottieRepeaterTransform::cleanupTestCase()
-{
-    if (m_transform)
-        delete m_transform;
-}
 
 void tst_QLottieRepeaterTransform::testStaticInitialAnchorX()
 {
@@ -384,10 +353,7 @@ void tst_QLottieRepeaterTransform::testActive()
 
 void tst_QLottieRepeaterTransform::loadTestData(const QString &filename)
 {
-    if (m_transform) {
-        delete m_transform;
-        m_transform = nullptr;
-    }
+    m_transform.reset();
 
     QFile sourceFile(QFINDTESTDATA(QLatin1String("data/") + filename));
     if (!sourceFile.exists())
@@ -412,20 +378,20 @@ void tst_QLottieRepeaterTransform::loadTestData(const QString &filename)
 
     QJsonArray shapes = layerObj.value(QLatin1String("shapes")).toArray();
     QJsonArray::const_iterator shapesIt = shapes.constBegin();
-    QLottieShape* shape = nullptr;
     while (shapesIt != shapes.end()) {
         QJsonObject childObj = (*shapesIt).toObject();
-        shape = QLottieShape::construct(childObj);
-        QVERIFY(shape != nullptr);
-        if (shape->type() == LOTTIE_SHAPE_REPEATER_IX)
+        std::unique_ptr<QLottieShape> shape(QLottieShape::construct(childObj));
+        QVERIFY(shape);
+        if (shape->type() == LOTTIE_SHAPE_REPEATER_IX) {
+            QLottieRepeater *repeater = static_cast<QLottieRepeater *>(shape.get());
+            m_transform.reset(static_cast<QLottieRepeaterTransform *>(
+                    repeater->transform().clone()));
             break;
+        }
         shapesIt++;
     }
 
-    QLottieRepeater *repeater = static_cast<QLottieRepeater*>(shape);
-    m_transform = static_cast<QLottieRepeaterTransform*>(repeater->transform().clone());
-
-    QVERIFY(m_transform != nullptr);
+    QVERIFY(m_transform);
 }
 
 void tst_QLottieRepeaterTransform::updateProperty(int frame)

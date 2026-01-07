@@ -17,14 +17,7 @@ class tst_QLottieShapeLayer: public QObject
 {
     Q_OBJECT
 
-public:
-    tst_QLottieShapeLayer();
-    ~tst_QLottieShapeLayer();
-
 private slots:
-    void initTestCase();
-    void cleanupTestCase();
-
     void testName();
     void testType();
     void testWidth();
@@ -37,32 +30,11 @@ private slots:
 private:
     void loadTestData(const QString &filename);
 
-    QLottieShapeLayer *m_layer;
-    QLottieShapeLayer *m_clippedlayer;
+    std::unique_ptr<QLottieShapeLayer> m_layer;
+    std::unique_ptr<QLottieShapeLayer> m_clippedlayer;
     qreal m_width;
     qreal m_height;
 };
-
-tst_QLottieShapeLayer::tst_QLottieShapeLayer()
-{
-    m_layer = nullptr;
-    m_clippedlayer = nullptr;
-}
-
-tst_QLottieShapeLayer::~tst_QLottieShapeLayer()
-{
-
-}
-
-void tst_QLottieShapeLayer::initTestCase()
-{
-
-}
-
-void tst_QLottieShapeLayer::cleanupTestCase()
-{
-
-}
 
 void tst_QLottieShapeLayer::testName()
 {
@@ -128,10 +100,7 @@ void tst_QLottieShapeLayer::testMatteMode()
 
 void tst_QLottieShapeLayer::loadTestData(const QString &filename)
 {
-    if (m_layer) {
-        delete m_layer;
-        m_layer = nullptr;
-    }
+    m_layer.reset();
 
     QFile sourceFile(QFINDTESTDATA(QLatin1String("data/") + filename));
     if (!sourceFile.exists())
@@ -156,7 +125,7 @@ void tst_QLottieShapeLayer::loadTestData(const QString &filename)
     int type = layerObj.value(QLatin1String("ty")).toInt();
     if (type != 4)
         QFAIL("It's not shape layer");
-    m_layer = new QLottieShapeLayer();
+    m_layer = std::make_unique<QLottieShapeLayer>();
     int ret = m_layer->parse(layerObj);
     QVERIFY(m_layer != nullptr);
     QVERIFY(ret >= 0);
@@ -166,7 +135,7 @@ void tst_QLottieShapeLayer::loadTestData(const QString &filename)
         type = layerObj.value(QLatin1String("ty")).toInt();
         if (type != 4)
             QFAIL("it's not shape layer");
-        m_clippedlayer = new QLottieShapeLayer();
+        m_clippedlayer = std::make_unique<QLottieShapeLayer>();
         m_clippedlayer->parse(layerObj);
         QVERIFY(m_clippedlayer != nullptr);
     }

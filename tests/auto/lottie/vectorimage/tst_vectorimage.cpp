@@ -90,12 +90,9 @@ void tst_VectorImage::parseFiles()
     engine.rootContext()->setContextProperty(QStringLiteral("fileName"), QStringLiteral("qrc:/json/%1").arg(fileName));
 
     QQmlComponent c(&engine, testFileUrl("vectorimage.qml"));
-    QQuickItem *item = qobject_cast<QQuickItem *>(c.create());
-    auto cleanup = qScopeGuard([&item] {
-        delete item;
-        item = nullptr;
-    });
-
+    QVERIFY2(c.isReady(), qPrintable(c.errorString()));
+    std::unique_ptr<QObject> object(c.create());
+    QQuickItem *item = qobject_cast<QQuickItem *>(object.get());
     QVERIFY(item != nullptr);
     QVERIFY(!item->childItems().isEmpty());
     QVERIFY(!item->childItems().first()->size().isNull());
@@ -107,12 +104,9 @@ void tst_VectorImage::parseBrokenFile()
     engine.rootContext()->setContextProperty(QStringLiteral("fileName"), testFileUrl("json/broken.json"));
 
     QQmlComponent c(&engine, testFileUrl("vectorimage.qml"));
-    QQuickItem *item = qobject_cast<QQuickItem *>(c.create());
-    auto cleanup = qScopeGuard([&item] {
-        delete item;
-        item = nullptr;
-    });
-
+    QVERIFY2(c.isReady(), qPrintable(c.errorString()));
+    std::unique_ptr<QObject> object(c.create());
+    QQuickItem *item = qobject_cast<QQuickItem *>(object.get());
     QVERIFY(item != nullptr);
     QVERIFY(!item->childItems().isEmpty());
     QVERIFY(item->childItems().first()->size().isNull());
@@ -125,12 +119,9 @@ void tst_VectorImage::parseNoAssumeTrustedSource()
 
     {
         QQmlComponent c(&engine, testFileUrl("vectorimage.qml"));
-        QQuickItem *item = qobject_cast<QQuickItem *>(c.create());
-        auto cleanup = qScopeGuard([&item] {
-            delete item;
-            item = nullptr;
-        });
-
+        QVERIFY2(c.isReady(), qPrintable(c.errorString()));
+        std::unique_ptr<QObject> object(c.create());
+        QQuickItem *item = qobject_cast<QQuickItem *>(object.get());
         QVERIFY(item != nullptr);
         QVERIFY(!item->childItems().isEmpty());
         QVERIFY(!item->childItems().first()->size().isNull());

@@ -18,18 +18,7 @@ class tst_QLottieShapeTransform: public QObject
 {
     Q_OBJECT
 
-public:
-    tst_QLottieShapeTransform();
-    ~tst_QLottieShapeTransform();
-
-private:
-
-    //    void testParseStaticRect();
-
 private slots:
-    void initTestCase();
-    void cleanupTestCase();
-
     void testStaticInitialAnchorX();
     void testStaticInitialAnchorY();
     void testStaticInitialPositionX();
@@ -81,28 +70,9 @@ private:
     void loadTestData(const QString &filename);
     void updateProperty(int frame);
 
+    std::unique_ptr<QLottieGroup> m_group;
     QLottieShapeTransform *m_transform = nullptr;
 };
-
-tst_QLottieShapeTransform::tst_QLottieShapeTransform()
-{
-
-}
-
-tst_QLottieShapeTransform::~tst_QLottieShapeTransform()
-{
-
-}
-
-void tst_QLottieShapeTransform::initTestCase()
-{
-}
-
-void tst_QLottieShapeTransform::cleanupTestCase()
-{
-    if (m_transform)
-        delete m_transform;
-}
 
 void tst_QLottieShapeTransform::testStaticInitialAnchorX()
 {
@@ -434,10 +404,7 @@ void tst_QLottieShapeTransform::testActive()
 
 void tst_QLottieShapeTransform::loadTestData(const QString &filename)
 {
-    if (m_transform) {
-        delete m_transform;
-        m_transform = nullptr;
-    }
+    m_group.reset();
 
     QFile sourceFile(QFINDTESTDATA(QLatin1String("data/") + filename));
     if (!sourceFile.exists())
@@ -462,22 +429,20 @@ void tst_QLottieShapeTransform::loadTestData(const QString &filename)
 
     QJsonArray shapes = layerObj.value(QLatin1String("shapes")).toArray();
     QJsonArray::const_iterator shapesIt = shapes.constBegin();
-    QLottieGroup* group = nullptr;
     while (shapesIt != shapes.end()) {
         QJsonObject childObj = (*shapesIt).toObject();
-        QLottieShape *shape = QLottieShape::construct(childObj);
-        QVERIFY(shape != nullptr);
+        std::unique_ptr<QLottieShape> shape(QLottieShape::construct(childObj));
+        QVERIFY(shape);
         if (shape->type() == LOTTIE_SHAPE_GROUP_IX) {
-            group = static_cast<QLottieGroup *>(shape);
+            m_group.reset(static_cast<QLottieGroup *>(shape.release()));
             break;
         }
         shapesIt++;
     }
-    QVERIFY(group != nullptr);
+    QVERIFY(m_group);
 
-    m_transform = static_cast<QLottieShapeTransform*>(group->findChild("Transform"));
-
-    QVERIFY(m_transform != nullptr);
+    m_transform = static_cast<QLottieShapeTransform *>(m_group->findChild("Transform"));
+    QVERIFY(m_transform);
 }
 
 void tst_QLottieShapeTransform::updateProperty(int frame)

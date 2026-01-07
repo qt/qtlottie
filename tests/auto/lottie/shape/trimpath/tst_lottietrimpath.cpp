@@ -17,18 +17,7 @@ class tst_QLottieTrimPath: public QObject
 {
     Q_OBJECT
 
-public:
-    tst_QLottieTrimPath();
-    ~tst_QLottieTrimPath();
-
-private:
-
-    //    void testParseStaticRect();
-
 private slots:
-    void initTestCase();
-    void cleanupTestCase();
-
     void testStaticInitialStart();
     void testStaticInitialEnd();
     void testStaticInitialOffset();
@@ -56,28 +45,8 @@ private:
     void loadTestData(const QString &filename);
     void updateProperty(int frame);
 
-    QLottieTrimPath *m_trimpath = nullptr;
+    std::unique_ptr<QLottieTrimPath> m_trimpath;
 };
-
-tst_QLottieTrimPath::tst_QLottieTrimPath()
-{
-
-}
-
-tst_QLottieTrimPath::~tst_QLottieTrimPath()
-{
-
-}
-
-void tst_QLottieTrimPath::initTestCase()
-{
-}
-
-void tst_QLottieTrimPath::cleanupTestCase()
-{
-    if (m_trimpath)
-        delete m_trimpath;
-}
 
 void tst_QLottieTrimPath::testStaticInitialStart()
 {
@@ -235,10 +204,7 @@ void tst_QLottieTrimPath::testActive()
 
 void tst_QLottieTrimPath::loadTestData(const QString &filename)
 {
-    if (m_trimpath) {
-        delete m_trimpath;
-        m_trimpath = nullptr;
-    }
+    m_trimpath.reset();
 
     QFile sourceFile(QFINDTESTDATA(QLatin1String("data/") + filename));
     if (!sourceFile.exists())
@@ -263,19 +229,18 @@ void tst_QLottieTrimPath::loadTestData(const QString &filename)
 
     QJsonArray shapes = layerObj.value(QLatin1String("shapes")).toArray();
     QJsonArray::const_iterator shapesIt = shapes.constBegin();
-    QLottieShape* shape = nullptr;
+    std::unique_ptr<QLottieShape> shape;
     while (shapesIt != shapes.end()) {
         QJsonObject childObj = (*shapesIt).toObject();
-        shape = QLottieShape::construct(childObj);
+        shape.reset(QLottieShape::construct(childObj));
         QVERIFY(shape != nullptr);
         if (shape->type() == LOTTIE_SHAPE_TRIM_IX)
             break;
         shapesIt++;
     }
 
-    m_trimpath = static_cast<QLottieTrimPath*>(shape);
-
-    QVERIFY(m_trimpath != nullptr);
+    m_trimpath.reset(static_cast<QLottieTrimPath *>(shape.release()));
+    QVERIFY(m_trimpath);
 }
 
 void tst_QLottieTrimPath::updateProperty(int frame)

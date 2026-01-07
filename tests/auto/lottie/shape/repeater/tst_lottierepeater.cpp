@@ -17,14 +17,7 @@ class tst_QLottieRepeater : public QObject
 {
     Q_OBJECT
 
-public:
-    tst_QLottieRepeater();
-    ~tst_QLottieRepeater();
-
 private slots:
-    void initTestCase();
-    void cleanupTestCase();
-
     void testStaticInitialCopy();
     void testStaticInitialOffset();
     void testStaticUpdatedCopy();
@@ -44,29 +37,9 @@ private:
     void loadTestData(const QString &filename);
     void updateProperty(int frame);
 
-    QLottieRepeater *m_repeater = nullptr;
+    std::unique_ptr<QLottieRepeater> m_repeater;
 
 };
-
-tst_QLottieRepeater::tst_QLottieRepeater()
-{
-
-}
-
-tst_QLottieRepeater::~tst_QLottieRepeater()
-{
-
-}
-
-void tst_QLottieRepeater::initTestCase()
-{
-
-}
-
-void tst_QLottieRepeater::cleanupTestCase()
-{
-
-}
 
 void tst_QLottieRepeater::testStaticInitialCopy()
 {
@@ -155,10 +128,7 @@ void tst_QLottieRepeater::testHidden()
 
 void tst_QLottieRepeater::loadTestData(const QString &filename)
 {
-    if (m_repeater) {
-        delete m_repeater;
-        m_repeater = nullptr;
-    }
+    m_repeater.reset();
 
     QFile sourceFile(QFINDTESTDATA(QLatin1String("data/") + filename));
     if (!sourceFile.exists())
@@ -183,19 +153,18 @@ void tst_QLottieRepeater::loadTestData(const QString &filename)
 
     QJsonArray shapes = layerObj.value(QLatin1String("shapes")).toArray();
     QJsonArray::const_iterator shapesIt = shapes.constBegin();
-    QLottieShape* shape = nullptr;
     while (shapesIt != shapes.end()) {
         QJsonObject childObj = (*shapesIt).toObject();
-        shape = QLottieShape::construct(childObj);
-        QVERIFY(shape != nullptr);
-        if (shape->type() == LOTTIE_SHAPE_REPEATER_IX)
+        std::unique_ptr<QLottieShape> shape(QLottieShape::construct(childObj));
+        QVERIFY(shape);
+        if (shape->type() == LOTTIE_SHAPE_REPEATER_IX) {
+            m_repeater.reset(static_cast<QLottieRepeater *>(shape.release()));
             break;
+        }
         shapesIt++;
     }
 
-    m_repeater = static_cast<QLottieRepeater*>(shape);
-
-    QVERIFY(m_repeater != nullptr);
+    QVERIFY(m_repeater);
 }
 
 void tst_QLottieRepeater::updateProperty(int frame)
