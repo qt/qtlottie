@@ -42,8 +42,12 @@ int QLottieFill::parse(const QJsonObject &definition)
 
     qCDebug(lcLottieQtLottieParser) << "QLottieFill::parse():" << m_name;
 
-     if (!checkRequiredKey(definition, QStringLiteral("Fill"), {"o", "c"}, m_name))
+    if (!checkRequiredKey(definition,
+                          QStringLiteral("Fill"),
+                          { QStringLiteral("o"), QStringLiteral("c") },
+                          m_name)) {
         return -1;
+    }
 
     QJsonObject color = definition.value(u"c"_s).toObject();
     m_color.construct(color);
