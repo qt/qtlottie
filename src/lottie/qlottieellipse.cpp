@@ -66,8 +66,12 @@ int QLottieEllipse::parse(const QJsonObject &definition)
 
     qCDebug(lcLottieQtLottieParser) << "QLottieEllipse::parse():" << m_name;
 
-    if (!checkRequiredKey(definition, QStringLiteral("Ellipse"), {"p", "s"}, m_name))
+    if (!checkRequiredKey(definition,
+                          QStringLiteral("Ellipse"),
+                          { QStringLiteral("p"), QStringLiteral("s") },
+                          m_name)) {
         return -1;
+    }
 
     QJsonObject position = definition.value(u"p"_s).toObject();
     position = resolveExpression(position);
