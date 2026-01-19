@@ -633,7 +633,7 @@ void QLottieAnimation::load()
             setStatus(Error);
         else
             loadFinished(reply->readAll());
-        delete reply;
+        reply->deleteLater();
     });
 #else
     setStatus(Error);
