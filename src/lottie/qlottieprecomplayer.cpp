@@ -54,17 +54,17 @@ int QLottiePrecompLayer::parse(const QJsonObject &definition)
 
     qCDebug(lcLottieQtLottieParser) << "QLottiePrecompLayer::QLottiePrecompLayer()" << m_name;
 
-    m_startTime = definition.value(u"st"_s).toDouble(); // only relevant for precomps
+    m_startTime = definition.value("st"_L1).toDouble(); // only relevant for precomps
 
-    if (!checkRequiredKey(definition, u"Precomp Layer"_s, {u"refId"_s}, m_name))
+    if (!checkRequiredKeys(definition, "Precomp Layer"_L1, { "refId"_L1 }, m_name))
         return -1;
-    QString refId = definition.value(u"refId"_s).toString();
+    QString refId = definition.value("refId"_L1).toString();
 
     QJsonObject asset = m_assets.value(refId);
-    QJsonArray jsonLayers = asset.value(u"layers"_s).toArray();
+    QJsonArray jsonLayers = asset.value("layers"_L1).toArray();
     int numLayers = QLottieLayer::constructLayers(jsonLayers, this, m_assets);
 
-    m_size = QSize(definition.value(u"w"_s).toInt(-1), definition.value(u"h"_s).toInt(-1));
+    m_size = QSize(definition.value("w"_L1).toInt(-1), definition.value("h"_L1).toInt(-1));
 
     qCDebug(lcLottieQtLottieParser) << "QLottiePrecompLayer created" << numLayers << "layers";
     return 0;

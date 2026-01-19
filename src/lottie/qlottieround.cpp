@@ -34,11 +34,11 @@ int QLottieRound::parse(const QJsonObject &definition)
 
     qCDebug(lcLottieQtLottieParser) << "QLottieRound::parse():" << m_name;
 
-    QJsonObject position = definition.value(u"p"_s).toObject();
+    QJsonObject position = definition.value("p"_L1).toObject();
     position = resolveExpression(position);
     m_position.construct(position);
 
-    QJsonObject radius = definition.value(u"r"_s).toObject();
+    QJsonObject radius = definition.value("r"_L1).toObject();
     radius = resolveExpression(radius);
     m_radius.construct(radius);
 

@@ -71,7 +71,8 @@ protected:
     QLottieBase *topRoot() const;
     const QJsonObject resolveExpression(const QJsonObject& definition);
     void renderChildren(QLottieRenderer &renderer) const;
-    bool checkRequiredKey(const QJsonObject &definition, const QString &type, QList<QString> keys, const QString &name = QString());
+    bool checkRequiredKeys(const QJsonObject &definition, const QLatin1StringView type,
+                           const QList<QLatin1StringView> &keys, const QString &name = QString()) const;
 
 protected:
     QJsonObject m_definition;

@@ -42,21 +42,17 @@ int QLottieFill::parse(const QJsonObject &definition)
 
     qCDebug(lcLottieQtLottieParser) << "QLottieFill::parse():" << m_name;
 
-    if (!checkRequiredKey(definition,
-                          QStringLiteral("Fill"),
-                          { QStringLiteral("o"), QStringLiteral("c") },
-                          m_name)) {
+    if (!checkRequiredKeys(definition, "Fill"_L1, { "o"_L1, "c"_L1 }, m_name))
         return -1;
-    }
 
-    QJsonObject color = definition.value(u"c"_s).toObject();
+    QJsonObject color = definition.value("c"_L1).toObject();
     m_color.construct(color);
 
-    QJsonObject opacity = definition.value(u"o"_s).toObject();
+    QJsonObject opacity = definition.value("o"_L1).toObject();
     opacity = resolveExpression(opacity);
     m_opacity.construct(opacity);
 
-    const int fillValue = definition.value(QLatin1String("r")).toInt();
+    const int fillValue = definition.value("r"_L1).toInt();
     m_fillRule = (fillValue == 2) ? Qt::OddEvenFill : Qt::WindingFill;
 
     return 0;

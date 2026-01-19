@@ -59,10 +59,10 @@ int QLottieStroke::parse(const QJsonObject &definition)
 
     qCDebug(lcLottieQtLottieParser) << "QLottieStroke::QLottieStroke()" << m_name;
 
-    if (!checkRequiredKey(definition, u"Stroke"_s, {u"c"_s, u"o"_s, u"w"_s}, m_name))
+    if (!checkRequiredKeys(definition, "Stroke"_L1, { "c"_L1, "o"_L1, "w"_L1 }, m_name))
         return -1;
 
-    int lineCap = definition.value(u"lc"_s).toVariant().toInt();
+    int lineCap = definition.value("lc"_L1).toVariant().toInt();
     switch (lineCap) {
     case 1:
         m_capStyle = Qt::FlatCap;
@@ -77,11 +77,11 @@ int QLottieStroke::parse(const QJsonObject &definition)
         qCDebug(lcLottieQtLottieParser) << "Unknown line cap style in QLottieStroke";
     }
 
-    int lineJoin = definition.value(u"lj"_s).toVariant().toInt();
+    int lineJoin = definition.value("lj"_L1).toVariant().toInt();
     switch (lineJoin) {
     case 1:
         m_joinStyle = Qt::MiterJoin;
-        m_miterLimit = definition.value(u"ml"_s).toVariant().toReal();
+        m_miterLimit = definition.value("ml"_L1).toVariant().toReal();
         break;
     case 2:
         m_joinStyle = Qt::RoundJoin;
@@ -93,31 +93,31 @@ int QLottieStroke::parse(const QJsonObject &definition)
         qCDebug(lcLottieQtLottieParser) << "Unknown line join style in QLottieStroke";
     }
 
-    QJsonObject opacity = definition.value(u"o"_s).toObject();
+    QJsonObject opacity = definition.value("o"_L1).toObject();
     opacity = resolveExpression(opacity);
     m_opacity.construct(opacity);
 
-    QJsonObject width = definition.value(u"w"_s).toObject();
+    QJsonObject width = definition.value("w"_L1).toObject();
     width = resolveExpression(width);
     m_width.construct(width);
 
-    QJsonObject color = definition.value(u"c"_s).toObject();
+    QJsonObject color = definition.value("c"_L1).toObject();
     color = resolveExpression(color);
     m_color.construct(color);
 
-    QJsonArray dashes = definition.value(u"d"_s).toArray();
+    QJsonArray dashes = definition.value("d"_L1).toArray();
     if (dashes.size()) {
         auto it = dashes.cend();
         while (it != dashes.cbegin()) {
             --it;
             QJsonObject dashSpec = it->toObject();
-            QJsonObject val = resolveExpression(dashSpec.value(u"v"_s).toObject());
-            QString n = dashSpec.value(u"n"_s).toString();
-            if (n == u"o"_s)
+            QJsonObject val = resolveExpression(dashSpec.value("v"_L1).toObject());
+            QString n = dashSpec.value("n"_L1).toString();
+            if (n == "o"_L1)
                 m_dashOffset.construct(val);
-            else if (n == u"g"_s)
+            else if (n == "g"_L1)
                 m_dashGap.construct(val);
-            else if (n == u"d"_s)
+            else if (n == "d"_L1)
                 m_dashLength.construct(val);
         }
         m_isDashed = true;

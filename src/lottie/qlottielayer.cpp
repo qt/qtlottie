@@ -66,7 +66,7 @@ QLottieLayer *QLottieLayer::construct(QJsonObject definition, const QMap<QString
     qCDebug(lcLottieQtLottieParser) << "QLottieLayer::parse()";
 
     QLottieLayer *layer = nullptr;
-    int type = definition.value(u"ty"_s).toInt();
+    int type = definition.value("ty"_L1).toInt();
     int ret = 0;
     switch (type) {
     case 0:
@@ -119,23 +119,21 @@ int QLottieLayer::constructLayers(QJsonArray jsonLayers, QLottieBase *parent,
     while (jsonLayerIt != jsonLayers.constBegin()) {
         jsonLayerIt--;
         QJsonObject jsonLayer = (*jsonLayerIt).toObject();
-        if (!jsonLayer.contains(u"ty"_s)) {
-            qCWarning(lcLottieQtLottieParser) << "Layer"
-                << jsonLayer.value(QLatin1String("nm")).toString()
-                << "is missing required key \"ty\"";
+        if (!jsonLayer.contains("ty"_L1)) {
+            qCWarning(lcLottieQtLottieParser) << "Layer" << jsonLayer.value("nm"_L1).toString()
+                                              << "is missing required key \"ty\"";
             return -1;
         }
 
-        if (jsonLayer.value(u"ty"_s).toInt() == 2) {
-            if (!jsonLayer.contains(u"refId"_s)) {
-                qCWarning(lcLottieQtLottieParser) << "Layer"
-                    << jsonLayer.value(QLatin1String("nm")).toString()
-                    << "is missing required key \"refId\"";
+        if (jsonLayer.value("ty"_L1).toInt() == 2) {
+            if (!jsonLayer.contains("refId"_L1)) {
+                qCWarning(lcLottieQtLottieParser) << "Layer" << jsonLayer.value("nm"_L1).toString()
+                                                  << "is missing required key \"refId\"";
                 return -1;
             }
 
-            QString refId = jsonLayer.value(u"refId"_s).toString();
-            jsonLayer.insert(u"asset"_s, assets.value(refId));
+            QString refId = jsonLayer.value("refId"_L1).toString();
+            jsonLayer.insert("asset"_L1, assets.value(refId));
         }
 
         QLottieLayer *layer = QLottieLayer::construct(jsonLayer, assets);
@@ -167,27 +165,27 @@ int QLottieLayer::parse(const QJsonObject &definition)
 
     qCDebug(lcLottieQtLottieParser) << "QLottieLayer::parse():" << m_name;
 
-    m_layerIndex = definition.value(u"ind"_s).toVariant().toInt();
-    if (!checkRequiredKey(definition, u"Layer"_s, {u"ip"_s, u"op"_s, u"ks"_s}, m_name))
-            return -1;
-    m_startFrame = definition.value(u"ip"_s).toVariant().toInt();
-    m_endFrame = definition.value(u"op"_s).toVariant().toInt();
-    m_blendMode = definition.value(u"lottie"_s).toVariant().toInt();
-    m_autoOrient = definition.value(u"ao"_s).toBool();
-    m_3dLayer = definition.value(u"ddd"_s).toBool();
-    m_stretch = definition.value(u"sr"_s).toVariant().toReal();
-    m_linkedLayerId = definition.value(u"parent"_s).toVariant().toInt(&m_hasLinkedLayer);
-    m_isMatte = definition.value(u"td"_s).toInt() == 1;
-    int matteMode = definition.value(u"tt"_s).toInt(-1);
+    m_layerIndex = definition.value("ind"_L1).toVariant().toInt();
+    if (!checkRequiredKeys(definition, "Layer"_L1, { "ip"_L1, "op"_L1, "ks"_L1 }, m_name))
+        return -1;
+    m_startFrame = definition.value("ip"_L1).toVariant().toInt();
+    m_endFrame = definition.value("op"_L1).toVariant().toInt();
+    m_blendMode = definition.value("lottie"_L1).toVariant().toInt();
+    m_autoOrient = definition.value("ao"_L1).toBool();
+    m_3dLayer = definition.value("ddd"_L1).toBool();
+    m_stretch = definition.value("sr"_L1).toVariant().toReal();
+    m_linkedLayerId = definition.value("parent"_L1).toVariant().toInt(&m_hasLinkedLayer);
+    m_isMatte = definition.value("td"_L1).toInt() == 1;
+    int matteMode = definition.value("tt"_L1).toInt(-1);
     if (matteMode > -1 && matteMode < 5)
         m_matteMode = static_cast<MatteClipMode>(matteMode);
 
-    QJsonObject trans = definition.value(u"ks"_s).toObject();
+    QJsonObject trans = definition.value("ks"_L1).toObject();
     m_layerTransform = new QLottieBasicTransform(this);
     if (m_layerTransform->parse(trans) < 0)
         return -1;
 
-    QJsonArray effects = definition.value(u"ef"_s).toArray();
+    QJsonArray effects = definition.value("ef"_L1).toArray();
     parseEffects(effects);
 
     if (m_matteMode > 2)
@@ -360,7 +358,7 @@ void QLottieLayer::parseEffects(const QJsonArray &definition, QLottieBase *effec
         }
         it--;
         QJsonObject effect = (*it).toObject();
-        int type = effect.value(u"ty"_s).toInt();
+        int type = effect.value("ty"_L1).toInt();
         switch (type) {
         case 0:
         {
@@ -371,11 +369,11 @@ void QLottieLayer::parseEffects(const QJsonArray &definition, QLottieBase *effec
         }
         case 5:
         {
-            if (effect.value(u"en"_s).toInt()) {
+            if (effect.value("en"_L1).toInt()) {
                 QLottieBase *group = new QLottieBase;
                 group->parse(effect);
                 effectRoot->appendChild(group);
-                parseEffects(effect.value(u"ef"_s).toArray(), group);
+                parseEffects(effect.value("ef"_L1).toArray(), group);
             }
             break;
         }

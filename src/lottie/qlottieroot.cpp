@@ -37,33 +37,33 @@ int QLottieRoot::parseSource(const QByteArray &jsonSource, const QUrl &fileSourc
         return -1;
 
     QMap<QString, QJsonObject> assets;
-    QJsonArray jsonLayers = rootObj.value(u"layers"_s).toArray();
-    QJsonArray jsonAssets = rootObj.value(u"assets"_s).toArray();
-    QString name = rootObj.value(u"nm"_s).toString();
+    QJsonArray jsonLayers = rootObj.value("layers"_L1).toArray();
+    QJsonArray jsonAssets = rootObj.value("assets"_L1).toArray();
+    QString name = rootObj.value("nm"_L1).toString();
 
-    if (!checkRequiredKey(rootObj, u""_s, {u"fr"_s, u"ip"_s, u"op"_s}, name))
+    if (!checkRequiredKeys(rootObj, ""_L1, { "fr"_L1, "ip"_L1, "op"_L1 }, name))
         return -1;
 
-    m_frameRate = rootObj.value(u"fr"_s).toVariant().toInt();
+    m_frameRate = rootObj.value("fr"_L1).toVariant().toInt();
     if (m_frameRate <= 0) {
         qCWarning(lcLottieQtLottieParser) << "\"fr\" value of" << name << "should be greater than 0";
         return -1;
     }
 
-    m_startFrame = rootObj.value(u"ip"_s).toVariant().toInt();
-    m_endFrame = rootObj.value(u"op"_s).toVariant().toInt();
+    m_startFrame = rootObj.value("ip"_L1).toVariant().toInt();
+    m_endFrame = rootObj.value("op"_L1).toVariant().toInt();
 
-    m_size = QSize(rootObj.value(u"w"_s).toInt(-1), rootObj.value(u"h"_s).toInt(-1));
+    m_size = QSize(rootObj.value("w"_L1).toInt(-1), rootObj.value("h"_L1).toInt(-1));
 
     QJsonArray::const_iterator jsonAssetsIt = jsonAssets.constBegin();
     while (jsonAssetsIt != jsonAssets.constEnd()) {
         QJsonObject jsonAsset = (*jsonAssetsIt).toObject();
 
-        jsonAsset.insert(u"fileSource"_s, QJsonValue::fromVariant(fileSource));
-        if (!checkRequiredKey(jsonAsset, u"Asset"_s, {u"id"_s}))
+        jsonAsset.insert("fileSource"_L1, QJsonValue::fromVariant(fileSource));
+        if (!checkRequiredKeys(jsonAsset, "Asset"_L1, { "id"_L1 }))
             return -1;
 
-        QString id = jsonAsset.value(u"id"_s).toString();
+        QString id = jsonAsset.value("id"_L1).toString();
         assets.insert(id, jsonAsset);
         jsonAssetsIt++;
     }

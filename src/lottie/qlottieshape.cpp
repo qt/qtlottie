@@ -87,13 +87,12 @@ QLottieShape *QLottieShape::construct(QJsonObject definition, QLottieBase *paren
     qCDebug(lcLottieQtLottieParser) << "QLottieShape::parse()";
 
     QLottieShape *shape = nullptr;
-    if (!definition.contains(u"ty"_s)) {
-        qCWarning(lcLottieQtLottieParser) << "Shape"
-                << definition.value(u"nm"_s).toString()
-                << "is missing required key \"ty\"";
+    if (!definition.contains("ty"_L1)) {
+        qCWarning(lcLottieQtLottieParser) << "Shape" << definition.value("nm"_L1).toString()
+                                          << "is missing required key \"ty\"";
         return nullptr;
     }
-    const QByteArray type = definition.value(u"ty"_s).toString().toLatin1();
+    const QByteArray type = definition.value("ty"_L1).toString().toLatin1();
 
     if (Q_UNLIKELY(type.size() != 2)) {
         qCInfo(lcLottieQtLottieParser) << "Unsupported shape type:"

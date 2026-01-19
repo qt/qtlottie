@@ -27,29 +27,29 @@ void QLottieFillEffect::construct(const QJsonObject &definition)
 {
     m_type = LOTTIE_EFFECT_FILL;
 
-    if (!definition.value(u"hd"_s).toBool(true))
+    if (!definition.value("hd"_L1).toBool(true))
         return;
 
-    QJsonArray properties = definition.value(u"ef"_s).toArray();
+    QJsonArray properties = definition.value("ef"_L1).toArray();
 
     // TODO: Check are property positions really fixed in the effect?
 
-    m_color.construct(properties.at(2).toObject().value(u"v"_s).toObject());
-    m_opacity.construct(properties.at(6).toObject().value(u"v"_s).toObject());
+    m_color.construct(properties.at(2).toObject().value("v"_L1).toObject());
+    m_opacity.construct(properties.at(6).toObject().value("v"_L1).toObject());
 
-    if (!qFuzzyCompare(properties.at(0).toObject().value(u"v"_s).toObject().value(u"k"_s).toDouble(), 0.0))
+    if (!qFuzzyCompare(properties.at(0).toObject().value("v"_L1).toObject().value("k"_L1).toDouble(), 0.0))
         qCInfo(lcLottieQtLottieParser)<< "QLottieFillEffect: Property 'Fill mask' not supported";
 
-    if (!qFuzzyCompare(properties.at(1).toObject().value(u"v"_s).toObject().value(u"k"_s).toDouble(), 0.0))
+    if (!qFuzzyCompare(properties.at(1).toObject().value("v"_L1).toObject().value("k"_L1).toDouble(), 0.0))
         qCInfo(lcLottieQtLottieParser) << "QLottieFillEffect: Property 'All masks' not supported";
 
-    if (!qFuzzyCompare(properties.at(3).toObject().value(u"v"_s).toObject().value(u"k"_s).toDouble(), 0.0))
+    if (!qFuzzyCompare(properties.at(3).toObject().value("v"_L1).toObject().value("k"_L1).toDouble(), 0.0))
         qCInfo(lcLottieQtLottieParser) << "QLottieFillEffect: Property 'Invert' not supported";
 
-    if (!qFuzzyCompare(properties.at(4).toObject().value(u"v"_s).toObject().value(u"k"_s).toDouble(), 0.0))
+    if (!qFuzzyCompare(properties.at(4).toObject().value("v"_L1).toObject().value("k"_L1).toDouble(), 0.0))
         qCInfo(lcLottieQtLottieParser) << "QLottieFillEffect: Property 'Horizontal feather' not supported";
 
-    if (!qFuzzyCompare(properties.at(5).toObject().value(u"v"_s).toObject().value(u"k"_s).toDouble(), 0.0))
+    if (!qFuzzyCompare(properties.at(5).toObject().value("v"_L1).toObject().value("k"_L1).toDouble(), 0.0))
         qCInfo(lcLottieQtLottieParser)
                 << "QLottieFillEffect: Property 'Vertical feather' not supported";
 }
