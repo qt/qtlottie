@@ -42,34 +42,34 @@ int QLottiePolyStar::parse(const QJsonObject &definition)
 
     qCDebug(lcLottieQtLottieParser) << "QLottiePolyStar::parse():" << m_name;
 
-    if (!checkRequiredKey(definition, u"Polystar"_s, {u"p"_s, u"or"_s, u"os"_s, u"pt"_s, u"r"_s}, m_name))
+    if (!checkRequiredKeys(definition, "Polystar"_L1, {"p"_L1, "or"_L1, "os"_L1, "pt"_L1, "r"_L1}, m_name))
         return -1;
 
-    QJsonObject position = definition.value(u"p"_s).toObject();
+    QJsonObject position = definition.value("p"_L1).toObject();
     position = resolveExpression(position);
     m_position.construct(position);
 
-    QJsonObject outerRadius = definition.value(u"or"_s).toObject();
+    QJsonObject outerRadius = definition.value("or"_L1).toObject();
     outerRadius = resolveExpression(outerRadius);
     m_outerRadius.construct(outerRadius);
 
-    if (definition.contains(u"ir"_s)) {
-        QJsonObject innerRadius = definition.value(u"ir"_s).toObject();
+    if (definition.contains("ir"_L1)) {
+        QJsonObject innerRadius = definition.value("ir"_L1).toObject();
         innerRadius = resolveExpression(innerRadius);
         m_innerRadius.construct(innerRadius);
     }
 
-    QJsonObject startAngle = definition.value(u"r"_s).toObject();
+    QJsonObject startAngle = definition.value("r"_L1).toObject();
     startAngle = resolveExpression(startAngle);
     m_startAngle.construct(startAngle);
 
-    QJsonObject pointCount = definition.value(u"pt"_s).toObject();
+    QJsonObject pointCount = definition.value("pt"_L1).toObject();
     pointCount = resolveExpression(pointCount);
     m_pointCount.construct(pointCount);
 
-    m_polygonMode = (definition.value(u"sy"_s).toInt() == 2);
+    m_polygonMode = (definition.value("sy"_L1).toInt() == 2);
 
-    m_direction = definition.value(u"d"_s).toInt();
+    m_direction = definition.value("d"_L1).toInt();
 
     return 0;
 }

@@ -37,22 +37,22 @@ int QLottieTrimPath::parse(const QJsonObject &definition)
 
     qCDebug(lcLottieQtLottieParser) << "QLottieTrimPath::parse():" << m_name;
 
-    if (!checkRequiredKey(definition, u"Trim path"_s, {u"o"_s, u"s"_s, u"e"_s}, m_name))
+    if (!checkRequiredKeys(definition, "Trim path"_L1, { "o"_L1, "s"_L1, "e"_L1 }, m_name))
         return -1;
 
-    QJsonObject start = definition.value(u"s"_s).toObject();
+    QJsonObject start = definition.value("s"_L1).toObject();
     start = resolveExpression(start);
     m_start.construct(start);
 
-    QJsonObject end = definition.value(u"e"_s).toObject();
+    QJsonObject end = definition.value("e"_L1).toObject();
     end = resolveExpression(end);
     m_end.construct(end);
 
-    QJsonObject offset = definition.value(u"o"_s).toObject();
+    QJsonObject offset = definition.value("o"_L1).toObject();
     offset = resolveExpression(offset);
     m_offset.construct(offset);
 
-    const int multiMode = definition.value(u"m"_s).toInt();
+    const int multiMode = definition.value("m"_L1).toInt();
     m_isParallel = (multiMode != 2);
 
     if (strcmp(qgetenv("QLOTTIE_FORCE_TRIM_MODE"), "sequential") == 0) {

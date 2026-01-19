@@ -54,7 +54,7 @@ bool QLottieVectorImagePlugin::generate(const QString &fileName, QQuickItemGener
                     elem->updateProperties(0);
             }
 
-            generator->addExtraImport(QLatin1String("Qt.labs.lottieqt.VectorImageHelpers"));
+            generator->addExtraImport(QStringLiteral("Qt.labs.lottieqt.VectorImageHelpers"));
             QLottieVisitor visitor(fileName, generator);
             visitor.render(root);
 

@@ -85,10 +85,10 @@ int QLottieGFill::parse(const QJsonObject &definition)
 
     qCDebug(lcLottieQtLottieParser) << "QLottieGFill::parse():" << m_name;
 
-    if (!checkRequiredKey(definition, u"Gradient"_s, {u"s"_s, u"e"_s, u"g"_s, u"t"_s, u"o"_s}, m_name))
+    if (!checkRequiredKeys(definition, "Gradient"_L1, { "s"_L1, "e"_L1, "g"_L1, "t"_L1, "o"_L1 }, m_name))
         return -1;
 
-    int type = definition.value(u"t"_s).toVariant().toInt();
+    int type = definition.value("t"_L1).toVariant().toInt();
     switch (type) {
     case 1:
         m_gradient = new QLinearGradient;
@@ -100,18 +100,18 @@ int QLottieGFill::parse(const QJsonObject &definition)
         qCWarning(lcLottieQtLottieParser) << "Unknown gradient fill type";
     }
 
-    QJsonObject color = definition.value(u"g"_s).toObject();
-    if (!checkRequiredKey(color, u"Gradient"_s, {u"p"_s, u"k"_s}, m_name))
+    QJsonObject color = definition.value("g"_L1).toObject();
+    if (!checkRequiredKeys(color, "Gradient"_L1, { "p"_L1, "k"_L1 }, m_name))
         return -1;
 
-    int elementCount = color.value(u"p"_s).toInt();
-    QJsonObject stops = color.value(u"k"_s).toObject();
-    bool isAnimated = stops.value(u"a"_s).toVariant().toBool();
-    if (!checkRequiredKey(stops, u"Gradient"_s, {u"a"_s, u"k"_s}, m_name))
+    int elementCount = color.value("p"_L1).toInt();
+    QJsonObject stops = color.value("k"_L1).toObject();
+    bool isAnimated = stops.value("a"_L1).toVariant().toBool();
+    if (!checkRequiredKeys(stops, "Gradient"_L1, { "a"_L1, "k"_L1 }, m_name))
         return -1;
 
     if (!isAnimated) {
-        QJsonArray colorArr = stops.value(u"k"_s).toArray();
+        QJsonArray colorArr = stops.value("k"_L1).toArray();
         for (int i = 0; i < (elementCount * 4); i += 4) {
             // p denotes the color stop percentage
             QVector4D colorVec;
@@ -177,26 +177,26 @@ int QLottieGFill::parse(const QJsonObject &definition)
         qCInfo(lcLottieQtLottieParser) << "Animated gradient is not supported";
     }
 
-    QJsonObject opacity = definition.value(u"o"_s).toObject();
+    QJsonObject opacity = definition.value("o"_L1).toObject();
     opacity = resolveExpression(opacity);
     m_opacity.construct(opacity);
 
-    QJsonObject startPoint = definition.value(u"s"_s).toObject();
+    QJsonObject startPoint = definition.value("s"_L1).toObject();
     startPoint = resolveExpression(startPoint);
     m_startPoint.construct(startPoint);
 
-    QJsonObject endPoint = definition.value(u"e"_s).toObject();
+    QJsonObject endPoint = definition.value("e"_L1).toObject();
     endPoint = resolveExpression(endPoint);
     m_endPoint.construct(endPoint);
 
-    QJsonObject highlight = definition.value(u"h"_s).toObject();
+    QJsonObject highlight = definition.value("h"_L1).toObject();
     m_highlightLength.construct(highlight);
 
-    QJsonObject angle = definition.value(u"a"_s).toObject();
+    QJsonObject angle = definition.value("a"_L1).toObject();
     angle = resolveExpression(angle);
     m_highlightAngle.construct(angle);
 
-    const int fillValue = definition.value(QLatin1String("r")).toInt();
+    const int fillValue = definition.value("r"_L1).toInt();
     m_fillRule = (fillValue == 2) ? Qt::OddEvenFill : Qt::WindingFill;
 
     return 0;

@@ -50,8 +50,8 @@ public:
             // If spatial property definition originates from
             // an expression (specifically Slider), it contains scalar
             // property. It must be expanded to both x and y coordinates
-            QJsonArray iArr = keyframe.value(u"i"_s).toArray();
-            QJsonArray oArr = keyframe.value(u"o"_s).toArray();
+            QJsonArray iArr = keyframe.value("i"_L1).toArray();
+            QJsonArray oArr = keyframe.value("o"_L1).toArray();
 
             if (iArr.count() && oArr.count()) {
                 tix = iArr.at(0).toDouble();
@@ -60,8 +60,8 @@ public:
                 toy = tox;
             }
         } else {
-            QJsonArray tiArr = keyframe.value(u"ti"_s).toArray();
-            QJsonArray toArr = keyframe.value(u"to"_s).toArray();
+            QJsonArray tiArr = keyframe.value("ti"_L1).toArray();
+            QJsonArray toArr = keyframe.value("to"_L1).toArray();
 
             if (tiArr.count() && toArr.count()) {
                 tix = tiArr.at(0).toDouble();
@@ -106,8 +106,8 @@ public:
             // If spatial property definition originates from
             // an expression (specifically Slider), it contains scalar
             // property. It must be expanded to both x and y coordinates
-            QJsonArray iArr = keyframe.value(u"i"_s).toArray();
-            QJsonArray oArr = keyframe.value(u"o"_s).toArray();
+            QJsonArray iArr = keyframe.value("i"_L1).toArray();
+            QJsonArray oArr = keyframe.value("o"_L1).toArray();
 
             if (iArr.count() && oArr.count()) {
                 tix = iArr.at(0).toDouble();
@@ -116,8 +116,8 @@ public:
                 toy = tox;
             }
         } else {
-            QJsonArray tiArr = keyframe.value(u"ti"_s).toArray();
-            QJsonArray toArr = keyframe.value(u"to"_s).toArray();
+            QJsonArray tiArr = keyframe.value("ti"_L1).toArray();
+            QJsonArray toArr = keyframe.value("to"_L1).toArray();
 
             if (tiArr.count() && toArr.count()) {
                 tix = tiArr.at(0).toDouble();

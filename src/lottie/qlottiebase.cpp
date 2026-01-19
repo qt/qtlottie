@@ -181,10 +181,10 @@ int QLottieBase::parse(const QJsonObject &definition)
 
     m_definition = definition;
 
-    m_hidden = definition.value(u"hd"_s).toBool(false);
-    m_name = definition.value(u"nm"_s).toString();
-    m_matchName = definition.value(u"mn"_s).toString();
-    m_autoOrient = definition.value(u"ao"_s).toBool();
+    m_hidden = definition.value("hd"_L1).toBool(false);
+    m_name = definition.value("nm"_L1).toString();
+    m_matchName = definition.value("mn"_L1).toString();
+    m_autoOrient = definition.value("ao"_L1).toBool();
 
     if (m_autoOrient)
         qCInfo(lcLottieQtLottieParser, "Element has auto-orientation set, but it is not supported");
@@ -221,7 +221,7 @@ void QLottieBase::setParent(QLottieBase *parent)
 
 const QJsonObject QLottieBase::resolveExpression(const QJsonObject &definition)
 {
-    QString expr = definition.value(u"x"_s).toString();
+    QString expr = definition.value("x"_L1).toString();
 
     // If there is no expression, return the original object definition
     if (expr.isEmpty())
@@ -242,9 +242,9 @@ const QJsonObject QLottieBase::resolveExpression(const QJsonObject &definition)
 
     if (QLottieBase *source = m_topRoot->findChild(effect)) {
         if (source->children().size())
-            retVal = source->children().at(0)->definition().value(u"v"_s).toObject();
+            retVal = source->children().at(0)->definition().value("v"_L1).toObject();
         else
-            retVal = source->definition().value(u"v"_s).toObject();
+            retVal = source->definition().value("v"_L1).toObject();
         if (source->children().size() > 1)
             qCWarning(lcLottieQtLottieParser) << "Effect source points"
                                                 "to a group that has"
@@ -256,12 +256,13 @@ const QJsonObject QLottieBase::resolveExpression(const QJsonObject &definition)
 
     // Let users of the json know that it is originated from expression,
     // so they can adjust their behavior accordingly
-    retVal.insert(u"fromExpression"_s, true);
+    retVal.insert("fromExpression"_L1, true);
 
     return retVal;
 }
 
-bool QLottieBase::checkRequiredKey(const QJsonObject &definition, const QString &type, QList<QString> keys, const QString &name)
+bool QLottieBase::checkRequiredKeys(const QJsonObject &definition, const QLatin1StringView type,
+                                    const QList<QLatin1StringView> &keys, const QString &name) const
 {
     for (auto key : keys) {
         if (!definition.contains(key)) {

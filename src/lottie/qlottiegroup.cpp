@@ -84,7 +84,7 @@ int QLottieGroup::parse(const QJsonObject &definition)
     qCDebug(lcLottieQtLottieParser) << "QLottieGroup::parse()"
                                        << m_name;
 
-    QJsonArray groupItems = definition.value(u"it"_s).toArray();
+    QJsonArray groupItems = definition.value("it"_L1).toArray();
     QJsonArray::const_iterator itemIt = groupItems.constEnd();
     while (itemIt != groupItems.constBegin()) {
         itemIt--;

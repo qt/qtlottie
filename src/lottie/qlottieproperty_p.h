@@ -52,24 +52,24 @@ public:
 
     virtual void construct(const QJsonObject &definition)
     {
-        if (definition.value(u"s"_s).toVariant().toInt())
+        if (definition.value("s"_L1).toVariant().toInt())
             qCInfo(lcLottieQtLottieParser)
                     << "Property is split into separate x and y but it is not supported";
 
-        bool fromExpression = definition.value(u"fromExpression"_s).toBool();
+        bool fromExpression = definition.value("fromExpression"_L1).toBool();
 
-        const QJsonValue value = definition.value(u"k"_s);
+        const QJsonValue value = definition.value("k"_L1);
         const QJsonArray valueArray = value.toArray();
         if (valueArray.size() > 0) {
             QJsonObject firstObject = valueArray.at(0).toObject();
-            m_animated = firstObject.contains(u"t"_s) && firstObject.contains(u"s"_s);
+            m_animated = firstObject.contains("t"_L1) && firstObject.contains("s"_L1);
         }
 
         if (m_animated) {
             const QJsonArray &keyframes = valueArray;
             QJsonArray::const_iterator it = keyframes.constBegin();
 
-            const bool schemaChanged = keyframes.last().toObject().contains(u"s"_s);
+            const bool schemaChanged = keyframes.last().toObject().contains("s"_L1);
 
             if (!schemaChanged) {
                 while (it != keyframes.constEnd()) {
@@ -187,12 +187,12 @@ protected:
 
         EasingSegment<T> easing;
 
-        int startTime = keyframe.value(u"t"_s).toVariant().toInt();
+        int startTime = keyframe.value("t"_L1).toVariant().toInt();
 
         // AE exported Lottie file includes the last
         // key frame but no other properties.
         // No need to process in that case
-        if (!keyframe.contains(u"s") && !keyframe.contains(u"e"_s)) {
+        if (!keyframe.contains(u"s") && !keyframe.contains("e"_L1)) {
             // In this case start time is the last frame for the property
             this->m_endFrame = startTime;
             easing.startFrame = startTime;
@@ -207,18 +207,18 @@ protected:
         if (m_startFrame > startTime)
             m_startFrame = startTime;
 
-        easing.startValue = getValue(keyframe.value(u"s"_s).toArray());
-        easing.endValue = getValue(keyframe.value(u"e"_s).toArray());
+        easing.startValue = getValue(keyframe.value("s"_L1).toArray());
+        easing.endValue = getValue(keyframe.value("e"_L1).toArray());
         easing.startFrame = startTime;
 
-        QJsonObject easingIn = keyframe.value(u"i"_s).toObject();
-        QJsonObject easingOut = keyframe.value(u"o"_s).toObject();
+        QJsonObject easingIn = keyframe.value("i"_L1).toObject();
+        QJsonObject easingOut = keyframe.value("o"_L1).toObject();
 
-        qreal eix = easingIn.value(u"x"_s).toArray().at(0).toDouble();
-        qreal eiy = easingIn.value(u"y"_s).toArray().at(0).toDouble();
+        qreal eix = easingIn.value("x"_L1).toArray().at(0).toDouble();
+        qreal eiy = easingIn.value("y"_L1).toArray().at(0).toDouble();
 
-        qreal eox = easingOut.value(u"x"_s).toArray().at(0).toDouble();
-        qreal eoy = easingOut.value(u"y"_s).toArray().at(0).toDouble();
+        qreal eox = easingOut.value("x"_L1).toArray().at(0).toDouble();
+        qreal eoy = easingOut.value("y"_L1).toArray().at(0).toDouble();
 
         QPointF c1 = QPointF(eox, eoy);
         QPointF c2 = QPointF(eix, eiy);
@@ -237,23 +237,23 @@ protected:
 
         EasingSegment<T> easing;
 
-        int startTime = keyframe.value(u"t"_s).toVariant().toInt();
+        int startTime = keyframe.value("t"_L1).toVariant().toInt();
 
         if (m_startFrame > startTime)
             m_startFrame = startTime;
 
-        easing.startValue = getValue(keyframe.value(u"s"_s).toArray());
-        easing.endValue = getValue(nextKeyframe.value(u"s"_s).toArray());
+        easing.startValue = getValue(keyframe.value("s"_L1).toArray());
+        easing.endValue = getValue(nextKeyframe.value("s"_L1).toArray());
         easing.startFrame = startTime;
 
-        QJsonObject easingIn = keyframe.value(u"i"_s).toObject();
-        QJsonObject easingOut = keyframe.value(u"o"_s).toObject();
+        QJsonObject easingIn = keyframe.value("i"_L1).toObject();
+        QJsonObject easingOut = keyframe.value("o"_L1).toObject();
 
-        qreal eix = easingIn.value(u"x"_s).toArray().at(0).toDouble();
-        qreal eiy = easingIn.value(u"y"_s).toArray().at(0).toDouble();
+        qreal eix = easingIn.value("x"_L1).toArray().at(0).toDouble();
+        qreal eiy = easingIn.value("y"_L1).toArray().at(0).toDouble();
 
-        qreal eox = easingOut.value(u"x"_s).toArray().at(0).toDouble();
-        qreal eoy = easingOut.value(u"y"_s).toArray().at(0).toDouble();
+        qreal eox = easingOut.value("x"_L1).toArray().at(0).toDouble();
+        qreal eoy = easingOut.value("y"_L1).toArray().at(0).toDouble();
 
         QPointF c1 = QPointF(eox, eoy);
         QPointF c2 = QPointF(eix, eiy);
@@ -316,9 +316,9 @@ protected:
 
     EasingSegment<T> parseKeyframe(const QJsonObject keyframe, bool fromExpression) override
     {
-        QJsonArray startValues = keyframe.value(u"s"_s).toArray();
-        QJsonArray endValues = keyframe.value(u"e"_s).toArray();
-        int startTime = keyframe.value(u"t"_s).toVariant().toInt();
+        QJsonArray startValues = keyframe.value("s"_L1).toArray();
+        QJsonArray endValues = keyframe.value("e"_L1).toArray();
+        int startTime = keyframe.value("t"_L1).toVariant().toInt();
 
         EasingSegment<T> easingCurve;
         easingCurve.startFrame = startTime;
@@ -358,19 +358,19 @@ protected:
         T s(xs, ys);
         T e(xe, ye);
 
-        QJsonObject easingIn = keyframe.value(u"i"_s).toObject();
-        QJsonObject easingOut = keyframe.value(u"o"_s).toObject();
+        QJsonObject easingIn = keyframe.value("i"_L1).toObject();
+        QJsonObject easingOut = keyframe.value("o"_L1).toObject();
 
         easingCurve.startFrame = startTime;
         easingCurve.startValue = s;
         easingCurve.endValue = e;
 
-        if (easingIn.value(u"x"_s).isArray()) {
-            QJsonArray eixArr = easingIn.value(u"x"_s).toArray();
-            QJsonArray eiyArr = easingIn.value(u"y"_s).toArray();
+        if (easingIn.value("x"_L1).isArray()) {
+            QJsonArray eixArr = easingIn.value("x"_L1).toArray();
+            QJsonArray eiyArr = easingIn.value("y"_L1).toArray();
 
-            QJsonArray eoxArr = easingOut.value(u"x"_s).toArray();
-            QJsonArray eoyArr = easingOut.value(u"y"_s).toArray();
+            QJsonArray eoxArr = easingOut.value("x"_L1).toArray();
+            QJsonArray eoyArr = easingOut.value("y"_L1).toArray();
 
             // Doc: "For multi-dimensional animated properties, [x and y] are arrays, with one
             // element per dimension so you can have different easing curves per dimension."
@@ -386,11 +386,11 @@ protected:
 
             easingCurve.easing.addCubicBezierSegment(c1, c2, QPointF(1.0, 1.0));
         } else {
-            qreal eix = easingIn.value(u"x"_s).toDouble();
-            qreal eiy = easingIn.value(u"y"_s).toDouble();
+            qreal eix = easingIn.value("x"_L1).toDouble();
+            qreal eiy = easingIn.value("y"_L1).toDouble();
 
-            qreal eox = easingOut.value(u"x"_s).toDouble();
-            qreal eoy = easingOut.value(u"y"_s).toDouble();
+            qreal eox = easingOut.value("x"_L1).toDouble();
+            qreal eoy = easingOut.value("y"_L1).toDouble();
 
             QPointF c1 = QPointF(eox, eoy);
             QPointF c2 = QPointF(eix, eiy);
@@ -405,9 +405,9 @@ protected:
     EasingSegment<T> parseKeyframe(const QJsonObject keyframe, const QJsonObject nextKeyframe,
                                    bool fromExpression) override
     {
-        QJsonArray startValues = keyframe.value(u"s"_s).toArray();
-        QJsonArray endValues = nextKeyframe.value(u"s"_s).toArray();
-        int startTime = keyframe.value(u"t"_s).toVariant().toInt();
+        QJsonArray startValues = keyframe.value("s"_L1).toArray();
+        QJsonArray endValues = nextKeyframe.value("s"_L1).toArray();
+        int startTime = keyframe.value("t"_L1).toVariant().toInt();
 
         EasingSegment<T> easingCurve;
         easingCurve.startFrame = startTime;
@@ -432,19 +432,19 @@ protected:
         T s(xs, ys);
         T e(xe, ye);
 
-        QJsonObject easingIn = keyframe.value(u"i"_s).toObject();
-        QJsonObject easingOut = keyframe.value(u"o"_s).toObject();
+        QJsonObject easingIn = keyframe.value("i"_L1).toObject();
+        QJsonObject easingOut = keyframe.value("o"_L1).toObject();
 
         easingCurve.startFrame = startTime;
         easingCurve.startValue = s;
         easingCurve.endValue = e;
 
-        if (easingIn.value(u"x"_s).isArray()) {
-            QJsonArray eixArr = easingIn.value(u"x"_s).toArray();
-            QJsonArray eiyArr = easingIn.value(u"y"_s).toArray();
+        if (easingIn.value("x"_L1).isArray()) {
+            QJsonArray eixArr = easingIn.value("x"_L1).toArray();
+            QJsonArray eiyArr = easingIn.value("y"_L1).toArray();
 
-            QJsonArray eoxArr = easingOut.value(u"x"_s).toArray();
-            QJsonArray eoyArr = easingOut.value(u"y"_s).toArray();
+            QJsonArray eoxArr = easingOut.value("x"_L1).toArray();
+            QJsonArray eoyArr = easingOut.value("y"_L1).toArray();
 
             // Doc: "For multi-dimensional animated properties, [x and y] are arrays, with one
             // element per dimension so you can have different easing curves per dimension."
@@ -459,13 +459,12 @@ protected:
             QPointF c2 = QPointF(eix, eiy);
 
             easingCurve.easing.addCubicBezierSegment(c1, c2, QPointF(1.0, 1.0));
-        }
-        else {
-            qreal eix = easingIn.value(u"x"_s).toDouble();
-            qreal eiy = easingIn.value(u"y"_s).toDouble();
+        } else {
+            qreal eix = easingIn.value("x"_L1).toDouble();
+            qreal eiy = easingIn.value("y"_L1).toDouble();
 
-            qreal eox = easingOut.value(u"x"_s).toDouble();
-            qreal eoy = easingOut.value(u"y"_s).toDouble();
+            qreal eox = easingOut.value("x"_L1).toDouble();
+            qreal eoy = easingOut.value("y"_L1).toDouble();
 
             QPointF c1 = QPointF(eox, eoy);
             QPointF c2 = QPointF(eix, eiy);

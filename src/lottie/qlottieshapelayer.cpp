@@ -78,10 +78,10 @@ int QLottieShapeLayer::parse(const QJsonObject &definition)
 
     qCDebug(lcLottieQtLottieParser) << "QLottieShapeLayer::QLottieShapeLayer()" << m_name;
 
-    if (!checkRequiredKey(definition, u"Layer"_s, {u"shapes"_s}, m_name))
+    if (!checkRequiredKeys(definition, "Layer"_L1, { "shapes"_L1 }, m_name))
         return -1;
 
-    QJsonArray items = definition.value(u"shapes"_s).toArray();
+    QJsonArray items = definition.value("shapes"_L1).toArray();
     QJsonArray::const_iterator itemIt = items.constEnd();
     while (itemIt != items.constBegin()) {
         itemIt--;

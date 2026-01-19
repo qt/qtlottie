@@ -82,22 +82,22 @@ int QLottieRect::parse(const QJsonObject &definition)
 
     qCDebug(lcLottieQtLottieParser) << "QLottieRect::QLottieRect():" << m_name;
 
-    if (!checkRequiredKey(definition, u"Rectangle"_s, {u"p"_s, u"s"_s}, m_name))
+    if (!checkRequiredKeys(definition, "Rectangle"_L1, { "p"_L1, "s"_L1 }, m_name))
         return -1;
 
-    QJsonObject position = definition.value(u"p"_s).toObject();
+    QJsonObject position = definition.value("p"_L1).toObject();
     position = resolveExpression(position);
     m_position.construct(position);
 
-    QJsonObject size = definition.value(u"s"_s).toObject();
+    QJsonObject size = definition.value("s"_L1).toObject();
     size = resolveExpression(size);
     m_size.construct(size);
 
-    QJsonObject roundness = definition.value(u"r"_s).toObject();
+    QJsonObject roundness = definition.value("r"_L1).toObject();
     roundness = resolveExpression(roundness);
     m_roundness.construct(roundness);
 
-    m_direction = definition.value(u"d"_s).toInt();
+    m_direction = definition.value("d"_L1).toInt();
 
     return 0;
 }

@@ -38,18 +38,18 @@ int QLottieFreeFormShape::parse(const QJsonObject &definition)
 
     qCDebug(lcLottieQtLottieParser) << "QLottieFreeFormShape::parse():" << m_name;
 
-    m_direction = definition.value(u"d"_s).toVariant().toInt();
+    m_direction = definition.value("d"_L1).toVariant().toInt();
 
-    if (!checkRequiredKey(definition, QStringLiteral("Shape"), {u"ks"_s}, m_name))
+    if (!checkRequiredKeys(definition, "Shape"_L1, { "ks"_L1 }, m_name))
         return -1;
-    QJsonObject vertexObj = definition.value(u"ks"_s).toObject();
-    if (!checkRequiredKey(vertexObj, QStringLiteral("Shape"), {u"k"_s}, m_name))
+    QJsonObject vertexObj = definition.value("ks"_L1).toObject();
+    if (!checkRequiredKeys(vertexObj, "Shape"_L1, { "k"_L1 }, m_name))
         return -1;
 
-    if (vertexObj.value(u"a"_s).toInt())
+    if (vertexObj.value("a"_L1).toInt())
         parseShapeKeyframes(vertexObj);
     else
-        buildShape(vertexObj.value(u"k"_s).toObject());
+        buildShape(vertexObj.value("k"_L1).toObject());
 
     return 0;
 }
@@ -60,7 +60,7 @@ void QLottieFreeFormShape::updateProperties(int frame)
         QJsonObject keyframe = m_vertexMap.value(frame);
         // If this frame is a keyframe, so values must be updated
         if (!keyframe.isEmpty())
-            buildShape(keyframe.value(u"s"_s).toArray().at(0).toObject());
+            buildShape(keyframe.value("s"_L1).toArray().at(0).toObject());
     } else {
         for (int i =0; i < m_vertexList.size(); i++) {
             VertexInfo vi = m_vertexList.at(i);
@@ -90,13 +90,13 @@ bool QLottieFreeFormShape::isAnimated() const
 
 void QLottieFreeFormShape::parseShapeKeyframes(QJsonObject &keyframes)
 {
-    QJsonArray vertexKeyframes = keyframes.value(u"k"_s).toArray();
+    QJsonArray vertexKeyframes = keyframes.value("k"_L1).toArray();
     for (int i = 0; i < vertexKeyframes.count(); i++) {
         QJsonObject keyframe = vertexKeyframes.at(i).toObject();
-        if (keyframe.value(u"h"_s).toInt()) {
-            m_vertexMap.insert(keyframe.value(u"t"_s).toVariant().toInt(), keyframe);
-        } else
-            parseEasedVertices(keyframe, keyframe.value(u"t"_s).toVariant().toInt());
+        if (keyframe.value("h"_L1).toInt())
+            m_vertexMap.insert(keyframe.value("t"_L1).toVariant().toInt(), keyframe);
+        else
+            parseEasedVertices(keyframe, keyframe.value("t"_L1).toVariant().toInt());
     }
     if (m_vertexInfos.size())
         finalizeVertices();
@@ -119,10 +119,10 @@ void QLottieFreeFormShape::buildShape(const QJsonObject &shape)
 {
     m_path.clear();
 
-    bool needToClose = shape.value(u"c"_s).toBool();
-    QJsonArray bezierIn = shape.value(u"i"_s).toArray();
-    QJsonArray bezierOut = shape.value(u"o"_s).toArray();
-    QJsonArray vertices = shape.value(u"v"_s).toArray();
+    bool needToClose = shape.value("c"_L1).toBool();
+    QJsonArray bezierIn = shape.value("i"_L1).toArray();
+    QJsonArray bezierOut = shape.value("o"_L1).toArray();
+    QJsonArray vertices = shape.value("v"_L1).toArray();
 
     // If there are less than two vertices, cannot make a bezier curve
     if (vertices.count() < 2)
@@ -223,18 +223,18 @@ void QLottieFreeFormShape::parseEasedVertices(const QJsonObject &keyframe, int s
 {
     Q_UNUSED(startFrame);
 
-    QJsonObject startValue = keyframe.value(u"s"_s).toArray().at(0).toObject();
-    QJsonObject endValue = keyframe.value(u"e"_s).toArray().at(0).toObject();
-    bool closedPathAtStart = keyframe.value(u"s"_s).toArray().at(0).toObject().value(u"c"_s).toBool();
-    //bool closedPathAtEnd = keyframe.value(u"e"_s).toArray().at(0).toObject().value(u"c"_s).toBool();
-    QJsonArray startVertices = startValue.value(u"v"_s).toArray();
-    QJsonArray startBezierIn = startValue.value(u"i"_s).toArray();
-    QJsonArray startBezierOut = startValue.value(u"o"_s).toArray();
-    QJsonArray endVertices = endValue.value(u"v"_s).toArray();
-    QJsonArray endBezierIn = endValue.value(u"i"_s).toArray();
-    QJsonArray endBezierOut = endValue.value(u"o"_s).toArray();
-    QJsonObject easingIn = keyframe.value(u"i"_s).toObject();
-    QJsonObject easingOut = keyframe.value(u"o"_s).toObject();
+    QJsonObject startValue = keyframe.value("s"_L1).toArray().at(0).toObject();
+    QJsonObject endValue = keyframe.value("e"_L1).toArray().at(0).toObject();
+    bool closedPathAtStart = keyframe.value("s"_L1).toArray().at(0).toObject().value("c"_L1).toBool();
+    //bool closedPathAtEnd = keyframe.value("e"_L1).toArray().at(0).toObject().value("c"_L1).toBool();
+    QJsonArray startVertices = startValue.value("v"_L1).toArray();
+    QJsonArray startBezierIn = startValue.value("i"_L1).toArray();
+    QJsonArray startBezierOut = startValue.value("o"_L1).toArray();
+    QJsonArray endVertices = endValue.value("v"_L1).toArray();
+    QJsonArray endBezierIn = endValue.value("i"_L1).toArray();
+    QJsonArray endBezierOut = endValue.value("o"_L1).toArray();
+    QJsonObject easingIn = keyframe.value("i"_L1).toObject();
+    QJsonObject easingOut = keyframe.value("o"_L1).toObject();
 
     // if there are no vertices for this keyframe, they keyframe
     // is the last one, and it must be processed differently
@@ -273,15 +273,15 @@ void QLottieFreeFormShape::parseEasedVertices(const QJsonObject &keyframe, int s
                 m_vertexInfos.insert(i, buildInfo);
             }
             QJsonObject posKf;
-            posKf.insert(u"t"_s, startFrame);
+            posKf.insert("t"_L1, startFrame);
             buildInfo->posKeyframes.push_back(posKf);
 
             QJsonObject ciKf;
-            ciKf.insert(u"t"_s, startFrame);
+            ciKf.insert("t"_L1, startFrame);
             buildInfo->ciKeyframes.push_back(ciKf);
 
             QJsonObject coKf;
-            coKf.insert(u"t"_s, startFrame);
+            coKf.insert("t"_L1, startFrame);
             buildInfo->coKeyframes.push_back(coKf);
 
             m_closedShape.insert(startFrame, false);
@@ -294,16 +294,16 @@ void QLottieFreeFormShape::finalizeVertices()
 
     for (int i = 0; i < m_vertexInfos.size(); i++) {
         QJsonObject posObj;
-        posObj.insert(u"a"_s, 1);
-        posObj.insert(u"k"_s, m_vertexInfos.value(i)->posKeyframes);
+        posObj.insert("a"_L1, 1);
+        posObj.insert("k"_L1, m_vertexInfos.value(i)->posKeyframes);
 
         QJsonObject ciObj;
-        ciObj.insert(u"a"_s, 1);
-        ciObj.insert(u"k"_s, m_vertexInfos.value(i)->ciKeyframes);
+        ciObj.insert("a"_L1, 1);
+        ciObj.insert("k"_L1, m_vertexInfos.value(i)->ciKeyframes);
 
         QJsonObject coObj;
-        coObj.insert(u"a"_s, 1);
-        coObj.insert(u"k"_s, m_vertexInfos.value(i)->coKeyframes);
+        coObj.insert("a"_L1, 1);
+        coObj.insert("k"_L1, m_vertexInfos.value(i)->coKeyframes);
 
         VertexInfo vertexInfo;
         vertexInfo.pos.construct(posObj);
@@ -319,11 +319,11 @@ QJsonObject QLottieFreeFormShape::createKeyframe(QJsonArray startValue, QJsonArr
                                             QJsonObject easingOut)
 {
     QJsonObject keyframe;
-    keyframe.insert(u"t"_s, startFrame);
-    keyframe.insert(u"s"_s, startValue);
-    keyframe.insert(u"e"_s, endValue);
-    keyframe.insert(u"i"_s, easingIn);
-    keyframe.insert(u"o"_s, easingOut);
+    keyframe.insert("t"_L1, startFrame);
+    keyframe.insert("s"_L1, startValue);
+    keyframe.insert("e"_L1, endValue);
+    keyframe.insert("i"_L1, easingIn);
+    keyframe.insert("o"_L1, easingOut);
     return keyframe;
 }
 

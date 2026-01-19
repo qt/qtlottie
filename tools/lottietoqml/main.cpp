@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
                                                                                    "will be copied to files with unique identifiers. By default, the files will be prefixed "
                                                                                    "with \"lottie_asset_\". Set the asset output prefix to override the prefix."),
                                                QCoreApplication::translate("main", "prefix"));
-    assetOutputPrefixOption.setDefaultValue(QLatin1String("lottie_asset_"));
+    assetOutputPrefixOption.setDefaultValue(QStringLiteral("lottie_asset_"));
     parser.addOption(assetOutputPrefixOption);
 
     QCommandLineOption keepPathsOption("keep-external-paths",
@@ -92,9 +92,8 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    QString commentString = QLatin1String("Generated from Lottie file %1")
-                                .arg(QFileInfo(inFileName).fileName());
-    const QString importString = QLatin1String("Qt.labs.lottieqt.VectorImageHelpers");
+    QString commentString = QStringLiteral("Generated from Lottie file %1").arg(QFileInfo(inFileName).fileName());
+    const QString importString = QStringLiteral("Qt.labs.lottieqt.VectorImageHelpers");
 
     const auto typeName = parser.value(typeNameOption);
     const auto assetOutputDirectory = parser.value(assetOutputDirectoryOption);

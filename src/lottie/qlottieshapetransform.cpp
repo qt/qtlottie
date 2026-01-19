@@ -36,14 +36,14 @@ int QLottieShapeTransform::parse(const QJsonObject &definition)
 
     qCDebug(lcLottieQtLottieParser) << "QLottieShapeTransform::parse():" << QLottieShape::name();
 
-    if (definition.contains(u"sk"_s)) {
-        QJsonObject skew = definition.value(u"sk"_s).toObject();
+    if (definition.contains("sk"_L1)) {
+        QJsonObject skew = definition.value("sk"_L1).toObject();
         skew = resolveExpression(skew);
         m_skew.construct(skew);
     }
 
-    if (definition.contains(u"sa"_s)) {
-        QJsonObject skewAxis = definition.value(u"sa"_s).toObject();
+    if (definition.contains("sa"_L1)) {
+        QJsonObject skewAxis = definition.value("sa"_L1).toObject();
         skewAxis = resolveExpression(skewAxis);
         m_skewAxis.construct(skewAxis);
     }

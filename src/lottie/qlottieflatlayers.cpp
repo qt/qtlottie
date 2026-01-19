@@ -91,12 +91,11 @@ int QLottieSolidLayer::parse(const QJsonObject &definition)
     if (m_hidden)
         return 0;
 
-
-    if (!checkRequiredKey(definition, QStringLiteral("Layer"), {u"sw"_s, u"sh"_s, u"sc"_s}, m_name))
+    if (!checkRequiredKeys(definition, "Layer"_L1, { "sw"_L1, "sh"_L1, "sc"_L1 }, m_name))
         return -1;
 
-    m_size = QSize(definition.value(u"sw"_s).toInt(-1), definition.value(u"sh"_s).toInt(-1));
-    m_color = QColor(definition.value(u"sc"_s).toString());
+    m_size = QSize(definition.value("sw"_L1).toInt(-1), definition.value("sh"_L1).toInt(-1));
+    m_color = QColor(definition.value("sc"_L1).toString());
 
     qCDebug(lcLottieQtLottieParser) << "QLottieSolidLayer::QLottieSolidLayer()" << m_name;
     return ret;

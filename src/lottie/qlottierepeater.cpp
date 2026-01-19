@@ -23,15 +23,15 @@ void QLottieRepeater::construct(const QJsonObject &definition)
     if (m_hidden)
         return;
 
-    QJsonObject copies = definition.value(u"c"_s).toObject();
+    QJsonObject copies = definition.value("c"_L1).toObject();
     copies = resolveExpression(copies);
     m_copies.construct(copies);
 
-    QJsonObject offset = definition.value(u"o"_s).toObject();
+    QJsonObject offset = definition.value("o"_L1).toObject();
     offset = resolveExpression(offset);
     m_offset.construct(offset);
 
-    m_transform.parse(definition.value(u"tr"_s).toObject());
+    m_transform.parse(definition.value("tr"_L1).toObject());
 }
 
 void QLottieRepeater::updateProperties(int frame)

@@ -33,11 +33,11 @@ int QLottieRepeaterTransform::parse(const QJsonObject &definition)
     if (m_hidden)
         return 0;
 
-    QJsonObject startOpacity = definition.value(u"so"_s).toObject();
+    QJsonObject startOpacity = definition.value("so"_L1).toObject();
     startOpacity = resolveExpression(startOpacity);
     m_startOpacity.construct(startOpacity);
 
-    QJsonObject endOpacity = definition.value(u"eo"_s).toObject();
+    QJsonObject endOpacity = definition.value("eo"_L1).toObject();
     endOpacity = resolveExpression(endOpacity);
     m_endOpacity.construct(endOpacity);
 

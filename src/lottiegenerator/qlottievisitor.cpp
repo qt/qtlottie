@@ -45,7 +45,7 @@ void QLottieVisitor::render(const QLottieRoot &root)
     const QJsonObject rootObj = root.definition();
     info.size = root.layerSize();
 
-    int frameRate = rootObj.value(QLatin1String("fr")).toVariant().toInt();
+    int frameRate = rootObj.value("fr"_L1).toVariant().toInt();
     if (frameRate > 0)
         m_frameRate = frameRate;
 
@@ -55,7 +55,7 @@ void QLottieVisitor::render(const QLottieRoot &root)
     QLOTTIEVISITOR_DEBUG << "[root viewbox=" << info.viewBox << ", frame rate=" << m_frameRate << ", duration=" << m_duration << "ms ]";
 
     info.stage = StructureNodeStage::Start;
-    info.nodeId = u"_q_animation"_s; // # centralize
+    info.nodeId = "_q_animation"_L1; // # centralize
 
     m_generator->generateRootNode(info);
 
@@ -191,7 +191,7 @@ void QLottieVisitor::restoreState()
 
 void QLottieVisitor::generateMatteNode(const QLottieLayer *layer, StructureNodeStage stage)
 {
-    constexpr QLatin1String suffix("_box");
+    const QString suffix(QStringLiteral("_box"));
 
     if (layer->isMatteLayer()) {
         if (stage == StructureNodeStage::Start) {
@@ -893,7 +893,7 @@ void QLottieVisitor::processShape(const QLottieShape *shape, const QPainterPath 
     }
 
     PathNodeInfo pathInfo;
-    fillCommonNodeInfo(shape, &pathInfo, QLatin1String("_path"));
+    fillCommonNodeInfo(shape, &pathInfo, QStringLiteral("_path"));
 
     pathInfo.path.setDefaultValue(QVariant::fromValue(path));
     if (shape)
