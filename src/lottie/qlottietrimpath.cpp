@@ -48,6 +48,12 @@ int QLottieTrimPath::parse(const QJsonObject &definition)
     end = resolveExpression(end);
     m_end.construct(end);
 
+    // Simplify: a constant 100% trim is a noop, just skip it
+    if (!m_start.isAnimated() && !m_end.isAnimated()
+        && m_start.value() == 0 && m_end.value() == 100) {
+        return -2;
+    }
+
     QJsonObject offset = definition.value("o"_L1).toObject();
     offset = resolveExpression(offset);
     m_offset.construct(offset);
