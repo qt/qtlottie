@@ -119,6 +119,11 @@ public:
         return m_endFrame;
     }
 
+    bool isAnimated() const
+    {
+        return m_animated;
+    }
+
     QList<EasingSegment<T> > easingCurves() const
     {
         return m_easingCurves;

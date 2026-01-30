@@ -109,18 +109,18 @@ bool QLottieGroup::acceptsTrim() const
 
 void QLottieGroup::applyTrim(const QLottieTrimPath &trimmer)
 {
-    Q_ASSERT_X(!m_appliedTrim.data(), "QLottieGroup", "A trim already assigned");
-
-    QLottieTrimPath *appliedTrim = static_cast<QLottieTrimPath *>(trimmer.clone());
-    m_appliedTrim.reset(appliedTrim, OwnsAppliedTrim::Yes);
-    appliedTrim->setParent(parent());
-    // Setting a friendly name helps in testing
-    appliedTrim->setName(QStringLiteral("Inherited from") + trimmer.name());
+    if (!m_appliedTrim.data()) {
+        QLottieTrimPath *appliedTrim = static_cast<QLottieTrimPath *>(trimmer.clone());
+        m_appliedTrim.reset(appliedTrim, OwnsAppliedTrim::Yes);
+        appliedTrim->setParent(parent());
+        // Setting a friendly name helps in testing
+        appliedTrim->setName(QStringLiteral("Inherited from") + trimmer.name());
+    }
 
     for (QLottieBase *child : children()) {
         QLottieShape *shape = static_cast<QLottieShape*>(child);
         if (shape->acceptsTrim())
-            shape->applyTrim(*appliedTrim);
+            shape->applyTrim(*m_appliedTrim.data());
     }
 }
 
