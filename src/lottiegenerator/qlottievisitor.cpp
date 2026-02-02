@@ -199,6 +199,7 @@ void QLottieVisitor::generateMatteNode(const QLottieLayer *layer, StructureNodeS
             fillCommonNodeInfo(layer, &info, suffix);
             info.bounds = QRect(QPoint(), layer->layerSize());
             info.stage = StructureNodeStage::Start;
+            info.transformReferenceChildId = idForNode(layer);
             if (!m_generator->generateDefsNode(info))
                 return;
         }
@@ -217,6 +218,7 @@ void QLottieVisitor::generateMatteNode(const QLottieLayer *layer, StructureNodeS
             fillCommonNodeInfo(layer, &info, suffix);
             info.bounds = QRect(QPoint(), layer->layerSize());
             info.stage = StructureNodeStage::End;
+            info.transformReferenceChildId = idForNode(layer);
             m_generator->generateDefsNode(info);
         }
 
@@ -267,8 +269,11 @@ void QLottieVisitor::render(const QLottieLayer &layer)
     if (layer.hasLinkedLayer() && layer.parent()) {
         for (const QLottieBase *sibling : layer.parent()->children()) {
             if (auto siblingLayer = QLottieLayer::checkedCast(sibling)) {
-                if (siblingLayer != &layer && siblingLayer->layerId() == layer.linkedLayerId())
+                if (siblingLayer != &layer && siblingLayer->layerId() == layer.linkedLayerId()) {
                     info.transformReferenceId = idForNode(siblingLayer);
+                    if (siblingLayer->isMatteLayer())
+                        info.transformReferenceId += QStringLiteral("_box.item");
+                }
             }
         }
         QLOTTIEVISITOR_DEBUG << "  xf link resolved to layer: " << info.transformReferenceId;
