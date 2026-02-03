@@ -104,6 +104,79 @@ QLottieLayer *QLottieLayer::construct(QJsonObject definition, const QMap<QString
     return layer;
 }
 
+// Create a shape layer that can be used as a matte to emulate the effect of a layer's mask
+QLottieLayer *QLottieLayer::constructMaskLayer(QLottieLayer *layer)
+{
+    static int newLayerIndex = 0x10000;
+
+    qCDebug(lcLottieQtLottieParser) << "Parsing mask for layer" << layer->name();
+
+    const QJsonObject &layerDef = layer->definition();
+    const QJsonArray jsonMasks = layerDef.value("masksProperties"_L1).toArray();
+    if (jsonMasks.isEmpty())
+        return nullptr;
+
+    QJsonObject maskLayerDef;
+    maskLayerDef.insert("ty"_L1, 4);
+    maskLayerDef.insert("nm"_L1, layer->name().prepend(QStringLiteral("qt_maskLayer_for_")));
+    maskLayerDef.insert("ip"_L1, layerDef.value("ip"_L1));
+    maskLayerDef.insert("op"_L1, layerDef.value("op"_L1));
+    maskLayerDef.insert("td"_L1, 1); // i.e.: this layer will be used as matte
+    maskLayerDef.insert("ks"_L1, QJsonObject{});
+    // Mirror the masked layer's transform by using Lottie's transform reference ("parent") feature
+    // Requires the masked layer to have a non-0 layer index, so it can be referenced
+    int maskedLayerIndex = layer->m_layerIndex ? layer->m_layerIndex : newLayerIndex++;
+    maskLayerDef.insert("parent"_L1, maskedLayerIndex);
+
+    QJsonObject color({ { "a"_L1, 0 }, { "k"_L1, QJsonArray({ 1, 1, 1 }) } });
+    QJsonObject shapeXf;
+    shapeXf.insert("ty"_L1, "tr"_L1);
+    QJsonArray shapes;
+    for (const QJsonValue &maskValue : jsonMasks) {
+        QJsonObject maskDef = maskValue.toObject();
+        QJsonValue shapeDef = maskDef.value("pt"_L1);
+        if (shapeDef.isUndefined())
+            continue;
+        const auto maskMode = maskDef.value("mode"_L1).toStringView("a"_L1);
+        if (maskMode == "n"_L1)
+            continue;
+        if (maskMode != "a"_L1)
+            qCInfo(lcLottieQtLottieParser) << "Unsupported mask mode" << maskMode;
+        if (maskDef.value("inv"_L1).toBool())
+            qCInfo(lcLottieQtLottieParser) << "Unsupported inverted mask";
+
+        QJsonObject shape;
+        shape["ty"_L1] = QJsonValue("sh"_L1);
+        shape["ks"_L1] = shapeDef;
+
+        QJsonArray items;
+        items.append(shape);
+        QJsonObject fill;
+        fill.insert("ty"_L1, "fl"_L1);
+        fill.insert("c"_L1, color);
+        fill.insert("o"_L1, maskDef.value("o"_L1));
+        items.append(fill);
+        items.append(shapeXf);
+
+        QJsonObject groupDef;
+        groupDef["ty"_L1] = QJsonValue("gr"_L1);
+        groupDef["it"_L1] = items;
+
+        shapes.append(groupDef);
+    }
+    if (shapes.isEmpty())
+        return nullptr;
+    maskLayerDef["shapes"_L1] = shapes;
+
+    // For debugging: qDebug() << QJsonDocument(maskLayerDef).toJson().constData();
+    QLottieLayer *res = QLottieLayer::construct(maskLayerDef, {});
+    if (res) {
+        layer->m_matteMode = MatteClipMode::Alpha;
+        layer->m_layerIndex = maskedLayerIndex;
+    }
+    return res;
+}
+
 // Take the content of a lottie layers tag and construct the corresponding layer objects
 // Also adds them as children to given parent
 int QLottieLayer::constructLayers(QJsonArray jsonLayers, QLottieBase *parent,
@@ -147,6 +220,20 @@ int QLottieLayer::constructLayers(QJsonArray jsonLayers, QLottieBase *parent,
             else
                 parent->appendChild(layer);
             layersAdded++;
+
+            if (layer->type() != LOTTIE_LAYER_NULL_IX && jsonLayer.value("hasMask"_L1).toBool()) {
+                if (layer->isMatteLayer() || layer->isUsingMatteLayer()) {
+                    qCInfo(lcLottieQtLottieParser) << "Ignoring mask of layer" << layer->name();
+                } else {
+                    // Create a matte that implements the layer mask
+                    QLottieLayer *maskLayer = constructMaskLayer(layer);
+                    if (maskLayer) {
+                        maskLayer->setParent(parent);
+                        parent->insertChildBeforeLast(maskLayer);
+                        layersAdded++;
+                    }
+                }
+            }
         }
     }
     return layersAdded;
