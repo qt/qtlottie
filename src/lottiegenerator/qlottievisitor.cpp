@@ -40,17 +40,15 @@ QLottieVisitor::QLottieVisitor(const QString lottieFileName, QQuickGenerator *ge
 
 void QLottieVisitor::render(const QLottieRoot &root)
 {
+    m_currentFrameCounterIds.push(idForNode(&root));
+    m_currentFrameLimits.push({ root.startFrame(), root.endFrame() });
     StructureNodeInfo info;
     fillCommonNodeInfo(&root, &info);
 
-    const QJsonObject rootObj = root.definition();
+    m_frameRate = root.frameRate();
+    m_duration = qRound(1000.0 * (root.endFrame() - root.startFrame()) / m_frameRate);
+
     info.size = root.layerSize();
-
-    int frameRate = rootObj.value("fr"_L1).toVariant().toInt();
-    if (frameRate > 0)
-        m_frameRate = frameRate;
-
-    m_duration = qRound(1000 * rootObj.value("op"_L1).toDouble(100.0) / m_frameRate);
     info.viewBox = QRectF(QPointF(0, 0), info.size);
 
     QLOTTIEVISITOR_DEBUG << "[root viewbox=" << info.viewBox << ", frame rate=" << m_frameRate << ", duration=" << m_duration << "ms ]";
@@ -58,23 +56,20 @@ void QLottieVisitor::render(const QLottieRoot &root)
     info.stage = StructureNodeStage::Start;
     info.nodeId = "_q_animation"_L1; // # centralize
 
+    TimelineInfo tlInfo;
+    tlInfo.startFrame = root.startFrame();
+    tlInfo.endFrame = root.endFrame();
+    tlInfo.duration = m_duration;
+    info.timelineInfo = tlInfo;
+
     m_generator->generateRootNode(info);
 
     root.render(*this);
 
     info.stage = StructureNodeStage::End;
     m_generator->generateRootNode(info);
-}
-
-int QLottieVisitor::timePointForFrame(qreal frameNo, bool doWrap) const
-{
-    int res = qRound(1000 * (frameNo + m_frameOffset) / qreal(m_frameRate));
-    if (doWrap && m_frameOffset != 0) {
-        res %= m_duration;
-        if (res < 0)
-            res += m_duration;
-    }
-    return res;
+    m_currentFrameLimits.pop();
+    m_currentFrameCounterIds.pop();
 }
 
 QString QLottieVisitor::idForNode(const QLottieBase *node)
@@ -113,39 +108,10 @@ void QLottieVisitor::fillCommonNodeInfo(const QLottieBase *node,
         info->nodeId = scrub(node->name());
         info->typeName = QStringLiteral("Type%1").arg(node->type());
     }
-}
-
-void QLottieVisitor::fillLayerAnimationInfo(const QLottieLayer *node, NodeInfo *info)
-{
-    constexpr bool wrapTimePoints = false;
-    const int startTime = timePointForFrame(node->startFrame(), wrapTimePoints);
-    const int endTime = timePointForFrame(node->endFrame(), wrapTimePoints);
-
-    if (startTime <= 0 && endTime >= m_duration)
-        return; // Always visible (which is default), so no animation needed
-
-    QQuickAnimatedProperty::PropertyAnimation animation;
-
-    if (startTime >= m_duration || endTime <= 0 || endTime <= startTime) {
-        // Always invisible
-        info->visibility.setDefaultValue(QVariant::fromValue(false));
-        animation.frames[0] = QVariant::fromValue(false);
-        animation.frames[m_duration] = QVariant::fromValue(false);
-    } else {
-        if (startTime <= 0) {
-            animation.frames[0] = QVariant::fromValue(true);
-        } else {
-            animation.frames[0] = QVariant::fromValue(false);
-            animation.frames[startTime] = QVariant::fromValue(true);
-        }
-
-        if (endTime < m_duration)
-            animation.frames[endTime] = QVariant::fromValue(false);
-        animation.frames[m_duration] = animation.frames.last();
-    }
-
-    animation.flags |= QQuickAnimatedProperty::PropertyAnimation::FreezeAtEnd;
-    info->visibility.addAnimation(animation);
+    info->transform.setTimelineReferenceId(m_currentFrameCounterIds.top());
+    info->opacity.setTimelineReferenceId(m_currentFrameCounterIds.top());
+    info->motionPath.setTimelineReferenceId(m_currentFrameCounterIds.top());
+    info->visibility.setTimelineReferenceId(m_currentFrameCounterIds.top());
 }
 
 void QLottieVisitor::fillAnimationNodeInfo(const QLottieBase *node, NodeInfo *info)
@@ -157,12 +123,8 @@ void QLottieVisitor::fillAnimationNodeInfo(const QLottieBase *node, NodeInfo *in
 
             QQuickAnimatedProperty::PropertyAnimation animation;
             animation.frames = animInfo.frames;
-            animation.flags |= QQuickAnimatedProperty::PropertyAnimation::FreezeAtEnd;
-
-            animation.frames[0] = animation.frames.first();
-            animation.frames[m_duration] = animation.frames.last();
-
             animation.easingPerFrame = animInfo.easingPerFrame;
+            polishPropertyAnimation(&animation);
 
             if (animInfo.animationType == QTransform::TxTranslate && hasPaths) {
                 // Default value holds additional parameters
@@ -251,6 +213,8 @@ void QLottieVisitor::render(const QLottieLayer &layer)
     QLOTTIEVISITOR_DEBUG << "[layer '" << layer.name() << "' type " << Qt::hex << layer.type()
                          << (layer.isMatteLayer() ? " matte" : "") << "]";
 
+    m_currentFrameLimits.push({ layer.startFrame(), layer.endFrame() });
+
     if (layer.isMatteLayer() || layer.isUsingMatteLayer())
         generateMatteNode(&layer, StructureNodeStage::Start);
 
@@ -263,9 +227,20 @@ void QLottieVisitor::render(const QLottieLayer &layer)
     info.opacity.setDefaultValue(m_currentPaintInfo.opacity);
     info.isDefaultOpacity = qFuzzyCompare(m_currentPaintInfo.opacity, 1.0);
 
-    fillLayerAnimationInfo(&layer, &info);
-    if (layer.type() == LOTTIE_LAYER_PRECOMP_IX)
-        m_frameOffset += layer.frameOffset();
+    bool setFrameCounterReference = false;
+    TimelineInfo tlInfo;
+    tlInfo.startFrame = layer.startFrame();
+    tlInfo.endFrame = layer.endFrame();
+    tlInfo.frameCounterReference = m_currentFrameCounterIds.top();
+    if (layer.type() == LOTTIE_LAYER_PRECOMP_IX) {
+        int offset = qRound(layer.frameOffset());
+        if (offset) {
+            tlInfo.generateFrameCounter = true;
+            tlInfo.frameCounterOffset = -offset;
+            setFrameCounterReference = true;
+        }
+    }
+    info.timelineInfo = tlInfo;
 
     fillAnimationNodeInfo(&layer, &info);
     if (layer.hasLinkedLayer() && layer.parent()) {
@@ -284,6 +259,8 @@ void QLottieVisitor::render(const QLottieLayer &layer)
     m_generator->generateStructureNode(info);
 
     m_currentPaintInfo = {};
+    if (setFrameCounterReference)
+        m_currentFrameCounterIds.push(info.id);
 }
 
 void QLottieVisitor::render(const QLottieSolidLayer &layer)
@@ -348,8 +325,10 @@ void QLottieVisitor::finish(const QLottieLayer &layer)
 {
     QLOTTIEVISITOR_DEBUG << "[layer '" << layer.name() << "' finish]";
 
-    if (layer.type() == LOTTIE_LAYER_PRECOMP_IX)
-        m_frameOffset -= layer.frameOffset();
+    if (layer.type() == LOTTIE_LAYER_PRECOMP_IX) {
+        if (m_currentFrameCounterIds.top() == idForNode(&layer))
+            m_currentFrameCounterIds.pop();
+    }
 
     StructureNodeInfo info;
     info.stage = StructureNodeStage::End;
@@ -358,6 +337,8 @@ void QLottieVisitor::finish(const QLottieLayer &layer)
 
     if (layer.isMatteLayer() || layer.isUsingMatteLayer())
         generateMatteNode(&layer, StructureNodeStage::End);
+
+    m_currentFrameLimits.pop();
 }
 
 void QLottieVisitor::finish(const QLottieGroup &group)
@@ -526,10 +507,10 @@ void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *tra
                                    const QVariant &propertyValue,
                                    PaintInfo::TransformAnimationInfo *info,
                                    std::optional<QBezier> easingBezier = std::nullopt) {
-        const int timePointMs = timePointForFrame(lottieFrameNumber);
-        info->frames[timePointMs] = propertyValue;
+        const int timePoint = qRound(lottieFrameNumber);
+        info->frames[timePoint] = propertyValue;
         if (easingBezier)
-            info->easingPerFrame[timePointMs] = *easingBezier;
+            info->easingPerFrame[timePoint] = *easingBezier;
     };
 
     QLottieVisitor::PaintInfo::TransformAnimationInfo info;
@@ -674,44 +655,47 @@ void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *tra
 QQuickAnimatedProperty::PropertyAnimation QLottieVisitor::makeColorAnimation(const QLottieProperty4D<QVector4D> &colorProperty)
 {
     QQuickAnimatedProperty::PropertyAnimation animation;
-    animation.flags |= QQuickAnimatedProperty::PropertyAnimation::FreezeAtEnd;
 
     std::optional<QBezier> easingBezier;
     for (const auto &curve : colorProperty.easingCurves()) {
         const QVector4D raw = curve.startValue;
         QColor value = QColor::fromRgbF(raw.x(), raw.y(), raw.z(), raw.w());
-        int frameTime = timePointForFrame(curve.startFrame);
+        int frameTime = qRound(curve.startFrame);
         animation.frames[frameTime] = value;
         if (easingBezier)
             animation.easingPerFrame[frameTime] = *easingBezier;
         easingBezier = curve.easing.bezier(); // For next keyframe
     }
-    if (!animation.frames.isEmpty()) {
-        animation.frames[0] = animation.frames.first();
-        animation.frames[m_duration] = animation.frames.last();
-    }
+    polishPropertyAnimation(&animation);
     return animation;
 }
 
 QQuickAnimatedProperty::PropertyAnimation QLottieVisitor::makeOpacityAnimation(const QLottieProperty<qreal> &opacityProperty)
 {
     QQuickAnimatedProperty::PropertyAnimation animation;
-    animation.flags |= QQuickAnimatedProperty::PropertyAnimation::FreezeAtEnd;
 
     std::optional<QBezier> easingBezier;
     for (const auto &curve : opacityProperty.easingCurves()) {
         qreal value = curve.startValue / qreal(100);
-        int frameTime = timePointForFrame(curve.startFrame);
+        int frameTime = qRound(curve.startFrame);
         animation.frames[frameTime] = value;
         if (easingBezier)
             animation.easingPerFrame[frameTime] = *easingBezier;
         easingBezier = curve.easing.bezier(); // For next keyframe
     }
-    if (!animation.frames.isEmpty()) {
-        animation.frames[0] = animation.frames.first();
-        animation.frames[m_duration] = animation.frames.last();
-    }
+    polishPropertyAnimation(&animation);
     return animation;
+}
+
+void QLottieVisitor::polishPropertyAnimation(QQuickAnimatedProperty::PropertyAnimation *animation)
+{
+    animation->flags |= QQuickAnimatedProperty::PropertyAnimation::FreezeAtEnd;
+    // Add boundary keyframe(s) as necessary to ensure correct behavior of generated code
+    if (animation && !animation->frames.isEmpty()) {
+        const int layerStartFrame = m_currentFrameLimits.top().first;
+        if (animation->frames.firstKey() > layerStartFrame)
+            animation->frames[layerStartFrame] = animation->frames.first();
+    }
 }
 
 bool QLottieVisitor::hasAnimations(const QLottieBasicTransform *transform, bool isShapeTransform)
@@ -774,6 +758,9 @@ void QLottieVisitor::render(const QLottieTrimPath &trim)
     QLOTTIEVISITOR_DEBUG << "[trim, isParallel: " << trim.isParallel() << "]";
 
     m_currentPaintInfo.trim.enabled = true;
+    m_currentPaintInfo.trim.start.setTimelineReferenceId(m_currentFrameCounterIds.top());
+    m_currentPaintInfo.trim.end.setTimelineReferenceId(m_currentFrameCounterIds.top());
+    m_currentPaintInfo.trim.offset.setTimelineReferenceId(m_currentFrameCounterIds.top());
     m_currentPaintInfo.trim.start.setDefaultValue(trim.start() / 100.0);
     m_currentPaintInfo.trim.end.setDefaultValue(trim.end() / 100.0);
     m_currentPaintInfo.trim.offset.setDefaultValue(trim.offset() / 360.0);
@@ -781,22 +768,22 @@ void QLottieVisitor::render(const QLottieTrimPath &trim)
     auto registerAnimations = [&](QQuickAnimatedProperty *outProperty,
                                   const QLottieProperty<qreal> &inProperty,
                                   qreal scale) {
-        const QList<EasingSegment<qreal> > easingCurves = inProperty.easingCurves();
+        if (outProperty->animationCount() > 0)
+            return; // Animation already registered on earlier visit
 
         QQuickAnimatedProperty::PropertyAnimation animation;
-        animation.flags |= QQuickAnimatedProperty::PropertyAnimation::FreezeAtEnd;
 
+        const QList<EasingSegment<qreal> > easingCurves = inProperty.easingCurves();
         for (int i = 0; i < easingCurves.size(); i++) {
             const auto &curve = easingCurves.at(i);
             const qreal startValue = curve.startValue * scale;
-            int startFrameTime = timePointForFrame(curve.startFrame);
+            int startFrameTime = qRound(curve.startFrame);
             animation.frames[startFrameTime] = startValue;
             if (i > 0)
                 animation.easingPerFrame[startFrameTime] = easingCurves.at(i - 1).easing.bezier();
         }
         if (!animation.frames.isEmpty()) {
-            animation.frames[0] = animation.frames.first();
-            animation.frames[m_duration] = animation.frames.last();
+            polishPropertyAnimation(&animation);
             outProperty->addAnimation(animation);
         }
     };
@@ -835,15 +822,13 @@ void QLottieVisitor::fillPathAnimationInfo(const QLottieShape *shape, PathNodeIn
             const auto easingCurves = copy.startPointProperty().easingCurves();
             for (int i = 0; i < easingCurves.size(); i++) {
                 const auto &curve = easingCurves.at(i);
-                copy.updateProperties(qRound(curve.startFrame));
-                int timePointMs = timePointForFrame(curve.startFrame);
-                pa.frames[timePointMs] = QVariant::fromValue(copy.path());
+                const int timePoint = qRound(curve.startFrame);
+                copy.updateProperties(timePoint);
+                pa.frames[timePoint] = QVariant::fromValue(copy.path());
                 if (i > 0)
-                    pa.easingPerFrame[timePointMs] = easingCurves.at(i - 1).easing.bezier();
+                    pa.easingPerFrame[timePoint] = easingCurves.at(i - 1).easing.bezier();
             }
-            pa.frames[0] = pa.frames.first();
-            pa.frames[m_duration] = pa.frames.last();
-            pa.flags |= QQuickAnimatedProperty::PropertyAnimation::FreezeAtEnd;
+            polishPropertyAnimation(&pa);
             info->path.addAnimation(pa);
         }
     }
@@ -934,6 +919,12 @@ void QLottieVisitor::processShape(const QLottieShape *shape, const QPainterPath 
         pathInfo.fillTransform = m_currentPaintInfo.inverseFillTransform.inverted();
     if (trimmingState() != TrimmingState::Off)
         pathInfo.trim = m_currentPaintInfo.trim;
+
+    pathInfo.path.setTimelineReferenceId(m_currentFrameCounterIds.top());
+    pathInfo.fillColor.setTimelineReferenceId(m_currentFrameCounterIds.top());
+    pathInfo.fillOpacity.setTimelineReferenceId(m_currentFrameCounterIds.top());
+    pathInfo.strokeStyle.color.setTimelineReferenceId(m_currentFrameCounterIds.top());
+    pathInfo.strokeStyle.opacity.setTimelineReferenceId(m_currentFrameCounterIds.top());
     m_generator->generatePath(pathInfo);
 
     if (m_currentStructElements.isEmpty()) {

@@ -53,6 +53,10 @@ int QLottieRoot::parseSource(const QByteArray &jsonSource, const QUrl &fileSourc
 
     m_startFrame = rootObj.value("ip"_L1).toVariant().toInt();
     m_endFrame = rootObj.value("op"_L1).toVariant().toInt();
+    if (m_endFrame <= m_startFrame) {
+        qCWarning(lcLottieQtLottieParser) << "Invalid top level  \"ip\"/\"op\" values";
+        return -1;
+    }
 
     m_size = QSize(rootObj.value("w"_L1).toInt(-1), rootObj.value("h"_L1).toInt(-1));
 

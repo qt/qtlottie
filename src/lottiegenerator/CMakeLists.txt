@@ -12,4 +12,5 @@ qt_internal_add_module(LottieVectorImageGeneratorPrivate
         Qt::QuickVectorImageGeneratorPrivate
         Qt::LottiePrivate
         Qt::LottieVectorImageHelpers
+        Qt::QuickTimeline
 )

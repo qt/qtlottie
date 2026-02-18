@@ -105,7 +105,6 @@ public:
     void fillCommonNodeInfo(const QLottieBase *node, NodeInfo *info, const QString &suffix = QString{});
     void fillAnimationNodeInfo(const QLottieBase *node, NodeInfo *info);
     void fillBasicPathInfo(const QLottieShape *strokeOrFill, PathNodeInfo *pathInfo);
-    void fillLayerAnimationInfo(const QLottieLayer *node, NodeInfo *info);
     void fillPathAnimationInfo(const QLottieShape *shape, PathNodeInfo *info);
 
 private:
@@ -118,9 +117,9 @@ private:
                                     bool isShapeTransform = false);
     QQuickAnimatedProperty::PropertyAnimation makeColorAnimation(const QLottieProperty4D<QVector4D> &colorProperty);
     QQuickAnimatedProperty::PropertyAnimation makeOpacityAnimation(const QLottieProperty<qreal> &opacityProperty);
+    void polishPropertyAnimation(QQuickAnimatedProperty::PropertyAnimation *animation);
 
     QString idForNode(const QLottieBase *node);
-    int timePointForFrame(qreal frameNo, bool doWrap = true) const;
     QString scrub(const QString &raw);
 
     QString m_lottieFileName;
@@ -132,9 +131,10 @@ private:
 
     int m_frameRate = 30;
     int m_duration = 1000;
-    qreal m_frameOffset = 0;
 
     QStack<const QLottieBase *> m_currentStructElements;
+    QStack<QString> m_currentFrameCounterIds;
+    QStack<std::pair<int, int>> m_currentFrameLimits;
 
     int m_nodeIdCounter = 0;
     QHash<const QLottieBase *, QString> m_idForNodeId;

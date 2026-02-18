@@ -111,6 +111,7 @@ int main(int argc, char *argv[])
     }
 
     QQuickVectorImageGenerator::GeneratorFlags flags;
+    flags.setFlag(QQuickVectorImageGenerator::GeneratorFlag::TimelineAnimation);
     if (parser.isSet(curveRendererOption))
         flags |= QQuickVectorImageGenerator::GeneratorFlag::CurveRenderer;
     if (parser.isSet(asyncOption))

@@ -56,6 +56,8 @@ bool QLottieVectorImagePlugin::generate(const QString &fileName, QQuickItemGener
             }
 
             generator->addExtraImport(QStringLiteral("Qt.labs.lottieqt.VectorImageHelpers"));
+            generator->setGeneratorFlags(
+                generator->generatorFlags().setFlag(QQuickVectorImageGenerator::TimelineAnimation));
             QLottieVisitor visitor(fileName, generator);
             visitor.render(root);
 

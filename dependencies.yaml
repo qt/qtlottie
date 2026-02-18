@@ -5,3 +5,6 @@ dependencies:
   ../qtdeclarative:
     ref: 6738cc98fff88a5ea114bac1e2c16a7b9e467b1d
     required: true
+  ../qtquicktimeline:
+    ref: 7e03d65767d0aa6ef8bc5bef3cf51dd6e88bda84
+    required: true
