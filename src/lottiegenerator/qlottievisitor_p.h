@@ -60,6 +60,7 @@ public:
         struct TransformAnimationInfo
         {
             QTransform::TransformationType animationType;
+            QPainterPath motionPath;
 
             QMap<int, QVariant> frames;
             QMap<int, QBezier> easingPerFrame;

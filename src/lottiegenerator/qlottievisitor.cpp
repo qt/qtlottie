@@ -152,22 +152,23 @@ void QLottieVisitor::fillAnimationNodeInfo(const QLottieBase *node, NodeInfo *in
     Q_UNUSED(node);
     for (const PaintInfo::TransformAnimationInfo &animInfo : std::as_const(m_currentPaintInfo.transformAnimations)) {
         if (!animInfo.frames.isEmpty()) {
-            const bool hasPaths = animInfo.frames.first().typeId() == qMetaTypeId<QPainterPath>();
+            const bool hasPaths = !animInfo.motionPath.isEmpty();
 
             QQuickAnimatedProperty::PropertyAnimation animation;
             animation.frames = animInfo.frames;
             animation.flags |= QQuickAnimatedProperty::PropertyAnimation::FreezeAtEnd;
 
             animation.frames[0] = animation.frames.first();
+            animation.frames[m_duration] = animation.frames.last();
 
             animation.easingPerFrame = animInfo.easingPerFrame;
 
             if (animInfo.animationType == QTransform::TxTranslate && hasPaths) {
-                if (animation.frames.lastKey() < m_duration)
-                    animation.frames[m_duration] = QVariant::fromValue(QPainterPath{});
+                // Default value holds additional parameters
+                QVariantList params({ QVariant::fromValue(animInfo.motionPath) });
+                info->motionPath.setDefaultValue(params);
                 info->motionPath.addAnimation(animation);
             } else {
-                animation.frames[m_duration] = animation.frames.last();
                 animation.subtype = animInfo.animationType;
                 if (animInfo.animationType == QTransform::TxNone)
                     info->opacity.addAnimation(animation);
@@ -532,30 +533,33 @@ void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *tra
     if (!transform->splitPosition()) {
         if (positionHasCurves) { // Use the motionPath property
             const auto easingCurves = positions.easingCurves();
-            const auto &subPaths = positions.subPaths();
-            Q_ASSERT(!subPaths.isEmpty());
+            const auto &pathSegments = positions.subPaths();
+            Q_ASSERT(!pathSegments.isEmpty());
+
+            // Combine motion segments to one path; calculate segment lengths for progress steps
+            QPainterPath combinedPath;
+            QList<qreal> segmentLengths;
+            segmentLengths.reserve(pathSegments.size());
+            qreal totalLength = 0;
+            for (const QPainterPath &pathSegment : pathSegments) {
+                segmentLengths.append(pathSegment.length());
+                totalLength += segmentLengths.last();
+                combinedPath.connectPath(pathSegment);
+            }
 
             QLottieVisitor::PaintInfo::TransformAnimationInfo info;
             info.animationType = QTransform::TxTranslate;
+            info.motionPath = combinedPath;
 
-            if (easingCurves.isEmpty()) {
-                const QVariant params = QVariant::fromValue(subPaths.first());
-                storeAnimationFrame(0, params, &info, std::nullopt);
-            } else {
-                std::optional<QBezier> easingBezier;
-                for (qsizetype i = 0; i < easingCurves.size(); ++i) {
-                    const auto &curve = easingCurves.at(i);
-                    if (i == 0) {
-                        // Store an empty path keyframe to mark the start time of the animation
-                        const QVariant startParams = QVariant::fromValue(QPainterPath{});
-                        storeAnimationFrame(curve.startFrame, startParams, &info, easingBezier);
-                    } else {
-                        // Like the easing, also the motion path is expected in the ending keyframe
-                        const QVariant params = QVariant::fromValue(subPaths.at(i - 1));
-                        storeAnimationFrame(curve.startFrame, params, &info, easingBezier);
-                    }
-                    easingBezier = curve.easing.bezier(); // belongs to generator's next keyframe
-                }
+            qreal accumLength = 0;
+            std::optional<QBezier> easingBezier;
+            for (qsizetype i = 0; i < easingCurves.size(); ++i) {
+                const auto &curve = easingCurves.at(i);
+                qreal tValue = accumLength / totalLength;
+                storeAnimationFrame(curve.startFrame, tValue, &info, easingBezier);
+
+                accumLength += segmentLengths[i];
+                easingBezier = curve.easing.bezier(); // belongs to generator's next keyframe
             }
 
             m_currentPaintInfo.transformAnimations.append(info);
