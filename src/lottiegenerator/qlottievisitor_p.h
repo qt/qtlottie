@@ -57,6 +57,7 @@ public:
         PathTrimInfo trim;
 
         QTransform transform;
+        QTransform inverseFillTransform;
 
         struct TransformAnimationInfo
         {

@@ -422,6 +422,7 @@ void QLottieVisitor::render(const QLottieFill &fill)
     m_currentPaintInfo.fillColorAnimation = makeColorAnimation(fill.colorProperty());
     m_currentPaintInfo.fillOpacityAnimation = makeOpacityAnimation(fill.opacityProperty());
     m_currentPaintInfo.fillRule = fill.fillRule();
+    m_currentPaintInfo.inverseFillTransform.reset();
 }
 
 void QLottieVisitor::render(const QLottieGFill &gradient)
@@ -431,6 +432,7 @@ void QLottieVisitor::render(const QLottieGFill &gradient)
     if (gradient.value() != nullptr)
         m_currentPaintInfo.fill = *gradient.value();
     m_currentPaintInfo.fillRule = gradient.fillRule();
+    m_currentPaintInfo.inverseFillTransform.reset();
 }
 
 void QLottieVisitor::render(const QLottieImage &image)
@@ -743,14 +745,19 @@ void QLottieVisitor::render(const QLottieShapeTransform &transform)
         return;
     }
 
-    QLOTTIEVISITOR_DEBUG << "[shape transform s=" << transform.scale()
-        << ", r=" << transform.rotation()
-        << ", o=" << transform.opacity() << "]";
+    QLOTTIEVISITOR_DEBUG << "[shape transform p=" << transform.position()
+                         << ", s=" << transform.scale()
+                         << ", r=" << transform.rotation()
+                         << ", o=" << transform.opacity() << "]";
 
     if (hasAnimations(&transform, true))
         collectTransformAnimations(&transform, true);
     else
         applyTransform(&m_currentPaintInfo.transform, transform, true);
+
+    // A gradient fill defined in enclosing group scope must have its coords mapped back
+    if (m_currentPaintInfo.fill.gradient())
+        applyTransform(&m_currentPaintInfo.inverseFillTransform, transform, true);
 
     m_currentPaintInfo.opacity *= transform.opacity();
 }
@@ -923,6 +930,8 @@ void QLottieVisitor::processShape(const QLottieShape *shape, const QPainterPath 
         pathInfo.strokeStyle.opacity.addAnimation(m_currentPaintInfo.strokeOpacityAnimation);
     if (m_currentPaintInfo.fill.gradient() != nullptr)
         pathInfo.grad = *m_currentPaintInfo.fill.gradient();
+    if (!m_currentPaintInfo.inverseFillTransform.isIdentity())
+        pathInfo.fillTransform = m_currentPaintInfo.inverseFillTransform.inverted();
     if (trimmingState() != TrimmingState::Off)
         pathInfo.trim = m_currentPaintInfo.trim;
     m_generator->generatePath(pathInfo);
