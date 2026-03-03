@@ -111,6 +111,7 @@ int QLottieGFill::parse(const QJsonObject &definition)
         return -1;
 
     if (!isAnimated) {
+        QMap<qreal, QVector4D> colorStops;
         QJsonArray colorArr = stops.value("k"_L1).toArray();
         for (int i = 0; i < (elementCount * 4); i += 4) {
             // p denotes the color stop percentage
@@ -118,59 +119,62 @@ int QLottieGFill::parse(const QJsonObject &definition)
             colorVec[0] = colorArr.at(i + 1).toVariant().toFloat();
             colorVec[1] = colorArr.at(i + 2).toVariant().toFloat();
             colorVec[2] = colorArr.at(i + 3).toVariant().toFloat();
-            // Set gradient stop position into w of the vector
             colorVec[3] = 1.0f;
             QLottieProperty4D<QVector4D> colorPos;
             colorPos.setValue(colorVec);
+            // The stop position is found in the first element of the vector
             qreal pos = colorArr.at(i + 0).toVariant().toFloat();
             m_colors[pos] = colorPos;
+            colorStops.insert(pos, colorVec);
         }
-        QList<qreal> keys = m_colors.keys();
-        std::sort(keys.begin(), keys.end());
-        int keyIndex = 0;
-        for (int i = (elementCount * 4); i < colorArr.size(); i+= 2) {
-            qreal pos = colorArr.at(i).toVariant().toFloat();
-            qreal opacity = colorArr.at(i + 1).toVariant().toFloat();
-            if (m_colors.contains(pos)) {
-                QLottieProperty4D<QVector4D> colorVec = m_colors.value(pos);
-                QVector4D color = colorVec.value();
-                color[3] = opacity;
-                colorVec.setValue(color);
-                m_colors[pos] = colorVec;
-                keyIndex++;
-            } else {
-                qreal pos0;
-                qreal pos1;
-                if (keyIndex == 0) {
-                    pos0 = keys.value(0);
-                    pos1 = keys.value(1);
-                } else {
-                    pos0 = keys.value(keyIndex-1);
-                    pos1 = keys.value(keyIndex);
-                }
 
-                if (pos1 > pos) {
-                    QVector4D col0 = m_colors[pos0].value();
-                    QVector4D col1 = m_colors[pos1].value();
-                    qreal ratio = (pos - pos0) / (pos1 - pos0);
-                    qreal r = col0[0] + ratio * (col1[0] - col0[0]);
-                    qreal g = col0[1] + ratio * (col1[1] - col0[1]);
-                    qreal b = col0[2] + ratio * (col1[2] - col0[2]);
-                    QVector4D color = QVector4D(r, g, b, opacity);
-                    QLottieProperty4D<QVector4D> colorPos;
-                    colorPos.setValue(color);
-                    m_colors[pos] = colorPos;
+        if (colorArr.size() > (elementCount * 4)) {
+            // The gradient has opacity stops; handle them
+            QMap<qreal, qreal> opacityStops;
+            for (int i = (elementCount * 4); i < colorArr.size(); i += 2) {
+                qreal pos = colorArr.at(i).toVariant().toFloat();
+                qreal opacity = colorArr.at(i + 1).toVariant().toFloat();
+                opacityStops.insert(pos, opacity);
+            }
+            QMap<qreal, qreal> uniqueOpacityStops(opacityStops);
+
+            // First: add opacity to all existing color stops
+            for (auto [pos, color] : colorStops.asKeyValueRange()) {
+                qreal opacity = 1.0;
+                if (pos <= opacityStops.firstKey() || opacityStops.size() == 1) {
+                    opacity = opacityStops.first();
+                } else if (pos >= opacityStops.lastKey()) {
+                    opacity = opacityStops.last();
                 } else {
-                    QLottieProperty4D<QVector4D> colorVec = m_colors.value(pos1);
-                    QVector4D color = colorVec.value();
-                    qreal opa0 = m_colors[pos1].value()[3];
-                    qreal ratio = (pos1 - pos0) / (pos - pos0);
-                    qreal opa = opa0 + ratio * (opacity - opa0);
-                    color[3] = opa;
-                    colorVec.setValue(color);
-                    m_colors[pos1] = colorVec;
-                    keyIndex++;
+                    auto it2 = opacityStops.lowerBound(pos);
+                    Q_ASSERT(it2 != opacityStops.cbegin());
+                    auto it1(it2);
+                    it1--;
+                    qreal ratio = (pos - it1.key()) / (it2.key() - it1.key());
+                    opacity = it1.value() + ratio * (it2.value() - it1.value());
                 }
+                color[3] = opacity;
+                m_colors[pos].setValue(color);
+                uniqueOpacityStops.remove(pos); // will remove if position present, otherwise noop
+            }
+
+            // Second: add new color stops for any unique opacity stop positions
+            for (auto [pos, opacity] : uniqueOpacityStops.asKeyValueRange()) {
+                QVector4D color;
+                if (pos <= colorStops.firstKey() || colorStops.size() == 1) {
+                    color = colorStops.first();
+                } else if (pos >= colorStops.lastKey()) {
+                    color = colorStops.last();
+                } else {
+                    auto it2 = colorStops.lowerBound(pos);
+                    Q_ASSERT(it2 != colorStops.cbegin());
+                    auto it1(it2);
+                    it1--;
+                    qreal ratio = (pos - it1.key()) / (it2.key() - it1.key());
+                    color = it1.value() + ratio * (it2.value() - it1.value());
+                }
+                color[3] = opacity;
+                m_colors[pos].setValue(color);
             }
         }
     } else {
