@@ -36,7 +36,7 @@ public:
     void render(QLottieRenderer &renderer) const override;
     int parse(const QJsonObject &definition) override;
 
-    QPen pen() const;
+    virtual QPen pen() const;
     qreal opacity() const;
 
     QLottieProperty4D<QVector4D> colorProperty() const { return m_color; }

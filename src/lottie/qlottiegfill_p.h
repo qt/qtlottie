@@ -23,10 +23,11 @@
 #include <QtLottie/private/qlottieproperty_p.h>
 #include <QtLottie/private/qlottieproperty_p.h>
 #include <QtLottie/private/qlottiespatialproperty_p.h>
+#include <QtLottie/private/qlottiegradientholder_p.h>
 
 QT_BEGIN_NAMESPACE
 
-class Q_LOTTIE_EXPORT QLottieGFill : public QLottieShape
+class Q_LOTTIE_EXPORT QLottieGFill : public QLottieGradientHolder<QLottieShape>
 {
 public:
     explicit QLottieGFill(const QLottieGFill &other);
@@ -38,28 +39,12 @@ public:
     void updateProperties(int frame) override;
     void render(QLottieRenderer &renderer) const override;
     int parse(const QJsonObject &definition) override;
-
-    QGradient *value() const;
-    QGradient::Type gradientType() const;
-    QPointF startPoint() const;
-    QPointF endPoint() const;
-    qreal highlightLength() const;
-    qreal highlightAngle() const;
-    qreal opacity() const;
     Qt::FillRule fillRule() const;
-
-private:
-    void setGradient();
+    qreal opacity() const;
 
 protected:
-    QLottieProperty<qreal> m_opacity;
-    QLottieSpatialProperty m_startPoint;
-    QLottieSpatialProperty m_endPoint;
-    QLottieProperty<qreal> m_highlightLength;
-    QLottieProperty<qreal> m_highlightAngle;
-    QHash<qreal, QLottieProperty4D<QVector4D>> m_colors;
-    QGradient *m_gradient = nullptr;
     Qt::FillRule m_fillRule = Qt::WindingFill;
+    QLottieProperty<qreal> m_opacity;
 };
 
 QT_END_NAMESPACE

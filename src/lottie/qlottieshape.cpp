@@ -12,6 +12,7 @@
 #include "qlottiefill_p.h"
 #include "qlottiegfill_p.h"
 #include "qlottiestroke_p.h"
+#include "qlottiegstroke_p.h"
 #include "qlottierect_p.h"
 #include "qlottieellipse_p.h"
 #include "qlottiepolystar_p.h"
@@ -212,8 +213,13 @@ QLottieShape *QLottieShape::construct(QJsonObject definition, QLottieBase *paren
         shape->setType(LOTTIE_SHAPE_REPEATER_IX);
         break;
     }
-    case LOTTIE_SHAPE_TAG('g', 's'): // ### LOTTIE_SHAPE_GSTROKE_IX
-        // fall through
+    case LOTTIE_SHAPE_TAG('g', 's'):
+        qCDebug(lcLottieQtLottieParser) << "Parse stroke";
+        shape.reset(new QLottieGStroke(parent));
+        if (shape->parse(definition) < 0)
+            return nullptr;
+        shape->setType(LOTTIE_SHAPE_GSTROKE_IX);
+        break;
     default:
         qCInfo(lcLottieQtLottieParser) << "Unsupported shape type:"
                                              << type;

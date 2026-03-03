@@ -32,6 +32,7 @@ class QLottieFill;
 class QLottieGFill;
 class QLottieImage;
 class QLottieStroke;
+class QLottieGStroke;
 class QLottieBasicTransform;
 class QLottieLayerTransform;
 class QLottieShapeTransform;

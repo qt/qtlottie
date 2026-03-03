@@ -60,7 +60,7 @@ int QLottieStroke::parse(const QJsonObject &definition)
 
     qCDebug(lcLottieQtLottieParser) << "QLottieStroke::QLottieStroke()" << m_name;
 
-    if (!checkRequiredKeys(definition, "Stroke"_L1, { "c"_L1, "o"_L1, "w"_L1 }, m_name))
+    if (!checkRequiredKeys(definition, "Stroke"_L1, { "o"_L1, "w"_L1 }, m_name))
         return -1;
 
     int lineCap = definition.value("lc"_L1).toVariant().toInt();
@@ -102,9 +102,11 @@ int QLottieStroke::parse(const QJsonObject &definition)
     width = resolveExpression(width);
     m_width.construct(width);
 
-    QJsonObject color = definition.value("c"_L1).toObject();
-    color = resolveExpression(color);
-    m_color.construct(color);
+    if (definition.contains("c"_L1)) {
+        QJsonObject color = definition.value("c"_L1).toObject();
+        color = resolveExpression(color);
+        m_color.construct(color);
+    }
 
     QJsonArray dashes = definition.value("d"_L1).toArray();
     if (dashes.size()) {

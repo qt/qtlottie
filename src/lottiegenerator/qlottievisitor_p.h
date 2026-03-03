@@ -48,7 +48,7 @@ public:
         QBrush fill = Qt::transparent;
         QQuickAnimatedProperty::PropertyAnimation fillColorAnimation;
         QQuickAnimatedProperty::PropertyAnimation fillOpacityAnimation;
-        QPen stroke = QPen(Qt::transparent);
+        QPen stroke = QPen(Qt::NoPen);
         QQuickAnimatedProperty::PropertyAnimation strokeColorAnimation;
         QQuickAnimatedProperty::PropertyAnimation strokeOpacityAnimation;
         qreal opacity = 1.0;

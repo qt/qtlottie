@@ -12,7 +12,9 @@ qt_internal_extend_target(Lottie
         qlottiefilleffect.cpp qlottiefilleffect_p.h
         qlottiefreeformshape.cpp qlottiefreeformshape_p.h
         qlottiegfill.cpp qlottiegfill_p.h
+        qlottiegradientholder.cpp qlottiegradientholder_p.h
         qlottiegroup.cpp qlottiegroup_p.h
+        qlottiegstroke.cpp qlottiegstroke_p.h
         qlottieimage.cpp qlottieimage_p.h
         qlottieflatlayers.cpp qlottieflatlayers_p.h
         qlottielayer.cpp qlottielayer_p.h

@@ -437,9 +437,11 @@ void QLottieVisitor::render(const QLottieStroke &stroke)
     const QPen pen = stroke.pen();
     m_currentPaintInfo.stroke = pen;
 
-    QColor color = pen.color();
-    color.setAlphaF(color.alphaF() * (stroke.opacity() / 100.0));
-    m_currentPaintInfo.stroke.setColor(color);
+    if (m_currentPaintInfo.stroke.brush().gradient() == nullptr) {
+        QColor color = pen.color();
+        color.setAlphaF(color.alphaF() * (stroke.opacity() / 100.0));
+        m_currentPaintInfo.stroke.setColor(color);
+    }
 
     m_currentPaintInfo.strokeColorAnimation = makeColorAnimation(stroke.colorProperty());
     m_currentPaintInfo.strokeOpacityAnimation = makeOpacityAnimation(stroke.opacityProperty());
@@ -907,12 +909,18 @@ void QLottieVisitor::processShape(const QLottieShape *shape, const QPainterPath 
         pathInfo.fillColor.addAnimation(m_currentPaintInfo.fillColorAnimation);
     if (!m_currentPaintInfo.fillOpacityAnimation.isConstant())
         pathInfo.fillOpacity.addAnimation(m_currentPaintInfo.fillOpacityAnimation);
-    pathInfo.strokeStyle = StrokeStyle::fromPen(m_currentPaintInfo.stroke);
-    pathInfo.strokeStyle.color.setDefaultValue(QVariant::fromValue(m_currentPaintInfo.stroke.color()));
-    if (!m_currentPaintInfo.strokeColorAnimation.isConstant())
-        pathInfo.strokeStyle.color.addAnimation(m_currentPaintInfo.strokeColorAnimation);
-    if (!m_currentPaintInfo.strokeOpacityAnimation.isConstant())
-        pathInfo.strokeStyle.opacity.addAnimation(m_currentPaintInfo.strokeOpacityAnimation);
+
+    if (m_currentPaintInfo.stroke.style() != Qt::NoPen) {
+        pathInfo.strokeStyle = StrokeStyle::fromPen(m_currentPaintInfo.stroke);
+        pathInfo.strokeStyle.color.setDefaultValue(QVariant::fromValue(m_currentPaintInfo.stroke.color()));
+        if (!m_currentPaintInfo.strokeColorAnimation.isConstant())
+            pathInfo.strokeStyle.color.addAnimation(m_currentPaintInfo.strokeColorAnimation);
+        if (!m_currentPaintInfo.strokeOpacityAnimation.isConstant())
+            pathInfo.strokeStyle.opacity.addAnimation(m_currentPaintInfo.strokeOpacityAnimation);
+        if (m_currentPaintInfo.stroke.brush().gradient() != nullptr)
+            pathInfo.strokeGrad = *m_currentPaintInfo.stroke.brush().gradient();
+    }
+
     if (m_currentPaintInfo.fill.gradient() != nullptr)
         pathInfo.grad = *m_currentPaintInfo.fill.gradient();
     if (!m_currentPaintInfo.inverseFillTransform.isIdentity())
