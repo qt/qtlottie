@@ -1,5 +1,6 @@
 // Copyright (C) 2025 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
+// Qt-Security score:significant reason:default
 
 #include <QtQuickVectorImageGenerator/private/qquickvectorimageplugin_p.h>
 #include <QtLottieVectorImageGenerator/private/qlottievisitor_p.h>
