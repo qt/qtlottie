@@ -352,9 +352,10 @@ void QLottieLayer::parseEffects(const QJsonArray &definition, QLottieBase *effec
     QJsonArray::const_iterator it = definition.constEnd();
     while (it != definition.constBegin()) {
         // Create effects container if at least one effect found
-        if (!m_effects) {
-            m_effects = new QLottieBase;
-            effectRoot = m_effects;
+        if (!effectRoot) {
+            Q_ASSERT(!m_effects);
+            effectRoot = new QLottieBase;
+            m_effects = effectRoot;
         }
         it--;
         QJsonObject effect = (*it).toObject();

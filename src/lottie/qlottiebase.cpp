@@ -246,12 +246,12 @@ const QJsonObject QLottieBase::resolveExpression(const QJsonObject &definition)
         else
             retVal = source->definition().value("v"_L1).toObject();
         if (source->children().size() > 1)
-            qCWarning(lcLottieQtLottieParser) << "Effect source points"
+            qCInfo(lcLottieQtLottieParser) << "Effect source points"
                                                 "to a group that has"
                                                 "many children. The"
                                                 "first is be picked";
     } else {
-        qCWarning(lcLottieQtLottieParser) << "Failed to find specified effect" << effect;
+        qCInfo(lcLottieQtLottieParser) << "Failed to find specified effect" << effect;
     }
 
     // Let users of the json know that it is originated from expression,
