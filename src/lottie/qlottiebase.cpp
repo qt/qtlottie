@@ -23,7 +23,6 @@ QLottieBase::QLottieBase(const QLottieBase &other)
     m_type = other.m_type;
     m_hidden = other.m_hidden;
     m_name = other.m_name;
-    m_autoOrient = other.m_autoOrient;
     for (QLottieBase *child : other.m_children) {
         QLottieBase *clone = child->clone();
         clone->setParent(this);
@@ -185,10 +184,6 @@ int QLottieBase::parse(const QJsonObject &definition)
     m_hidden = definition.value("hd"_L1).toBool(false);
     m_name = definition.value("nm"_L1).toString();
     m_matchName = definition.value("mn"_L1).toString();
-    m_autoOrient = definition.value("ao"_L1).toBool();
-
-    if (m_autoOrient)
-        qCInfo(lcLottieQtLottieParser, "Element has auto-orientation set, but it is not supported");
 
     return 0;
 }

@@ -82,7 +82,6 @@ protected:
     mutable qint8 m_structureDumping = -1;
     QString m_name;
     QString m_matchName;
-    bool m_autoOrient = false;
 
     friend class QLottieRasterRenderer;
     friend class QLottieRenderer;

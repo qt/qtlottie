@@ -128,7 +128,8 @@ void QLottieVisitor::fillAnimationNodeInfo(const QLottieBase *node, NodeInfo *in
 
             if (animInfo.animationType == QTransform::TxTranslate && hasPaths) {
                 // Default value holds additional parameters
-                QVariantList params({ QVariant::fromValue(animInfo.motionPath) });
+                QVariantList params({ QVariant::fromValue(animInfo.motionPath),
+                                      QVariant(animInfo.isAutoOrienting) });
                 info->motionPath.setDefaultValue(params);
                 info->motionPath.addAnimation(animation);
             } else {
@@ -452,8 +453,14 @@ void QLottieVisitor::render(const QLottieBasicTransform &transform)
     QLOTTIEVISITOR_DEBUG << "[basic transform s=" << transform.scale()
                          << ", r=" << transform.rotation()
                          << ", o=" << transform.opacity() << "]";
+
+    const bool isShapeTransform = false;
+    bool autoOrient = false;
+    if (const QLottieLayer *layer = QLottieLayer::checkedCast(transform.parent()))
+        autoOrient = layer->isAutoOrienting();
+
     if (hasAnimations(&transform))
-        collectTransformAnimations(&transform);
+        collectTransformAnimations(&transform, isShapeTransform, autoOrient);
     else
         applyTransform(&m_currentPaintInfo.transform, transform, false);
 
@@ -492,7 +499,7 @@ namespace {
 }
 
 void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *transform,
-                                                bool isShapeTransform)
+                                                bool isShapeTransform, bool autoOrient)
 {
     Q_UNUSED(isShapeTransform);
     const QLottieProperty<QPointF> anchorPoints = transform->anchorPointProperty();
@@ -517,7 +524,7 @@ void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *tra
 
     QLottieVisitor::PaintInfo::TransformAnimationInfo info;
     if (!transform->splitPosition()) {
-        if (positionHasCurves) { // Use the motionPath property
+        if (positionHasCurves || autoOrient) { // Use the motionPath property
             const auto easingCurves = positions.easingCurves();
             const auto &pathSegments = positions.subPaths();
             Q_ASSERT(!pathSegments.isEmpty());
@@ -536,6 +543,7 @@ void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *tra
             QLottieVisitor::PaintInfo::TransformAnimationInfo info;
             info.animationType = QTransform::TxTranslate;
             info.motionPath = combinedPath;
+            info.isAutoOrienting = autoOrient;
 
             qreal accumLength = 0;
             std::optional<QBezier> easingBezier;

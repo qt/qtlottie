@@ -63,6 +63,7 @@ public:
         {
             QTransform::TransformationType animationType;
             QPainterPath motionPath;
+            bool isAutoOrienting = false;
 
             QMap<int, QVariant> frames;
             QMap<int, QBezier> easingPerFrame;
@@ -114,7 +115,8 @@ private:
     void processPath(const QLottieShape *shape, const QPainterPath &path);
     void processShape(const QLottieShape *shape, const QPainterPath &path);
     void collectTransformAnimations(const QLottieBasicTransform *transform,
-                                    bool isShapeTransform = false);
+                                    bool isShapeTransform = false,
+                                    bool autoOrient = false);
     QQuickAnimatedProperty::PropertyAnimation makeColorAnimation(const QLottieProperty4D<QVector4D> &colorProperty);
     QQuickAnimatedProperty::PropertyAnimation makeOpacityAnimation(const QLottieProperty<qreal> &opacityProperty);
     void polishPropertyAnimation(QQuickAnimatedProperty::PropertyAnimation *animation);

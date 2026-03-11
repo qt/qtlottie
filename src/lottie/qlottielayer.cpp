@@ -30,6 +30,7 @@ QLottieLayer::QLottieLayer(const QLottieLayer &other)
     m_endFrame = other.m_endFrame;
     m_startTime = other.m_startTime;
     m_blendMode = other.m_blendMode;
+    m_autoOrient = other.m_autoOrient;
     m_3dLayer = other.m_3dLayer;
     m_stretch = other.m_stretch;
     m_hasLinkedLayer = other.m_hasLinkedLayer;
@@ -259,7 +260,7 @@ int QLottieLayer::parse(const QJsonObject &definition)
     m_startFrame = definition.value("ip"_L1).toVariant().toInt();
     m_endFrame = definition.value("op"_L1).toVariant().toInt();
     m_blendMode = definition.value("lottie"_L1).toVariant().toInt();
-    m_autoOrient = definition.value("ao"_L1).toBool();
+    m_autoOrient = (definition.value("ao"_L1).toInt() == 1);
     m_3dLayer = definition.value("ddd"_L1).toBool();
     m_stretch = definition.value("sr"_L1).toVariant().toReal();
     m_linkedLayerId = definition.value("parent"_L1).toVariant().toInt(&m_hasLinkedLayer);
@@ -285,9 +286,6 @@ int QLottieLayer::parse(const QJsonObject &definition)
     if (m_stretch > 1)
         qCInfo(lcLottieQtLottieParser)
                 << "Lottie Layer: stretch not supported" << m_stretch;
-    if (m_autoOrient)
-        qCInfo(lcLottieQtLottieParser)
-                << "Lottie Layer: auto-orient not supported";
     if (m_3dLayer)
         qCInfo(lcLottieQtLottieParser)
                 << "Lottie Layer: is a 3D layer, but not handled";

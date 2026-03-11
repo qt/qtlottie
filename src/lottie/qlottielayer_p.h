@@ -51,6 +51,7 @@ public:
     bool isUsingMatteLayer() const;
     bool isMatteLayer() const;
     MatteClipMode matteMode() const;
+    bool isAutoOrienting() const { return m_autoOrient; }
 
     int layerId() const;
     QLottieBasicTransform *transform() const;
@@ -88,6 +89,7 @@ protected:
     int m_endFrame = 0;
     qreal m_startTime = 0;
     int m_blendMode = 0;
+    bool m_autoOrient = false;
     bool m_3dLayer = false;
     QLottieBase *m_effects = nullptr;
     qreal m_stretch = 0;
