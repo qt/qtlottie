@@ -20,10 +20,12 @@
 
 QT_BEGIN_NAMESPACE
 
+class QLottiePrecomposition;
+
 class Q_LOTTIE_EXPORT QLottieRoot : public QLottieBase
 {
 public:
-    QLottieRoot() = default;
+    QLottieRoot();
     explicit QLottieRoot(const QLottieRoot &other);
 
     QLottieBase *clone() const override;
@@ -45,7 +47,12 @@ public:
         return m_frameRate;
     }
 
+    QMap<QString, QLottiePrecomposition *> precompositions() const { return m_precompositions; }
+
 private:
+    bool resolvePrecompLayers(QLottieBase *element, QStack<QString> *visitedIds);
+
+    QMap<QString, QLottiePrecomposition *> m_precompositions;
     QSize m_size;
     int m_frameRate = 30;
     int m_startFrame = 0;

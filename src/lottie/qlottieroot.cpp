@@ -4,6 +4,8 @@
 
 #include "qlottieroot_p.h"
 #include "qlottielayer_p.h"
+#include "qlottieprecomplayer_p.h"
+#include "qlottieprecomposition_p.h"
 
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -12,6 +14,11 @@
 QT_BEGIN_NAMESPACE
 
 using namespace Qt::Literals::StringLiterals;
+
+QLottieRoot::QLottieRoot()
+{
+    m_type = LOTTIE_ROOT_IX;
+}
 
 QLottieRoot::QLottieRoot(const QLottieRoot &other)
     : QLottieBase(other)
@@ -73,7 +80,28 @@ int QLottieRoot::parseSource(const QByteArray &jsonSource, const QUrl &fileSourc
         jsonAssetsIt++;
     }
 
+    for (const auto &[id, jsonAsset] : assets.asKeyValueRange()) {
+        auto *precomp = QLottiePrecomposition::construct(jsonAsset, assets);
+        if (precomp) {
+            precomp->setParent(this);
+            m_precompositions.insert(id, precomp);
+        }
+    }
+
     int ret = QLottieLayer::constructLayers(jsonLayers, this, assets);
+
+    // Resolve precomp layers
+    QStack<QString> visitedIds;
+    for (QLottieBase *element : m_precompositions) {
+        if (!resolvePrecompLayers(element, &visitedIds)) {
+            qCWarning(lcLottieQtLottieParser) << "Precomp layer resolving failed [assets]";
+            return -1;
+        }
+    }
+    if (!resolvePrecompLayers(this, &visitedIds)) {
+        qCWarning(lcLottieQtLottieParser) << "Precomp layer resolving failed [root]";
+        return -1;
+    }
 
     return ret;
 }
@@ -81,6 +109,43 @@ int QLottieRoot::parseSource(const QByteArray &jsonSource, const QUrl &fileSourc
 void QLottieRoot::setStructureDumping(bool enabled)
 {
     m_structureDumping = enabled ? 1 : 0;
+}
+
+bool QLottieRoot::resolvePrecompLayers(QLottieBase *element, QStack<QString> *visitedIds)
+{
+    QLottiePrecompLayer *precompLayer = nullptr;
+    const int elemType = element->type();
+    if (elemType == LOTTIE_LAYER_PRECOMP_IX) {
+        precompLayer = static_cast<QLottiePrecompLayer *>(element);
+        const QString refId = precompLayer->refId();
+        if (visitedIds->contains(refId)) {
+            qCWarning(lcLottieQtLottieParser) << "Cyclical precomp reference detected";
+            return false;
+        }
+        QLottiePrecomposition *precomp = m_precompositions.value(refId);
+        if (!precomp) {
+            qCWarning(lcLottieQtLottieParser) << "Precomp reference not found:" << refId;
+            return false;
+        }
+        visitedIds->push(refId);
+        if (precompLayer->children().size() == 0) { // Not already resolved
+            QLottieBase *clone = precomp->clone();
+            clone->setParent(precompLayer);
+            precompLayer->appendChild(clone);
+        }
+    }
+
+    if (precompLayer || elemType == LOTTIE_ROOT_IX || elemType == LOTTIE_PRECOMPOSITION_IX) {
+        for (QLottieBase *child : element->children()) {
+            if (!resolvePrecompLayers(child, visitedIds))
+                return false;
+        }
+    }
+
+    if (precompLayer)
+        visitedIds->pop();
+
+    return true;
 }
 
 QT_END_NAMESPACE

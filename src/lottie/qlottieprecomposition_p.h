@@ -1,9 +1,9 @@
-// Copyright (C) 2025 The Qt Company Ltd.
+// Copyright (C) 2026 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only
 // Qt-Security score:significant reason:default
 
-#ifndef QLOTTIEPRECOMPLAYER_P_H
-#define QLOTTIEPRECOMPLAYER_P_H
+#ifndef QLOTTIEPRECOMPOSITION_P_H
+#define QLOTTIEPRECOMPOSITION_P_H
 
 //
 //  W A R N I N G
@@ -16,29 +16,27 @@
 // We mean it.
 //
 
-#include <QtLottie/private/qlottielayer_p.h>
+#include <QtLottie/private/qlottiebase_p.h>
 
 QT_BEGIN_NAMESPACE
 
-class QLottieRenderer;
-
-class Q_LOTTIE_EXPORT QLottiePrecompLayer : public QLottieLayer
+class Q_LOTTIE_EXPORT QLottiePrecomposition : public QLottieBase
 {
 public:
-    QLottiePrecompLayer() = default;
-    explicit QLottiePrecompLayer(const QLottiePrecompLayer &other);
-
+    QLottiePrecomposition();
+    explicit QLottiePrecomposition(const QLottiePrecomposition &other);
     QLottieBase *clone() const override;
 
-    void render(QLottieRenderer &renderer) const override;
+    static QLottiePrecomposition *construct(const QJsonObject &definition,
+                                            const QMap<QString, QJsonObject> &assets);
     int parse(const QJsonObject &definition) override;
 
     QString refId() const { return m_refId; }
 
-private:
+protected:
     QString m_refId;
 };
 
 QT_END_NAMESPACE
 
-#endif // QLOTTIEPRECOMPLAYER_P_H
+#endif // QLOTTIEPRECOMPOSITION_P_H

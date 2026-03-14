@@ -63,7 +63,7 @@ QLottieBase *QLottieLayer::clone() const
     return new QLottieLayer(*this);
 }
 
-QLottieLayer *QLottieLayer::construct(QJsonObject definition, const QMap<QString, QJsonObject> &assets)
+QLottieLayer *QLottieLayer::construct(QJsonObject definition)
 {
     qCDebug(lcLottieQtLottieParser) << "QLottieLayer::parse()";
 
@@ -73,7 +73,7 @@ QLottieLayer *QLottieLayer::construct(QJsonObject definition, const QMap<QString
     switch (type) {
     case 0:
         qCDebug(lcLottieQtLottieParser) << "Parse precomp layer";
-        layer = new QLottiePrecompLayer(assets);
+        layer = new QLottiePrecompLayer();
         ret = layer->parse(definition);
         break;
     case 1:
@@ -171,7 +171,7 @@ QLottieLayer *QLottieLayer::constructMaskLayer(QLottieLayer *layer)
     maskLayerDef["shapes"_L1] = shapes;
 
     // For debugging: qDebug() << QJsonDocument(maskLayerDef).toJson().constData();
-    QLottieLayer *res = QLottieLayer::construct(maskLayerDef, {});
+    QLottieLayer *res = QLottieLayer::construct(maskLayerDef);
     if (res) {
         layer->m_matteMode = MatteClipMode::Alpha;
         layer->m_layerIndex = maskedLayerIndex;
@@ -185,7 +185,7 @@ int QLottieLayer::constructLayers(QJsonArray jsonLayers, QLottieBase *parent,
                                   const QMap<QString, QJsonObject> &assets)
 {
     if (jsonLayers.size() == 0) {
-        qCCritical(lcLottieQtLottieParser) << "Layers are empty";
+        qCWarning(lcLottieQtLottieParser) << "Layers are empty";
         return -1;
     }
 
@@ -211,7 +211,7 @@ int QLottieLayer::constructLayers(QJsonArray jsonLayers, QLottieBase *parent,
             jsonLayer.insert("asset"_L1, assets.value(refId));
         }
 
-        QLottieLayer *layer = QLottieLayer::construct(jsonLayer, assets);
+        QLottieLayer *layer = QLottieLayer::construct(jsonLayer);
         if (layer) {
             layer->setParent(parent);
             // Matte layers must be rendered before the layer they apply to, even though they
