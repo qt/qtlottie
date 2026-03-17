@@ -30,6 +30,14 @@ QLottieBase *QLottieRoot::clone() const
     return new QLottieRoot(*this);
 }
 
+void QLottieRoot::updateProperties(int frame)
+{
+    for (QLottiePrecomposition *precomp : m_precompositions)
+        precomp->updateProperties(frame);
+
+    QLottieBase::updateProperties(frame);
+}
+
 QSize QLottieRoot::layerSize() const
 {
     return m_size;

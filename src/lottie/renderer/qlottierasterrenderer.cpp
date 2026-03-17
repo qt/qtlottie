@@ -26,6 +26,7 @@
 #include <QtLottie/private/qlottiefilleffect_p.h>
 #include <QtLottie/private/qlottierepeater_p.h>
 #include <QtLottie/private/qlottieflatlayers_p.h>
+#include <QtLottie/private/qlottieprecomposition_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -55,6 +56,12 @@ void QLottieRasterRenderer::restoreState()
     m_renderPath.setFillRule(m_unitedPath.fillRule());
     m_clipPath.setFillRule(m_unitedPath.fillRule());
     m_fillEffect = m_fillEffectStack.pop();
+}
+
+void QLottieRasterRenderer::render(const QLottiePrecomposition &precomp)
+{
+    Q_UNUSED(precomp);
+    // Nothing to do: no graphical properties at this level
 }
 
 void QLottieRasterRenderer::render(const QLottieLayer &layer)

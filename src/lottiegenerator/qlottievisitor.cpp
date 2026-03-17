@@ -17,6 +17,7 @@
 #include <QtLottie/private/qlottieroot_p.h>
 #include <QtLottie/private/qlottieflatlayers_p.h>
 #include <QtLottie/private/qlottieimage_p.h>
+#include <QtLottie/private/qlottieprecomposition_p.h>
 
 #include <QtGui/private/qfixed_p.h>
 
@@ -64,12 +65,37 @@ void QLottieVisitor::render(const QLottieRoot &root)
 
     m_generator->generateRootNode(info);
 
+    m_precompositions = root.precompositions();
+    generatePrecompositions();
+
     root.render(*this);
 
     info.stage = StructureNodeStage::End;
     m_generator->generateRootNode(info);
     m_currentFrameLimits.pop();
     m_currentFrameCounterIds.pop();
+}
+
+void QLottieVisitor::render(const QLottiePrecomposition &precomp)
+{
+    // Instantiate (inside a PrecompLayer) a precomp that has been defined earlier
+
+    StructureNodeInfo info;
+    fillCommonNodeInfo(&precomp, &info);
+    info.nodeId = scrub(precomp.refId());
+    info.defsId = idForNode(m_precompositions.value(precomp.refId()));
+    if (m_currentBoundsIds.isEmpty())
+        info.bounds = QRect(QPoint(), precomp.layerSize());
+    else
+        info.boundsReferenceId = m_currentBoundsIds.top();
+    TimelineInfo tlInfo;
+    tlInfo.frameCounterReference = m_currentFrameCounterIds.top();
+    tlInfo.generateFrameCounter = true;
+    info.timelineInfo = tlInfo;
+    m_generator->generateDefsInstantiationNode(info);
+
+    info.stage = StructureNodeStage::End;
+    m_generator->generateDefsInstantiationNode(info);
 }
 
 QString QLottieVisitor::idForNode(const QLottieBase *node)
@@ -111,7 +137,6 @@ void QLottieVisitor::fillCommonNodeInfo(const QLottieBase *node,
     info->transform.setTimelineReferenceId(m_currentFrameCounterIds.top());
     info->opacity.setTimelineReferenceId(m_currentFrameCounterIds.top());
     info->motionPath.setTimelineReferenceId(m_currentFrameCounterIds.top());
-    info->visibility.setTimelineReferenceId(m_currentFrameCounterIds.top());
 }
 
 void QLottieVisitor::fillAnimationNodeInfo(const QLottieBase *node, NodeInfo *info)
@@ -159,12 +184,15 @@ void QLottieVisitor::generateMatteNode(const QLottieLayer *layer, StructureNodeS
     const QString suffix(QStringLiteral("_box"));
 
     if (layer->isMatteLayer()) {
-        if (stage == StructureNodeStage::Start) {
-            StructureNodeInfo info;
-            fillCommonNodeInfo(layer, &info, suffix);
+        StructureNodeInfo info;
+        fillCommonNodeInfo(layer, &info, suffix);
+        if (m_currentBoundsIds.isEmpty())
             info.bounds = QRect(QPoint(), layer->layerSize());
+        else
+            info.boundsReferenceId = m_currentBoundsIds.top();
+        info.transformReferenceChildId = idForNode(layer);
+        if (stage == StructureNodeStage::Start) {
             info.stage = StructureNodeStage::Start;
-            info.transformReferenceChildId = idForNode(layer);
             if (!m_generator->generateDefsNode(info))
                 return;
         }
@@ -174,17 +202,17 @@ void QLottieVisitor::generateMatteNode(const QLottieLayer *layer, StructureNodeS
         fillCommonNodeInfo(layer, &maskInfo, suffix);
         maskInfo.nodeId.clear();
         maskInfo.typeName.clear();
-        maskInfo.bounds = QRect(QPoint(), layer->layerSize());
+        if (m_currentBoundsIds.isEmpty())
+            maskInfo.bounds = QRect(QPoint(), layer->layerSize());
+        else
+            maskInfo.boundsReferenceId = m_currentBoundsIds.top();
         maskInfo.maskRect = maskInfo.bounds;
         m_generator->generateMaskNode(maskInfo);
 
         if (stage != StructureNodeStage::Start) {
-            StructureNodeInfo info;
-            fillCommonNodeInfo(layer, &info, suffix);
-            info.bounds = QRect(QPoint(), layer->layerSize());
             info.stage = StructureNodeStage::End;
-            info.transformReferenceChildId = idForNode(layer);
-            m_generator->generateDefsNode(info);
+            if (!m_generator->generateDefsNode(info))
+                return;
         }
 
     } else if (layer->isUsingMatteLayer() && layer->parent()) {
@@ -193,7 +221,10 @@ void QLottieVisitor::generateMatteNode(const QLottieLayer *layer, StructureNodeS
         fillCommonNodeInfo(layer, &info, suffix);
         info.nodeId.clear();
         info.typeName.clear();
-        info.bounds = QRect(QPoint(), layer->layerSize());
+        if (m_currentBoundsIds.isEmpty())
+            info.bounds = QRect(QPoint(), layer->layerSize());
+        else
+            info.boundsReferenceId = m_currentBoundsIds.top();
         const QLottieLayer::MatteClipMode mode = layer->matteMode();
         info.isMaskAlpha = (mode == QLottieLayer::Alpha || mode == QLottieLayer::InvertedAlpha);
         info.isMaskInverted = (mode == QLottieLayer::InvertedAlpha || mode == QLottieLayer::InvertedLuminence);
@@ -227,11 +258,16 @@ void QLottieVisitor::render(const QLottieLayer &layer)
     info.isDefaultTransform = m_currentPaintInfo.transform.isIdentity();
     info.opacity.setDefaultValue(m_currentPaintInfo.opacity);
     info.isDefaultOpacity = qFuzzyCompare(m_currentPaintInfo.opacity, 1.0);
+    if (layer.type() == LOTTIE_LAYER_PRECOMP_IX || layer.type() == LOTTIE_LAYER_SOLID_IX) {
+        info.bounds = QRectF({}, layer.layerSize());
+        m_currentBoundsIds.push(info.id);
+    }
 
     bool setFrameCounterReference = false;
     TimelineInfo tlInfo;
     tlInfo.startFrame = layer.startFrame();
     tlInfo.endFrame = layer.endFrame();
+    tlInfo.generateVisibility = true;
     tlInfo.frameCounterReference = m_currentFrameCounterIds.top();
     if (layer.type() == LOTTIE_LAYER_PRECOMP_IX) {
         int offset = qRound(layer.frameOffset());
@@ -335,6 +371,9 @@ void QLottieVisitor::finish(const QLottieLayer &layer)
     info.stage = StructureNodeStage::End;
     fillCommonNodeInfo(&layer, &info);
     m_generator->generateStructureNode(info);
+
+    if (!m_currentBoundsIds.isEmpty() && m_currentBoundsIds.top() == idForNode(&layer))
+        m_currentBoundsIds.pop();
 
     if (layer.isMatteLayer() || layer.isUsingMatteLayer())
         generateMatteNode(&layer, StructureNodeStage::End);
@@ -876,6 +915,40 @@ void QLottieVisitor::renderPathElements(const QList<QLottieBase *> &pathElements
                 firstShape = shape;
         }
         processPath(firstShape, renderPath);
+    }
+}
+
+void QLottieVisitor::generatePrecompositions()
+{
+    // We need a relative, not absolute, reference to the instantiating item, since a precomp can
+    // be instantiated multiple times, possibly with different bounds and frameCounter offsets
+    QString instantiatiorRef = QStringLiteral("parent"); // ref to Loader, indirectly PrecompLayer
+
+    for (const auto &[key, precomp] : m_precompositions.asKeyValueRange()) {
+        // Generate the wrapping defs node start
+        StructureNodeInfo info;
+        info.stage = StructureNodeStage::Start;
+        fillCommonNodeInfo(precomp, &info);
+        info.nodeId = scrub(key);
+        info.boundsReferenceId = instantiatiorRef;
+        TimelineInfo tlInfo;
+        tlInfo.frameCounterReference = instantiatiorRef;
+        tlInfo.generateFrameCounter = true;
+        info.timelineInfo = tlInfo;
+
+        m_generator->generateDefsNode(info);
+
+        // Generate the precomp's layers
+        const QString precompId = info.id + QStringLiteral("_defs"); // defs node item
+        m_currentBoundsIds.push(precompId);
+        m_currentFrameCounterIds.push(precompId);
+        precomp->renderChildren(*this);
+        m_currentFrameCounterIds.pop();
+        m_currentBoundsIds.pop();
+
+        // End defs wrapper
+        info.stage = StructureNodeStage::End;
+        m_generator->generateDefsNode(info);
     }
 }
 

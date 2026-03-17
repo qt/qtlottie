@@ -60,4 +60,13 @@ int QLottiePrecomposition::parse(const QJsonObject &definition)
     return 0;
 }
 
+void QLottiePrecomposition::render(QLottieRenderer &renderer) const
+{
+    renderer.saveState();
+    renderer.render(*this);
+    if (!isStructureDumping())
+        renderChildren(renderer);
+    renderer.restoreState();
+}
+
 QT_END_NAMESPACE

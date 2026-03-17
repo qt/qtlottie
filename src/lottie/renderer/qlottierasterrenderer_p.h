@@ -36,6 +36,7 @@ public:
     void saveState() override;
     void restoreState() override;
 
+    void render(const QLottiePrecomposition &precomp) override;
     void render(const QLottieLayer &layer) override;
     void render(const QLottieSolidLayer &layer) override;
     void render(const QLottieRect &rect) override;

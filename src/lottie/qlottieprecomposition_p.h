@@ -30,6 +30,7 @@ public:
     static QLottiePrecomposition *construct(const QJsonObject &definition,
                                             const QMap<QString, QJsonObject> &assets);
     int parse(const QJsonObject &definition) override;
+    void render(QLottieRenderer &renderer) const override;
 
     QString refId() const { return m_refId; }
 

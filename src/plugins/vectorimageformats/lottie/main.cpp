@@ -5,6 +5,7 @@
 #include <QtQuickVectorImageGenerator/private/qquickvectorimageplugin_p.h>
 #include <QtLottieVectorImageGenerator/private/qlottievisitor_p.h>
 #include <QtLottie/private/qlottieroot_p.h>
+#include <QtLottie/private/qlottieprecomposition_p.h>
 #include <QtCore/qfile.h>
 #include <QtCore/qscopeguard.h>
 
@@ -50,10 +51,7 @@ bool QLottieVectorImagePlugin::generate(const QString &fileName, QQuickItemGener
                 frameNo = root.startFrame() + (root.endFrame() - root.startFrame()) / 2;
 
             root.setStructureDumping(true);
-            for (QLottieBase *elem : root.children()) {
-                if (elem->active(0))
-                    elem->updateProperties(0);
-            }
+            root.updateProperties(0);
 
             generator->addExtraImport(QStringLiteral("Qt.labs.lottieqt.VectorImageHelpers"));
             generator->setGeneratorFlags(

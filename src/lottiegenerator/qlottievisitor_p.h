@@ -77,7 +77,8 @@ public:
     void saveState() override;
     void restoreState() override;
 
-    void render(const QLottieRoot &layer);
+    void render(const QLottieRoot &root);
+    void render(const QLottiePrecomposition &precomp) override;
 
     void render(const QLottieLayer &layer) override;
     void render(const QLottieSolidLayer &layer) override;
@@ -102,6 +103,7 @@ public:
     void render(const QLottieRepeater &repeater) override;
     void renderPathElements(const QList<QLottieBase *> &pathElements) override;
 
+    void generatePrecompositions();
     void generateMatteNode(const QLottieLayer *layer, StructureNodeStage stage);
     void fillCommonNodeInfo(const QLottieBase *node, NodeInfo *info, const QString &suffix = QString{});
     void fillAnimationNodeInfo(const QLottieBase *node, NodeInfo *info);
@@ -137,9 +139,12 @@ private:
     QStack<const QLottieBase *> m_currentStructElements;
     QStack<QString> m_currentFrameCounterIds;
     QStack<std::pair<int, int>> m_currentFrameLimits;
+    QStack<QString> m_currentBoundsIds;
 
     int m_nodeIdCounter = 0;
     QHash<const QLottieBase *, QString> m_idForNodeId;
+
+    QMap<QString, QLottiePrecomposition *> m_precompositions;
 };
 
 QT_END_NAMESPACE

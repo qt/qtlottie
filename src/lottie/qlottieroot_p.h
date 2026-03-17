@@ -29,6 +29,8 @@ public:
     explicit QLottieRoot(const QLottieRoot &other);
 
     QLottieBase *clone() const override;
+
+    void updateProperties(int frame) override;
     QSize layerSize() const override;
 
     int parseSource(const QByteArray &jsonSource, const QUrl &fileSource);

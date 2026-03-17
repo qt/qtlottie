@@ -63,6 +63,7 @@ public:
 
     virtual void updateProperties(int frame);
     virtual void render(QLottieRenderer &renderer) const;
+    void renderChildren(QLottieRenderer &renderer) const;
     virtual QSize layerSize() const;
 
     bool isStructureDumping() const;
@@ -71,7 +72,6 @@ protected:
     void resolveTopRoot();
     QLottieBase *topRoot() const;
     const QJsonObject resolveExpression(const QJsonObject& definition);
-    void renderChildren(QLottieRenderer &renderer) const;
     bool checkRequiredKeys(const QJsonObject &definition, const QLatin1StringView type,
                            const QList<QLatin1StringView> &keys, const QString &name = QString()) const;
 

@@ -45,6 +45,7 @@ class QLottieFreeFormShape;
 class QLottieTrimPath;
 class QLottieFillEffect;
 class QLottieRepeater;
+class QLottiePrecomposition;
 
 class Q_LOTTIE_EXPORT QLottieRenderer
 {
@@ -59,6 +60,7 @@ public:
     virtual void setTrimmingState(TrimmingState state);
     virtual TrimmingState trimmingState() const;
 
+    virtual void render(const QLottiePrecomposition &precomp) = 0;
     virtual void render(const QLottieLayer &layer) = 0;
     virtual void render(const QLottieSolidLayer &layer) = 0;
     virtual void render(const QLottieGroup &) {}

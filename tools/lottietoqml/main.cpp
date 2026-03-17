@@ -137,10 +137,7 @@ int main(int argc, char *argv[])
 
         if (root.parseSource(jsonSource, QUrl::fromLocalFile(inFileName)) >= 0) {
             root.setStructureDumping(true);
-            for (QLottieBase *elem : root.children()) {
-                if (elem->active(frameNo))
-                    elem->updateProperties(frameNo);
-            }
+            root.updateProperties(frameNo);
 
             QLottieVisitor visitor(inFileName, &generator);
             visitor.render(root);
