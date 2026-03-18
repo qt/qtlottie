@@ -191,6 +191,8 @@ void QLottieRasterRenderer::render(const QLottieBasicTransform &transform)
     QTransform t = m_painter->transform();
     applyTransform(&t, transform);
     m_painter->setTransform(t);
+    if (transform.hasLinkedLayerTransform())
+        m_painter->setOpacity(1.0);
     m_painter->setOpacity(m_painter->opacity() * transform.opacity());
 
     qCDebug(lcLottieQtLottieRender) << transform.name()

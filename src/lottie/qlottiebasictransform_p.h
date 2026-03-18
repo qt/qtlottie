@@ -54,6 +54,12 @@ public:
     QLottieProperty<qreal> rotationProperty() const { return m_rotation; }
     QLottieProperty<qreal> opacityProperty() const { return m_opacity; }
 
+    bool hasLinkedLayerTransform() const { return m_hasLinkedLayerTransform; }
+    void setHasLinkedLayerTransform(bool hasLinkedLayerTransform)
+    {
+        m_hasLinkedLayerTransform = hasLinkedLayerTransform;
+    }
+
 protected:
     QLottieSpatialProperty m_anchorPoint;
     bool m_splitPosition = false;
@@ -63,6 +69,7 @@ protected:
     QLottieProperty2D<QPointF> m_scale;
     QLottieProperty<qreal> m_rotation;
     QLottieProperty<qreal> m_opacity;
+    bool m_hasLinkedLayerTransform = false;
 };
 
 QT_END_NAMESPACE

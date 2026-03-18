@@ -410,11 +410,14 @@ void QLottieLayer::applyLayerTransform(QLottieRenderer &renderer) const
     QScopedValueRollback<bool> recursionGuard(m_applyingLayerTransform, true);
 
     if (!isStructureDumping()) {
-        if (QLottieLayer *ll = linkedLayer())
+        if (QLottieLayer *ll = linkedLayer()) {
             ll->applyLayerTransform(renderer);
+            if (m_layerTransform)
+                m_layerTransform->setHasLinkedLayerTransform(true);
+        }
     }
     if (m_layerTransform)
-        m_layerTransform->render(renderer); // TBD: except opacity
+        m_layerTransform->render(renderer);
 }
 
 QSize QLottieLayer::layerSize() const
