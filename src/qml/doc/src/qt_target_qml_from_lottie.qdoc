@@ -8,7 +8,7 @@
 \title qt_target_qml_from_lottie
 \keyword qt6_target_qml_from_lottie
 
-\summary {Generates QML code based on an Lottie file.}
+\summary {Generates QML code based on a Lottie file.}
 
 The command is defined in the \c LottieTools component of the \c Qt6 package, which can
 be loaded like this:
