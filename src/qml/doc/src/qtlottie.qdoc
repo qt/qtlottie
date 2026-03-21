@@ -15,11 +15,11 @@
     \l{lottietoqml} is included. This tool converts Lottie animations to QML. As a result,
     they can be rendered using the hardware-accelerated renderer in Qt Quick.
 
-    If the Lottie files are known at compile tome, you can also convert them to QML using the
+    If the Lottie files are known at compile time, you can also convert them to QML using the
     \l lottietoqml tool, or the \l{qt_target_qml_from_lottie} CMake command that wraps the tool.
 
     Finally, the \l{VectorImage} Qt Quick item can load Lottie format files directly. It converts
-    them to QML at runtime using the \ lottietoqml functionality in a plugin.
+    them to QML at runtime using the \l lottietoqml functionality in a plugin.
 
     \section1 Getting Started
 
