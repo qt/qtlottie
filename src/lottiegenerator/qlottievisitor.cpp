@@ -441,7 +441,7 @@ void QLottieVisitor::render(const QLottieFill &fill)
     color.setAlphaF(color.alphaF() * (fill.opacity() / 100.0));
     m_currentPaintInfo.fill = color;
     m_currentPaintInfo.fillColorAnimation = makeColorAnimation(fill.colorProperty());
-    m_currentPaintInfo.fillOpacityAnimation = makeOpacityAnimation(fill.opacityProperty());
+    m_currentPaintInfo.fillOpacityAnimation = makeScalarAnimation(fill.opacityProperty(), qreal(1) / 100);
     m_currentPaintInfo.fillRule = fill.fillRule();
     m_currentPaintInfo.inverseFillTransform.reset();
 }
@@ -484,7 +484,7 @@ void QLottieVisitor::render(const QLottieStroke &stroke)
     }
 
     m_currentPaintInfo.strokeColorAnimation = makeColorAnimation(stroke.colorProperty());
-    m_currentPaintInfo.strokeOpacityAnimation = makeOpacityAnimation(stroke.opacityProperty());
+    m_currentPaintInfo.strokeOpacityAnimation = makeScalarAnimation(stroke.opacityProperty(), qreal(1) / 100);
 }
 
 void QLottieVisitor::render(const QLottieBasicTransform &transform)
@@ -701,6 +701,19 @@ void QLottieVisitor::collectTransformAnimations(const QLottieBasicTransform *tra
     }
 }
 
+void QLottieVisitor::registerScalarAnimation(QQuickAnimatedProperty *outProperty,
+                                             const QLottieProperty<qreal> &inProperty,
+                                             qreal scale)
+{
+    if (outProperty->animationCount() > 0)
+        return; // Animation already registered on earlier visit
+    QQuickAnimatedProperty::PropertyAnimation animation = makeScalarAnimation(inProperty, scale);
+    if (!animation.frames.isEmpty()) {
+        outProperty->addAnimation(animation);
+        outProperty->setTimelineReferenceId(m_currentFrameCounterIds.top());
+    }
+}
+
 QQuickAnimatedProperty::PropertyAnimation QLottieVisitor::makeColorAnimation(const QLottieProperty4D<QVector4D> &colorProperty)
 {
     QQuickAnimatedProperty::PropertyAnimation animation;
@@ -719,13 +732,14 @@ QQuickAnimatedProperty::PropertyAnimation QLottieVisitor::makeColorAnimation(con
     return animation;
 }
 
-QQuickAnimatedProperty::PropertyAnimation QLottieVisitor::makeOpacityAnimation(const QLottieProperty<qreal> &opacityProperty)
+QQuickAnimatedProperty::PropertyAnimation QLottieVisitor::makeScalarAnimation(
+        const QLottieProperty<qreal> &scalarProperty, qreal scale)
 {
     QQuickAnimatedProperty::PropertyAnimation animation;
 
     std::optional<QBezier> easingBezier;
-    for (const auto &curve : opacityProperty.easingCurves()) {
-        qreal value = curve.startValue / qreal(100);
+    for (const auto &curve : scalarProperty.easingCurves()) {
+        qreal value = curve.startValue * scale;
         int frameTime = qRound(curve.startFrame);
         animation.frames[frameTime] = value;
         if (easingBezier)
@@ -807,39 +821,13 @@ void QLottieVisitor::render(const QLottieTrimPath &trim)
     QLOTTIEVISITOR_DEBUG << "[trim, isParallel: " << trim.isParallel() << "]";
 
     m_currentPaintInfo.trim.enabled = true;
-    m_currentPaintInfo.trim.start.setTimelineReferenceId(m_currentFrameCounterIds.top());
-    m_currentPaintInfo.trim.end.setTimelineReferenceId(m_currentFrameCounterIds.top());
-    m_currentPaintInfo.trim.offset.setTimelineReferenceId(m_currentFrameCounterIds.top());
     m_currentPaintInfo.trim.start.setDefaultValue(trim.start() / 100.0);
     m_currentPaintInfo.trim.end.setDefaultValue(trim.end() / 100.0);
     m_currentPaintInfo.trim.offset.setDefaultValue(trim.offset() / 360.0);
 
-    auto registerAnimations = [&](QQuickAnimatedProperty *outProperty,
-                                  const QLottieProperty<qreal> &inProperty,
-                                  qreal scale) {
-        if (outProperty->animationCount() > 0)
-            return; // Animation already registered on earlier visit
-
-        QQuickAnimatedProperty::PropertyAnimation animation;
-
-        const QList<EasingSegment<qreal> > easingCurves = inProperty.easingCurves();
-        for (int i = 0; i < easingCurves.size(); i++) {
-            const auto &curve = easingCurves.at(i);
-            const qreal startValue = curve.startValue * scale;
-            int startFrameTime = qRound(curve.startFrame);
-            animation.frames[startFrameTime] = startValue;
-            if (i > 0)
-                animation.easingPerFrame[startFrameTime] = easingCurves.at(i - 1).easing.bezier();
-        }
-        if (!animation.frames.isEmpty()) {
-            polishPropertyAnimation(&animation);
-            outProperty->addAnimation(animation);
-        }
-    };
-
-    registerAnimations(&m_currentPaintInfo.trim.start, trim.startProperty(), 1.0 / 100.0);
-    registerAnimations(&m_currentPaintInfo.trim.end, trim.endProperty(), 1.0 / 100.0);
-    registerAnimations(&m_currentPaintInfo.trim.offset, trim.offsetProperty(), 1.0 / 360.0);
+    registerScalarAnimation(&m_currentPaintInfo.trim.start, trim.startProperty(), 1.0 / 100.0);
+    registerScalarAnimation(&m_currentPaintInfo.trim.end, trim.endProperty(), 1.0 / 100.0);
+    registerScalarAnimation(&m_currentPaintInfo.trim.offset, trim.offsetProperty(), 1.0 / 360.0);
 
     if (!trim.isParallel())
         processShape(&trim, m_currentPaintInfo.unitedPath);

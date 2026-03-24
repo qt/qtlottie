@@ -119,8 +119,12 @@ private:
     void collectTransformAnimations(const QLottieBasicTransform *transform,
                                     bool isShapeTransform = false,
                                     bool autoOrient = false);
+    void registerScalarAnimation(QQuickAnimatedProperty *outProperty,
+                                 const QLottieProperty<qreal> &inProperty,
+                                 qreal scale = qreal(1.0));
     QQuickAnimatedProperty::PropertyAnimation makeColorAnimation(const QLottieProperty4D<QVector4D> &colorProperty);
-    QQuickAnimatedProperty::PropertyAnimation makeOpacityAnimation(const QLottieProperty<qreal> &opacityProperty);
+    QQuickAnimatedProperty::PropertyAnimation makeScalarAnimation(const QLottieProperty<qreal> &scalarProperty,
+                                                                  qreal scale = qreal(1.0));
     void polishPropertyAnimation(QQuickAnimatedProperty::PropertyAnimation *animation);
 
     QString idForNode(const QLottieBase *node);
