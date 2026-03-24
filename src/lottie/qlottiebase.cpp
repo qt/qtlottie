@@ -172,6 +172,8 @@ void QLottieBase::resolveTopRoot()
 
 QLottieBase *QLottieBase::topRoot() const
 {
+    if (!m_topRoot)
+        const_cast<QLottieBase *>(this)->resolveTopRoot();
     return m_topRoot;
 }
 

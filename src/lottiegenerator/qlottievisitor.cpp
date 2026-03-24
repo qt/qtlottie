@@ -16,6 +16,7 @@
 #include <QtLottie/private/qlottieround_p.h>
 #include <QtLottie/private/qlottieroot_p.h>
 #include <QtLottie/private/qlottieflatlayers_p.h>
+#include <QtLottie/private/qlottieprecomplayer_p.h>
 #include <QtLottie/private/qlottieimage_p.h>
 #include <QtLottie/private/qlottieprecomposition_p.h>
 
@@ -270,11 +271,17 @@ void QLottieVisitor::render(const QLottieLayer &layer)
     tlInfo.generateVisibility = true;
     tlInfo.frameCounterReference = m_currentFrameCounterIds.top();
     if (layer.type() == LOTTIE_LAYER_PRECOMP_IX) {
-        int offset = qRound(layer.frameOffset());
-        if (offset) {
+        const QLottiePrecompLayer &pcLayer = static_cast<const QLottiePrecompLayer &>(layer);
+        registerScalarAnimation(&tlInfo.frameCounterMapper, pcLayer.timeRemapProperty(), m_frameRate);
+        qreal offset = pcLayer.frameOffset();
+        bool hasMultiplier = pcLayer.timeStretch() != 0 && pcLayer.timeStretch() != 1;
+        if (tlInfo.frameCounterMapper.isAnimated() || offset || hasMultiplier) {
             tlInfo.generateFrameCounter = true;
-            tlInfo.frameCounterOffset = -offset;
             setFrameCounterReference = true;
+            if (offset)
+                tlInfo.frameCounterOffset = -offset;
+            if (hasMultiplier)
+                tlInfo.frameCounterMultiplier = qreal(1) / pcLayer.timeStretch();
         }
     }
     info.timelineInfo = tlInfo;

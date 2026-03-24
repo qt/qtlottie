@@ -262,7 +262,6 @@ int QLottieLayer::parse(const QJsonObject &definition)
     m_blendMode = definition.value("lottie"_L1).toVariant().toInt();
     m_autoOrient = (definition.value("ao"_L1).toInt() == 1);
     m_3dLayer = definition.value("ddd"_L1).toBool();
-    m_stretch = definition.value("sr"_L1).toVariant().toReal();
     m_linkedLayerId = definition.value("parent"_L1).toVariant().toInt(&m_hasLinkedLayer);
     m_isMatte = definition.value("td"_L1).toInt() == 1;
     int matteMode = definition.value("tt"_L1).toInt(-1);
@@ -277,15 +276,9 @@ int QLottieLayer::parse(const QJsonObject &definition)
     QJsonArray effects = definition.value("ef"_L1).toArray();
     parseEffects(effects);
 
-    if (m_matteMode > 2)
-        qCInfo(lcLottieQtLottieParser)
-                << "Lottie Layer: Only alpha matte layer supported:" << m_matteMode;
     if (m_blendMode > 0)
         qCInfo(lcLottieQtLottieParser)
                 << "Lottie Layer: Unsupported blend mode" << m_blendMode;
-    if (m_stretch > 1)
-        qCInfo(lcLottieQtLottieParser)
-                << "Lottie Layer: stretch not supported" << m_stretch;
     if (m_3dLayer)
         qCInfo(lcLottieQtLottieParser)
                 << "Lottie Layer: is a 3D layer, but not handled";
@@ -298,20 +291,19 @@ void QLottieLayer::updateProperties(int frame)
     if (m_hasLinkedLayer)
         resolveLinkedLayer();
 
-    int adjFrame = frame - m_startTime;
-    m_isActive = active(adjFrame);
+    m_isActive = active(frame);
     if (!m_isActive)
         return;
 
     // Update first effects, as they are not children of the layer
     if (m_effects) {
         for (QLottieBase* effect : m_effects->children())
-            effect->updateProperties(adjFrame);
+            effect->updateProperties(frame);
     }
 
-    m_layerTransform->updateProperties(adjFrame);
+    m_layerTransform->updateProperties(frame);
 
-    QLottieBase::updateProperties(adjFrame);
+    QLottieBase::updateProperties(frame);
 }
 
 void QLottieLayer::render(QLottieRenderer &renderer) const

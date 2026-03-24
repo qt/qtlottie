@@ -60,23 +60,12 @@ public:
     void applyLayerTransform(QLottieRenderer &renderer) const;
     QSize layerSize() const override;
 
-    int startFrame() const
-    {
-        return m_startFrame;
-    }
-
-    int endFrame() const
-    {
-        return m_endFrame;
-    }
-
-    qreal frameOffset() const
-    {
-        return m_startTime;
-    }
+    int startFrame() const { return m_startFrame; }
+    int endFrame() const { return m_endFrame; }
+    qreal frameOffset() const { return m_startTime; }
+    qreal timeStretch() const { return m_stretch; }
 
     static const QLottieLayer *checkedCast(const QLottieBase *node);
-
 
 protected:
     void renderEffects(QLottieRenderer &renderer) const;

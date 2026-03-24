@@ -17,6 +17,7 @@
 //
 
 #include <QtLottie/private/qlottielayer_p.h>
+#include <QtLottie/private/qlottieproperty_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -30,13 +31,17 @@ public:
 
     QLottieBase *clone() const override;
 
+    void updateProperties(int frame) override;
     void render(QLottieRenderer &renderer) const override;
     int parse(const QJsonObject &definition) override;
 
     QString refId() const { return m_refId; }
 
+    QLottieProperty<qreal> timeRemapProperty() const { return m_timeRemap; }
+
 private:
     QString m_refId;
+    QLottieProperty<qreal> m_timeRemap;
 };
 
 QT_END_NAMESPACE
