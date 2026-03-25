@@ -23,6 +23,10 @@ QLottieRoot::QLottieRoot()
 QLottieRoot::QLottieRoot(const QLottieRoot &other)
     : QLottieBase(other)
 {
+    m_size = other.m_size;
+    m_frameRate = other.m_frameRate;
+    m_startFrame = other.m_startFrame;
+    m_endFrame = other.m_endFrame;
 }
 
 QLottieBase *QLottieRoot::clone() const

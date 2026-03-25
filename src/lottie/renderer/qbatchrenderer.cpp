@@ -130,12 +130,12 @@ bool QBatchRenderer::gotoFrame(QLottieAnimation *animator, int frame)
 
 void QBatchRenderer::pruneFrameCache(Entry* e)
 {
-    QHash<int, QLottieBase*>::iterator removeCandidate = e->frameCache.end();
+    QHash<int, QLottieRoot *>::iterator removeCandidate = e->frameCache.end();
     if (e->frameCache.size() == m_cacheSize &&
             !e->frameCache.contains(e->currentFrame))
         removeCandidate = e->frameCache.begin();
 
-    QHash<int, QLottieBase*>::iterator it = e->frameCache.begin();
+    QHash<int, QLottieRoot *>::iterator it = e->frameCache.begin();
     while (it != e->frameCache.end()) {
         int frame = it.key();
         if ((frame - e->currentFrame) * e->animDir >= 0) { // same frame or same direction
@@ -162,7 +162,7 @@ void QBatchRenderer::pruneFrameCache(Entry* e)
     m_lastRenderedFrame = -1;
 }
 
-QLottieBase *QBatchRenderer::getFrame(QLottieAnimation *animator, int frameNumber)
+QLottieRoot *QBatchRenderer::getFrame(QLottieAnimation *animator, int frameNumber)
 {
     QMutexLocker mlocker(&m_mutex);
 
@@ -179,9 +179,9 @@ void QBatchRenderer::prerender(Entry *animEntry)
         if (m_lastRenderedFrame == animEntry->currentFrame)
             animEntry->currentFrame += animEntry->animDir;
 
-        QLottieBase *&lottieTree = animEntry->frameCache[animEntry->currentFrame];
+        QLottieRoot *&lottieTree = animEntry->frameCache[animEntry->currentFrame];
         if (lottieTree == nullptr) {
-            lottieTree = new QLottieBase(*animEntry->lottieTreeBlueprint);
+            lottieTree = new QLottieRoot(*animEntry->lottieTreeBlueprint);
 
             for (QLottieBase *elem : lottieTree->children()) {
                 if (elem->active(animEntry->currentFrame))
@@ -214,7 +214,7 @@ void QBatchRenderer::frameRendered(QLottieAnimation *animator, int frameNumber)
         qCDebug(lcLottieQtLottieRenderThread) << "Animator:" << static_cast<void*>(animator)
                                            << "Remove frame from cache" << frameNumber;
 
-        QLottieBase *root = entry->frameCache.take(frameNumber);
+        QLottieRoot *root = entry->frameCache.take(frameNumber);
         if (root != nullptr) {
             delete root;
             m_waitCondition.wakeAll();

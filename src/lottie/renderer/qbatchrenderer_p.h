@@ -23,7 +23,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class QLottieBase;
+class QLottieRoot;
 class QImage;
 class QLottieAnimation;
 
@@ -34,12 +34,12 @@ class QBatchRenderer : public QThread
     struct Entry
     {
         QLottieAnimation* animator = nullptr;
-        QLottieBase *lottieTreeBlueprint = nullptr;
+        QLottieRoot *lottieTreeBlueprint = nullptr;
         int startFrame = 0;
         int endFrame = 0;
         int currentFrame = 0;
         int animDir = 1;
-        QHash<int, QLottieBase*> frameCache;
+        QHash<int, QLottieRoot *> frameCache;
     };
 
 public:
@@ -51,7 +51,7 @@ public:
     static QBatchRenderer *instance();
     static void deleteInstance();
 
-    QLottieBase *getFrame(QLottieAnimation *animator, int frameNumber);
+    QLottieRoot *getFrame(QLottieAnimation *animator, int frameNumber);
 
 Q_SIGNALS:
     void frameReady(QLottieAnimation *animator, int frameNumber);

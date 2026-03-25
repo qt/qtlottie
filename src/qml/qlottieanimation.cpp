@@ -6,6 +6,7 @@
 
 #include <private/qbatchrenderer_p.h>
 #include <private/qlottiebase_p.h>
+#include <private/qlottieroot_p.h>
 #include <private/qlottieconstants_p.h>
 #include <private/qlottielayer_p.h>
 #include <private/qlottierasterrenderer_p.h>
