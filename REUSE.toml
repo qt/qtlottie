@@ -34,7 +34,9 @@ SPDX-FileCopyrightText = "Copyright (C) The Qt Company Ltd."
 SPDX-License-Identifier = "LicenseRef-Qt-Commercial OR BSD-3-Clause"
 
 [[annotations]]
-path = ["**.qdocconf", "**.qdocinc", "tests/manual/featcheck/howtofind.txt"]
+path = ["**.qdocconf", "**.qdocinc",
+        "CONTRIBUTING.md",
+        "tests/manual/featcheck/howtofind.txt"]
 comment = "documentation"
 precedence = "closest"
 SPDX-FileCopyrightText = "Copyright (C) The Qt Company Ltd."
