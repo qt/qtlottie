@@ -32,7 +32,7 @@ public:
 
 private:
     qreal tForX(qreal x) const;
-    QBezier mBezier;
+    QBezier mBezier = { 0, 0, 0, 0, 0, 0, 0, 0 };
 };
 
 QT_END_NAMESPACE

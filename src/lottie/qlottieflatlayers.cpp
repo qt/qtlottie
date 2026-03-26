@@ -136,15 +136,15 @@ int QLottieImageLayer::parse(const QJsonObject &definition)
 
     int ret = QLottieLayer::parse(definition);
 
-    if (ret >= 0) {
-        QLottieImage *image = new QLottieImage(this);
-        ret = image->construct(definition);
-        if (ret >= 0)
-            appendChild(image);
-    }
-
     if (m_hidden)
         return 0;
+
+    if (ret >= 0) {
+        std::unique_ptr<QLottieImage> image = std::make_unique<QLottieImage>(this);
+        ret = image->construct(definition);
+        if (ret >= 0)
+            appendChild(image.release());
+    }
 
     qCDebug(lcLottieQtLottieParser) << "QLottieImageLayer::QLottieImageLayer()" << m_name;
     return ret;

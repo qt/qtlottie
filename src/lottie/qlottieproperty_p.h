@@ -37,8 +37,8 @@ struct EasingSegment {
     bool complete = false;
     double startFrame = 0;
     double endFrame = 0;
-    T startValue;
-    T endValue;
+    T startValue = {};
+    T endValue = {};
     QBezierEasing easing;
     qreal valueForProgress(qreal progress) const {
         return complete ? easing.valueForProgress(progress) : 1;
