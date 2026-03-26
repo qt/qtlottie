@@ -61,10 +61,7 @@
     The following properties are not supported:
 
     \list
-    \li \c ao (auto-orientation)
     \li \c bm (blend mode)
-    \li \c maskProperties (masks)
-    \li \c sr (time stretch)
     \endlist
 
     \section2 Shapes
@@ -72,7 +69,6 @@
     Some more rarely used elements and shapes are not supported, including:
 
     \list
-    \li the \c gstroke (gradient stroke) element
     \li Nested Repeater shapes
     \endlist
 
