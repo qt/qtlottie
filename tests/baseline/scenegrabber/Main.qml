@@ -11,7 +11,8 @@ Rectangle {
     color: "darkgray"
     property real pad: 10 / Screen.devicePixelRatio
     property real maxDim: 400 / Screen.devicePixelRatio - (3 * pad / 2)
-    property real sceneScale: Math.min(0.5 / Screen.devicePixelRatio, maxDim / qtlottie.width)
+    property real minDim: 215 / Screen.devicePixelRatio - (3 * pad / 2)
+    property real sceneScale: Math.max(Math.min(0.5 / Screen.devicePixelRatio, maxDim / qtlottie.width), minDim / qtlottie.width)
     property real sceneWidth: qtlottie.width * sceneScale
     property real sceneHeight: qtlottie.height * sceneScale
     width: 2 * sceneWidth + 3 * pad
@@ -26,6 +27,8 @@ Rectangle {
         y: toplevel.pad
         width: toplevel.sceneWidth
         height: toplevel.sceneHeight
+        horizontalAlignment: Image.AlignLeft
+        verticalAlignment: Image.AlignTop
 
         LottieAnimation {
             id: qtlottie
@@ -54,6 +57,8 @@ Rectangle {
         y: la_background.y
         width: la_background.width
         height: la_background.height
+        horizontalAlignment: Image.AlignLeft
+        verticalAlignment: Image.AlignTop
 
         VectorImage {
             scale: qtlottie.scale
