@@ -43,7 +43,7 @@ In addition, it supports the following options:
     shapes in the scene without multi-sampling, but at some extra cost.
 \row
     \li \c{-a}, \c{--asynchronous-shapes}
-    \li Enables the {QtQuick.Shapes::Shape::asynchronous}{asynchronous} mode on all \l{Shape}
+    \li Enables the \l{QtQuick.Shapes::Shape::asynchronous}{asynchronous} mode on all \l{Shape}
     elements in the generated scene. This may improve CPU utilization and responsiveness.
 \row
     \li -p, --optimize-paths
