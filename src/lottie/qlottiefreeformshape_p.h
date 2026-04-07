@@ -46,7 +46,7 @@ public:
 
     bool acceptsTrim() const override;
 
-    bool isAnimated() const;
+    bool isAnimated() const override;
     QLottieProperty2D<QPointF> startPointProperty() const { return m_vertexList.value(0).pos; };
 
 protected:

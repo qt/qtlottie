@@ -49,6 +49,11 @@ public:
     QPointF position() const;
     QSizeF size() const;
 
+    bool isAnimated() const override;
+    QPainterPath fallbackPath() const;
+    const QLottieProperty2D<QSizeF> &sizeProperty() const { return m_size; }
+    const QLottieSpatialProperty &positionProperty() const { return m_position; }
+
 protected:
     QLottieSpatialProperty m_position;
     QLottieProperty2D<QSizeF> m_size;

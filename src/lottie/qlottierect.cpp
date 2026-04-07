@@ -118,4 +118,17 @@ qreal QLottieRect::roundness() const
     return m_roundness.value();
 }
 
+bool QLottieRect::isAnimated() const
+{
+    return m_position.isAnimated() || m_size.isAnimated();
+}
+
+QPainterPath QLottieRect::fallbackPath() const
+{
+    const QPointF pos = position();
+    QPainterPath p;
+    p.addRoundedRect(QRectF(pos.x() - 0.5, pos.y() - 0.5, 1, 1), 0, 0);
+    return p;
+}
+
 QT_END_NAMESPACE

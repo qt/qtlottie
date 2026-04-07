@@ -93,4 +93,18 @@ QSizeF QLottieEllipse::size() const
     return m_size.value();
 }
 
+bool QLottieEllipse::isAnimated() const
+{
+    return m_position.isAnimated() || m_size.isAnimated();
+}
+
+QPainterPath QLottieEllipse::fallbackPath() const
+{
+    const QPointF pos = position();
+    QPainterPath p;
+    p.arcMoveTo(QRectF(pos.x() - 0.5, pos.y() - 0.5, 1, 1), 90);
+    p.arcTo(QRectF(pos.x() - 0.5, pos.y() - 0.5, 1, 1), 90, -360);
+    return p;
+}
+
 QT_END_NAMESPACE

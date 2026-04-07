@@ -38,6 +38,7 @@ public:
 
     static QLottieShape *construct(QJsonObject definition, QLottieBase *parent = nullptr);
 
+    virtual bool isAnimated() const { return false; }
     virtual const QPainterPath &path() const;
     virtual bool acceptsTrim() const;
     virtual void applyTrim(const QLottieTrimPath& trimmer);

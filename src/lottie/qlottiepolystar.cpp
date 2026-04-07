@@ -88,6 +88,11 @@ void QLottiePolyStar::updateProperties(int frame)
     m_startAngle.update(frame);
     m_pointCount.update(frame);
 
+    buildPath();
+}
+
+void QLottiePolyStar::buildPath()
+{
     m_path.clear();
 
     const int numPoints = m_pointCount.value();
@@ -153,6 +158,22 @@ int QLottiePolyStar::pointCount() const
 bool QLottiePolyStar::isPolygonModeEnabled() const
 {
     return m_polygonMode;
+}
+
+QPainterPath QLottiePolyStar::fallbackPath() const
+{
+    QLottiePolyStar copy(*this);
+    copy.m_outerRadius.setValue(0.5);
+    copy.m_innerRadius.setValue(0.5);
+    copy.buildPath();
+    return copy.path();
+}
+
+bool QLottiePolyStar::isAnimated() const
+{
+    return m_outerRadius.isAnimated() || m_innerRadius.isAnimated()
+            || m_position.isAnimated() || m_startAngle.isAnimated()
+            || m_pointCount.isAnimated();
 }
 
 QT_END_NAMESPACE

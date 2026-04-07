@@ -415,21 +415,32 @@ void QLottieVisitor::render(const QLottieRect &rect)
 {
     QLOTTIEVISITOR_DEBUG << "[rect]";
 
-    processPath(&rect, rect.path());
+    QPainterPath path = rect.path();
+    if (path.isEmpty() && rect.isAnimated())
+        path = rect.fallbackPath();
+    processPath(&rect, path);
 }
 
 void QLottieVisitor::render(const QLottieEllipse &ellipse)
 {
     QLOTTIEVISITOR_DEBUG << "[ellipse]";
 
-    processPath(&ellipse, ellipse.path());
+    QPainterPath path = ellipse.path();
+    if (path.isEmpty() && ellipse.isAnimated())
+        path = ellipse.fallbackPath();
+    processPath(&ellipse, path);
 }
 
 void QLottieVisitor::render(const QLottiePolyStar &star)
 {
     QLOTTIEVISITOR_DEBUG << "[star]";
 
-    processPath(&star, star.path());
+    QPainterPath path = star.path();
+    if (path.isEmpty() && star.isAnimated()) {
+        // Use a minimal star (1x1) as the default.
+        path = star.fallbackPath();
+    }
+    processPath(&star, path);
 }
 
 void QLottieVisitor::render(const QLottieRound &round)
@@ -858,23 +869,75 @@ void QLottieVisitor::render(const QLottieRepeater &repeater)
 
 void QLottieVisitor::fillPathAnimationInfo(const QLottieShape *shape, PathNodeInfo *info)
 {
-    if (shape->type() == LOTTIE_SHAPE_SHAPE_IX) {
-        const QLottieFreeFormShape *ffShape = static_cast<const QLottieFreeFormShape *>(shape);
-        if (ffShape->isAnimated()) {
-            QLottieFreeFormShape copy(*ffShape);
-            QQuickAnimatedProperty::PropertyAnimation pa;
-            const auto easingCurves = copy.startPointProperty().easingCurves();
-            for (int i = 0; i < easingCurves.size(); i++) {
-                const auto &curve = easingCurves.at(i);
-                const int timePoint = qRound(curve.startFrame);
-                copy.updateProperties(timePoint);
-                pa.frames[timePoint] = QVariant::fromValue(copy.path());
-                if (i > 0)
-                    pa.easingPerFrame[timePoint] = easingCurves.at(i - 1).easing.bezier();
-            }
-            polishPropertyAnimation(&pa);
-            info->path.addAnimation(pa);
+    if (!shape->isAnimated())
+        return;
+
+    auto buildPathAnimation = [&](const auto &property, auto getPathAtFrame) {
+        if (!property.isAnimated())
+            return;
+        QQuickAnimatedProperty::PropertyAnimation pa;
+        const auto easingCurves = property.easingCurves();
+        for (int i = 0; i < easingCurves.size(); i++) {
+            const auto &curve = easingCurves.at(i);
+            const int timePoint = qRound(curve.startFrame);
+            pa.frames[timePoint] = QVariant::fromValue(getPathAtFrame(timePoint));
+            if (i > 0)
+                pa.easingPerFrame[timePoint] = easingCurves.at(i - 1).easing.bezier();
         }
+        polishPropertyAnimation(&pa);
+        info->path.addAnimation(pa);
+    };
+
+    if (shape->type() == LOTTIE_SHAPE_SHAPE_IX) {
+        const auto *ffShape = static_cast<const QLottieFreeFormShape *>(shape);
+        QLottieFreeFormShape copy(*ffShape);
+        buildPathAnimation(ffShape->startPointProperty(), [&](int timePoint) {
+            copy.updateProperties(timePoint);
+            return copy.path();
+        });
+    } else if (shape->type() == LOTTIE_SHAPE_ELLIPSE_IX) {
+        const auto *ellipse = static_cast<const QLottieEllipse *>(shape);
+        QLottieEllipse copy(*ellipse);
+        auto getEllipsePath = [&](int timePoint) {
+            copy.updateProperties(timePoint);
+            QPainterPath p = copy.path();
+            if (p.isEmpty())
+                p = copy.fallbackPath();
+            return p;
+        };
+        buildPathAnimation(ellipse->sizeProperty(), getEllipsePath);
+        buildPathAnimation(ellipse->positionProperty(), getEllipsePath);
+    } else if (shape->type() == LOTTIE_SHAPE_RECT_IX) {
+        const auto *rect = static_cast<const QLottieRect *>(shape);
+        QLottieRect copy(*rect);
+        auto getRectPath = [&](int timePoint) {
+            copy.updateProperties(timePoint);
+            QPainterPath p = copy.path();
+            if (p.isEmpty())
+                p = copy.fallbackPath();
+            return p;
+        };
+        buildPathAnimation(rect->sizeProperty(), getRectPath);
+        buildPathAnimation(rect->positionProperty(), getRectPath);
+    } else if (shape->type() == LOTTIE_SHAPE_STAR_IX) {
+        const auto *star = static_cast<const QLottiePolyStar *>(shape);
+        QLottiePolyStar copy(*star);
+        auto getStarPath = [&](int timePoint) {
+            copy.updateProperties(timePoint);
+            QPainterPath p = copy.path();
+            if (p.isEmpty()) {
+                // Use a minimal 1x1 star so the path animator
+                // has a valid shape to interpolate from.
+                p = copy.fallbackPath();
+            }
+            return p;
+        };
+        if (star->outerRadiusProperty().isAnimated())
+            buildPathAnimation(star->outerRadiusProperty(), getStarPath);
+        else if (star->innerRadiusProperty().isAnimated())
+            buildPathAnimation(star->innerRadiusProperty(), getStarPath);
+        else
+            buildPathAnimation(star->positionProperty(), getStarPath);
     }
 }
 
@@ -882,16 +945,11 @@ void QLottieVisitor::renderPathElements(const QList<QLottieBase *> &pathElements
 {
     QLOTTIEVISITOR_DEBUG << "[path elements, count = " << pathElements.size() << "]";
 
-    bool hasAnimatedElements = false;
-    for (const QLottieBase *element : pathElements) {
-        if (element->type() == LOTTIE_SHAPE_SHAPE_IX) {
-            const QLottieFreeFormShape *ffShape = static_cast<const QLottieFreeFormShape *>(element);
-            if (ffShape->isAnimated()) {
-                hasAnimatedElements = true;
-                break;
-            }
-        }
-    }
+    const bool hasAnimatedElements = std::any_of(pathElements.cbegin(), pathElements.cend(),
+        [](const QLottieBase *element) {
+            return element->isPathElement()
+                && static_cast<const QLottieShape *>(element)->isAnimated();
+        });
 
     if (pathElements.size() == 1 || hasAnimatedElements || trimmingState() == Parallel) {
         // Need individual QML path items

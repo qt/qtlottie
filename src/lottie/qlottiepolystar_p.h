@@ -54,6 +54,15 @@ public:
     int pointCount() const;
     bool isPolygonModeEnabled() const;
 
+    bool isAnimated() const override;
+    const QLottieProperty<qreal> &outerRadiusProperty() const { return m_outerRadius; }
+    const QLottieProperty<qreal> &innerRadiusProperty() const { return m_innerRadius; }
+    const QLottieSpatialProperty &positionProperty() const { return m_position; }
+    QPainterPath fallbackPath() const;
+
+private:
+    void buildPath();
+
 protected:
     QLottieSpatialProperty m_position;
     QLottieProperty<int> m_pointCount;
