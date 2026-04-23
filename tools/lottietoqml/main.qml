@@ -16,6 +16,6 @@ Window {
     Item {
         id: svg
         objectName: "svg_item"
-        anchors.centerIn: parent
+        anchors.fill: parent
     }
 }

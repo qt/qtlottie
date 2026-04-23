@@ -13,6 +13,37 @@
 
 QT_BEGIN_NAMESPACE
 
+class QLottieVectorImagePluginGenerator : public QQuickVectorImagePluginGenerator
+{
+public:
+    bool generate(const QString &fileName, QQuickItemGenerator *generator) override;
+};
+
+bool QLottieVectorImagePluginGenerator::generate(const QString &fileName, QQuickItemGenerator *generator)
+{
+    QFile f(fileName);
+    QLottieRoot root;
+
+    if (f.open(QIODevice::ReadOnly)) {
+        QByteArray jsonSource = f.readAll();
+
+        if (root.parseSource(jsonSource, QUrl::fromLocalFile(fileName)) >= 0) {
+            root.setStructureDumping(true);
+            root.updateProperties(0);
+
+            generator->addExtraImport(QStringLiteral("Qt.labs.lottieqt.VectorImageHelpers"));
+            generator->setGeneratorFlags(
+                generator->generatorFlags().setFlag(QQuickVectorImageGenerator::TimelineAnimation));
+            QLottieVisitor visitor(fileName, generator);
+            visitor.render(root);
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
 class QLottieVectorImagePlugin : public QObject, public QQuickVectorImagePlugin
 {
     Q_OBJECT
@@ -22,7 +53,7 @@ public:
     QLottieVectorImagePlugin();
     ~QLottieVectorImagePlugin();
 
-    bool generate(const QString &fileName, QQuickItemGenerator *generator) override;
+    QQuickVectorImagePluginGenerator *createGenerator(const QString &fileName) override;
 
 private:
     bool canRead(QIODevice &input) const;
@@ -36,45 +67,16 @@ QLottieVectorImagePlugin::~QLottieVectorImagePlugin()
 {
 }
 
-bool QLottieVectorImagePlugin::generate(const QString &fileName, QQuickItemGenerator *generator)
+QQuickVectorImagePluginGenerator *QLottieVectorImagePlugin::createGenerator(const QString &fileName)
 {
     QFile f(fileName);
-    QLottieRoot root;
+    if (!f.open(QIODevice::ReadOnly))
+        return nullptr;
 
-    if (f.open(QIODevice::ReadOnly) && canRead(f)) {
-        QByteArray jsonSource = f.readAll();
+    if (!canRead(f))
+        return nullptr;
 
-        static int frameNo = qEnvironmentVariableIntValue("QLT_FRAMENO");
-
-        if (root.parseSource(jsonSource, QUrl::fromLocalFile(fileName)) >= 0) {
-            if (frameNo < 0)
-                frameNo = root.startFrame() + (root.endFrame() - root.startFrame()) / 2;
-
-            root.setStructureDumping(true);
-            root.updateProperties(0);
-
-            generator->addExtraImport(QStringLiteral("Qt.labs.lottieqt.VectorImageHelpers"));
-            generator->setGeneratorFlags(
-                generator->generatorFlags().setFlag(QQuickVectorImageGenerator::TimelineAnimation));
-            QLottieVisitor visitor(fileName, generator);
-            visitor.render(root);
-
-            if (frameNo > 0) {
-                QQuickItem *item = generator->parentItem();
-                const int seekTime = qRound(1000.0 * frameNo / root.frameRate());
-
-                QList<QQuickAbstractAnimation *> animations = item->findChildren<QQuickAbstractAnimation *>();
-                for (QQuickAbstractAnimation *animation : animations) {
-                    if (animation->group() == nullptr)
-                        animation->setCurrentTime(seekTime);
-                }
-            }
-
-            return true;
-        }
-    }
-
-    return false;
+    return new QLottieVectorImagePluginGenerator;
 }
 
 bool QLottieVectorImagePlugin::canRead(QIODevice &input) const

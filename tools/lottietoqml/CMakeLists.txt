@@ -24,6 +24,7 @@ qt_internal_add_tool(${target_name}
         Qt::Qml
         Qt::Quick
         Qt::QuickPrivate
+        Qt::QuickVectorImagePrivate
         Qt::QuickVectorImageGeneratorPrivate
         Qt::LottieVectorImageGeneratorPrivate
         Qt::LottiePrivate

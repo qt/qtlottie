@@ -8,6 +8,7 @@
 #include <QFileInfo>
 #include <QQuickWindow>
 #include <QQuickItem>
+#include <QtQuickVectorImage/private/qquickvectorimageincubator_p.h>
 #include <QtQuickVectorImageGenerator/private/qquickitemgenerator_p.h>
 #include <QtQuickVectorImageGenerator/private/qquickqmlgenerator_p.h>
 #include <QtQuickVectorImageGenerator/private/qquickvectorimageglobal_p.h>
@@ -111,6 +112,7 @@ int main(int argc, char *argv[])
     }
 
     QQuickVectorImageGenerator::GeneratorFlags flags;
+    flags.setFlag(QQuickVectorImageGenerator::GeneratorFlag::AssumeTrustedSource);
     flags.setFlag(QQuickVectorImageGenerator::GeneratorFlag::TimelineAnimation);
     if (parser.isSet(curveRendererOption))
         flags |= QQuickVectorImageGenerator::GeneratorFlag::CurveRenderer;
@@ -155,11 +157,18 @@ int main(int argc, char *argv[])
                 QCoreApplication::exit(-1);
             if (obj) {
                 auto *containerItem = obj->findChild<QQuickItem*>(QStringLiteral("svg_item"));
-                QQuickItemGenerator generator(inFileName, flags, containerItem, engine.rootContext());
-                generator.addExtraImport(importString);
+                QQuickVectorImageIncubator incubator(QQmlIncubator::Synchronous,
+                                                     engine.rootContext());
 
-                QLottieVisitor visitor(inFileName, &generator);
-                visitor.render(root);
+                incubator.start(inFileName, flags);
+                QObject *obj = incubator.object();
+                QQuickItem *item = qobject_cast<QQuickItem *>(obj);
+                if (item != nullptr) {
+                    item->setParent(containerItem);
+                    item->setParentItem(containerItem);
+                } else {
+                    delete obj;
+                }
             }
         });
         engine.load(url);
