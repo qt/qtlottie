@@ -29,6 +29,12 @@ QLottieRoot::QLottieRoot(const QLottieRoot &other)
     m_endFrame = other.m_endFrame;
 }
 
+QLottieRoot::~QLottieRoot()
+{
+    qDeleteAll(m_precompositions);
+    m_precompositions.clear();
+}
+
 QLottieBase *QLottieRoot::clone() const
 {
     return new QLottieRoot(*this);

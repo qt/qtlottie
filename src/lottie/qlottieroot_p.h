@@ -27,6 +27,7 @@ class Q_LOTTIE_EXPORT QLottieRoot : public QLottieBase
 public:
     QLottieRoot();
     explicit QLottieRoot(const QLottieRoot &other);
+    ~QLottieRoot() override;
 
     QLottieBase *clone() const override;
 
