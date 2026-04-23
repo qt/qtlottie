@@ -25,6 +25,8 @@ qt_add_qml_module(qtlottieviewerexample
     VERSION 1.0
     QML_FILES
         Main.qml
+        LottieAnimationExampleView.qml
+        VectorImageExampleView.qml
     RESOURCES
         ${default_lottie_file}
     RESOURCE_PREFIX

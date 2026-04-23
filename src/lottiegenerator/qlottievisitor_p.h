@@ -139,7 +139,6 @@ private:
     QList<PaintInfo> m_savedPaintInfos;
 
     int m_frameRate = 30;
-    int m_duration = 1000;
 
     QStack<const QLottieBase *> m_currentStructElements;
     QStack<QString> m_currentFrameCounterIds;

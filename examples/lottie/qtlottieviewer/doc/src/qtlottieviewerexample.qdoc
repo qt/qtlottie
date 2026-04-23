@@ -6,18 +6,24 @@
     \example qtlottieviewer
     \image qtlottieviewerexample.png {Lottie animation viewer with frame rate and
            scaling controls}
-    \brief An example demonstrating the use of Qt LottieAnimation in an application.
+    \brief Demonstrating display and control of a Lottie animation with Qt Quick.
     \ingroup qtlottieexamples
     \examplecategory {Graphics}
 
-    This example demonstrates how to use the \l{LottieAnimation} item
-    of the \l{Qt.labs.lottieqt} module to directly display and control
-    a Lottie animated vector graphics file in a Qt Quick application.
+    This example demonstrates how to use the \l{Qt.labs.lottieqt} module to directly display and
+    control a Lottie animated vector graphics file in a Qt Quick application.
+
+    Two different approaches are shown:
+    \list 1
+    \li Using VectorImage with LottieVectorImageController
+    \li Using LottieAnimation
+    \endlist
 
     \section1 Overview
 
-    The main part of the example window is a Rectangle containing a
-    LottieAnimation item which plays a Lottie animation.
+    At the top of the example Window is a tab bar that allows switching between the VectorImage and
+    the LottieAnimation players. The main part of the window is a Rectangle containing the selected
+    Lottie file player, displaying a Lottie animation.
 
     Below this is a row controls. The user can control the animation
     speed with the Frame Rate slider, and zoom in and out using the
@@ -27,10 +33,9 @@
     will display a file dialog, allowing the user to select a Lottie
     file to load and display.
 
-    LottieAnimation is a \l{QQuickPaintedItem}, employing software
-    rasterization of the vector graphics. For alternative ways
-    displaying Lottie files in Quick applications, utilizing graphics
-    hardware rendering, see \l{lottietoqml} and the \l{VectorImage}
-    item.
+    LottieAnimation is a \l{QQuickPaintedItem}, employing software rasterization of the vector
+    graphics. VectorImage translates the vector graphics file to a QML component that utilizes the
+    \l{Qt Quick Shapes QML Types}{Qt Quick Shapes} module, which employs hardware GPU rendering.
 
+    \sa lottietoqml
 */

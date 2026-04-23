@@ -4,4 +4,5 @@
 qt_internal_extend_target(Lottie
     SOURCES
         qlottieanimation.cpp qlottieanimation_p.h
+        qlottievectorimagecontroller.cpp qlottievectorimagecontroller_p.h
 )

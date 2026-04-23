@@ -10,7 +10,8 @@ qt_internal_add_qml_module(Lottie
         Qt::Gui
         Qt::GuiPrivate
         Qt::Qml
-        Qt::Quick
+        Qt::QuickPrivate
+        Qt::QuickVectorImagePrivate
 )
 
 qt_internal_add_docs(Lottie

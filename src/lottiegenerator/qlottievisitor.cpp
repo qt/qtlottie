@@ -49,12 +49,11 @@ void QLottieVisitor::render(const QLottieRoot &root)
     fillCommonNodeInfo(&root, &info);
 
     m_frameRate = root.frameRate();
-    m_duration = qRound(1000.0 * (root.endFrame() - root.startFrame()) / m_frameRate);
 
     info.size = root.layerSize();
     info.viewBox = QRectF(QPointF(0, 0), info.size);
 
-    QLOTTIEVISITOR_DEBUG << "[root viewbox=" << info.viewBox << ", frame rate=" << m_frameRate << ", duration=" << m_duration << "ms ]";
+    QLOTTIEVISITOR_DEBUG << "[root viewbox=" << info.viewBox << ", frame rate=" << m_frameRate << "]";
 
     info.stage = StructureNodeStage::Start;
     info.nodeId = "_q_animation"_L1; // # centralize
@@ -62,7 +61,7 @@ void QLottieVisitor::render(const QLottieRoot &root)
     TimelineInfo tlInfo;
     tlInfo.startFrame = root.startFrame();
     tlInfo.endFrame = root.endFrame();
-    tlInfo.duration = m_duration;
+    tlInfo.frameRate = m_frameRate;
     info.timelineInfo = tlInfo;
 
     m_generator->generateRootNode(info);
