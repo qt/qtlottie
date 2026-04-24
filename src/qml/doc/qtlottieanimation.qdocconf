@@ -6,6 +6,9 @@ project                 = QtLottieAnimation
 description             = Lottie Player for Qt
 buildversion            = Qt Lottie Animation | Commercial or GPLv3
 
+# No C++ API do document, prevent QDoc from searching for a module header
+moduleheader            =
+
 headerdirs             += ../..
 
 sourcedirs             += ../..
