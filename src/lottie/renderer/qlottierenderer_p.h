@@ -46,6 +46,7 @@ class QLottieTrimPath;
 class QLottieFillEffect;
 class QLottieRepeater;
 class QLottiePrecomposition;
+class QLottieTextLayer;
 
 class Q_LOTTIE_EXPORT QLottieRenderer
 {
@@ -63,6 +64,7 @@ public:
     virtual void render(const QLottiePrecomposition &precomp) = 0;
     virtual void render(const QLottieLayer &layer) = 0;
     virtual void render(const QLottieSolidLayer &layer) = 0;
+    virtual void render(const QLottieTextLayer &) {}
     virtual void render(const QLottieGroup &) {}
     virtual void render(const QLottieRect &rect) = 0;
     virtual void render(const QLottieEllipse &ellipse) = 0;

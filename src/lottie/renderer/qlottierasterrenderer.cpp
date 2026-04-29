@@ -27,6 +27,7 @@
 #include <QtLottie/private/qlottierepeater_p.h>
 #include <QtLottie/private/qlottieflatlayers_p.h>
 #include <QtLottie/private/qlottieprecomposition_p.h>
+#include <QtLottie/private/qlottietextlayer_p.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -95,6 +96,14 @@ void QLottieRasterRenderer::render(const QLottieSolidLayer &layer)
 {
     render(static_cast<const QLottieLayer &>(layer));
     m_painter->fillRect(QRect(QPoint(), layer.layerSize()), layer.color());
+}
+
+void QLottieRasterRenderer::render(const QLottieTextLayer &layer)
+{
+    render(static_cast<const QLottieLayer &>(layer));
+
+    for (const QPainterPath &path : layer.buildGlyphPaths())
+        m_painter->fillPath(path, QBrush(layer.textDocument().fillColor));
 }
 
 void QLottieRasterRenderer::render(const QLottieRect &rect)

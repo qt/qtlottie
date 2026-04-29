@@ -216,7 +216,6 @@ void QLottieBase::setParent(QLottieBase *parent)
     m_parent = parent;
 }
 
-
 const QJsonObject QLottieBase::resolveExpression(const QJsonObject &definition)
 {
     QString expr = definition.value("x"_L1).toString();

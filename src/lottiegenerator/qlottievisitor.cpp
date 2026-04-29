@@ -19,6 +19,7 @@
 #include <QtLottie/private/qlottieprecomplayer_p.h>
 #include <QtLottie/private/qlottieimage_p.h>
 #include <QtLottie/private/qlottieprecomposition_p.h>
+#include <QtLottie/private/qlottietextlayer_p.h>
 
 #include <QtGui/private/qfixed_p.h>
 
@@ -316,6 +317,35 @@ void QLottieVisitor::render(const QLottieSolidLayer &layer)
         layerRect.addRect(QRect(QPoint(), layer.layerSize()));
         processShape(nullptr, layerRect);
     }
+}
+
+void QLottieVisitor::render(const QLottieTextLayer &layer)
+{
+    QLOTTIEVISITOR_DEBUG << "[text layer '" << layer.name() << "']";
+
+    render(static_cast<const QLottieLayer &>(layer));
+
+    const QList<QPainterPath> glyphPaths = layer.buildGlyphPaths();
+    if (glyphPaths.isEmpty())
+        return;
+
+    m_currentPaintInfo.fill = layer.textDocument().fillColor;
+    m_currentPaintInfo.fillRule = Qt::WindingFill;
+
+    StructureNodeInfo info;
+    fillCommonNodeInfo(&layer, &info, "_glyphs"_L1);
+    info.stage = StructureNodeStage::Start;
+    info.isPathContainer = true;
+
+    m_generator->generateStructureNode(info);
+    m_currentStructElements.push(&layer);
+
+    for (const QPainterPath &path : glyphPaths)
+        processShape(nullptr, path);
+
+    info.stage = StructureNodeStage::End;
+    m_generator->generateStructureNode(info);
+    m_currentStructElements.pop();
 }
 
 void QLottieVisitor::render(const QLottieGroup &group)

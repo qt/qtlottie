@@ -26,6 +26,7 @@
 #include <QtLottie/private/qlottierenderer_p.h>
 
 QT_BEGIN_NAMESPACE
+
 class Q_LOTTIE_EXPORT QLottieBase
 {
 public:

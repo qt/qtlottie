@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
     QJsonArray::const_iterator jsonLayerIt = jsonLayers.constBegin();
     while (jsonLayerIt != jsonLayers.constEnd()) {
         QJsonObject jsonLayer = (*jsonLayerIt).toObject();
-        QLottieLayer *layer = QLottieLayer::construct(jsonLayer, assets);
+        QLottieLayer *layer = QLottieLayer::construct(jsonLayer);
         if (layer)
             delete layer;
         jsonLayerIt++;

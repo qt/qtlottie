@@ -18,6 +18,7 @@ qt_internal_extend_target(Lottie
         qlottieimage.cpp qlottieimage_p.h
         qlottieflatlayers.cpp qlottieflatlayers_p.h
         qlottielayer.cpp qlottielayer_p.h
+        qlottietextlayer.cpp qlottietextlayer_p.h
         qlottiepolystar.cpp qlottiepolystar_p.h
         qlottieprecomplayer.cpp qlottieprecomplayer_p.h
         qlottieprecomposition.cpp qlottieprecomposition_p.h

@@ -12,6 +12,7 @@
 #include <QString>
 
 #include "qlottieflatlayers_p.h"
+#include "qlottietextlayer_p.h"
 #include "qlottieshapelayer_p.h"
 #include "qlottieprecomplayer_p.h"
 #include "qlottiefilleffect_p.h"
@@ -94,6 +95,11 @@ QLottieLayer *QLottieLayer::construct(QJsonObject definition)
     case 4:
         qCDebug(lcLottieQtLottieParser) << "Parse shape layer";
         layer = new QLottieShapeLayer();
+        ret = layer->parse(definition);
+        break;
+    case 5:
+        qCDebug(lcLottieQtLottieParser) << "Parse text layer";
+        layer = new QLottieTextLayer();
         ret = layer->parse(definition);
         break;
     default:

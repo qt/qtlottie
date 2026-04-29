@@ -6,6 +6,7 @@
 #include "qlottielayer_p.h"
 #include "qlottieprecomplayer_p.h"
 #include "qlottieprecomposition_p.h"
+#include "qlottietextlayer_p.h"
 
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -14,6 +15,18 @@
 QT_BEGIN_NAMESPACE
 
 using namespace Qt::Literals::StringLiterals;
+
+namespace {
+
+void distributeChars(QLottieBase *container, const QMap<QString, QJsonObject> &chars)
+{
+    for (QLottieBase *child : container->children()) {
+        if (child->type() == LOTTIE_LAYER_TEXT_IX)
+            static_cast<QLottieTextLayer *>(child)->setCharData(chars);
+    }
+}
+
+} // namespace
 
 QLottieRoot::QLottieRoot()
 {
@@ -98,15 +111,46 @@ int QLottieRoot::parseSource(const QByteArray &jsonSource, const QUrl &fileSourc
         jsonAssetsIt++;
     }
 
+    QMap<QString, QJsonObject> chars;
+    const QJsonArray jsonChars = rootObj.value("chars"_L1).toArray();
+    if (!jsonChars.isEmpty()) {
+        // "chars" entries identify fonts by (fFamily, style), but text layers
+        // reference fonts by fName. fName is not always "fFamily-fStyle"
+        // e.g. regular Helvetica has fName="Helvetica", not "Helvetica-Regular"
+        // while light Helvetica has fName="Helvetica-Light" (fFamily-fStyle).
+        // so we build a lookup from (fFamily, style) to fName via fonts.list.
+        QMap<QPair<QString, QString>, QString> fontNameMap;
+        const QJsonArray fontList = rootObj.value("fonts"_L1).toObject().value("list"_L1).toArray();
+        for (const QJsonValue &fontVal : fontList) {
+            const QJsonObject fontObj = fontVal.toObject();
+            fontNameMap.insert({fontObj.value("fFamily"_L1).toString(),
+                                 fontObj.value("fStyle"_L1).toString()},
+                                fontObj.value("fName"_L1).toString());
+        }
+        for (const QJsonValue &charVal : jsonChars) {
+            const QJsonObject charObj = charVal.toObject();
+            const QString ch = charObj.value("ch"_L1).toString();
+            const QString fFamily = charObj.value("fFamily"_L1).toString();
+            const QString style = charObj.value("style"_L1).toString();
+            const QString fName = fontNameMap.value({fFamily, style}, fFamily);
+            if (!ch.isEmpty())
+                chars.insert(ch + u'|' + fName, charObj);
+        }
+    }
+
     for (const auto &[id, jsonAsset] : assets.asKeyValueRange()) {
         auto *precomp = QLottiePrecomposition::construct(jsonAsset, assets);
         if (precomp) {
             precomp->setParent(this);
+            if (!chars.isEmpty())
+                distributeChars(precomp, chars);
             m_precompositions.insert(id, precomp);
         }
     }
 
     int ret = QLottieLayer::constructLayers(jsonLayers, this, assets);
+    if (!chars.isEmpty())
+        distributeChars(this, chars);
 
     // Resolve precomp layers
     QStack<QString> visitedIds;

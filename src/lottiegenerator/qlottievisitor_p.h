@@ -83,6 +83,7 @@ public:
     void render(const QLottieLayer &layer) override;
     void render(const QLottieSolidLayer &layer) override;
     void render(const QLottieGroup &group) override;
+    void render(const QLottieTextLayer &layer) override;
 
     void finish(const QLottieLayer &layer) override;
     void finish(const QLottieGroup &group) override;
