@@ -31,6 +31,12 @@ bool QLottieVectorImagePluginGenerator::generate(const QString &fileName, QQuick
             root.setStructureDumping(true);
             root.updateProperties(0);
 
+            if (std::optional<qint64> envFrame = qEnvironmentVariableIntegerValue("QLT_FRAMENO")) {
+                qint64 freezeFrame = *envFrame >= 0 ? *envFrame : (root.endFrame() - root.startFrame()) / 2;
+                qint64 freezeTime = 1000 * freezeFrame / root.frameRate();
+                qputenv("QT_QUICKVECTORIMAGE_FREEZE", QByteArray::number(freezeTime));
+            }
+
             generator->addExtraImport(QStringLiteral("Qt.labs.lottieqt.VectorImageHelpers"));
             generator->setGeneratorFlags(
                 generator->generatorFlags().setFlag(QQuickVectorImageGenerator::TimelineAnimation));
