@@ -9,6 +9,7 @@
 #include <QtQml/qqmlengine.h>
 #include <QtQml/qqmlcomponent.h>
 #include <QtQuick/qquickitem.h>
+#include <QtQuickVectorImage/private/qquickvectorimage_p.h>
 
 #include <QtQuickTestUtils/private/qmlutils_p.h>
 #include <QtQuickTestUtils/private/viewtestutils_p.h>
@@ -92,10 +93,11 @@ void tst_VectorImage::parseFiles()
     QQmlComponent c(&engine, testFileUrl("vectorimage.qml"));
     QVERIFY2(c.isReady(), qPrintable(c.errorString()));
     std::unique_ptr<QObject> object(c.create());
-    QQuickItem *item = qobject_cast<QQuickItem *>(object.get());
+    QQuickVectorImage *item = qobject_cast<QQuickVectorImage *>(object.get());
     QVERIFY(item != nullptr);
     QVERIFY(!item->childItems().isEmpty());
     QVERIFY(!item->childItems().first()->size().isNull());
+    QCOMPARE(item->status(), QQuickVectorImage::Status::Ready);
 }
 
 void tst_VectorImage::parseBrokenFile()
@@ -106,10 +108,10 @@ void tst_VectorImage::parseBrokenFile()
     QQmlComponent c(&engine, testFileUrl("vectorimage.qml"));
     QVERIFY2(c.isReady(), qPrintable(c.errorString()));
     std::unique_ptr<QObject> object(c.create());
-    QQuickItem *item = qobject_cast<QQuickItem *>(object.get());
+    QQuickVectorImage *item = qobject_cast<QQuickVectorImage *>(object.get());
     QVERIFY(item != nullptr);
-    QVERIFY(!item->childItems().isEmpty());
-    QVERIFY(item->childItems().first()->size().isNull());
+    QVERIFY(item->childItems().isEmpty());
+    QCOMPARE(item->status(), QQuickVectorImage::Status::Error);
 }
 
 void tst_VectorImage::parseNoAssumeTrustedSource()
@@ -121,23 +123,24 @@ void tst_VectorImage::parseNoAssumeTrustedSource()
         QQmlComponent c(&engine, testFileUrl("vectorimage.qml"));
         QVERIFY2(c.isReady(), qPrintable(c.errorString()));
         std::unique_ptr<QObject> object(c.create());
-        QQuickItem *item = qobject_cast<QQuickItem *>(object.get());
+        QQuickVectorImage *item = qobject_cast<QQuickVectorImage *>(object.get());
         QVERIFY(item != nullptr);
         QVERIFY(!item->childItems().isEmpty());
         QVERIFY(!item->childItems().first()->size().isNull());
+        QCOMPARE(item->status(), QQuickVectorImage::Status::Ready);
     }
 
     {
         QQmlComponent c(&engine, testFileUrl("vectorimage_noassumetrustedsource.qml"));
-        QQuickItem *item = qobject_cast<QQuickItem *>(c.create());
+        QQuickVectorImage *item = qobject_cast<QQuickVectorImage *>(c.create());
         auto cleanup = qScopeGuard([&item] {
             delete item;
             item = nullptr;
         });
 
         QVERIFY(item != nullptr);
-        QVERIFY(!item->childItems().isEmpty());
-        QVERIFY(item->childItems().first()->size().isNull());
+        QVERIFY(item->childItems().isEmpty());
+        QCOMPARE(item->status(), QQuickVectorImage::Status::Error);
     }
 }
 
