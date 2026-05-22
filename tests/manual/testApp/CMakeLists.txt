@@ -47,13 +47,13 @@ set(qml_resource_files
     "shape_static.json"
     "trim_path1.json"
     "trim_path2.json"
-    "trim_path2_parallel.json"
+    "trim_path2_sequential.json"
     "trim_path2_offset.json"
     "trim_path_multiple1.json"
     "trim_path_multiple2.json"
     "trim_path_multiple3.json"
     "trim_path_multiple4.json"
-    "trim_path_sequential2.json"
+    "trim_path_parallel2.json"
     "gradient_opacity_unpair.json"
 )
 
