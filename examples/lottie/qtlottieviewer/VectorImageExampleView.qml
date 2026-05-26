@@ -32,6 +32,7 @@ ColumnLayout {
 
             VectorImage {
                 id: vectorImg
+                property LottieVectorImageController controller: LottieVectorImageController {}
                 source: top.source
                 assumeTrustedSource: true
                 anchors.centerIn: parent
@@ -50,11 +51,6 @@ ColumnLayout {
                     }
                 }
             }
-        }
-
-        LottieVectorImageController {
-            id: lottieController
-            target: vectorImg
         }
 
         BusyIndicator {
@@ -82,7 +78,7 @@ ColumnLayout {
             enabled: (vectorImg.status === VectorImage.Ready)
             checkable: true
             text: checked ? "Play" : "Pause"
-            onCheckedChanged: { lottieController.togglePause(); }
+            onCheckedChanged: { vectorImg.controller.togglePause() }
             Layout.preferredHeight: aGroupBox.height
         }
 
@@ -90,16 +86,16 @@ ColumnLayout {
             title: "Goto Frame: " + gotoSlider.value
             enabled: playButton.checked && (vectorImg.status === VectorImage.Ready)
             contentItem: RowLayout {
-                Text { text: lottieController.startFrame }
+                Text { text: vectorImg.controller.startFrame }
                 Slider {
                     id: gotoSlider
-                    from: lottieController.startFrame
-                    to: lottieController.endFrame
+                    from: vectorImg.controller.startFrame
+                    to: vectorImg.controller.endFrame
                     stepSize: 1
                     value: 0
-                    onValueChanged: { lottieController.gotoAndStop(value); }
+                    onValueChanged: { vectorImg.controller.gotoAndStop(value) }
                 }
-                Text { text: lottieController.endFrame }
+                Text { text: vectorImg.controller.endFrame }
             }
         }
 
@@ -112,10 +108,10 @@ ColumnLayout {
                     from: 1
                     to: 100
                     stepSize: 1
-                    value: lottieController.frameRate
-                    onValueChanged: { lottieController.frameRate = value }
+                    value: vectorImg.controller.frameRate
+                    onValueChanged: { vectorImg.controller.frameRate = value }
                 }
-                Text { text: lottieController.frameRate }
+                Text { text: vectorImg.controller.frameRate }
             }
         }
 
@@ -129,7 +125,7 @@ ColumnLayout {
                     to: 200
                     stepSize: 1
                     value: 100
-                    onValueChanged: { vectorImgBackground.scale = value / 100; }
+                    onValueChanged: { vectorImgBackground.scale = value / 100 }
                 }
                 Text { text: vectorImgBackground.scale.toFixed(2) }
             }

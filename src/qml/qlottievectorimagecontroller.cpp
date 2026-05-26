@@ -20,10 +20,11 @@ QT_BEGIN_NAMESPACE
     functionality for controlling the playback. LottieVectorImageController extends VectorImage
     with more powerful API for querying and controlling the animation.
 
-    A LottieVectorImageController is connected to a VectorImage item by assigning the latter to the
-    controller's target property. When the VectorImage has loaded a Lottie file, and its \l
-    {VectorImage::status} {status} is \c Ready, the LottieVectorImageController's properties can be
-    read and written, and its functions called, to control the playback.
+    LottieVectorImageController's \l target property specifies the VectorImage to be controlled. It
+    is set by default if the LottieVectorImageController is created as a child or property of a
+    VectorImage. When the VectorImage has loaded a Lottie file, and its \l {VectorImage::status}
+    {status} is \c Ready, the LottieVectorImageController's properties can be read and written, and
+    its functions called, to control the playback.
 
     Taken together with VectorImage, LottieVectorImageController mimics the API of the existing
     LottieAnimation item, so they are typically interchangeable with little effort. (The \c
@@ -34,14 +35,35 @@ QT_BEGIN_NAMESPACE
 */
 
 QLottieVectorImageController::QLottieVectorImageController(QObject *parent)
-    : QObject(parent)
+    : QObject(parent), QQmlParserStatus()
 {
+}
+
+/*!
+    \internal
+*/
+void QLottieVectorImageController::classBegin()
+{
+}
+
+/*!
+    \internal
+*/
+void QLottieVectorImageController::componentComplete()
+{
+    if (!m_target) {
+        if (auto *p = qobject_cast<QQuickVectorImage *>(parent()))
+            setTarget(p);
+    }
 }
 
 /*!
     \qmlproperty VectorImage LottieVectorImageController::target
 
-    This property must be set to the VectorImage to be controlled.
+    This property specifies the VectorImage to be controlled.
+
+    If the LottieVectorImageController is created as a child or property of a VectorImage, that
+    will be the default target. Otherwise, the target must be set explicitly.
 */
 
 QQuickVectorImage *QLottieVectorImageController::target() const

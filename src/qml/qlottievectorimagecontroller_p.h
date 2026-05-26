@@ -17,14 +17,16 @@
 //
 
 #include <QtCore/qobject.h>
+#include <QtQml/qqmlparserstatus.h>
 #include <QtLottie/qtlottieexports.h>
 #include <QtQuickVectorImage/private/qquickvectorimage_p.h>
 
 QT_BEGIN_NAMESPACE
 
-class Q_LOTTIE_EXPORT QLottieVectorImageController : public QObject
+class Q_LOTTIE_EXPORT QLottieVectorImageController : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
+    Q_INTERFACES(QQmlParserStatus)
     QML_NAMED_ELEMENT(LottieVectorImageController)
     QML_ADDED_IN_VERSION(6, 12)
 
@@ -35,6 +37,8 @@ class Q_LOTTIE_EXPORT QLottieVectorImageController : public QObject
 
 public:
     QLottieVectorImageController(QObject *parent = nullptr);
+    void classBegin() override;
+    void componentComplete() override;
 
     QQuickVectorImage *target() const;
     void setTarget(QQuickVectorImage *newTarget);
