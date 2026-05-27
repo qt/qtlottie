@@ -66,7 +66,8 @@ ColumnLayout {
         }
 
         GroupBox {
-            title: "Goto Frame: " + gotoSlider.value
+            id: frameBox
+            title: "Current Frame: " + qtlottie.currentFrame
             enabled: playButton.checked && (qtlottie.status === LottieAnimation.Ready)
             contentItem: RowLayout {
                 Text { text: qtlottie.startFrame }
@@ -76,7 +77,12 @@ ColumnLayout {
                     to: qtlottie.endFrame
                     stepSize: 1
                     value: 0
-                    onValueChanged: { qtlottie.gotoAndStop(value); }
+                    onValueChanged: { if (frameBox.enabled) qtlottie.gotoAndStop(value) }
+                    Binding on value {
+                        when: !frameBox.enabled
+                        value: qtlottie.currentFrame
+                        restoreMode: Binding.RestoreNone
+                    }
                 }
                 Text { text: qtlottie.endFrame }
             }

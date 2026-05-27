@@ -83,7 +83,8 @@ ColumnLayout {
         }
 
         GroupBox {
-            title: "Goto Frame: " + gotoSlider.value
+            id: frameBox
+            title: "Current Frame: " + vectorImg.controller.currentFrame.toFixed(1)
             enabled: playButton.checked && (vectorImg.status === VectorImage.Ready)
             contentItem: RowLayout {
                 Text { text: vectorImg.controller.startFrame }
@@ -93,7 +94,12 @@ ColumnLayout {
                     to: vectorImg.controller.endFrame
                     stepSize: 1
                     value: 0
-                    onValueChanged: { vectorImg.controller.gotoAndStop(value) }
+                    onValueChanged: { if (frameBox.enabled) vectorImg.controller.gotoAndStop(value) }
+                    Binding on value {
+                        when: !frameBox.enabled
+                        value: vectorImg.controller.currentFrame
+                        restoreMode: Binding.RestoreNone
+                    }
                 }
                 Text { text: vectorImg.controller.endFrame }
             }

@@ -4,6 +4,7 @@
 
 #include "qlottievectorimagecontroller_p.h"
 #include <QtQml/private/qqmlbuiltins_p.h>
+#include <QtQml/qqmlproperty.h>
 #include <QtQuick/qquickitem.h>
 #include <QtQuick/private/qquickanimation_p.h>
 
@@ -75,33 +76,47 @@ void QLottieVectorImageController::setTarget(QQuickVectorImage *newTarget)
 {
     if (m_target == newTarget)
         return;
-    const qreal oldStartFrame = startFrame();
-    const qreal oldEndFrame = endFrame();
-    const qreal oldFrameRate = frameRate();
 
-    if (m_target) {
-        disconnect(m_target, &QQuickVectorImage::generatedItemChanged, this, &QLottieVectorImageController::frameRateChanged);
-        disconnect(m_target, &QQuickVectorImage::generatedItemChanged, this, &QLottieVectorImageController::startFrameChanged);
-        disconnect(m_target, &QQuickVectorImage::generatedItemChanged, this, &QLottieVectorImageController::endFrameChanged);
-    }
+    if (m_target)
+        disconnect(m_target, &QQuickVectorImage::generatedItemChanged, this, &QLottieVectorImageController::onGeneratedItemChanged);
 
     m_target = newTarget;
 
-    if (m_target) {
-        connect(m_target, &QQuickVectorImage::generatedItemChanged, this, &QLottieVectorImageController::frameRateChanged);
-        connect(m_target, &QQuickVectorImage::generatedItemChanged, this, &QLottieVectorImageController::startFrameChanged);
-        connect(m_target, &QQuickVectorImage::generatedItemChanged, this, &QLottieVectorImageController::endFrameChanged);
+    if (m_target)
+        connect(m_target, &QQuickVectorImage::generatedItemChanged, this, &QLottieVectorImageController::onGeneratedItemChanged);
+
+    onGeneratedItemChanged();
+
+    emit targetChanged();
+}
+
+void QLottieVectorImageController::onGeneratedItemChanged()
+{
+    if (m_generatedItem)
+        QObject::disconnect(m_generatedItem, nullptr, this, nullptr);
+
+    const qreal oldStartFrame = startFrame();
+    const qreal oldEndFrame = endFrame();
+    const qreal oldFrameRate = frameRate();
+    const qreal oldCurrentFrame = currentFrame();
+
+    m_generatedItem = m_target ? m_target->generatedItem() : nullptr;
+    m_animFrameRate = frameRate();
+
+    if (m_generatedItem) {
+        const QQmlProperty prop(m_generatedItem, QStringLiteral("frameCounter"));
+        if (prop.isValid())
+            prop.connectNotifySignal(this, SIGNAL(currentFrameChanged()));
     }
 
-    m_animFrameRate = frameRate();
-    emit targetChanged();
-
-    if (m_animFrameRate != oldFrameRate)
-        emit frameRateChanged();
     if (startFrame() != oldStartFrame)
         emit startFrameChanged();
     if (endFrame() != oldEndFrame)
         emit endFrameChanged();
+    if (m_animFrameRate != oldFrameRate)
+        emit frameRateChanged();
+    if (currentFrame() != oldCurrentFrame)
+        emit currentFrameChanged();
 }
 
 /*!
@@ -109,7 +124,7 @@ void QLottieVectorImageController::setTarget(QQuickVectorImage *newTarget)
 
     This property holds the animation playback speed in frames per second.
 
-    When the vector image is loaded, this property is set to the frame rqate value specified in the
+    When the vector image is loaded, this property is set to the frame rate value specified in the
     source file.
 
     After loading, frameRate can be modified to change the playback speed. Assigning an empty
@@ -118,13 +133,12 @@ void QLottieVectorImageController::setTarget(QQuickVectorImage *newTarget)
 
 qreal QLottieVectorImageController::frameRate() const
 {
-    const QQuickItem *item = m_target ? m_target->generatedItem() : nullptr;
-    return item ? item->property("frameRate").toReal() : m_animFrameRate;
+    return m_generatedItem ? m_generatedItem->property("frameRate").toReal() : 30;
 }
 
 void QLottieVectorImageController::setFrameRate(qreal newFrameRate)
 {
-    QQuickItem *item = m_target ? m_target->generatedItem() : nullptr;
+    QQuickItem *item = m_generatedItem;
     if (item && item->property("frameRate").toReal() != newFrameRate) {
         const qreal currentFrame = item->property("frameCounter").toReal();
         item->setProperty("frameRate", QVariant(newFrameRate));
@@ -152,8 +166,7 @@ void QLottieVectorImageController::resetFrameRate()
 */
 qreal QLottieVectorImageController::startFrame() const
 {
-    const QQuickItem *item = m_target ? m_target->generatedItem() : nullptr;
-    return item ? item->property("startFrame").toReal() : 0;
+    return m_generatedItem ? m_generatedItem->property("startFrame").toReal() : 0;
 }
 
 /*!
@@ -164,8 +177,18 @@ qreal QLottieVectorImageController::startFrame() const
 */
 qreal QLottieVectorImageController::endFrame() const
 {
-    const QQuickItem *item = m_target ? m_target->generatedItem() : nullptr;
-    return item ? item->property("endFrame").toReal() : 0;
+    return m_generatedItem ? m_generatedItem->property("endFrame").toReal() : 0;
+}
+
+/*!
+    \qmlproperty real LottieVectorImageController::currentFrame
+    \readonly
+
+    The number of the currently displayed animation frame.
+*/
+qreal QLottieVectorImageController::currentFrame() const
+{
+    return m_generatedItem ? m_generatedItem->property("frameCounter").toReal() : 0;
 }
 
 /*!

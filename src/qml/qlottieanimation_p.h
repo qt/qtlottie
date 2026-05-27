@@ -38,6 +38,7 @@ class Q_LOTTIE_EXPORT QLottieAnimation : public QQuickPaintedItem
     Q_PROPERTY(int frameRate READ frameRate WRITE setFrameRate RESET resetFrameRate NOTIFY frameRateChanged)
     Q_PROPERTY(int startFrame READ startFrame NOTIFY startFrameChanged)
     Q_PROPERTY(int endFrame READ endFrame NOTIFY endFrameChanged)
+    Q_PROPERTY(int currentFrame READ currentFrame NOTIFY currentFrameChanged REVISION(6, 12))
     Q_PROPERTY(Status status READ status WRITE setStatus NOTIFY statusChanged)
     Q_PROPERTY(Quality quality READ quality WRITE setQuality NOTIFY qualityChanged)
     Q_PROPERTY(bool autoPlay MEMBER m_autoPlay NOTIFY autoPlayChanged)
@@ -111,6 +112,7 @@ Q_SIGNALS:
     void directionChanged();
     void startFrameChanged();
     void endFrameChanged();
+    void currentFrameChanged();
 
 protected Q_SLOTS:
     void loadFinished(const QByteArray &json);
@@ -137,6 +139,7 @@ protected:
     int m_startFrame = 0;
     int m_endFrame = 0;
     int m_currentFrame = 0;
+    int m_currentPaintedFrame = 0;
     int m_frameRate = 30;
     int m_animFrameRate = 30;
     qreal m_animWidth = 0;

@@ -190,6 +190,11 @@ void QLottieAnimation::paint(QPainter *painter)
             qCDebug(lcLottieQtLottieRender) << "Element '" << elem->name() << "' inactive. No need to paint";
     }
 
+    if (m_currentPaintedFrame != m_currentFrame) {
+        m_currentPaintedFrame = m_currentFrame;
+        emit currentFrameChanged();
+    }
+
     if (m_frameAdvance->isActive()) {
         m_frameRenderThread->frameRendered(this, m_currentFrame);
         m_currentFrame += m_direction;
@@ -322,9 +327,16 @@ void QLottieAnimation::setEndFrame(int endFrame)
     emit endFrameChanged();
 }
 
+/*!
+    \qmlproperty int LottieAnimation::currentFrame
+    \readonly
+    \since 6.12
+
+    The number of the currently displayed animation frame.
+*/
 int QLottieAnimation::currentFrame() const
 {
-    return m_currentFrame;
+    return m_currentPaintedFrame;
 }
 
 QVersionNumber QLottieAnimation::version() const

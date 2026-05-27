@@ -17,6 +17,7 @@
 //
 
 #include <QtCore/qobject.h>
+#include <QtCore/qpointer.h>
 #include <QtQml/qqmlparserstatus.h>
 #include <QtLottie/qtlottieexports.h>
 #include <QtQuickVectorImage/private/qquickvectorimage_p.h>
@@ -31,9 +32,10 @@ class Q_LOTTIE_EXPORT QLottieVectorImageController : public QObject, public QQml
     QML_ADDED_IN_VERSION(6, 12)
 
     Q_PROPERTY(QQuickVectorImage *target READ target WRITE setTarget NOTIFY targetChanged FINAL)
-    Q_PROPERTY(qreal frameRate READ frameRate WRITE setFrameRate RESET resetFrameRate NOTIFY frameRateChanged)
-    Q_PROPERTY(qreal startFrame READ startFrame NOTIFY startFrameChanged)
-    Q_PROPERTY(qreal endFrame READ endFrame NOTIFY endFrameChanged)
+    Q_PROPERTY(qreal frameRate READ frameRate WRITE setFrameRate RESET resetFrameRate NOTIFY frameRateChanged FINAL)
+    Q_PROPERTY(qreal startFrame READ startFrame NOTIFY startFrameChanged FINAL)
+    Q_PROPERTY(qreal endFrame READ endFrame NOTIFY endFrameChanged FINAL)
+    Q_PROPERTY(qreal currentFrame READ currentFrame NOTIFY currentFrameChanged FINAL)
 
 public:
     QLottieVectorImageController(QObject *parent = nullptr);
@@ -49,6 +51,7 @@ public:
 
     qreal startFrame() const;
     qreal endFrame() const;
+    qreal currentFrame() const;
 
     Q_INVOKABLE void play();
     Q_INVOKABLE void pause();
@@ -63,10 +66,13 @@ signals:
     void frameRateChanged();
     void startFrameChanged();
     void endFrameChanged();
+    void currentFrameChanged();
 
 private:
     void gotoFrame(qreal frame);
-    QQuickVectorImage *m_target = nullptr;
+    void onGeneratedItemChanged();
+    QPointer<QQuickVectorImage> m_target;
+    QPointer<QQuickItem> m_generatedItem;
     qreal m_animFrameRate = 30;
 };
 
