@@ -44,6 +44,7 @@ class Q_LOTTIE_EXPORT QLottieAnimation : public QQuickPaintedItem
     Q_PROPERTY(bool autoPlay MEMBER m_autoPlay NOTIFY autoPlayChanged)
     Q_PROPERTY(int loops MEMBER m_loops NOTIFY loopsChanged)
     Q_PROPERTY(Direction direction READ direction WRITE setDirection NOTIFY directionChanged)
+    Q_PROPERTY(QStringList markers READ markers NOTIFY markersChanged REVISION(6, 13))
 
     QML_NAMED_ELEMENT(LottieAnimation)
     QML_ADDED_IN_VERSION(1, 0)
@@ -85,6 +86,8 @@ public:
     int endFrame() const;
     int currentFrame() const;
 
+    QStringList markers() const;
+
     QVersionNumber version() const;
 
     Q_INVOKABLE void start();
@@ -113,6 +116,7 @@ Q_SIGNALS:
     void startFrameChanged();
     void endFrameChanged();
     void currentFrameChanged();
+    void markersChanged();
 
 protected Q_SLOTS:
     void loadFinished(const QByteArray &json);
@@ -144,7 +148,7 @@ protected:
     int m_animFrameRate = 30;
     qreal m_animWidth = 0;
     qreal m_animHeight = 0;
-    QHash<QString, int> m_markers;
+    QHash<QString, QPair<int, int>> m_markers;
     QUrl m_source;
     QTimer *m_frameAdvance = nullptr;
 
@@ -157,6 +161,7 @@ private:
     int m_loops = 1;
     int m_currentLoop = 0;
     int m_direction = Forward;
+    int m_markerEndFrame = -1;
     QByteArray m_jsonSource;
 };
 

@@ -339,6 +339,23 @@ int QLottieAnimation::currentFrame() const
     return m_currentPaintedFrame;
 }
 
+/*!
+    \qmlproperty list<string> LottieAnimation::markers
+    \readonly
+
+    Names of the markers defined in the Lottie animation file. The list
+    is available after the animation has been loaded and ready to play.
+
+    Markers can be used with \l gotoAndPlay() and \l gotoAndStop() to
+    jump to a named position in the animation. If a marker has a non-zero
+    duration, \l gotoAndPlay() will stop playback automatically at the end
+    of the marked segment.
+*/
+QStringList QLottieAnimation::markers() const
+{
+    return m_markers.keys();
+}
+
 QVersionNumber QLottieAnimation::version() const
 {
     return m_version;
@@ -438,6 +455,7 @@ void QLottieAnimation::reset()
 */
 void QLottieAnimation::start()
 {
+    m_markerEndFrame = -1;
     reset();
     m_frameAdvance->start();
 }
@@ -449,6 +467,7 @@ void QLottieAnimation::start()
 */
 void QLottieAnimation::play()
 {
+    m_markerEndFrame = -1;
     QMetaObject::invokeMethod(m_frameRenderThread, "gotoFrame",
                               Q_ARG(QLottieAnimation*, this),
                               Q_ARG(int, m_currentFrame));
@@ -489,6 +508,7 @@ void QLottieAnimation::togglePause()
 */
 void QLottieAnimation::stop()
 {
+    m_markerEndFrame = -1;
     m_frameAdvance->stop();
     reset();
     renderNextFrame();
@@ -510,15 +530,18 @@ void QLottieAnimation::gotoAndPlay(int frame)
     \qmlmethod bool LottieAnimation::gotoAndPlay(string frameMarker)
 
     Plays the asset from the frame that has a marker with the given \a frameMarker.
+    If the marker has a non-zero duration, playback stops automatically at the end
+    of the segment. If the duration is zero, plays to the end of the animation.
     Returns \c true if the frameMarker was found, \c false otherwise.
 */
 bool QLottieAnimation::gotoAndPlay(const QString &frameMarker)
 {
-    if (m_markers.contains(frameMarker)) {
-        gotoAndPlay(m_markers.value(frameMarker));
-        return true;
-    } else
+    if (!m_markers.contains(frameMarker))
         return false;
+    const auto [frame, duration] = m_markers.value(frameMarker);
+    m_markerEndFrame = duration > 0 ? frame + duration : -1;
+    gotoAndPlay(frame);
+    return true;
 }
 
 /*!
@@ -541,11 +564,10 @@ void QLottieAnimation::gotoAndStop(int frame)
 */
 bool QLottieAnimation::gotoAndStop(const QString &frameMarker)
 {
-    if (m_markers.contains(frameMarker)) {
-        gotoAndStop(m_markers.value(frameMarker));
-        return true;
-    } else
+    if (!m_markers.contains(frameMarker))
         return false;
+    gotoAndStop(m_markers.value(frameMarker).first);
+    return true;
 }
 
 void QLottieAnimation::gotoFrame(int frame)
@@ -677,6 +699,12 @@ QByteArray QLottieAnimation::jsonSource() const
 
 void QLottieAnimation::renderNextFrame()
 {
+    if (m_markerEndFrame >= 0 && m_currentFrame >= m_markerEndFrame) {
+        m_markerEndFrame = -1;
+        m_frameAdvance->stop();
+        emit finished();
+        return;
+    }
     if (m_currentFrame >= m_startFrame && m_currentFrame <= m_endFrame) {
         if (m_frameRenderThread->getFrame(this, m_currentFrame)) {
             update();
@@ -703,6 +731,7 @@ void QLottieAnimation::renderNextFrame()
 int QLottieAnimation::parse(const QByteArray &jsonSource)
 {
     m_jsonSource = jsonSource;
+    m_markers.clear();
 
     QJsonParseError error;
     QJsonDocument doc = QJsonDocument::fromJson(m_jsonSource, &error);
@@ -767,15 +796,14 @@ int QLottieAnimation::parse(const QByteArray &jsonSource)
     QJsonArray markerArr = rootObj.value("markers"_L1).toArray();
     QJsonArray::const_iterator markerIt = markerArr.constBegin();
     while (markerIt != markerArr.constEnd()) {
-        QString marker = (*markerIt).toObject().value("cm"_L1).toString();
-        int frame = (*markerIt).toObject().value("tm"_L1).toInt();
-        m_markers.insert(marker, frame);
-
-        if ((*markerIt).toObject().value("dr"_L1).toInt())
-            qCInfo(lcLottieQtLottieParser)
-                    << "property 'dr' not support in a marker";
+        QJsonObject markerObj = (*markerIt).toObject();
+        QString marker = markerObj.value("cm"_L1).toString();
+        int frame = qRound(markerObj.value("tm"_L1).toDouble());
+        int duration = qRound(markerObj.value("dr"_L1).toDouble());
+        m_markers.insert(marker, {frame, duration});
         ++markerIt;
     }
+    emit markersChanged();
 
     if (rootObj.value("chars"_L1).toArray().count())
         qCInfo(lcLottieQtLottieParser) << "chars not supported";

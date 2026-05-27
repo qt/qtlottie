@@ -38,6 +38,7 @@ ColumnLayout {
                     scaleSlider.from = newScale * 10
                     scaleSlider.to = newScale * 200
                     scaleSlider.value = newScale * 100
+                    playButton.checked = false
                 }
             }
         }
@@ -61,7 +62,7 @@ ColumnLayout {
             enabled: (qtlottie.status === LottieAnimation.Ready)
             checkable: true
             text: checked ? "Play" : "Pause"
-            onCheckedChanged: { qtlottie.togglePause(); }
+            onClicked: qtlottie.togglePause()
             Layout.preferredHeight: aGroupBox.height
         }
 
@@ -117,6 +118,21 @@ ColumnLayout {
                     onValueChanged: { qtlottie.scale = value / 100; }
                 }
                 Text { text: qtlottie.scale.toFixed(2) }
+            }
+        }
+
+        GroupBox {
+            title: "Markers"
+            enabled: qtlottie.markers.length > 0 && qtlottie.status === LottieAnimation.Ready
+            contentItem: ComboBox {
+                id: markerCombo
+                model: qtlottie.markers
+                onActivated: {
+                    if (playButton.checked)
+                        qtlottie.gotoAndStop(currentText);
+                    else
+                        qtlottie.gotoAndPlay(currentText);
+                }
             }
         }
 
