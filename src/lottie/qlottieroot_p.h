@@ -17,6 +17,7 @@
 //
 
 #include <QtLottie/private/qlottiebase_p.h>
+#include <QtCore/qlist.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -25,6 +26,13 @@ class QLottiePrecomposition;
 class Q_LOTTIE_EXPORT QLottieRoot : public QLottieBase
 {
 public:
+    struct Marker
+    {
+        QString name;
+        int frame = 0;
+        int duration = 0;
+    };
+
     QLottieRoot();
     explicit QLottieRoot(const QLottieRoot &other);
     ~QLottieRoot() override;
@@ -51,11 +59,13 @@ public:
     }
 
     QMap<QString, QLottiePrecomposition *> precompositions() const { return m_precompositions; }
+    QList<Marker> markers() const { return m_markers; }
 
 private:
     bool resolvePrecompLayers(QLottieBase *element, QStack<QString> *visitedIds);
 
     QMap<QString, QLottiePrecomposition *> m_precompositions;
+    QList<Marker> m_markers;
     QSize m_size;
     int m_frameRate = 30;
     int m_startFrame = 0;

@@ -7,6 +7,7 @@
 #include <QtQml/qqmlproperty.h>
 #include <QtQuick/qquickitem.h>
 #include <QtQuick/private/qquickanimation_p.h>
+#include <algorithm>
 
 QT_BEGIN_NAMESPACE
 
@@ -92,6 +93,8 @@ void QLottieVectorImageController::setTarget(QQuickVectorImage *newTarget)
 
 void QLottieVectorImageController::onGeneratedItemChanged()
 {
+    clearMarkerPlayback();
+
     if (m_generatedItem)
         QObject::disconnect(m_generatedItem, nullptr, this, nullptr);
 
@@ -99,14 +102,26 @@ void QLottieVectorImageController::onGeneratedItemChanged()
     const qreal oldEndFrame = endFrame();
     const qreal oldFrameRate = frameRate();
     const qreal oldCurrentFrame = currentFrame();
+    const QStringList oldMarkers = markers();
 
     m_generatedItem = m_target ? m_target->generatedItem() : nullptr;
     m_animFrameRate = frameRate();
 
+    m_markers.clear();
     if (m_generatedItem) {
         const QQmlProperty prop(m_generatedItem, QStringLiteral("frameCounter"));
         if (prop.isValid())
             prop.connectNotifySignal(this, SIGNAL(currentFrameChanged()));
+
+        const QVariantMap markersMap = m_generatedItem->property("markers").toMap();
+        for (auto it = markersMap.cbegin(); it != markersMap.cend(); ++it) {
+            const QVariantList data = it.value().toList();
+            m_markers.append({ it.key(), data.value(0).toInt(), data.value(1).toInt() });
+        }
+        std::sort(m_markers.begin(), m_markers.end(),
+                  [](const QLottieRoot::Marker &a, const QLottieRoot::Marker &b) {
+                      return a.frame < b.frame;
+                  });
     }
 
     if (startFrame() != oldStartFrame)
@@ -117,6 +132,8 @@ void QLottieVectorImageController::onGeneratedItemChanged()
         emit frameRateChanged();
     if (currentFrame() != oldCurrentFrame)
         emit currentFrameChanged();
+    if (markers() != oldMarkers)
+        emit markersChanged();
 }
 
 /*!
@@ -255,6 +272,7 @@ void QLottieVectorImageController::stop()
 */
 void QLottieVectorImageController::gotoAndPlay(qreal frame)
 {
+    clearMarkerPlayback();
     gotoFrame(frame);
     play();
 }
@@ -268,8 +286,89 @@ void QLottieVectorImageController::gotoAndPlay(qreal frame)
 */
 void QLottieVectorImageController::gotoAndStop(qreal frame)
 {
+    clearMarkerPlayback();
     pause();
     gotoFrame(frame);
+}
+
+/*!
+    \qmlproperty list<string> LottieVectorImageController::markers
+    \readonly
+    \since 6.13
+
+    Names of the markers defined in the Lottie animation file. The list
+    is available after the target VectorImage has loaded and is ready.
+
+    Markers can be used with \l gotoAndPlay() and \l gotoAndStop() to
+    jump to a named position in the animation. If a marker has a non-zero
+    duration, \l gotoAndPlay() will stop playback automatically at the end
+    of the marked segment.
+*/
+QStringList QLottieVectorImageController::markers() const
+{
+    QStringList names;
+    names.reserve(m_markers.size());
+    for (const QLottieRoot::Marker &marker : m_markers)
+        names.append(marker.name);
+    return names;
+}
+
+/*!
+    \qmlmethod bool LottieVectorImageController::gotoAndPlay(string markerName)
+    \since 6.13
+
+    Moves the playback to the frame that has a marker with the given \a markerName and plays it.
+    If the marker has a non-zero duration, playback stops automatically at the end of the segment.
+    Returns \c true if the marker was found, \c false otherwise.
+*/
+bool QLottieVectorImageController::gotoAndPlay(const QString &markerName)
+{
+    const auto it = std::find_if(
+            m_markers.cbegin(), m_markers.cend(),
+            [&markerName](const QLottieRoot::Marker &m) { return m.name == markerName; });
+    if (it == m_markers.cend())
+        return false;
+
+    clearMarkerPlayback();
+    if (it->duration > 0) {
+        m_markerEndFrame = it->frame + it->duration;
+        m_markerEndConnection =
+                connect(this, &QLottieVectorImageController::currentFrameChanged, this, [this]() {
+                    if (currentFrame() >= m_markerEndFrame) {
+                        clearMarkerPlayback();
+                        pause();
+                        emit finished();
+                    }
+                });
+    }
+    gotoFrame(it->frame);
+    play();
+    return true;
+}
+
+/*!
+    \qmlmethod bool LottieVectorImageController::gotoAndStop(string markerName)
+    \since 6.13
+
+    Moves the playback to the frame that has a marker with the given \a markerName and pauses it.
+    Returns \c true if the marker was found, \c false otherwise.
+*/
+bool QLottieVectorImageController::gotoAndStop(const QString &markerName)
+{
+    const auto it = std::find_if(
+            m_markers.cbegin(), m_markers.cend(),
+            [&markerName](const QLottieRoot::Marker &m) { return m.name == markerName; });
+    if (it == m_markers.cend())
+        return false;
+
+    gotoAndStop(it->frame);
+    return true;
+}
+
+void QLottieVectorImageController::clearMarkerPlayback()
+{
+    m_markerEndFrame = -1;
+    QObject::disconnect(m_markerEndConnection);
 }
 
 void QLottieVectorImageController::gotoFrame(qreal frame)

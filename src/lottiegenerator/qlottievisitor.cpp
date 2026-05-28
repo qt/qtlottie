@@ -62,6 +62,13 @@ void QLottieVisitor::render(const QLottieRoot &root)
     tlInfo.startFrame = root.startFrame();
     tlInfo.endFrame = root.endFrame();
     tlInfo.frameRate = m_frameRate;
+
+    for (const QLottieRoot::Marker &marker : root.markers()) {
+        const QString name = scrub(marker.name);
+        if (!name.isEmpty())
+            tlInfo.markers.append({ name, marker.frame, marker.duration });
+    }
+
     info.timelineInfo = tlInfo;
 
     m_generator->generateRootNode(info);

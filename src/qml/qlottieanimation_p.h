@@ -17,6 +17,7 @@
 //
 
 #include <QtLottie/qtlottieexports.h>
+#include <QtLottie/private/qlottieroot_p.h>
 
 #include <QtQuick/qquickpainteditem.h>
 
@@ -148,7 +149,7 @@ protected:
     int m_animFrameRate = 30;
     qreal m_animWidth = 0;
     qreal m_animHeight = 0;
-    QHash<QString, QPair<int, int>> m_markers;
+    QList<QLottieRoot::Marker> m_markers;
     QUrl m_source;
     QTimer *m_frameAdvance = nullptr;
 

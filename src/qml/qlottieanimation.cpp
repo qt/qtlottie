@@ -36,6 +36,7 @@
 #include <QtCore/qthread.h>
 #include <QtCore/qtimer.h>
 
+#include <algorithm>
 #include <math.h>
 
 using namespace Qt::StringLiterals;
@@ -342,6 +343,7 @@ int QLottieAnimation::currentFrame() const
 /*!
     \qmlproperty list<string> LottieAnimation::markers
     \readonly
+    \since 6.13
 
     Names of the markers defined in the Lottie animation file. The list
     is available after the animation has been loaded and ready to play.
@@ -353,7 +355,11 @@ int QLottieAnimation::currentFrame() const
 */
 QStringList QLottieAnimation::markers() const
 {
-    return m_markers.keys();
+    QStringList names;
+    names.reserve(m_markers.size());
+    for (const QLottieRoot::Marker &marker : m_markers)
+        names.append(marker.name);
+    return names;
 }
 
 QVersionNumber QLottieAnimation::version() const
@@ -528,6 +534,7 @@ void QLottieAnimation::gotoAndPlay(int frame)
 
 /*!
     \qmlmethod bool LottieAnimation::gotoAndPlay(string frameMarker)
+    \since 6.13
 
     Plays the asset from the frame that has a marker with the given \a frameMarker.
     If the marker has a non-zero duration, playback stops automatically at the end
@@ -536,11 +543,13 @@ void QLottieAnimation::gotoAndPlay(int frame)
 */
 bool QLottieAnimation::gotoAndPlay(const QString &frameMarker)
 {
-    if (!m_markers.contains(frameMarker))
+    const auto it = std::find_if(
+            m_markers.cbegin(), m_markers.cend(),
+            [&frameMarker](const QLottieRoot::Marker &m) { return m.name == frameMarker; });
+    if (it == m_markers.cend())
         return false;
-    const auto [frame, duration] = m_markers.value(frameMarker);
-    m_markerEndFrame = duration > 0 ? frame + duration : -1;
-    gotoAndPlay(frame);
+    m_markerEndFrame = it->duration > 0 ? it->frame + it->duration : -1;
+    gotoAndPlay(it->frame);
     return true;
 }
 
@@ -558,15 +567,19 @@ void QLottieAnimation::gotoAndStop(int frame)
 
 /*!
     \qmlmethod bool LottieAnimation::gotoAndStop(string frameMarker)
+    \since 6.13
 
     Moves the playhead to the given marker and stops.
     Returns \c true if \a frameMarker was found, \c false otherwise.
 */
 bool QLottieAnimation::gotoAndStop(const QString &frameMarker)
 {
-    if (!m_markers.contains(frameMarker))
+    const auto it = std::find_if(
+            m_markers.cbegin(), m_markers.cend(),
+            [&frameMarker](const QLottieRoot::Marker &m) { return m.name == frameMarker; });
+    if (it == m_markers.cend())
         return false;
-    gotoAndStop(m_markers.value(frameMarker).first);
+    gotoAndStop(it->frame);
     return true;
 }
 
@@ -800,7 +813,7 @@ int QLottieAnimation::parse(const QByteArray &jsonSource)
         QString marker = markerObj.value("cm"_L1).toString();
         int frame = qRound(markerObj.value("tm"_L1).toDouble());
         int duration = qRound(markerObj.value("dr"_L1).toDouble());
-        m_markers.insert(marker, {frame, duration});
+        m_markers.append({ marker, frame, duration });
         ++markerIt;
     }
     emit markersChanged();

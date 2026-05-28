@@ -40,6 +40,7 @@ QLottieRoot::QLottieRoot(const QLottieRoot &other)
     m_frameRate = other.m_frameRate;
     m_startFrame = other.m_startFrame;
     m_endFrame = other.m_endFrame;
+    m_markers = other.m_markers;
 }
 
 QLottieRoot::~QLottieRoot()
@@ -97,6 +98,17 @@ int QLottieRoot::parseSource(const QByteArray &jsonSource, const QUrl &fileSourc
     }
 
     m_size = QSize(rootObj.value("w"_L1).toInt(-1), rootObj.value("h"_L1).toInt(-1));
+
+    m_markers.clear();
+    const QJsonArray jsonMarkers = rootObj.value("markers"_L1).toArray();
+    for (const QJsonValue &markerVal : jsonMarkers) {
+        const QJsonObject markerObj = markerVal.toObject();
+        const QString name = markerObj.value("cm"_L1).toString();
+        if (!name.isEmpty()) {
+            m_markers.append({ name, qRound(markerObj.value("tm"_L1).toDouble()),
+                               qRound(markerObj.value("dr"_L1).toDouble()) });
+        }
+    }
 
     QJsonArray::const_iterator jsonAssetsIt = jsonAssets.constBegin();
     while (jsonAssetsIt != jsonAssets.constEnd()) {

@@ -138,6 +138,21 @@ ColumnLayout {
         }
 
         GroupBox {
+            title: "Markers"
+            enabled: vectorImg.controller.markers.length > 0 && vectorImg.status === VectorImage.Ready
+            contentItem: ComboBox {
+                id: markerCombo
+                model: vectorImg.controller.markers
+                onActivated: {
+                    if (playButton.checked)
+                        vectorImg.controller.gotoAndStop(currentText);
+                    else
+                        vectorImg.controller.gotoAndPlay(currentText);
+                }
+            }
+        }
+
+        GroupBox {
             title: "Status"
             contentItem: Label {
                 text: (vectorImg.status === VectorImage.Null) ? "Null" :

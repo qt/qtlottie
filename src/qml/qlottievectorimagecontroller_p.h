@@ -20,6 +20,7 @@
 #include <QtCore/qpointer.h>
 #include <QtQml/qqmlparserstatus.h>
 #include <QtLottie/qtlottieexports.h>
+#include <QtLottie/private/qlottieroot_p.h>
 #include <QtQuickVectorImage/private/qquickvectorimage_p.h>
 
 QT_BEGIN_NAMESPACE
@@ -36,6 +37,7 @@ class Q_LOTTIE_EXPORT QLottieVectorImageController : public QObject, public QQml
     Q_PROPERTY(qreal startFrame READ startFrame NOTIFY startFrameChanged FINAL)
     Q_PROPERTY(qreal endFrame READ endFrame NOTIFY endFrameChanged FINAL)
     Q_PROPERTY(qreal currentFrame READ currentFrame NOTIFY currentFrameChanged FINAL)
+    Q_PROPERTY(QStringList markers READ markers NOTIFY markersChanged FINAL REVISION(6, 13))
 
 public:
     QLottieVectorImageController(QObject *parent = nullptr);
@@ -52,6 +54,7 @@ public:
     qreal startFrame() const;
     qreal endFrame() const;
     qreal currentFrame() const;
+    QStringList markers() const;
 
     Q_INVOKABLE void play();
     Q_INVOKABLE void pause();
@@ -59,7 +62,9 @@ public:
     Q_INVOKABLE void start();
     Q_INVOKABLE void stop();
     Q_INVOKABLE void gotoAndPlay(qreal frame);
+    Q_REVISION(6, 13) Q_INVOKABLE bool gotoAndPlay(const QString &markerName);
     Q_INVOKABLE void gotoAndStop(qreal frame);
+    Q_REVISION(6, 13) Q_INVOKABLE bool gotoAndStop(const QString &markerName);
 
 signals:
     void targetChanged();
@@ -67,13 +72,19 @@ signals:
     void startFrameChanged();
     void endFrameChanged();
     void currentFrameChanged();
+    Q_REVISION(6, 13) void markersChanged();
+    Q_REVISION(6, 13) void finished();
 
 private:
     void gotoFrame(qreal frame);
     void onGeneratedItemChanged();
+    void clearMarkerPlayback();
     QPointer<QQuickVectorImage> m_target;
     QPointer<QQuickItem> m_generatedItem;
+    QList<QLottieRoot::Marker> m_markers;
     qreal m_animFrameRate = 30;
+    qreal m_markerEndFrame = -1;
+    QMetaObject::Connection m_markerEndConnection;
 };
 
 QT_END_NAMESPACE
