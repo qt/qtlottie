@@ -34,25 +34,23 @@ qt_internal_add_test(tst_vectorimage
 file(GLOB_RECURSE test_data_glob_lottie_original
     RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../baseline/data/original/*)
-list(APPEND lottie_data ${test_data_glob_lottie_original})
 
 qt_add_resources(tst_vectorimage lottieoriginal
     PREFIX /json
     BASE ${CMAKE_CURRENT_SOURCE_DIR}/../../../baseline/data/original/
     FILES
-        ${lottie_data}
+        ${test_data_glob_lottie_original}
 )
 
 file(GLOB_RECURSE test_data_glob_lottie_docsamples
     RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../baseline/data/docsamples/*)
-list(APPEND lottie_data ${test_data_glob_lottie_docsamples})
 
 qt_add_resources(tst_vectorimage lottiedocsamples
     PREFIX /json
     BASE ${CMAKE_CURRENT_SOURCE_DIR}/../../../baseline/data/docsamples/
     FILES
-        ${lottie_data}
+        ${test_data_glob_lottie_docsamples}
 )
 
 qt_internal_extend_target(tst_vectorimage CONDITION ANDROID OR IOS
