@@ -51,6 +51,8 @@ public:
         QPen stroke = QPen(Qt::NoPen);
         QQuickAnimatedProperty::PropertyAnimation strokeColorAnimation;
         QQuickAnimatedProperty::PropertyAnimation strokeOpacityAnimation;
+        QQuickAnimatedProperty::PropertyAnimation strokeWidthAnimation;
+        QQuickAnimatedProperty::PropertyAnimation strokeDashOffsetAnimation;
         qreal opacity = 1.0;
         Qt::FillRule fillRule = Qt::WindingFill;
         QPainterPath unitedPath;
