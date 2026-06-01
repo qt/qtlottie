@@ -20,9 +20,10 @@ QLottieStroke::QLottieStroke(const QLottieStroke &other)
     m_joinStyle = other.m_joinStyle;
     m_miterLimit = other.m_miterLimit;
     m_dashOffset = other.m_dashOffset;
-    m_dashLength = other.m_dashLength;
-    m_dashGap = other.m_dashGap;
+    m_dashPattern = other.m_dashPattern;
+    m_currentDashPattern = other.m_currentDashPattern;
     m_isDashed = other.m_isDashed;
+    m_isDashPatternAnimated = other.m_isDashPatternAnimated;
 }
 
 QLottieStroke::QLottieStroke(QLottieBase *parent)
@@ -42,8 +43,11 @@ void QLottieStroke::updateProperties(int frame)
     m_color.update(frame);
     if (m_isDashed) {
         m_dashOffset.update(frame);
-        m_dashLength.update(frame);
-        m_dashGap.update(frame);
+        if (m_isDashPatternAnimated) {
+            for (auto &element : m_dashPattern)
+                element.update(frame);
+            updateDashPattern();
+        }
     }
 }
 
@@ -108,22 +112,29 @@ int QLottieStroke::parse(const QJsonObject &definition)
         m_color.construct(color);
     }
 
-    QJsonArray dashes = definition.value("d"_L1).toArray();
+    const QJsonArray dashes = definition.value("d"_L1).toArray();
     if (dashes.size()) {
-        auto it = dashes.cend();
-        while (it != dashes.cbegin()) {
-            --it;
-            QJsonObject dashSpec = it->toObject();
+        for (const auto &element : dashes) {
+            QJsonObject dashSpec = element.toObject();
             QJsonObject val = resolveExpression(dashSpec.value("v"_L1).toObject());
             QString n = dashSpec.value("n"_L1).toString();
-            if (n == "o"_L1)
+
+            if (n == "o"_L1) {
                 m_dashOffset.construct(val);
-            else if (n == "g"_L1)
-                m_dashGap.construct(val);
-            else if (n == "d"_L1)
-                m_dashLength.construct(val);
+            } else if (n == "d"_L1 || n == "g"_L1) {
+                auto &newElement = m_dashPattern.emplaceBack();
+                newElement.construct(val);
+                if (newElement.isAnimated())
+                    m_isDashPatternAnimated = true;
+            }
         }
-        m_isDashed = true;
+
+        if (m_dashPattern.size() > 0) {
+            m_isDashed = true;
+            if (m_width.isAnimated())
+                m_isDashPatternAnimated = true;
+            updateDashPattern();
+        }
     }
 
     return 0;
@@ -132,7 +143,7 @@ int QLottieStroke::parse(const QJsonObject &definition)
 QPen QLottieStroke::pen() const
 {
     qreal width = m_width.value();
-    if (qFuzzyIsNull(width))
+    if (qFuzzyIsNull(width) && !m_width.isAnimated())
         return QPen(Qt::NoPen);
     QPen pen;
     pen.setColor(getColor());
@@ -142,7 +153,7 @@ QPen QLottieStroke::pen() const
     pen.setMiterLimit(m_miterLimit);
     if (m_isDashed) {
         pen.setDashOffset(m_dashOffset.value() / width);
-        pen.setDashPattern({m_dashLength.value() / width, m_dashGap.value() / width});
+        pen.setDashPattern(m_currentDashPattern);
     }
     return pen;
 }
@@ -162,6 +173,24 @@ QColor QLottieStroke::getColor() const
 qreal QLottieStroke::opacity() const
 {
     return m_opacity.value();
+}
+
+void QLottieStroke::updateDashPattern()
+{
+    m_currentDashPattern.clear();
+    const qreal strokeWidth = m_width.value();
+    if (qFuzzyIsNull(strokeWidth))
+        return;
+    bool isDash = true;
+    for (const auto &element : std::as_const(m_dashPattern)) {
+        qreal elementLength = element.value();
+        if (isDash && (m_capStyle != Qt::FlatCap) && (elementLength == 0))
+            elementLength = qreal(0.01); // pseudo 0-length line, to render line caps
+        m_currentDashPattern.append(elementLength / strokeWidth);
+        isDash = !isDash;
+    }
+    if (m_currentDashPattern.size() % 2)
+        m_currentDashPattern.append(m_currentDashPattern);
 }
 
 QT_END_NAMESPACE

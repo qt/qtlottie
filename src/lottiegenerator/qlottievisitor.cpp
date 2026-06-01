@@ -532,6 +532,8 @@ void QLottieVisitor::render(const QLottieStroke &stroke)
 
     m_currentPaintInfo.strokeColorAnimation = makeColorAnimation(stroke.colorProperty());
     m_currentPaintInfo.strokeOpacityAnimation = makeScalarAnimation(stroke.opacityProperty(), qreal(1) / 100);
+    m_currentPaintInfo.strokeWidthAnimation = makeScalarAnimation(stroke.widthProperty());
+    m_currentPaintInfo.strokeDashOffsetAnimation = makeScalarAnimation(stroke.dashOffsetProperty(), qreal(1) / pen.widthF());
 }
 
 void QLottieVisitor::render(const QLottieBasicTransform &transform)
@@ -1075,11 +1077,16 @@ void QLottieVisitor::processShape(const QLottieShape *shape, const QPainterPath 
 
     if (m_currentPaintInfo.stroke.style() != Qt::NoPen) {
         pathInfo.strokeStyle = StrokeStyle::fromPen(m_currentPaintInfo.stroke);
+        pathInfo.strokeStyle.cosmetic = false;
         pathInfo.strokeStyle.color.setDefaultValue(QVariant::fromValue(m_currentPaintInfo.stroke.color()));
         if (!m_currentPaintInfo.strokeColorAnimation.isConstant())
             pathInfo.strokeStyle.color.addAnimation(m_currentPaintInfo.strokeColorAnimation);
         if (!m_currentPaintInfo.strokeOpacityAnimation.isConstant())
             pathInfo.strokeStyle.opacity.addAnimation(m_currentPaintInfo.strokeOpacityAnimation);
+        if (!m_currentPaintInfo.strokeWidthAnimation.isConstant())
+            pathInfo.strokeStyle.width.addAnimation(m_currentPaintInfo.strokeWidthAnimation);
+        if (!m_currentPaintInfo.strokeDashOffsetAnimation.isConstant())
+            pathInfo.strokeStyle.dashOffset.addAnimation(m_currentPaintInfo.strokeDashOffsetAnimation);
         if (m_currentPaintInfo.stroke.brush().gradient() != nullptr)
             pathInfo.strokeGrad = *m_currentPaintInfo.stroke.brush().gradient();
     }
@@ -1096,6 +1103,8 @@ void QLottieVisitor::processShape(const QLottieShape *shape, const QPainterPath 
     pathInfo.fillOpacity.setTimelineReferenceId(m_currentFrameCounterIds.top());
     pathInfo.strokeStyle.color.setTimelineReferenceId(m_currentFrameCounterIds.top());
     pathInfo.strokeStyle.opacity.setTimelineReferenceId(m_currentFrameCounterIds.top());
+    pathInfo.strokeStyle.width.setTimelineReferenceId(m_currentFrameCounterIds.top());
+    pathInfo.strokeStyle.dashOffset.setTimelineReferenceId(m_currentFrameCounterIds.top());
     m_generator->generatePath(pathInfo);
 
     if (m_currentStructElements.isEmpty()) {

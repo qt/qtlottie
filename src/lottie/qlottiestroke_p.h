@@ -41,11 +41,14 @@ public:
 
     QLottieProperty4D<QVector4D> colorProperty() const { return m_color; }
     QLottieProperty<qreal> opacityProperty() const { return m_opacity; }
+    QLottieProperty<qreal> widthProperty() const { return m_width; }
+    QLottieProperty<qreal> dashOffsetProperty() const { return m_dashOffset; }
 
 protected:
     QColor getColor() const;
 
 protected:
+    void updateDashPattern();
     QLottieProperty<qreal> m_opacity;
     QLottieProperty<qreal> m_width;
     QLottieProperty4D<QVector4D> m_color;
@@ -53,9 +56,10 @@ protected:
     Qt::PenJoinStyle m_joinStyle;
     qreal m_miterLimit = 0;
     QLottieProperty<qreal> m_dashOffset;
-    QLottieProperty<qreal> m_dashLength;
-    QLottieProperty<qreal> m_dashGap;
+    QList<QLottieProperty<qreal>> m_dashPattern;
+    QList<qreal> m_currentDashPattern;
     bool m_isDashed = false;
+    bool m_isDashPatternAnimated = false;
 };
 
 QT_END_NAMESPACE
