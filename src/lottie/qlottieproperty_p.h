@@ -164,7 +164,7 @@ protected:
         m_easingCurves.push_back(easing);
     }
 
-    const EasingSegment<T>* getEasingSegment(int frame)
+    const EasingSegment<T> *getEasingSegment(int frame, int *index = nullptr)
     {
         // TODO: Improve with a faster search algorithm
         const EasingSegment<T> *easing = m_currentEasing;
@@ -174,6 +174,8 @@ protected:
                 if (m_easingCurves.at(i).startFrame <= frame &&
                         m_easingCurves.at(i).endFrame >= frame) {
                     m_currentEasing = &m_easingCurves.at(i);
+                    if (index)
+                        *index = i;
                     break;
                 }
             }
