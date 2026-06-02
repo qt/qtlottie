@@ -14,3 +14,7 @@ qt_internal_add_module(LottieVectorImageGeneratorPrivate
         Qt::LottieVectorImageHelpers
         Qt::QuickTimeline
 )
+
+if(ANDROID)
+    qt_internal_force_export_module_dependency(LottieVectorImageGeneratorPrivate)
+endif()
