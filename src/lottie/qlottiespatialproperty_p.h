@@ -29,7 +29,6 @@ public:
     virtual void construct(const QJsonObject &definition) override
     {
         qCDebug(lcLottieQtLottieParser) << "QLottieSpatialProperty::parse()";
-        m_bezierPath.setCachingEnabled(true);
         QLottieProperty2D<QPointF>::construct(definition);
     }
 
@@ -150,12 +149,25 @@ public:
             return false;
 
         int adjustedFrame = qBound(m_startFrame, frame, m_endFrame);
-        if (const EasingSegment<QPointF> *easing = getEasingSegment(adjustedFrame)) {
-            qreal progress = ((adjustedFrame - m_startFrame) * 1.0) / (m_endFrame - m_startFrame);
-            qreal easedValue = easing->valueForProgress(progress);
-            m_value = m_bezierPath.pointAtPercent(easedValue);
+        int index = -1;
+        if (const EasingSegment<QPointF> *easing = getEasingSegment(adjustedFrame, &index)) {
+            if (easing->endFrame == easing->startFrame) { // Last, special keyframe
+                m_value = easing->startValue;
+            } else if (adjustedFrame == easing->startFrame) {
+                m_value = easing->startValue;
+            } else if (adjustedFrame == easing->endFrame) {
+                m_value = easing->endValue;
+            } else {
+                const qreal progress = qreal(adjustedFrame - easing->startFrame)
+                                       / (easing->endFrame - easing->startFrame);
+                const qreal easedProgress = easing->valueForProgress(progress);
+                const QPainterPath subPath = m_subPaths.value(index);
+                if (subPath.elementCount() == 2) // I.e. a lineto; do simple linear calculation
+                    m_value = easing->startValue + easedProgress * (easing->endValue - easing->startValue);
+                else
+                    m_value = subPath.pointAtPercent(easedProgress);
+            }
         }
-
         return true;
     }
 
@@ -179,23 +191,20 @@ public:
 private:
     void moveTo(const QPointF &e)
     {
-        m_bezierPath.moveTo(e);
+        m_subPaths.last().setCachingEnabled(true);
         m_subPaths.last().moveTo(e);
     }
 
     void lineTo(const QPointF &e)
     {
-        m_bezierPath.lineTo(e);
         m_subPaths.last().lineTo(e);
     }
 
     void cubicTo(const QPointF &c1, const QPointF &c2, const QPointF &e)
     {
-        m_bezierPath.cubicTo(c1, c2, e);
         m_subPaths.last().cubicTo(c1, c2, e);
     }
 
-    QPainterPath m_bezierPath;
     QList<QPainterPath> m_subPaths;
 };
 
