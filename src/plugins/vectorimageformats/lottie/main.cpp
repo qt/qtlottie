@@ -16,10 +16,10 @@ QT_BEGIN_NAMESPACE
 class QLottieVectorImagePluginGenerator : public QQuickVectorImagePluginGenerator
 {
 public:
-    bool generate(const QString &fileName, QQuickItemGenerator *generator) override;
+    bool generate(const QString &fileName, QQuickGenerator *generator) override;
 };
 
-bool QLottieVectorImagePluginGenerator::generate(const QString &fileName, QQuickItemGenerator *generator)
+bool QLottieVectorImagePluginGenerator::generate(const QString &fileName, QQuickGenerator *generator)
 {
     QFile f(fileName);
     QLottieRoot root;
