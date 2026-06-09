@@ -50,7 +50,7 @@ public:
     QSizeF size() const;
 
     bool isAnimated() const override;
-    QPainterPath fallbackPath() const;
+    QPainterPath fallbackPath() const override;
     const QLottieProperty2D<QSizeF> &sizeProperty() const { return m_size; }
     const QLottieSpatialProperty &positionProperty() const { return m_position; }
 

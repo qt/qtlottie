@@ -58,7 +58,7 @@ public:
     const QLottieProperty<qreal> &outerRadiusProperty() const { return m_outerRadius; }
     const QLottieProperty<qreal> &innerRadiusProperty() const { return m_innerRadius; }
     const QLottieSpatialProperty &positionProperty() const { return m_position; }
-    QPainterPath fallbackPath() const;
+    QPainterPath fallbackPath() const override;
 
 private:
     void buildPath();

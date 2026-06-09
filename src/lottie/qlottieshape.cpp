@@ -246,6 +246,11 @@ const QLottieTrimPath *QLottieShape::currentTrim() const
     return m_appliedTrim.data();
 }
 
+QPainterPath QLottieShape::fallbackPath() const
+{
+    return { };
+}
+
 int QLottieShape::direction() const
 {
     return m_direction;
