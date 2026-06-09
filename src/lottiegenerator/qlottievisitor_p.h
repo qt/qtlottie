@@ -54,8 +54,8 @@ public:
         QQuickAnimatedProperty::PropertyAnimation strokeWidthAnimation;
         QQuickAnimatedProperty::PropertyAnimation strokeDashOffsetAnimation;
         qreal opacity = 1.0;
+        QQuickAnimatedProperty path = QQuickAnimatedProperty(QVariant::fromValue(QPainterPath{ }));
         Qt::FillRule fillRule = Qt::WindingFill;
-        QPainterPath unitedPath;
         PathTrimInfo trim;
 
         QTransform transform;
@@ -111,14 +111,15 @@ public:
     void fillCommonNodeInfo(const QLottieBase *node, NodeInfo *info, const QString &suffix = QString{});
     void fillAnimationNodeInfo(const QLottieBase *node, NodeInfo *info);
     void fillBasicPathInfo(const QLottieShape *strokeOrFill, PathNodeInfo *pathInfo);
-    void fillPathAnimationInfo(const QLottieShape *shape, PathNodeInfo *info);
+    void fillPathAnimationInfo(const QList<QLottieBase *> &pathElements);
 
 private:
     static bool nodeIsGraphicElement(const QLottieBase *node);
     static bool nodeIsShape(const QLottieBase *node);
     static bool hasAnimations(const QLottieBasicTransform *transform, bool isShapeTransform = false);
-    void processPath(const QLottieShape *shape, const QPainterPath &path);
-    void processShape(const QLottieShape *shape, const QPainterPath &path);
+    void renderPathElements_helper(const QList<QLottieBase *> &pathElements);
+    void setPathNodeStaticPath(const QPainterPath &path);
+    void generatePathNode(const QLottieShape *shape);
     void collectTransformAnimations(const QLottieBasicTransform *transform,
                                     bool isShapeTransform = false,
                                     bool autoOrient = false);
