@@ -107,13 +107,13 @@ bool QLottieGradientHolder<T>::parseGradientProperties(const QJsonObject &defini
 
     QJsonObject color = definition.value("g"_L1).toObject();
     if (!T::checkRequiredKeys(color, "Gradient"_L1, { "p"_L1, "k"_L1 }, T::m_name))
-        return -1;
+        return false;
 
     int elementCount = color.value("p"_L1).toInt();
     QJsonObject stops = color.value("k"_L1).toObject();
     bool isAnimated = stops.value("a"_L1).toVariant().toBool();
     if (!T::checkRequiredKeys(stops, "Gradient"_L1, { "a"_L1, "k"_L1 }, T::m_name))
-        return -1;
+        return false;
 
     if (!isAnimated) {
         QMap<qreal, QVector4D> colorStops;
