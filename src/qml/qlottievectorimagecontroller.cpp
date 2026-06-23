@@ -143,7 +143,7 @@ void QLottieVectorImageController::setFrameRate(qreal newFrameRate)
         const qreal currentFrame = item->property("frameCounter").toReal();
         item->setProperty("frameRate", QVariant(newFrameRate));
         auto *anim = item->findChild<QQuickNumberAnimation *>("_qt_frameCounterAnimation", Qt::FindDirectChildrenOnly);
-        if (anim) {
+        if (anim && m_target) {
             // Force the NumberAnimation to change speed now, then restore pause state & frame
             anim->restart();
             anim->setPaused(m_target->animations()->paused());
@@ -227,7 +227,7 @@ void QLottieVectorImageController::togglePause()
 }
 
 /*!
-    \qmlmethod void LottieVectorImageController::play()
+    \qmlmethod void LottieVectorImageController::start()
 
     Restarts the playback from the startFrame.
 */
@@ -274,14 +274,17 @@ void QLottieVectorImageController::gotoAndStop(qreal frame)
 
 void QLottieVectorImageController::gotoFrame(qreal frame)
 {
-    QQuickItem *item = m_target ? m_target->generatedItem() : nullptr;
-    if (item) {
-        auto *anim = item->findChild<QQuickNumberAnimation *>("_qt_frameCounterAnimation", Qt::FindDirectChildrenOnly);
+    if (m_generatedItem) {
+        auto *anim = m_generatedItem->findChild<QQuickNumberAnimation *>("_qt_frameCounterAnimation",
+                                                                         Qt::FindDirectChildrenOnly);
         if (anim) {
             const qreal from = anim->from();
             const qreal to = anim->to();
-            const qreal progress = qBound(qreal(0), (frame - from) / (to - from), qreal(1));
-            anim->setCurrentTime(qRound(progress * anim->duration()));
+            const qreal rawProgress = (frame - from) / (to - from);
+            if (qIsFinite(rawProgress)) {
+                const qreal progress = qBound(qreal(0), rawProgress, qreal(1));
+                anim->setCurrentTime(qRound(progress * anim->duration()));
+            }
         }
     }
 }
