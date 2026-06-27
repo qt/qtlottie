@@ -45,6 +45,7 @@ void QLottieRasterRenderer::saveState()
     saveTrimmingState();
     m_pathStack.push_back(m_unitedPath);
     m_fillEffectStack.push_back(m_fillEffect);
+    m_inverseFillTransformStack.push(m_inverseFillTransform);
     m_unitedPath.clear();
 }
 
@@ -57,6 +58,7 @@ void QLottieRasterRenderer::restoreState()
     m_renderPath.setFillRule(m_unitedPath.fillRule());
     m_clipPath.setFillRule(m_unitedPath.fillRule());
     m_fillEffect = m_fillEffectStack.pop();
+    m_inverseFillTransform = m_inverseFillTransformStack.pop();
 }
 
 void QLottieRasterRenderer::render(const QLottiePrecomposition &precomp)
@@ -180,6 +182,8 @@ void QLottieRasterRenderer::render(const QLottieGFill &gradient)
     if (m_fillEffect)
         return;
 
+    m_inverseFillTransform = QTransform();
+
     if (gradient.value())
         m_painter->setBrush(*gradient.value());
     else
@@ -225,6 +229,9 @@ void QLottieRasterRenderer::render(const QLottieShapeTransform &transform)
     applyTransform(&t, transform, true);
     m_painter->setTransform(t);
     m_painter->setOpacity(m_painter->opacity() * transform.opacity());
+
+    if (m_painter->brush().gradient())
+        applyTransform(&m_inverseFillTransform, transform, true);
 
     qCDebug(lcLottieQtLottieRender) << transform.name()
                                    << m_painter->transform()
@@ -321,7 +328,22 @@ void QLottieRasterRenderer::renderPathElements(const QList<QLottieBase *> &pathE
             tp.addPath(m_clipPath);
             m_clipPath = tp;
         } else {
-            m_painter->drawPath(m_renderPath);
+            if (!m_inverseFillTransform.isIdentity() && m_painter->brush().gradient()) {
+                bool fill_ok = false;
+                const QTransform fillTransform = m_inverseFillTransform.inverted(&fill_ok);
+                if (fill_ok) {
+                    QBrush adjustedBrush = m_painter->brush();
+                    adjustedBrush.setTransform(fillTransform);
+                    m_painter->save();
+                    m_painter->setBrush(adjustedBrush);
+                    m_painter->drawPath(m_renderPath);
+                    m_painter->restore();
+                } else {
+                    m_painter->drawPath(m_renderPath);
+                }
+            } else {
+                m_painter->drawPath(m_renderPath);
+            }
         }
     }
 
