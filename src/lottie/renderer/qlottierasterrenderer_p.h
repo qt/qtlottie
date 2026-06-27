@@ -70,6 +70,8 @@ protected:
     qreal m_repeatOffset = 0.0;
     bool m_buildingClipRegion = false;
     QPainterPath m_clipPath;
+    QTransform m_inverseFillTransform;
+    QStack<QTransform> m_inverseFillTransformStack;
 
 private:
     void applyRepeaterTransform(int instance);
