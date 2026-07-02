@@ -6,7 +6,7 @@
 \ingroup cmake-commands-qtlottie
 
 \title qt_target_qml_from_lottie
-\keyword qt6_target_qml_from_lottie
+\keyword qt_target_qml_from_lottie()
 
 \summary {Generates QML code based on a Lottie file.}
 
@@ -49,7 +49,7 @@ of this list must be the same as \c FILES, and the first element corresponds to 
 appear in the module. These can in turn be instantiated in the application code.
 
 The generated QML files will be added to the QML module of \c{target}. You must use
-\l{qt_add_qml_module()} to define a module for the \c{target} first.
+\l qt_add_qml_module() to define a module for the \c{target} first.
 
 Optionally, a \c COPYRIGHT_STATEMENT argument can be provided to insert copyright information
 into the generated files.
