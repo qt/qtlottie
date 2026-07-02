@@ -36,7 +36,7 @@
     \snippet lottietoqml/CMakeLists.txt lottietoqml
 
     In this example, the Lottie files are automatically converted to QML using the
-    CMake function \l{qt_target_qml_from_lottie}{qt_target_qml_from_lottie()}.
+    CMake function \l qt_target_qml_from_lottie().
 
     \section1 Assets
 
