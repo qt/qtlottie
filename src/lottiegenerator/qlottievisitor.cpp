@@ -816,10 +816,13 @@ void QLottieVisitor::polishPropertyAnimation(QQuickAnimatedProperty::PropertyAni
 
 bool QLottieVisitor::hasAnimations(const QLottieBasicTransform *transform, bool isShapeTransform)
 {
-    bool hasAnimations = transform->rotationProperty().startFrame() < transform->rotationProperty().endFrame()
-                         || transform->positionProperty().startFrame() < transform->positionProperty().endFrame()
-                         || transform->scaleProperty().startFrame() < transform->scaleProperty().endFrame()
-                         || transform->opacityProperty().startFrame() < transform->opacityProperty().endFrame();
+    bool hasAnimations =
+            transform->rotationProperty().startFrame() < transform->rotationProperty().endFrame()
+            || transform->positionProperty().startFrame() < transform->positionProperty().endFrame()
+            || transform->scaleProperty().startFrame() < transform->scaleProperty().endFrame()
+            || transform->opacityProperty().startFrame() < transform->opacityProperty().endFrame()
+            || transform->anchorPointProperty().startFrame()
+                    < transform->anchorPointProperty().endFrame();
 
     if (transform->splitPosition() && !hasAnimations) {
         hasAnimations = transform->xPosProperty().startFrame() < transform->xPosProperty().endFrame()
