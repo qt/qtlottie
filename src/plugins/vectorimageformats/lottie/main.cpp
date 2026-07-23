@@ -4,6 +4,7 @@
 
 #include <QtQuickVectorImageGenerator/private/qquickvectorimageplugin_p.h>
 #include <QtLottieVectorImageGenerator/private/qlottievisitor_p.h>
+#include <QtLottieVectorImageGenerator/private/qlottieanimationbuilder_p.h>
 #include <QtLottie/private/qlottieroot_p.h>
 #include <QtLottie/private/qlottieprecomposition_p.h>
 #include <QtCore/qfile.h>
@@ -11,6 +12,8 @@
 #include <QtCore/qscopeguard.h>
 
 #include <QtQuick/private/qquickanimation_p.h>
+
+#include <memory>
 
 QT_BEGIN_NAMESPACE
 
@@ -46,6 +49,7 @@ bool QLottieVectorImagePluginGenerator::generate(QQuickGenerator *generator)
             generator->addExtraImport(QStringLiteral("Qt.labs.lottieqt.VectorImageHelpers"));
             generator->setGeneratorFlags(
                 generator->generatorFlags().setFlag(QQuickVectorImageGenerator::TimelineAnimation));
+            generator->setAnimationProvider(std::make_unique<LottieAnimationBuilder>());
             QLottieVisitor visitor(generator);
             visitor.render(root);
 

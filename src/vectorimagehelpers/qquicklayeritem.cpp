@@ -19,7 +19,7 @@ QT_BEGIN_NAMESPACE
     \l VectorImage and related tools.
 */
 QQuickLayerItem::QQuickLayerItem(QQuickItem *parent)
-    : QQuickItem(parent)
+    : QQuickTransformSource(parent)
 {
 }
 

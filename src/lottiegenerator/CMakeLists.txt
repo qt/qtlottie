@@ -4,6 +4,7 @@
 qt_internal_add_module(LottieVectorImageGeneratorPrivate
     INTERNAL_MODULE
     SOURCES
+        qlottieanimationbuilder_p.h qlottieanimationbuilder.cpp
         qlottievisitor_p.h qlottievisitor.cpp
     LIBRARIES
         Qt::Core
@@ -12,7 +13,9 @@ qt_internal_add_module(LottieVectorImageGeneratorPrivate
         Qt::QuickVectorImageGeneratorPrivate
         Qt::LottiePrivate
         Qt::LottieVectorImageHelpers
+        Qt::LottieVectorImageHelpersPrivate
         Qt::QuickTimeline
+        Qt::QuickTimelinePrivate
 )
 
 if(ANDROID)

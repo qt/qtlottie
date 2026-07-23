@@ -9,4 +9,5 @@ qt_internal_add_qml_module(LottieVectorImageHelpers
         qquicklayeritem_p.h qquicklayeritem.cpp
     LIBRARIES
         Qt::QuickPrivate
+        Qt::QuickVectorImageGeneratorPrivate
 )

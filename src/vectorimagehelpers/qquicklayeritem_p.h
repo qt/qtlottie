@@ -18,11 +18,12 @@
 
 #include <QtGui/qmatrix4x4.h>
 #include <QtQuick/qquickitem.h>
+#include <QtQuickVectorImageGenerator/private/qquicktransformsource_p.h>
 #include <QtLottieVectorImageHelpers/qtlottievectorimagehelpersexports.h>
 
 QT_BEGIN_NAMESPACE
 
-class Q_LOTTIEVECTORIMAGEHELPERS_EXPORT QQuickLayerItem : public QQuickItem
+class Q_LOTTIEVECTORIMAGEHELPERS_EXPORT QQuickLayerItem : public QQuickTransformSource
 {
     Q_OBJECT
     Q_PROPERTY(QMatrix4x4 transformMatrix READ transformMatrix NOTIFY transformMatrixChanged)
@@ -32,7 +33,7 @@ class Q_LOTTIEVECTORIMAGEHELPERS_EXPORT QQuickLayerItem : public QQuickItem
 
 public:
     QQuickLayerItem(QQuickItem *parent = nullptr);
-    QMatrix4x4 transformMatrix();
+    QMatrix4x4 transformMatrix() override;
 
 protected:
     void itemChange(ItemChange change, const ItemChangeData &) override;
@@ -40,9 +41,6 @@ protected:
 private:
     bool m_transformDirty = true;
     QMatrix4x4 m_transform;
-
-signals:
-    void transformMatrixChanged();
 };
 
 QT_END_NAMESPACE
