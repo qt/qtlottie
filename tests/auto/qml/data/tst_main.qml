@@ -62,5 +62,10 @@ Item {
             bmAnim.source = ""
             compare(bmAnim.status, 0)
         }
+
+        function test_7_rejectsEndFrameBeforeStartFrame() {
+            bmAnim.source = "qrc:/data/end_before_start.json" /* "op" (0) is before "ip" (100) */
+            compare(bmAnim.status, 3)      /* status: Null(0), Loading(1), Ready(2), Error(3) */
+        }
     }
 }

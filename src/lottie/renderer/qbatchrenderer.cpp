@@ -175,7 +175,13 @@ QLottieRoot *QBatchRenderer::getFrame(QLottieAnimation *animator, int frameNumbe
 
 void QBatchRenderer::prerender(Entry *animEntry)
 {
+    const int maxDistinctFrames = qMax(1, animEntry->endFrame - animEntry->startFrame + 1);
+    int iterations = 0;
+
     while (animEntry->frameCache.size() < m_cacheSize) {
+        if (++iterations > maxDistinctFrames)
+            break;
+
         if (m_lastRenderedFrame == animEntry->currentFrame)
             animEntry->currentFrame += animEntry->animDir;
 
