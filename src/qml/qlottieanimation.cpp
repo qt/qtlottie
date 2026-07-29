@@ -787,6 +787,12 @@ int QLottieAnimation::parse(const QByteArray &jsonSource)
         endFrame = rootObj.value("op"_L1).toVariant().toInt();
     }
 
+    if (endFrame < startFrame) {
+        qCWarning(lcLottieQtLottieParser)
+                << "Out point \"op\" must not be less than in point \"ip\"";
+        return -1;
+    }
+
     if (!rootObj.contains("fr"_L1)) {
         qCWarning(lcLottieQtLottieParser) << "Required key \"fr\" for framerate is missing";
         return -1;

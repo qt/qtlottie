@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>data/rec_pos_col_opa.json</file>
+        <file>data/end_before_start.json</file>
         <file>data/tst_main.qml</file>
     </qresource>
 </RCC>
