@@ -47,7 +47,6 @@ QT_BEGIN_NAMESPACE
     \qmltype LottieAnimation
     \inqmlmodule Qt.labs.lottieqt
     \since 5.13
-    \inherits PaintedItem
     \brief A Lottie player for Qt.
 
     The LottieAnimation type shows Lottie format files.
