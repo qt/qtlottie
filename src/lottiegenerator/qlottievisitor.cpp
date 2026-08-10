@@ -980,6 +980,8 @@ void QLottieVisitor::fillPathAnimationInfo(const QList<QLottieBase *> &pathEleme
         }
         pa.frames[frame] = QVariant::fromValue(path);
     }
+    qDeleteAll(elementCopies);
+    elementCopies.clear();
 
     if (keyFrameNumbers.size() == firstAnimNumbers.size()) {
         // I.e. identical timepoints, so we can use the first anim's easings to the combined path
