@@ -223,7 +223,8 @@ void QLottieLayer::updateProperties(int frame)
             effect->updateProperties(adjFrame);
     }
 
-    m_layerTransform->updateProperties(adjFrame);
+    if (m_layerTransform)
+        m_layerTransform->updateProperties(adjFrame);
 
     QLottieBase::updateProperties(adjFrame);
 }
