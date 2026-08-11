@@ -48,8 +48,8 @@ protected:
     QLottieProperty<qreal> m_opacity;
     QLottieProperty<qreal> m_width;
     QLottieProperty4D<QVector4D> m_color;
-    Qt::PenCapStyle m_capStyle;
-    Qt::PenJoinStyle m_joinStyle;
+    Qt::PenCapStyle m_capStyle = Qt::SquareCap;
+    Qt::PenJoinStyle m_joinStyle = Qt::BevelJoin;
     qreal m_miterLimit = 0;
     QLottieProperty<qreal> m_dashOffset;
     QLottieProperty<qreal> m_dashLength;
