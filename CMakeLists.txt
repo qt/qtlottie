@@ -19,10 +19,15 @@ qt_internal_project_setup()
 
 find_package(Qt6 ${PROJECT_VERSION} CONFIG REQUIRED COMPONENTS Core)
 find_package(Qt6 ${PROJECT_VERSION} QUIET CONFIG OPTIONAL_COMPONENTS Gui Qml Quick QuickTest QuickTestUtilsPrivate
-QuickVectorImageGeneratorPrivate QuickControls2 QuickTimeline)
+QuickVectorImageGeneratorPrivate QuickVectorImagePrivate QuickControls2 QuickTimeline)
 
 if(NOT TARGET Qt6::Gui)
     message(NOTICE "Skipping the build as Qt6::Gui cannot be found.")
+    return()
+endif()
+
+if(NOT TARGET Qt6::QuickVectorImagePrivate)
+    message(NOTICE "Skipping the build as Qt6::QuickVectorImagePrivate cannot be found.")
     return()
 endif()
 
