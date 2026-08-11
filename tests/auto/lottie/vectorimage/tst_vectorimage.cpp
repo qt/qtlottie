@@ -9,6 +9,7 @@
 #include <QtQml/qqmlengine.h>
 #include <QtQml/qqmlcomponent.h>
 #include <QtQuick/qquickitem.h>
+#include <QtQuick/qquickwindow.h>
 #include <QtQuickVectorImage/private/qquickvectorimage_p.h>
 
 #include <QtQuickTestUtils/private/qmlutils_p.h>
@@ -26,6 +27,8 @@ private slots:
     void parseFiles();
     void parseBrokenFile();
     void parseNoAssumeTrustedSource();
+    void renderFiles_data();
+    void renderFiles();
 };
 
 tst_VectorImage::tst_VectorImage()
@@ -143,6 +146,34 @@ void tst_VectorImage::parseNoAssumeTrustedSource()
         QCOMPARE(item->status(), QQuickVectorImage::Status::Error);
     }
 }
+
+void tst_VectorImage::renderFiles_data()
+{
+    QTest::addColumn<QUrl>("fileName");
+    QTest::newRow("assert_qlottiestroke.json") << testFileUrl("json/assert_qlottiestroke.json");
+}
+
+void tst_VectorImage::renderFiles()
+{
+    QFETCH(QUrl, fileName);
+
+    QQmlEngine engine;
+    engine.rootContext()->setContextProperty(QStringLiteral("fileName"), fileName);
+
+    QQuickWindow window;
+    window.resize(512, 512);
+    window.create();
+
+    QQmlComponent c(&engine, testFileUrl("vectorimage.qml"));
+    QVERIFY2(c.isReady(), qPrintable(c.errorString()));
+    std::unique_ptr<QObject> object(c.create());
+    QQuickVectorImage *item = qobject_cast<QQuickVectorImage *>(object.get());
+    QVERIFY(item != nullptr);
+
+    item->setParentItem(window.contentItem());
+    window.grabWindow();
+}
+
 
 QTEST_MAIN(tst_VectorImage)
 
