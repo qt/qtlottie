@@ -307,7 +307,8 @@ void QLottieLayer::updateProperties(int frame)
             effect->updateProperties(frame);
     }
 
-    m_layerTransform->updateProperties(frame);
+    if (m_layerTransform)
+        m_layerTransform->updateProperties(frame);
 
     QLottieBase::updateProperties(frame);
 }
