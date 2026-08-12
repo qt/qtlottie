@@ -110,6 +110,11 @@ bool QLottieGradientHolder<T>::parseGradientProperties(const QJsonObject &defini
         return false;
 
     int elementCount = color.value("p"_L1).toInt();
+    if (elementCount <= 0) {
+        qCInfo(lcLottieQtLottieParser) << "Empty gradient enountered";
+        return true;
+    }
+
     QJsonObject stops = color.value("k"_L1).toObject();
     bool isAnimated = stops.value("a"_L1).toVariant().toBool();
     if (!T::checkRequiredKeys(stops, "Gradient"_L1, { "a"_L1, "k"_L1 }, T::m_name))
@@ -118,6 +123,10 @@ bool QLottieGradientHolder<T>::parseGradientProperties(const QJsonObject &defini
     if (!isAnimated) {
         QMap<qreal, QVector4D> colorStops;
         QJsonArray colorArr = stops.value("k"_L1).toArray();
+        if (colorArr.size() < elementCount * 4) {
+            qCWarning(lcLottieQtLottieParser) << "Gradient color array too short";
+            return false;
+        }
         for (int i = 0; i < (elementCount * 4); i += 4) {
             // p denotes the color stop percentage
             QVector4D colorVec;
