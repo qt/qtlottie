@@ -154,6 +154,7 @@ void tst_VectorImage::renderFiles_data()
     QTest::newRow("crash_qlottielayer_updateproperties.json") << testFileUrl("json/crash_qlottielayer_updateproperties.json");
     QTest::newRow("crash_qlottieprecomplayer_updateproperties.json") << testFileUrl("json/crash_qlottieprecomplayer_updateproperties.json");
     QTest::newRow("crash_qlottiegroup_children.json") << testFileUrl("json/crash_qlottiegroup_children.json");
+    QTest::newRow("crash_qlottiegradientholder_gradient.json") << testFileUrl("json/crash_qlottiegradientholder_gradient.json");
 }
 
 void tst_VectorImage::renderFiles()
