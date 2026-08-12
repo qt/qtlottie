@@ -57,6 +57,9 @@ QGradient *QLottieGradientHolderContent::value() const
 
 void QLottieGradientHolderContent::setGradient(qreal opacity)
 {
+    if (!m_gradient)
+        return;
+
     QHash<qreal, QLottieProperty4D<QVector4D>>::iterator colorIt = m_colors.begin();
     while (colorIt != m_colors.end()) {
         QVector4D colorPos = (*colorIt).value();
