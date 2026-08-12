@@ -353,6 +353,8 @@ void QLottieVisitor::render(const QLottieTextLayer &layer)
 void QLottieVisitor::render(const QLottieGroup &group)
 {
     QLOTTIEVISITOR_DEBUG << "[group '" << group.name() << "' #children " << group.children().size() << "]";
+    if (group.children().isEmpty())
+        return;
 
     bool hasPaths = false;
     bool hasGroups = false;
