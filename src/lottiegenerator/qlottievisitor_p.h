@@ -73,7 +73,7 @@ public:
         QList<TransformAnimationInfo> transformAnimations;
     };
 
-    QLottieVisitor(const QString lottieFileName, QQuickGenerator *generator);
+    QLottieVisitor(QQuickGenerator *generator);
     virtual ~QLottieVisitor() {}
 
     void saveState() override;
@@ -134,7 +134,6 @@ private:
     QString idForNode(const QLottieBase *node);
     QString scrub(const QString &raw);
 
-    QString m_lottieFileName;
     QQuickGenerator *m_generator;
 
     PaintInfo m_currentPaintInfo;
