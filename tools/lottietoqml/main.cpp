@@ -12,6 +12,7 @@
 #include <QtQuickVectorImageGenerator/private/qquickitemgenerator_p.h>
 #include <QtQuickVectorImageGenerator/private/qquickqmlgenerator_p.h>
 #include <QtQuickVectorImageGenerator/private/qquickvectorimageglobal_p.h>
+#include <QtQuickVectorImageGenerator/private/qquickvectorimagesource_p.h>
 #include <QtLottie/private/qlottieroot_p.h>
 #include <QtLottieVectorImageGenerator/private/qlottievisitor_p.h>
 
@@ -121,7 +122,7 @@ int main(int argc, char *argv[])
     if (parser.isSet(optimizeOption))
         flags |= QQuickVectorImageGenerator::GeneratorFlag::OptimizePaths;
 
-    QQuickQmlGenerator generator(inFileName, flags, outFileName);
+    QQuickQmlGenerator generator(QQuickVectorImageSource(inFileName), flags, outFileName);
     generator.setShapeTypeName(typeName);
     generator.setCommentString(commentString);
     generator.setAssetFileDirectory(assetOutputDirectory);
@@ -141,7 +142,7 @@ int main(int argc, char *argv[])
             root.setStructureDumping(true);
             root.updateProperties(frameNo);
 
-            QLottieVisitor visitor(inFileName, &generator);
+            QLottieVisitor visitor(&generator);
             visitor.render(root);
             ok = generator.save();
         }
@@ -160,7 +161,7 @@ int main(int argc, char *argv[])
                 QQuickVectorImageIncubator incubator(QQmlIncubator::Synchronous,
                                                      engine.rootContext());
 
-                incubator.start(inFileName, flags);
+                incubator.start(QQuickVectorImageSource(inFileName), flags);
                 QObject *obj = incubator.object();
                 QQuickItem *item = qobject_cast<QQuickItem *>(obj);
                 if (item != nullptr) {

@@ -36,8 +36,8 @@ using namespace Qt::Literals::StringLiterals;
         << QByteArray().fill(' ', m_savedPaintInfos.size() * 4) \
         << ((trimmingState() == Sequential) ? QByteArray("trimmed") : QByteArray{})
 
-QLottieVisitor::QLottieVisitor(const QString lottieFileName, QQuickGenerator *generator)
-    : m_lottieFileName(lottieFileName), m_generator(generator)
+QLottieVisitor::QLottieVisitor(QQuickGenerator *generator)
+    : m_generator(generator)
 {
 }
 

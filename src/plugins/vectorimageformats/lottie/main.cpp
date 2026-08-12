@@ -7,6 +7,7 @@
 #include <QtLottie/private/qlottieroot_p.h>
 #include <QtLottie/private/qlottieprecomposition_p.h>
 #include <QtCore/qfile.h>
+#include <QtCore/qbuffer.h>
 #include <QtCore/qscopeguard.h>
 
 #include <QtQuick/private/qquickanimation_p.h>
@@ -16,18 +17,23 @@ QT_BEGIN_NAMESPACE
 class QLottieVectorImagePluginGenerator : public QQuickVectorImagePluginGenerator
 {
 public:
-    bool generate(const QString &fileName, QQuickGenerator *generator) override;
+    bool generate(QQuickGenerator *generator) override;
 };
 
-bool QLottieVectorImagePluginGenerator::generate(const QString &fileName, QQuickGenerator *generator)
+bool QLottieVectorImagePluginGenerator::generate(QQuickGenerator *generator)
 {
-    QFile f(fileName);
     QLottieRoot root;
 
-    if (f.open(QIODevice::ReadOnly)) {
-        QByteArray jsonSource = f.readAll();
+    const QQuickVectorImageSource source = generator->source();
+    QByteArray jsonSource = source.data();
+    if (jsonSource.isEmpty()) {
+        QFile f(source.fileName());
+        if (f.open(QIODevice::ReadOnly))
+            jsonSource = f.readAll();
+    }
 
-        if (root.parseSource(jsonSource, QUrl::fromLocalFile(fileName)) >= 0) {
+    if (!jsonSource.isEmpty()) {
+        if (root.parseSource(jsonSource, QUrl::fromLocalFile(source.fileName())) >= 0) {
             root.setStructureDumping(true);
             root.updateProperties(0);
 
@@ -40,7 +46,7 @@ bool QLottieVectorImagePluginGenerator::generate(const QString &fileName, QQuick
             generator->addExtraImport(QStringLiteral("Qt.labs.lottieqt.VectorImageHelpers"));
             generator->setGeneratorFlags(
                 generator->generatorFlags().setFlag(QQuickVectorImageGenerator::TimelineAnimation));
-            QLottieVisitor visitor(fileName, generator);
+            QLottieVisitor visitor(generator);
             visitor.render(root);
 
             return true;
@@ -59,10 +65,10 @@ public:
     QLottieVectorImagePlugin();
     ~QLottieVectorImagePlugin();
 
-    QQuickVectorImagePluginGenerator *createGenerator(const QString &fileName) override;
+    QQuickVectorImagePluginGenerator *createGenerator(const QQuickVectorImageSource &source) override;
 
 private:
-    bool canRead(QIODevice &input) const;
+    bool canRead(QIODevice *input) const;
 };
 
 QLottieVectorImagePlugin::QLottieVectorImagePlugin()
@@ -73,23 +79,30 @@ QLottieVectorImagePlugin::~QLottieVectorImagePlugin()
 {
 }
 
-QQuickVectorImagePluginGenerator *QLottieVectorImagePlugin::createGenerator(const QString &fileName)
+QQuickVectorImagePluginGenerator *QLottieVectorImagePlugin::createGenerator(const QQuickVectorImageSource &source)
 {
-    QFile f(fileName);
-    if (!f.open(QIODevice::ReadOnly))
+    std::unique_ptr<QIODevice> device;
+
+    QByteArray ba = source.data();
+    if (source.isFile())
+        device.reset(new QFile(source.fileName()));
+    else
+        device.reset(new QBuffer(&ba));
+
+    if (!device->open(QIODevice::ReadOnly))
         return nullptr;
 
-    if (!canRead(f))
+    if (!canRead(device.get()))
         return nullptr;
 
     return new QLottieVectorImagePluginGenerator;
 }
 
-bool QLottieVectorImagePlugin::canRead(QIODevice &input) const
+bool QLottieVectorImagePlugin::canRead(QIODevice *input) const
 {
-    const qint64 pos = input.pos();
-    auto cleanup = qScopeGuard([&] { input.seek(pos); });
-    QTextStream s(&input);
+    const qint64 pos = input->pos();
+    auto cleanup = qScopeGuard([&] { input->seek(pos); });
+    QTextStream s(input);
     const QString head = s.read(256);
     bool res = QStringView(head).trimmed().startsWith(QChar::fromLatin1('{'));
     return res;
