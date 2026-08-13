@@ -24,7 +24,7 @@ find_package(Qt6 REQUIRED COMPONENTS LottieTools)
 \badcode
 qt_target_qml_from_lottie(target
                           [CURVE_RENDERER]
-                          [ASYNCHRONOUS_SHAPES]
+                          [ASYNCHRONOUS_SHAPES]                        # since Qt 6.12
                           [OPTIMIZE_PATHS]
                           [OUTLINE_STROKE_MODE]
                           [TYPE_NAME "MyShapeName"]
@@ -33,6 +33,8 @@ qt_target_qml_from_lottie(target
                           OUTPUTS File1.qml [File2.qml ...]
                           )
 \endcode
+
+The \c ASYNCHRONOUS_SHAPES option was introduced in Qt 6.12.
 
 \versionlessCMakeCommandsNote qt6_target_qml_from_lottie()
 
