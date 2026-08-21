@@ -208,6 +208,7 @@ void QLottieVisitor::generateMatteNode(const QLottieLayer *layer, StructureNodeS
         else
             maskInfo.boundsReferenceId = m_currentBoundsIds.top();
         maskInfo.maskRect = maskInfo.bounds;
+        maskInfo.keepMaskVisible = true;
         m_generator->generateMaskNode(maskInfo);
 
         if (stage != StructureNodeStage::Start) {
