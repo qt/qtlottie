@@ -93,6 +93,28 @@ function(qt6_target_qml_from_lottie target)
         QML_FILES ${lottietoqml_files}
         NO_LINT
     )
+
+    # The C++ that qmlcachegen produces for a large animation can exceed the object file
+    # section limit.
+    set(bigobj_flag "")
+    if(MINGW)
+        set(bigobj_flag -Wa,-mbig-obj)
+    elseif(MSVC)
+        set(bigobj_flag /bigobj)
+    endif()
+
+    if(bigobj_flag)
+        foreach(lottietoqml_file IN LISTS lottietoqml_files)
+            _qt_internal_qml_get_cachegen_compiled_file(
+                TARGET "${target}"
+                SOURCE_QML_FILE_PATH "${lottietoqml_file}"
+                OUT_VAR_GENERATED_CPP_FILE_PATH compiled_file
+            )
+            set_source_files_properties("${compiled_file}"
+                                        TARGET_DIRECTORY ${target}
+                                        PROPERTIES COMPILE_OPTIONS "${bigobj_flag}")
+        endforeach()
+    endif()
 endfunction()
 
 if(NOT QT_NO_CREATE_VERSIONLESS_FUNCTIONS)
