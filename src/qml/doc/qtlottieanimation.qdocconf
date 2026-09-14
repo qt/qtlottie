@@ -23,16 +23,25 @@ qhp.QtLottieAnimation.virtualFolder       = qtlottieanimation
 qhp.QtLottieAnimation.indexTitle          = Qt Lottie Animation
 qhp.QtLottieAnimation.indexRoot           =
 
-qhp.QtLottieAnimation.subprojects         = qmltypes examples
+qhp.QtLottieAnimation.subprojects         = manual examples qmltypes helpertypes
 qhp.QtLottieAnimation.subprojects.qmltypes.title = QML Types
 qhp.QtLottieAnimation.subprojects.qmltypes.indexTitle = Qt Lottie Animation QML Types
-qhp.QtLottieAnimation.subprojects.qmltypes.selectors = qmltype
+qhp.QtLottieAnimation.subprojects.qmltypes.selectors = qmlmodule:Qt.labs.lottieqt
 qhp.QtLottieAnimation.subprojects.qmltypes.sortPages = true
+
+qhp.QtLottieAnimation.subprojects.helpertypes.title = QML Helper Types
+qhp.QtLottieAnimation.subprojects.helpertypes.indexTitle = Qt Lottie Vector Image Helpers QML Types
+qhp.QtLottieAnimation.subprojects.helpertypes.selectors = qmlmodule:Qt.labs.lottieqt.VectorImageHelpers
+qhp.QtLottieAnimation.subprojects.helpertypes.sortPages = true
 
 qhp.QtLottieAnimation.subprojects.examples.title = Examples
 qhp.QtLottieAnimation.subprojects.examples.indexTitle = Qt Lottie Animation Examples
 qhp.QtLottieAnimation.subprojects.examples.selectors = example
 qhp.QtLottieAnimation.subprojects.examples.sortPages = true
+
+qhp.QtLottieAnimation.subprojects.manual.title = Qt Lottie Animation
+qhp.QtLottieAnimation.subprojects.manual.indexTitle = Qt Lottie Animation topics
+qhp.QtLottieAnimation.subprojects.manual.type = manual
 
 tagfile                 = qtlottieanimation.tags
 

@@ -111,12 +111,20 @@
 */
 
 /*!
-    \qmlmodule Qt.labs.lottieqt 1.0
+    \qmlmodule Qt.labs.lottieqt
     \title Qt Lottie Animation QML Types
     \ingroup qmlmodules
     \brief Provides QML types to display Lottie graphics and animations.
+    \noautolist
 
     \include qtlottie.qdoc usage
+    \generatelist qmltypesbymodule Qt.labs.lottieqt
 
-    \section1 QML Types
+    \section1 VectorImageHelpers submodule
+
+    Types from the \l {Qt.labs.lottieqt.VectorImageHelpers} submodule
+    replicate specialized behavior defined by vector graphics file formats.
+
+    \include qtlottievectorimagehelpers.qdoc usage
+    \generatelist qmltypesbymodule Qt.labs.lottieqt.VectorImageHelpers
 */
