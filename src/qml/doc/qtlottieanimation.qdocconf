@@ -13,7 +13,7 @@ sourcedirs             += ../..
 # No C++ API to document, prevent QDoc from searching for a module header
 moduleheader            =
 
-depends                += qtdoc qtqml qtquick
+depends                += qtdoc qtqml qtquick qtcmake
 
 qhp.projects            = QtLottieAnimation
 
