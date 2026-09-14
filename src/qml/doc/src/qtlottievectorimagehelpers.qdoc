@@ -14,12 +14,14 @@
     graphics file formats it loads and are not intended to be
     generally useful.
 
+//! [usage]
     To use the types in this module, import the module with the
     following line:
 
     \qml
     import Qt.labs.lottieqt.VectorImageHelpers
     \endqml
+//! [usage]
 
     \section1 QML Types
 */
