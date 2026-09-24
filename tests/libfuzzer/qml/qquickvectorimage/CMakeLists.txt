@@ -10,23 +10,25 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt6 COMPONENTS Core Gui Qml Quick)
-find_package(Qt6 COMPONENTS LottiePrivate QuickVectorImagePrivate QuickPrivate)
+find_package(Qt6 COMPONENTS Core Gui Svg Qml Quick)
+find_package(Qt6 COMPONENTS GuiPrivate LottiePrivate QuickVectorImagePrivate QuickPrivate QuickVectorImageGeneratorPrivate)
 
-qt_add_executable(vectorimage
+qt_add_executable(qquickvectorimage
     main.cpp
 )
 
-target_link_libraries(vectorimage PUBLIC
+target_link_libraries(qquickvectorimage PUBLIC
     Qt::Core
-    Qt::Gui
+    Qt::GuiPrivate
+    Qt::Svg
     Qt::Qml
     Qt::Quick
     Qt::LottiePrivate
     Qt::QuickVectorImagePrivate
+    Qt::QuickVectorImageGeneratorPrivate
     Qt::QuickPrivate
 )
-target_link_libraries(vectorimage PRIVATE
+target_link_libraries(qquickvectorimage PRIVATE
      -fsanitize=fuzzer
 )
 
