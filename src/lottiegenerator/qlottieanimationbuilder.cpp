@@ -173,13 +173,17 @@ void LottieAnimationBuilder::exitTimelineScope()
     if (!scope.ownsTimeline)
         return;
 
-    completeParserStatus(scope.timeline);
-    scope.timeline->setEnabled(true);
+    // Enabling the timeline evaluates its keyframes and starting the animation registers it with
+    // the animation timer of the current thread, so this has to happen on the GUI thread
+    deferToGuiThread([timeline = scope.timeline, masterAnimation = scope.masterAnimation]() {
+        completeParserStatus(timeline);
+        timeline->setEnabled(true);
 
-    if (scope.masterAnimation) {
-        completeParserStatus(scope.masterAnimation);
-        scope.masterAnimation->setRunning(true);
-    }
+        if (masterAnimation) {
+            completeParserStatus(masterAnimation);
+            masterAnimation->setRunning(true);
+        }
+    });
 }
 
 void LottieAnimationBuilder::bindProperty(QObject *target, const QByteArray &propertyName,
@@ -238,10 +242,13 @@ void LottieAnimationBuilder::addKeyframeGroup(QQuickTimeline *timeline, QObject 
         keyframe->setEasing(easingForFrame(anim, it.key(), m_easingCache));
         keyframesProp.append(&keyframesProp, keyframe);
     }
-    completeParserStatus(group);
+    // Completing the group resolves the target property through the QML engine
+    deferToGuiThread([timeline, group]() {
+        completeParserStatus(group);
 
-    auto groupsProp = timeline->keyframeGroups();
-    groupsProp.append(&groupsProp, group);
+        auto groupsProp = timeline->keyframeGroups();
+        groupsProp.append(&groupsProp, group);
+    });
 }
 
 QQuickItem *LottieAnimationBuilder::createCustomItem(const QString &type)
