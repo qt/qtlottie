@@ -8,66 +8,67 @@ import QtQuick.VectorImage
 
 Rectangle {
     id: toplevel
+    width: 800 / Screen.devicePixelRatio
+    height: width
     color: "darkgray"
-    property real pad: 10 / Screen.devicePixelRatio
-    property real maxDim: 400 / Screen.devicePixelRatio - (3 * pad / 2)
-    property real minDim: 215 / Screen.devicePixelRatio - (3 * pad / 2)
-    property real sceneScale: Math.max(Math.min(0.5 / Screen.devicePixelRatio, maxDim / qtlottie.width), minDim / qtlottie.width)
-    property real sceneWidth: qtlottie.width * sceneScale
-    property real sceneHeight: qtlottie.height * sceneScale
-    width: 2 * sceneWidth + 3 * pad
-    height: sceneHeight + 2 * pad
+    property real dim: (width / 2) - grid.spacing
 
+    Grid {
+        id: grid
+        columns: 2
+        padding: spacing / 2
+        spacing: toplevel.width / 80
 
-    Image {
-        id: la_background
-        source: "qrc:///checkered.png"
-        fillMode: Image.Tile
-        x: toplevel.pad
-        y: toplevel.pad
-        width: toplevel.sceneWidth
-        height: toplevel.sceneHeight
-        horizontalAlignment: Image.AlignLeft
-        verticalAlignment: Image.AlignTop
+        Repeater {
+            model: 2
 
-        LottieAnimation {
-            id: qtlottie
-            scale: toplevel.sceneScale
-            transformOrigin: Item.TopLeft
-            objectName: "qtlottie_animation_item"
-            quality: LottieAnimation.HighQuality
-            autoPlay: false
-            property int freezeFrame: -1
-            onStatusChanged: {
-                if (status === LottieAnimation.Ready) {
-                    if (freezeFrame < 0)
-                        freezeFrame = Math.floor(startFrame + ((endFrame - startFrame) / 2));
-                    gotoAndStop(freezeFrame);
+            Image {
+                source: "qrc:///checkered.png"
+                fillMode: Image.Tile
+                width: toplevel.dim
+                height: width
+                horizontalAlignment: Image.AlignLeft
+                verticalAlignment: Image.AlignTop
+
+                VectorImage {
+                    source: qtlottie.source
+                    assumeTrustedSource: true
+                    property bool _qt_usenondefaultgenerator: (index === 1)
+                    anchors.fill: parent
+                    fillMode: VectorImage.PreserveAspectFit
+
+                    preferredRendererType: VectorImage.CurveRenderer
+                    animations.paused: true
+                    clip: true
                 }
             }
-            clip: true
         }
-    }
 
-    Image {
-        id: vi_background
-        source: "qrc:///checkered.png"
-        fillMode: Image.Tile
-        x: la_background.width + 2 * pad
-        y: la_background.y
-        width: la_background.width
-        height: la_background.height
-        horizontalAlignment: Image.AlignLeft
-        verticalAlignment: Image.AlignTop
+        Image {
+            source: "qrc:///checkered.png"
+            fillMode: Image.Tile
+            width: toplevel.dim
+            height: width
+            horizontalAlignment: Image.AlignLeft
+            verticalAlignment: Image.AlignTop
 
-        VectorImage {
-            scale: qtlottie.scale
-            transformOrigin: Item.TopLeft
-            assumeTrustedSource: true
-            animations.paused: true
-            source: qtlottie.source
-            preferredRendererType: VectorImage.CurveRenderer
-            clip: true
+            LottieAnimation {
+                id: qtlottie
+                scale: Math.min(toplevel.dim / width, toplevel.dim / height)
+                transformOrigin: Item.TopLeft
+                textureSize: Qt.size(toplevel.dim, toplevel.dim)
+                objectName: "qtlottie_animation_item"
+                quality: LottieAnimation.HighQuality
+                autoPlay: false
+                property int freezeFrame: -1
+                onStatusChanged: {
+                    if (status === LottieAnimation.Ready) {
+                        if (freezeFrame < 0)
+                            freezeFrame = Math.floor(startFrame + ((endFrame - startFrame) / 2));
+                        gotoAndStop(freezeFrame);
+                    }
+                }
+            }
         }
     }
 }
