@@ -27,8 +27,6 @@ qt_internal_add_test(tst_vectorimage
         Qt::QuickVectorImagePrivate
     TESTDATA
         ${test_data}
-    DEFINES
-        QT_QMLTEST_DATADIR="${CMAKE_CURRENT_SOURCE_DIR}/data"
 )
 
 file(GLOB_RECURSE test_data_glob_lottie_original
@@ -51,10 +49,4 @@ qt_add_resources(tst_vectorimage lottiedocsamples
     BASE ${CMAKE_CURRENT_SOURCE_DIR}/../../../baseline/data/docsamples/
     FILES
         ${test_data_glob_lottie_docsamples}
-)
-
-qt_internal_extend_target(tst_vectorimage CONDITION ANDROID OR IOS
-    OR QT_FORCE_BUILTIN_TESTDATA
-    DEFINES
-    QT_QMLTEST_DATADIR=":/data"
 )
