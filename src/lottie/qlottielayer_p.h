@@ -93,7 +93,8 @@ protected:
     QSize m_size;
 
 private:
-    void parseEffects(const QJsonArray &definition, QLottieBase *effectRoot = nullptr);
+    void parseEffects(const QJsonArray &definition, QLottieBase *effectRoot = nullptr,
+                      int depth = 0);
 
     mutable bool m_applyingLayerTransform = false;
     QLottieLayer *m_linkedLayer = nullptr;

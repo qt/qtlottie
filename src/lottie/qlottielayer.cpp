@@ -435,7 +435,7 @@ const QLottieLayer *QLottieLayer::checkedCast(const QLottieBase *node)
     return res;
 }
 
-void QLottieLayer::parseEffects(const QJsonArray &definition, QLottieBase *effectRoot)
+void QLottieLayer::parseEffects(const QJsonArray &definition, QLottieBase *effectRoot, int depth)
 {
     QJsonArray::const_iterator it = definition.constEnd();
     while (it != definition.constBegin()) {
@@ -459,10 +459,16 @@ void QLottieLayer::parseEffects(const QJsonArray &definition, QLottieBase *effec
         case 5:
         {
             if (effect.value("en"_L1).toInt()) {
+                if (depth >= qLottieMaxNestingDepth()) {
+                    qCWarning(lcLottieQtLottieParser)
+                            << "Effect group nesting exceeds maximum depth"
+                            << qLottieMaxNestingDepth();
+                    break;
+                }
                 QLottieBase *group = new QLottieBase;
                 group->parse(effect);
                 effectRoot->appendChild(group);
-                parseEffects(effect.value("ef"_L1).toArray(), group);
+                parseEffects(effect.value("ef"_L1).toArray(), group, depth + 1);
             }
             break;
         }

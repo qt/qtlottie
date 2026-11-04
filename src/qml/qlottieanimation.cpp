@@ -113,6 +113,18 @@ QT_BEGIN_NAMESPACE
     first case implies that the animation is too complex, and the rendering
     cannot keep up the pace. Try making the animation simpler, or optimize
     the QML scene.
+
+    \section1 Nesting Depth Limit
+
+    To protect against stack overflows caused by malicious or malformed
+    files, the nesting depth of shape groups, effect groups and
+    precompositions is limited by the QLOTTIE_MAX_NESTING_DEPTH environment
+    variable. The default value is 64. Shape and effect groups nested deeper
+    than the limit are ignored, and an animation with a deeper chain of
+    precompositions is not rendered.
+
+    \warning Raising the limit allows deeper recursion while the animation is
+    loaded, which can overflow the stack of the rendering thread.
 */
 
 /*!

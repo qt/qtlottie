@@ -196,6 +196,11 @@ bool QLottieRoot::resolvePrecompLayers(QLottieBase *element, QStack<QString> *vi
             qCWarning(lcLottieQtLottieParser) << "Cyclical precomp reference detected";
             return false;
         }
+        if (visitedIds->size() >= qLottieMaxNestingDepth()) {
+            qCWarning(lcLottieQtLottieParser)
+                    << "Precomp nesting exceeds maximum depth" << qLottieMaxNestingDepth();
+            return false;
+        }
         QLottiePrecomposition *precomp = m_precompositions.value(refId);
         if (!precomp) {
             qCWarning(lcLottieQtLottieParser) << "Precomp reference not found:" << refId;

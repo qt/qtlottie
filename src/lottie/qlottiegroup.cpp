@@ -78,6 +78,11 @@ void QLottieGroup::render(QLottieRenderer &renderer) const
 
 int QLottieGroup::parse(const QJsonObject &definition)
 {
+    return parse(definition, 1);
+}
+
+int QLottieGroup::parse(const QJsonObject &definition, int depth)
+{
     QLottieBase::parse(definition);
     if (m_hidden)
         return 0;
@@ -89,7 +94,7 @@ int QLottieGroup::parse(const QJsonObject &definition)
     QJsonArray::const_iterator itemIt = groupItems.constEnd();
     while (itemIt != groupItems.constBegin()) {
         itemIt--;
-        QLottieShape *shape = QLottieShape::construct((*itemIt).toObject(), this);
+        QLottieShape *shape = QLottieShape::construct((*itemIt).toObject(), this, depth);
         if (shape) {
             // Transform affects how group contents are drawn.
             // It must be traversed first when drawing

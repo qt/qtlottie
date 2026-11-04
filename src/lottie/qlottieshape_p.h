@@ -36,7 +36,8 @@ public:
 
     QLottieBase *clone() const override;
 
-    static QLottieShape *construct(QJsonObject definition, QLottieBase *parent = nullptr);
+    static QLottieShape *construct(QJsonObject definition, QLottieBase *parent = nullptr,
+                                   int depth = 0);
 
     virtual bool isAnimated() const { return false; }
     virtual const QPainterPath &path() const;

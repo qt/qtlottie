@@ -84,7 +84,7 @@ QLottieBase *QLottieShape::clone() const
     return new QLottieShape(*this);
 }
 
-QLottieShape *QLottieShape::construct(QJsonObject definition, QLottieBase *parent)
+QLottieShape *QLottieShape::construct(QJsonObject definition, QLottieBase *parent, int depth)
 {
     qCDebug(lcLottieQtLottieParser) << "QLottieShape::parse()";
 
@@ -110,8 +110,14 @@ QLottieShape *QLottieShape::construct(QJsonObject definition, QLottieBase *paren
     case LOTTIE_SHAPE_TAG('g', 'r'):
     {
         qCDebug(lcLottieQtLottieParser) << "Parse group";
-        shape.reset(new QLottieGroup(parent));
-        if (shape->parse(definition) < 0)
+        if (depth >= qLottieMaxNestingDepth()) {
+            qCWarning(lcLottieQtLottieParser)
+                    << "Shape group nesting exceeds maximum depth" << qLottieMaxNestingDepth();
+            return nullptr;
+        }
+        QLottieGroup *group = new QLottieGroup(parent);
+        shape.reset(group);
+        if (group->parse(definition, depth + 1) < 0)
             return nullptr;
         shape->setType(LOTTIE_SHAPE_GROUP_IX);
         break;
