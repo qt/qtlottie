@@ -2,4 +2,7 @@
 # SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 qt_internal_add_example(qtlottieviewer)
-qt_internal_add_example(lottietoqml)
+
+if(TARGET Qt6::lottietoqml)
+    qt_internal_add_example(lottietoqml)
+endif()
