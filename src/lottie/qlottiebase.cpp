@@ -9,6 +9,8 @@
 #include <QRegularExpressionMatch>
 #include <QString>
 
+#include <limits>
+
 QT_BEGIN_NAMESPACE
 
 using namespace Qt::Literals::StringLiterals;
@@ -16,6 +18,18 @@ using namespace Qt::Literals::StringLiterals;
 Q_LOGGING_CATEGORY(lcLottieQtLottieParser, "qt.lottieqt.lottie.parser", QtWarningMsg);
 Q_LOGGING_CATEGORY(lcLottieQtLottieUpdate, "qt.lottieqt.lottie.update");
 Q_LOGGING_CATEGORY(lcLottieQtLottieRender, "qt.lottieqt.lottie.render");
+
+int qLottieMaxNestingDepth()
+{
+    static const int depth = [] {
+        const std::optional<qint64> value =
+                qEnvironmentVariableIntegerValue("QLOTTIE_MAX_NESTING_DEPTH");
+        if (value && *value > 0 && *value <= std::numeric_limits<int>::max())
+            return int(*value);
+        return 64;
+    }();
+    return depth;
+}
 
 QLottieBase::QLottieBase(const QLottieBase &other)
 {

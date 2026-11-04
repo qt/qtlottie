@@ -37,6 +37,7 @@ public:
     void updateProperties(int frame) override;
     void render(QLottieRenderer &renderer) const override;
     int parse(const QJsonObject &definition) override;
+    int parse(const QJsonObject &definition, int depth);
 
     bool acceptsTrim() const override;
     void applyTrim(const QLottieTrimPath  &trimmer) override;
