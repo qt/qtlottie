@@ -18,6 +18,8 @@
 #include <QtLottie/private/qlottiespatialproperty_p.h>
 #include <QtLottie/private/qlottiestroke_p.h>
 
+#include <QtCore/qnumeric.h>
+
 QT_BEGIN_NAMESPACE
 
 class Q_LOTTIE_EXPORT QLottieGradientHolderContent
@@ -123,11 +125,13 @@ bool QLottieGradientHolder<T>::parseGradientProperties(const QJsonObject &defini
     if (!isAnimated) {
         QMap<qreal, QVector4D> colorStops;
         QJsonArray colorArr = stops.value("k"_L1).toArray();
-        if (colorArr.size() < elementCount * 4) {
+        qsizetype colorStopEnd;
+        if (qMulOverflow(qsizetype(elementCount), qsizetype(4), &colorStopEnd)
+            || colorArr.size() < colorStopEnd) {
             qCWarning(lcLottieQtLottieParser) << "Gradient color array too short";
             return false;
         }
-        for (int i = 0; i < (elementCount * 4); i += 4) {
+        for (qsizetype i = 0; i < colorStopEnd; i += 4) {
             // p denotes the color stop percentage
             QVector4D colorVec;
             colorVec[0] = colorArr.at(i + 1).toVariant().toFloat();
@@ -142,10 +146,10 @@ bool QLottieGradientHolder<T>::parseGradientProperties(const QJsonObject &defini
             colorStops.insert(pos, colorVec);
         }
 
-        if (colorArr.size() > (elementCount * 4)) {
+        if (colorArr.size() - colorStopEnd >= 2) {
             // The gradient has opacity stops; handle them
             QMap<qreal, qreal> opacityStops;
-            for (int i = (elementCount * 4); i < colorArr.size(); i += 2) {
+            for (qsizetype i = colorStopEnd; i + 1 < colorArr.size(); i += 2) {
                 qreal pos = colorArr.at(i).toVariant().toFloat();
                 qreal opacity = colorArr.at(i + 1).toVariant().toFloat();
                 opacityStops.insert(pos, opacity);
