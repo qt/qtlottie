@@ -95,7 +95,8 @@ void QLottiePolyStar::buildPath()
 {
     m_path.clear();
 
-    const int numPoints = m_pointCount.value();
+    constexpr int MaxPointCount = 10000;
+    const int numPoints = qMin(m_pointCount.value(), MaxPointCount);
     if (numPoints < 1)
         return;
     const qreal angleStep = -360.0 / numPoints;

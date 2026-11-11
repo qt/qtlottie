@@ -39,7 +39,7 @@ void QLottieRepeater::updateProperties(int frame)
 {
     m_copies.update(frame);
     m_offset.update(frame);
-    m_transform.setInstanceCount(m_copies.value());
+    m_transform.setInstanceCount(copies());
     m_transform.updateProperties(frame);
 }
 
@@ -50,7 +50,8 @@ void QLottieRepeater::render(QLottieRenderer &renderer) const
 
 int QLottieRepeater::copies() const
 {
-    return m_copies.value();
+    constexpr int MaxCopies = 1024;
+    return qBound(0, m_copies.value(), MaxCopies);
 }
 
 qreal QLottieRepeater::offset() const
