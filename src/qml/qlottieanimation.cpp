@@ -125,6 +125,12 @@ QT_BEGIN_NAMESPACE
 
     \warning Raising the limit allows deeper recursion while the animation is
     loaded, which can overflow the stack of the rendering thread.
+
+    \section1 Shape Count Limits
+
+    To protect against excessive memory and CPU usage caused by malicious or
+    malformed files, the number of points of a polystar shape and the number
+    of copies of a repeater are clamped to reasonable maximum values.
 */
 
 /*!

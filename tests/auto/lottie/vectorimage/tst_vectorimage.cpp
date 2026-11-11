@@ -151,6 +151,8 @@ void tst_VectorImage::renderFiles_data()
 {
     QTest::addColumn<QUrl>("fileName");
     QTest::newRow("assert_qlottiestroke.json") << testFileUrl("json/assert_qlottiestroke.json");
+    QTest::newRow("dos_qlottiepolystar_points.json") << testFileUrl("json/dos_qlottiepolystar_points.json");
+    QTest::newRow("dos_qlottierepeater_copies.json") << testFileUrl("json/dos_qlottierepeater_copies.json");
     QTest::newRow("crash_qlottielayer_updateproperties.json") << testFileUrl("json/crash_qlottielayer_updateproperties.json");
     QTest::newRow("crash_qlottieprecomplayer_updateproperties.json") << testFileUrl("json/crash_qlottieprecomplayer_updateproperties.json");
     QTest::newRow("crash_qlottiegroup_children.json") << testFileUrl("json/crash_qlottiegroup_children.json");
