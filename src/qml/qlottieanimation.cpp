@@ -52,7 +52,7 @@ QT_BEGIN_NAMESPACE
     The LottieAnimation type shows Lottie format files.
 
     LottieAnimation is used to load and render Lottie files exported
-    from Adobe After Effects. Currently, only subset of the full Lottie
+    from Adobe After Effects. Currently, only a subset of the full Lottie
     specification is supported. Most notable deviations are:
 
     \list
@@ -62,8 +62,7 @@ QT_BEGIN_NAMESPACE
     \li Expressions are not supported
     \endlist
 
-    For the full list of devations, please see see the \l{Limitations}
-    section.
+    For the full list of deviations, see the \l{Limitations} section.
 
     \section1 Example Usage
 
@@ -77,7 +76,7 @@ QT_BEGIN_NAMESPACE
         autoPlay: false
         onStatusChanged: {
             if (status === LottieAnimation.Ready) {
-                // any acvities needed before
+                // any activities needed before
                 // playing starts go here
                 gotoAndPlay(startFrame);
             }
@@ -89,9 +88,9 @@ QT_BEGIN_NAMESPACE
     \endqml
 
     \note Changing width or height of the element does not change the size
-    of the animation within. Also, it is not possible to align the the content
+    of the animation within. Also, it is not possible to align the content
     inside of a \c LottieAnimation element. To achieve this, position the
-    animation inside e.g. an \c Item.
+    animation inside another item, such as an \c Item.
 
     \section1 Rendering Performance
 
@@ -136,8 +135,8 @@ QT_BEGIN_NAMESPACE
 /*!
     \qmlproperty bool LottieAnimation::autoPlay
 
-    Defines whether the player will start playing animation automatically after
-    the animation file has been loaded.
+    Defines whether the player starts playing the animation automatically
+    after the animation file has been loaded.
 
     The default value is \c true.
 */
@@ -145,8 +144,8 @@ QT_BEGIN_NAMESPACE
 /*!
     \qmlproperty int LottieAnimation::loops
 
-    This property holds the number of loops the player will repeat.
-    The value \c LottieAnimation.Infinite means that the the player repeats
+    This property holds the number of loops the player repeats.
+    The value \c LottieAnimation.Infinite means that the player repeats
     the animation continuously.
 
     The default value is \c 1.
@@ -305,9 +304,9 @@ void QLottieAnimation::setSource(const QUrl &source)
     \qmlproperty int LottieAnimation::startFrame
     \readonly
 
-    Frame number of the start of the animation. The value
-    is available after the animation has been loaded and
-    ready to play.
+    This property holds the frame number of the start of the animation.
+    The value is available after the animation has been loaded and is ready
+    to play.
 */
 int QLottieAnimation::startFrame() const
 {
@@ -327,9 +326,9 @@ void QLottieAnimation::setStartFrame(int startFrame)
     \qmlproperty int LottieAnimation::endFrame
     \readonly
 
-    Frame number of the end of the animation. The value
-    is available after the animation has been loaded and
-    ready to play.
+    This property holds the frame number of the end of the animation.
+    The value is available after the animation has been loaded and is ready
+    to play.
 */
 int QLottieAnimation::endFrame() const
 {
@@ -350,7 +349,8 @@ void QLottieAnimation::setEndFrame(int endFrame)
     \readonly
     \since 6.12
 
-    The number of the currently displayed animation frame.
+    This property holds the number of the animation frame that is currently
+    displayed. The value changes each time a new frame is painted.
 */
 int QLottieAnimation::currentFrame() const
 {
@@ -363,7 +363,7 @@ int QLottieAnimation::currentFrame() const
     \since 6.13
 
     Names of the markers defined in the Lottie animation file. The list
-    is available after the animation has been loaded and ready to play.
+    is available after the animation has been loaded and is ready to play.
 
     Markers can be used with \l gotoAndPlay() and \l gotoAndStop() to
     jump to a named position in the animation. If a marker has a non-zero

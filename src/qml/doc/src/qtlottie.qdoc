@@ -24,7 +24,7 @@
     \section1 Getting Started
 
 //! [usage]
-    Import the types using the the following statement:
+    Import the types using the following statement:
 
     \qml
     import Qt.labs.lottieqt
@@ -72,8 +72,8 @@
     \li Nested Repeater shapes
     \endlist
 
-    Also note that the behavior when using multiple active trim paths (e.g. trim
-    paths in nested groups) is unpredictable.
+    Also note that the behavior when using multiple active trim paths (for
+    example, trim paths in nested groups) is unpredictable.
 
     \section2 Effects
 
