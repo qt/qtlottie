@@ -348,7 +348,8 @@ QLottieLayer *QLottieLayer::resolveLinkedLayer()
     if (m_linkedLayer)
         return m_linkedLayer;
 
-    Q_ASSERT(parent());
+    if (!parent())
+        return nullptr;
 
     for (QLottieBase *child : parent()->children()) {
         QLottieLayer *layer = static_cast<QLottieLayer*>(child);

@@ -160,6 +160,8 @@ void tst_VectorImage::renderFiles_data()
     QTest::newRow("crash_qlottiegradientholder_colorstops.json") << testFileUrl("json/crash_qlottiegradientholder_colorstops.json");
     QTest::newRow("crash_qlottiegradientholder_colorstops_negative.json") << testFileUrl("json/crash_qlottiegradientholder_colorstops_negative.json");
     QTest::newRow("crash_qlottiegradientholder_colorstops_overflow.json") << testFileUrl("json/crash_qlottiegradientholder_colorstops_overflow.json");
+    QTest::newRow("crash_qlottiegradientholder_nan_colorstop.json") << testFileUrl("json/crash_qlottiegradientholder_nan_colorstop.json");
+    QTest::newRow("crash_qlottiegradientholder_nan_allstops.json") << testFileUrl("json/crash_qlottiegradientholder_nan_allstops.json");
 }
 
 void tst_VectorImage::renderFiles()
