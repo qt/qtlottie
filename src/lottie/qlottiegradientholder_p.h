@@ -142,18 +142,27 @@ bool QLottieGradientHolder<T>::parseGradientProperties(const QJsonObject &defini
             colorPos.setValue(colorVec);
             // The stop position is found in the first element of the vector
             qreal pos = colorArr.at(i + 0).toVariant().toFloat();
+            if (!qIsFinite(pos)) {
+                qCWarning(lcLottieQtLottieParser) << "Invalid gradient color stop position";
+                continue;
+            }
             m_colors[pos] = colorPos;
             colorStops.insert(pos, colorVec);
         }
 
-        if (colorArr.size() - colorStopEnd >= 2) {
-            // The gradient has opacity stops; handle them
-            QMap<qreal, qreal> opacityStops;
-            for (qsizetype i = colorStopEnd; i + 1 < colorArr.size(); i += 2) {
-                qreal pos = colorArr.at(i).toVariant().toFloat();
-                qreal opacity = colorArr.at(i + 1).toVariant().toFloat();
-                opacityStops.insert(pos, opacity);
+        QMap<qreal, qreal> opacityStops;
+        for (qsizetype i = colorStopEnd; i + 1 < colorArr.size(); i += 2) {
+            qreal pos = colorArr.at(i).toVariant().toFloat();
+            if (!qIsFinite(pos)) {
+                qCWarning(lcLottieQtLottieParser) << "Invalid gradient opacity stop position";
+                continue;
             }
+            qreal opacity = colorArr.at(i + 1).toVariant().toFloat();
+            opacityStops.insert(pos, opacity);
+        }
+
+        if (!colorStops.isEmpty() && !opacityStops.isEmpty()) {
+            // The gradient has opacity stops; handle them
             QMap<qreal, qreal> uniqueOpacityStops(opacityStops);
 
             // First: add opacity to all existing color stops
